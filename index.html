@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | 4-4-2 Diamond Formation · 11 Pitch Positions</title>
+  <title>The Gaffer's Pick | 11 Positions · Referee GW · Ballon d'Or Bio</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -36,12 +36,9 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .loader.hide { opacity: 0; pointer-events: none; }
 
-    .app-container {
-      max-width: 1400px;
-      margin: 0 auto;
-    }
+    .app-container { max-width: 1400px; margin: 0 auto; }
 
-    /* THE PITCH (contains all 11 position cards) */
+    /* PITCH WITH 11 POSITIONS */
     .formation-pitch {
       position: relative;
       background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
@@ -52,7 +49,6 @@
       aspect-ratio: 4 / 3;
       box-shadow: 0 0 0 8px rgba(0,0,0,0.2);
     }
-    /* white pitch markings */
     .formation-pitch::before {
       content: '';
       position: absolute;
@@ -86,7 +82,6 @@
       opacity: 0.4;
       pointer-events: none;
     }
-    /* 11 player cards – absolute positioning to mimic diamond 4-4-2 */
     .player-card {
       position: absolute;
       width: 100px;
@@ -127,7 +122,7 @@
       font-size: 0.6rem;
       color: #b5f028;
     }
-    /* Position coordinates (relative to parent) */
+    /* Positions */
     .gk { top: 8%; left: 50%; }
     .defender { top: 28%; }
     .defender-1 { left: 20%; }
@@ -143,39 +138,46 @@
     .winger-right { left: 75%; }
     .striker { top: 88%; left: 50%; }
 
-    /* GW selector */
-    .gw-bar {
+    /* REFEREE GW CONTROLS */
+    .referee-bar {
       display: flex;
       justify-content: center;
       align-items: center;
-      gap: 20px;
+      gap: 25px;
       margin: 20px auto;
       background: rgba(0,0,0,0.6);
       backdrop-filter: blur(8px);
-      padding: 8px 20px;
+      padding: 8px 25px;
       border-radius: 60px;
       width: fit-content;
     }
-    .gw-arrow {
+    .referee-btn {
       background: #2a2a2a;
-      border: 1px solid #b5f028;
+      border: 2px solid #ffcc00;
       border-radius: 50%;
-      width: 36px;
-      height: 36px;
+      width: 48px;
+      height: 48px;
       display: flex;
       align-items: center;
       justify-content: center;
       cursor: pointer;
+      transition: 0.2s;
+      font-size: 1.3rem;
+      color: #ffcc00;
     }
+    .referee-btn:hover { background: #ffcc00; color: black; transform: scale(1.05); }
     .gw-current {
       font-family: 'Bebas Neue';
-      font-size: 1.4rem;
+      font-size: 1.6rem;
       background: #1a2a1a;
-      padding: 4px 24px;
+      padding: 4px 28px;
       border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 10px;
     }
 
-    /* Home/Away Panels (the two wingers) */
+    /* Home/Away Panels */
     .wingers-panel {
       display: flex;
       gap: 20px;
@@ -228,7 +230,7 @@
       color: #b5f028;
     }
     .score-input:disabled { border-color: #888; color: #aaa; }
-    .award-select, .champion-select {
+    .champion-select, .award-select {
       background: rgba(10,42,18,0.8);
       border: 1px solid #b5f028;
       border-radius: 40px;
@@ -363,6 +365,7 @@
       .winger { top: 68%; }
       .striker { top: 85%; }
       .wingers-panel { flex-direction: column; }
+      .referee-btn { width: 40px; height: 40px; font-size: 1rem; }
     }
   </style>
 </head>
@@ -400,7 +403,7 @@
       <div class="player-name">Ligue 1</div>
       <div class="player-percent" id="percent-ligue">0%</div>
     </div>
-    <!-- Midfielders (3) -->
+    <!-- Midfielders -->
     <div class="player-card midfielder midfielder-1" data-id="ucl" id="card-ucl">
       <div class="player-img" style="background-image: url('ucl.png');"></div>
       <div class="player-name">UCL Winner</div>
@@ -416,15 +419,15 @@
       <div class="player-name">Europa League</div>
       <div class="player-percent" id="percent-europa">0%</div>
     </div>
-    <!-- Wingers (left & right – these will show home/away panels) -->
-    <div class="player-card winger winger-left" data-id="leftWing" id="card-leftWing">
+    <!-- Wingers (Home & Away) -->
+    <div class="player-card winger winger-left" data-id="homeWing" id="card-homeWing">
       <div class="player-img" style="background-image: url('https://via.placeholder.com/50?text=🏠');"></div>
-      <div class="player-name">Home Games</div>
+      <div class="player-name">Home Teams</div>
       <div class="player-percent">Left Wing</div>
     </div>
-    <div class="player-card winger winger-right" data-id="rightWing" id="card-rightWing">
+    <div class="player-card winger winger-right" data-id="awayWing" id="card-awayWing">
       <div class="player-img" style="background-image: url('https://via.placeholder.com/50?text=✈️');"></div>
-      <div class="player-name">Away Games</div>
+      <div class="player-name">Away Teams</div>
       <div class="player-percent">Right Wing</div>
     </div>
     <!-- Striker (Ballon d'Or) -->
@@ -435,11 +438,11 @@
     </div>
   </div>
 
-  <!-- GW Selector -->
-  <div class="gw-bar">
-    <div class="gw-arrow" id="gwPrev"><i class="fas fa-chevron-left"></i></div>
+  <!-- REFEREE GAMEWEEK CONTROLS -->
+  <div class="referee-bar">
+    <div class="referee-btn" id="gwPrev"><i class="fas fa-whistle"></i></div>
     <div class="gw-current" id="gwCurrentDisplay"><i class="fas fa-futbol"></i> GW 32</div>
-    <div class="gw-arrow" id="gwNext"><i class="fas fa-chevron-right"></i></div>
+    <div class="referee-btn" id="gwNext"><i class="fas fa-card"></i></div>
   </div>
 
   <!-- Home/Away Panels (the two wingers' content) -->
@@ -470,7 +473,7 @@
 
 <script>
   // --------------------------------------------------------------
-  // 1. CLUB & COUNTRY BADGES (all provided filenames)
+  // 1. CLUB & COUNTRY BADGES
   // --------------------------------------------------------------
   const clubBadges = {
     "Chelsea": "chelsea-footballogos-orq.png",
@@ -509,7 +512,7 @@
     return "https://via.placeholder.com/40?text=" + encodeURIComponent(team.charAt(0));
   }
 
-  // World Cup 48 teams (using your list)
+  // World Cup 48 teams
   const wcCountries = [
     "Norway", "New Zealand", "Morocco", "Algeria", "Australia", "Austria", "Cabo Verde", "Canada",
     "Colombia", "Curacao", "Côte d'Ivoire", "Ecuador", "Egypt", "Haiti", "Japan", "Iran", "Jordan",
@@ -546,7 +549,7 @@
     worldcup: { name: "World Cup 2026", type: "special" }
   };
 
-  // generate actual results and user predictions for 38 GWs (only for leagues)
+  // generate actual results and user predictions for 38 GWs (leagues)
   let actualResults = {}, userPredictions = {};
   function generateData() {
     for (let id of ["epl","liga","serie","bundes","ligue"]) {
@@ -577,6 +580,10 @@
   let awardPicks = { ucl: "", europa: "" };
   let championPicks = { epl:"", liga:"", serie:"", bundes:"", ligue:"" };
   let championLocked = { epl:false, liga:false, serie:false, bundes:false, ligue:false };
+  // Ballon d'Or state
+  let ballonPick = "Kylian Mbappé";
+  let ballonLocked = false;
+  let ballonPoints = 1000;
 
   function computeAccuracy(id, gw) {
     let total = 0, correct = 0;
@@ -604,7 +611,7 @@
       document.getElementById(`percent-${id}`).innerHTML = pts ? `${pts} pts` : `${percent}%`;
     }
     document.getElementById(`percent-worldcup`).innerHTML = "Open";
-    document.getElementById(`percent-ballon`).innerHTML = "Select";
+    document.getElementById(`percent-ballon`).innerHTML = ballonLocked ? `${ballonPoints} pts` : "Select";
   }
 
   // Prediction update for leagues
@@ -660,6 +667,37 @@
     renderLeagueContent(league);
   }
 
+  // Ballon d'Or handlers
+  const ballonPlayers = {
+    "Kylian Mbappé": { prevStats: "2024/25: 44 goals, 10 assists, UCL winner, Ligue 1 top scorer", currentStats: "2025/26: 32 goals, 8 assists in 38 apps, La Liga champion", img: "https://via.placeholder.com/100?text=MBAPPE" },
+    "Erling Haaland": { prevStats: "2024/25: 38 goals, 5 assists, Premier League golden boot", currentStats: "2025/26: 28 goals, 7 assists, FA Cup winner", img: "https://via.placeholder.com/100?text=HAALAND" },
+    "Vinicius Jr": { prevStats: "2024/25: 24 goals, 12 assists, UCL finalist", currentStats: "2025/26: 21 goals, 10 assists, La Liga winner", img: "https://via.placeholder.com/100?text=VINICIUS" }
+  };
+  function updateBallonPick(player) {
+    if (ballonLocked) { showToast("Ballon d'Or locked! Unlock first."); return; }
+    let weeks = currentGW - (ballonLocked ? ballonLockGW : currentGW);
+    let penalty = Math.min(weeks * 10, 300);
+    if (ballonPick && ballonPick !== player) {
+      ballonPoints = Math.max(0, ballonPoints - penalty);
+      showToast(`Changed pick! Penalty -${penalty} points. New value: ${ballonPoints} pts`);
+    }
+    ballonPick = player;
+    renderBallonDor();
+  }
+  function toggleBallonLock() {
+    if (!ballonLocked) {
+      if (!ballonPick) { showToast("Select a player first!"); return; }
+      ballonLocked = true;
+      ballonLockGW = currentGW;
+      showToast(`🔒 Ballon d'Or locked! +${ballonPoints} pts`);
+    } else {
+      ballonLocked = false;
+      showToast(`🔓 Ballon d'Or unlocked`);
+    }
+    updateAllPercentages();
+    renderBallonDor();
+  }
+
   // Render Home/Away panels for a league
   let activeLeagueId = "epl";
   function renderLeagueContent(leagueId) {
@@ -700,7 +738,6 @@
       homeHtml += `<button class="lock-btn" style="background:#b5f028; color:black; margin-top:15px;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW Predictions</button>`;
       awayHtml += `<button class="lock-btn" style="background:#b5f028; color:black; margin-top:15px;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW Predictions</button>`;
     }
-    // Champion pick section (put on left panel)
     let championHtml = `
       <div style="margin-top:20px; border-top:1px solid #b5f028; padding-top:15px;">
         <select class="champion-select" ${championLocked[leagueId] ? 'disabled' : ''} onchange="updateChampionPick('${leagueId}', this.value)">
@@ -722,11 +759,9 @@
   function renderAwardContent(awardId) {
     activeLeagueId = awardId;
     const data = leagues[awardId];
-    const leftDiv = document.getElementById("leftContent");
-    const rightDiv = document.getElementById("rightContent");
     document.getElementById("leftTitle").innerHTML = `🏆 ${data.name}`;
     document.getElementById("rightTitle").innerHTML = `🔒 Lock / Unlock`;
-    leftDiv.innerHTML = `
+    document.getElementById("leftContent").innerHTML = `
       <div style="padding:10px;">
         <p>Predict the winner to earn <strong>${data.points}</strong> points.</p>
         <select class="champion-select" ${awardLocked[awardId] ? 'disabled' : ''} onchange="updateAwardPick('${awardId}', this.value)">
@@ -735,7 +770,7 @@
         </select>
       </div>
     `;
-    rightDiv.innerHTML = `
+    document.getElementById("rightContent").innerHTML = `
       <div style="padding:10px;">
         <button class="lock-btn ${awardLocked[awardId] ? 'locked' : ''}" onclick="toggleAwardLock('${awardId}')">
           <i class="fas ${awardLocked[awardId] ? 'fa-lock' : 'fa-lock-open'}"></i> ${awardLocked[awardId] ? 'Locked' : 'Unlock Prediction'}
@@ -744,32 +779,36 @@
     `;
   }
 
-  // Ballon d'Or special content (left: player bio, right: stats & win probability)
+  // Ballon d'Or special content
   function renderBallonDor() {
     activeLeagueId = "ballon";
-    document.getElementById("leftTitle").innerHTML = `⭐ Ballon d'Or – Player Bio`;
-    document.getElementById("rightTitle").innerHTML = `📊 Season Stats & Probability`;
-    const leftDiv = document.getElementById("leftContent");
-    const rightDiv = document.getElementById("rightContent");
-    leftDiv.innerHTML = `
+    const playerData = ballonPlayers[ballonPick] || ballonPlayers["Kylian Mbappé"];
+    document.getElementById("leftTitle").innerHTML = `⭐ Ballon d'Or – Player Bio (Prev Season)`;
+    document.getElementById("rightTitle").innerHTML = `📊 Current Season Stats & Pick`;
+    document.getElementById("leftContent").innerHTML = `
       <div class="player-bio">
-        <div class="player-photo" style="background-image: url('https://via.placeholder.com/100?text=MBAPPE');"></div>
-        <div><strong>Kylian Mbappé</strong><br>Age: 27<br>Club: Real Madrid<br>Nationality: France<br>Position: Forward</div>
+        <div class="player-photo" style="background-image: url('${playerData.img}');"></div>
+        <div><strong>${ballonPick}</strong><br>${playerData.prevStats}</div>
       </div>
-      <p>2025/26 season: 42 goals, 12 assists in 48 appearances. Led Real Madrid to UCL final and La Liga title.</p>
+      <div class="stats"><div class="stat-row">🏆 Previous season highlights: ${playerData.prevStats}</div></div>
     `;
-    rightDiv.innerHTML = `
+    let selectHtml = `
       <div class="stats">
-        <div class="stat-row"><span>🏆 Goals scored:</span><span>42</span></div>
-        <div class="stat-row"><span>🎯 Assists:</span><span>12</span></div>
-        <div class="stat-row"><span>⚡ Expected win probability:</span><span>68%</span></div>
-        <div class="stat-row"><span>📈 Market value:</span><span>€200M</span></div>
+        <div class="stat-row"><span>⚡ Current season:</span><span>${playerData.currentStats}</span></div>
+        <div class="stat-row"><span>📈 Points if locked:</span><span>${ballonPoints}</span></div>
+        <select class="champion-select" ${ballonLocked ? 'disabled' : ''} onchange="updateBallonPick(this.value)">
+          <option value="">— Change Player —</option>
+          ${Object.keys(ballonPlayers).map(p => `<option ${ballonPick===p ? 'selected' : ''}>${p}</option>`).join('')}
+        </select>
+        <button class="lock-btn ${ballonLocked ? 'locked' : ''}" onclick="toggleBallonLock()">
+          <i class="fas ${ballonLocked ? 'fa-lock' : 'fa-lock-open'}"></i> ${ballonLocked ? 'Locked' : 'Unlock & Deduct Points'}
+        </button>
       </div>
-      <button class="lock-btn" style="margin-top:15px;" onclick="showToast('Ballon d\'Or prediction locked!')"><i class="fas fa-lock"></i> Lock Prediction</button>
     `;
+    document.getElementById("rightContent").innerHTML = selectHtml;
   }
 
-  // World Cup modal handling
+  // World Cup modal
   let wcUserPredictions = JSON.parse(localStorage.getItem("wc_predictions") || "{}");
   function openWorldCupModal() {
     document.getElementById("mainApp").style.display = "none";
@@ -822,10 +861,10 @@
     showToast(`World Cup prediction saved`);
   };
 
-  // GW controls
+  // GW controls with referee icons
   function setupGW() {
-    document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; updateAllPercentages(); if (activeLeagueId && leagues[activeLeagueId] && leagues[activeLeagueId].type !== "special") renderLeagueContent(activeLeagueId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
-    document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; updateAllPercentages(); if (activeLeagueId && leagues[activeLeagueId] && leagues[activeLeagueId].type !== "special") renderLeagueContent(activeLeagueId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
+    document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; updateAllPercentages(); if (activeLeagueId && leagues[activeLeagueId] && leagues[activeLeagueId].type === "league") renderLeagueContent(activeLeagueId); else if (activeLeagueId === "ballon") renderBallonDor(); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`Referee advances to GW ${currentGW}`); } };
+    document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; updateAllPercentages(); if (activeLeagueId && leagues[activeLeagueId] && leagues[activeLeagueId].type === "league") renderLeagueContent(activeLeagueId); else if (activeLeagueId === "ballon") renderBallonDor(); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`Referee advances to GW ${currentGW}`); } };
   }
   function showToast(msg) { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background="#b5f028"; t.style.color="black"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
 
@@ -839,16 +878,15 @@
   document.getElementById("card-europa").onclick = () => renderAwardContent("europa");
   document.getElementById("card-worldcup").onclick = () => openWorldCupModal();
   document.getElementById("card-ballon").onclick = () => renderBallonDor();
-  // Wing cards just highlight – they don't change content, they display whatever is already there.
-  document.getElementById("card-leftWing").onclick = () => showToast("Left wing shows home predictions");
-  document.getElementById("card-rightWing").onclick = () => showToast("Right wing shows away predictions");
+  // Wing cards just highlight – they show whatever is already displayed
+  document.getElementById("card-homeWing").onclick = () => showToast("Left wing shows home predictions");
+  document.getElementById("card-awayWing").onclick = () => showToast("Right wing shows away predictions");
 
-  // Highlight active card (basic)
+  // Highlight active card
   function highlightActive(cardId) {
     document.querySelectorAll(".player-card").forEach(c => c.classList.remove("active"));
     document.getElementById(cardId).classList.add("active");
   }
-  // override render functions to also highlight the corresponding card
   const origLeague = renderLeagueContent;
   window.renderLeagueContent = function(id) { highlightActive(`card-${id}`); origLeague(id); };
   const origAward = renderAwardContent;
