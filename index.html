@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>The Gaffer's Pick | Interactive Leagues · Awards Chips</title>
+  <title>The Gaffer's Pick | Full Interactive · No Login</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,12 +17,11 @@
     .loader.hide { opacity: 0; pointer-events: none; }
 
     /* top menu */
-    .top-menu { position: sticky; top: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #b5f028; z-index: 100; display: flex; justify-content: space-between; align-items: center; padding: 8px 1rem; flex-wrap: wrap; gap: 10px; }
+    .top-menu { position: sticky; top: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #b5f028; z-index: 100; display: flex; justify-content: center; align-items: center; padding: 8px 1rem; flex-wrap: wrap; gap: 10px; }
     .menu-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
     .menu-btn { background: rgba(42,42,42,0.8); border: 1px solid #5a9e6a; color: #eee; font-family: 'Barlow Condensed'; font-weight: bold; padding: 6px 16px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; }
     .menu-btn.active { background: #b5f028; color: #0a2a12; border-color: #b5f028; }
-    .user-area { display: flex; gap: 8px; align-items: center; }
-    .user-area button { background: rgba(0,0,0,0.6); border: 1px solid #b5f028; border-radius: 40px; padding: 5px 12px; cursor: pointer; color: white; font-size: 0.8rem; }
+    .user-area { display: none; } /* hidden since no login */
 
     /* GW selector */
     .gw-indicator { background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); padding: 6px 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #3a5a3a; flex-wrap: wrap; gap: 10px; }
@@ -60,7 +59,7 @@
     .lock-btn { background: rgba(0,0,0,0.6); border: 1px solid white; border-radius: 40px; padding: 5px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; }
     .lock-btn.locked { background: #b5f028; color: black; }
 
-    /* league panel */
+    /* league panel (simplified, no login) */
     .league-panel { background: rgba(0,0,0,0.6); border-radius: 24px; padding: 1rem; margin: 0.5rem; }
     .league-panel input, .league-panel button { margin: 5px; padding: 6px 12px; border-radius: 40px; border: none; }
     .league-list { margin-top: 1rem; }
@@ -79,11 +78,6 @@
 
 <div class="top-menu">
   <div class="menu-container" id="menuContainer"></div>
-  <div class="user-area" id="userArea">
-    <button id="loginBtn" onclick="showLoginModal()">Sign In / Sign Up</button>
-    <span id="userDisplay" style="display:none;"></span>
-    <button id="logoutBtn" style="display:none;" onclick="logout()">Logout</button>
-  </div>
 </div>
 
 <div class="gw-indicator">
@@ -100,24 +94,7 @@
 <div id="pagesContainer"></div>
 <div id="leaguesPanel" style="display:none; padding:0.5rem;"></div>
 
-<!-- Login Modal -->
-<div id="loginModal" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(12px); align-items:center; justify-content:center; z-index:200;">
-  <div style="background:#0f2a1a; padding:2rem; border-radius:40px; width:90%; max-width:350px;">
-    <h2 style="font-family:'Bebas Neue';">Enter The Dugout</h2>
-    <input type="text" id="loginUsername" placeholder="Username" style="width:100%; margin:1rem 0; padding:12px; border-radius:40px; border:1px solid #b5f028; background:#1a2a1a; color:white;">
-    <button onclick="loginOrRegister()" class="lock-btn" style="background:#b5f028; color:black; width:100%; justify-content:center;">Play</button>
-    <button onclick="closeModal('loginModal')" style="margin-top:1rem; background:none; border:none; color:#aaa;">Close</button>
-  </div>
-</div>
-
 <script>
-  // ---------- STORAGE KEYS ----------
-  const STORAGE_USERS = "gaffer_users";
-  const STORAGE_LEAGUES = "gaffer_leagues";
-  const STORAGE_PREDICTIONS = "gaffer_predictions";
-  const STORAGE_AWARDS = "gaffer_awards";
-  const STORAGE_CURRENT_USER = "gaffer_current_user";
-
   // ---------- LEAGUES DATA (Top 5 teams) ----------
   const leaguesData = {
     epl: { name: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
@@ -163,189 +140,45 @@
     return 0;
   }
 
-  // user system
-  let currentUser = null;
-  let users = JSON.parse(localStorage.getItem(STORAGE_USERS) || "{}");
-  let leagues = JSON.parse(localStorage.getItem(STORAGE_LEAGUES) || "[]");
-  let predictions = JSON.parse(localStorage.getItem(STORAGE_PREDICTIONS) || "{}");
-  let awardsState = JSON.parse(localStorage.getItem(STORAGE_AWARDS) || "{}");
+  // user data (single local user)
+  let userData = {
+    totalPoints: 0,
+    predictions: JSON.parse(localStorage.getItem("gaffer_predictions") || "{}"),
+    awards: JSON.parse(localStorage.getItem("gaffer_awards") || "{}"),
+    championPicks: JSON.parse(localStorage.getItem("gaffer_champions") || "{}"),
+    leagues: []  // simple league storage
+  };
 
-  function saveUsers() { localStorage.setItem(STORAGE_USERS, JSON.stringify(users)); }
-  function saveLeagues() { localStorage.setItem(STORAGE_LEAGUES, JSON.stringify(leagues)); }
-  function savePredictions() { localStorage.setItem(STORAGE_PREDICTIONS, JSON.stringify(predictions)); }
-  function saveAwards() { localStorage.setItem(STORAGE_AWARDS, JSON.stringify(awardsState)); }
-
-  function loginOrRegister() {
-    let username = document.getElementById("loginUsername").value.trim();
-    if (!username) return;
-    if (!users[username]) {
-      users[username] = { username, totalPoints: 0, leagues: [] };
-      saveUsers();
-    }
-    currentUser = username;
-    localStorage.setItem(STORAGE_CURRENT_USER, username);
-    closeModal("loginModal");
-    updateUIForUser();
-    showToast(`Welcome ${username}!`);
-    renderCurrentPage();
-  }
-
-  function logout() {
-    currentUser = null;
-    localStorage.removeItem(STORAGE_CURRENT_USER);
-    updateUIForUser();
-    renderCurrentPage();
-  }
-
-  function updateUIForUser() {
-    let loginBtn = document.getElementById("loginBtn");
-    let logoutBtn = document.getElementById("logoutBtn");
-    let userDisplay = document.getElementById("userDisplay");
-    if (currentUser) {
-      loginBtn.style.display = "none";
-      logoutBtn.style.display = "inline-block";
-      userDisplay.style.display = "inline-block";
-      userDisplay.innerHTML = `<i class="fas fa-user"></i> ${currentUser}`;
-    } else {
-      loginBtn.style.display = "inline-block";
-      logoutBtn.style.display = "none";
-      userDisplay.style.display = "none";
-    }
-  }
-
-  // league functions
-  function createLeague() {
-    let name = prompt("League name:");
-    if (!name) return;
-    let code = Math.random().toString(36).substring(2, 8).toUpperCase();
-    leagues.push({ name, code, members: [currentUser], admin: currentUser });
-    saveLeagues();
-    if (!users[currentUser].leagues) users[currentUser].leagues = [];
-    users[currentUser].leagues.push(code);
-    saveUsers();
-    showToast(`League created! Code: ${code}`);
-    renderLeaguesPanel();
-  }
-
-  function joinLeague() {
-    let code = prompt("Enter league code:");
-    let league = leagues.find(l => l.code === code);
-    if (!league) { showToast("Invalid code"); return; }
-    if (league.members.includes(currentUser)) { showToast("Already in league"); return; }
-    league.members.push(currentUser);
-    if (!users[currentUser].leagues) users[currentUser].leagues = [];
-    users[currentUser].leagues.push(code);
-    saveLeagues();
-    saveUsers();
-    showToast(`Joined ${league.name}`);
-    renderLeaguesPanel();
-  }
-
-  function renderLeaguesPanel() {
-    const container = document.getElementById("leaguesPanel");
-    if (!currentUser) { container.innerHTML = `<div class="league-panel">Please sign in to join leagues.</div>`; return; }
-    let myLeagues = leagues.filter(l => l.members.includes(currentUser));
-    let html = `<div class="league-panel"><h3><i class="fas fa-users"></i> My Leagues</h3><button onclick="createLeague()" class="lock-btn">+ Create League</button> <button onclick="joinLeague()" class="lock-btn">Join League</button><div class="league-list">`;
-    for (let l of myLeagues) {
-      let memberPoints = [];
-      for (let m of l.members) {
-        let total = users[m]?.totalPoints || 0;
-        memberPoints.push({ user: m, points: total });
-      }
-      memberPoints.sort((a,b)=>b.points - a.points);
-      html += `<div class="league-item"><strong>${l.name}</strong> (${l.code})<br>`;
-      for (let mp of memberPoints) html += `${mp.user}: ${mp.points} pts &nbsp;`;
-      html += `</div>`;
-    }
-    html += `</div></div>`;
-    container.innerHTML = html;
-  }
-
-  // update user total points from predictions
-  function updateUserTotalPoints() {
-    if (!currentUser) return;
-    let total = 0;
-    for (let gw = 1; gw <= 38; gw++) {
-      for (let league of Object.keys(leaguesData)) {
-        let preds = predictions?.[currentUser]?.[league]?.[gw];
-        if (preds) {
-          let actuals = actualResults[league][gw];
-          for (let i = 0; i < preds.length; i++) {
-            total += calculateMatchPoints(preds[i].hPred, preds[i].aPred, actuals[i].homeScore, actuals[i].awayScore);
-          }
-        }
-      }
-    }
-    // add award points
-    let userAwards = awardsState[currentUser] || {};
-    for (let award of ["ballon", "ucl", "europa"]) {
-      let a = userAwards[award];
-      if (a && a.locked && a.pick) total += a.points;
-    }
-    if (!users[currentUser]) users[currentUser] = { username: currentUser, totalPoints: 0, leagues: [] };
-    users[currentUser].totalPoints = total;
-    saveUsers();
-  }
-
-  // prediction handlers
-  function updateMatchPred(league, idx, type, val) {
-    if (!currentUser) { showToast("Sign in first!"); return; }
-    let gw = currentGW;
-    if (gw <= 31) { showToast("Past GW locked!"); return; }
-    if (!predictions[currentUser]) predictions[currentUser] = {};
-    if (!predictions[currentUser][league]) predictions[currentUser][league] = {};
-    if (!predictions[currentUser][league][gw]) predictions[currentUser][league][gw] = [];
-    let preds = predictions[currentUser][league][gw];
-    while (preds.length <= idx) preds.push({ hPred: "", aPred: "" });
-    if (type === 'home') preds[idx].hPred = parseInt(val) || 0;
-    else preds[idx].aPred = parseInt(val) || 0;
-    savePredictions();
-    updateUserTotalPoints();
-    renderCurrentPage();
-  }
-
-  function savePredictionsGW() {
-    if (!currentUser) { showToast("Sign in!"); return; }
-    if (currentGW <= 31) { showToast("Past GW locked"); return; }
-    showToast(`GW${currentGW} predictions saved!`);
-    updateUserTotalPoints();
-  }
-
-  function updateChampionPick(leagueId, val) {
-    if (!currentUser) return;
-    if (!predictions[currentUser]) predictions[currentUser] = {};
-    if (!predictions[currentUser][leagueId]) predictions[currentUser][leagueId] = {};
-    predictions[currentUser][leagueId].champion = val;
-    savePredictions();
+  function saveAll() {
+    localStorage.setItem("gaffer_predictions", JSON.stringify(userData.predictions));
+    localStorage.setItem("gaffer_awards", JSON.stringify(userData.awards));
+    localStorage.setItem("gaffer_champions", JSON.stringify(userData.championPicks));
   }
 
   // awards chip system
-  function initAwardsForUser() {
-    if (!currentUser) return;
-    if (!awardsState[currentUser]) {
-      awardsState[currentUser] = {
+  function initAwards() {
+    if (!userData.awards.ballon) {
+      userData.awards = {
         ballon: { points: 1000, locked: false, lockGW: null, pick: "", basePoints: 1000 },
         ucl: { points: 800, locked: false, lockGW: null, pick: "", basePoints: 800 },
         europa: { points: 600, locked: false, lockGW: null, pick: "", basePoints: 600 }
       };
-      saveAwards();
+      saveAll();
     }
   }
 
   function updateAwardPick(awardId, val) {
-    if (!currentUser) return;
-    initAwardsForUser();
-    let award = awardsState[currentUser][awardId];
+    initAwards();
+    let award = userData.awards[awardId];
     if (award.locked) { showToast("Award locked! Unlock first."); return; }
     award.pick = val;
-    saveAwards();
+    saveAll();
     renderAwardsBar();
   }
 
   function toggleAwardLock(awardId) {
-    if (!currentUser) return;
-    initAwardsForUser();
-    let award = awardsState[currentUser][awardId];
+    initAwards();
+    let award = userData.awards[awardId];
     if (!award.locked) {
       if (!award.pick) { showToast("Pick a winner first!"); return; }
       award.locked = true;
@@ -359,9 +192,92 @@
       award.locked = false;
       showToast(`🔓 Unlocked! Penalty -${Math.round(penalty)} pts. New value: ${Math.round(award.points)} pts`);
     }
-    saveAwards();
-    updateUserTotalPoints();
+    saveAll();
+    updateTotalPoints();
     renderAwardsBar();
+  }
+
+  // prediction handlers
+  function updateMatchPred(league, idx, type, val) {
+    let gw = currentGW;
+    if (gw <= 31) { showToast("Past GW locked!"); return; }
+    if (!userData.predictions[league]) userData.predictions[league] = {};
+    if (!userData.predictions[league][gw]) userData.predictions[league][gw] = [];
+    let preds = userData.predictions[league][gw];
+    while (preds.length <= idx) preds.push({ hPred: "", aPred: "" });
+    if (type === 'home') preds[idx].hPred = parseInt(val) || 0;
+    else preds[idx].aPred = parseInt(val) || 0;
+    saveAll();
+    updateTotalPoints();
+    renderCurrentPage();
+  }
+
+  function savePredictionsGW() {
+    if (currentGW <= 31) { showToast("Past GW locked"); return; }
+    showToast(`GW${currentGW} predictions saved!`);
+    updateTotalPoints();
+  }
+
+  function updateChampionPick(leagueId, val) {
+    userData.championPicks[leagueId] = val;
+    saveAll();
+  }
+
+  // update total points from all predictions and awards
+  function updateTotalPoints() {
+    let total = 0;
+    for (let gw = 1; gw <= 38; gw++) {
+      for (let league of Object.keys(leaguesData)) {
+        let preds = userData.predictions?.[league]?.[gw];
+        if (preds) {
+          let actuals = actualResults[league][gw];
+          for (let i = 0; i < preds.length; i++) {
+            total += calculateMatchPoints(preds[i].hPred, preds[i].aPred, actuals[i].homeScore, actuals[i].awayScore);
+          }
+        }
+      }
+    }
+    // add award points
+    for (let award of ["ballon", "ucl", "europa"]) {
+      let a = userData.awards[award];
+      if (a && a.locked && a.pick) total += a.points;
+    }
+    userData.totalPoints = total;
+    // update display in UI
+    renderCurrentPage(); // refresh percentages
+  }
+
+  // league functions (simple, no login)
+  function createLeague() {
+    let name = prompt("League name:");
+    if (!name) return;
+    let code = Math.random().toString(36).substring(2, 8).toUpperCase();
+    userData.leagues.push({ name, code, members: ["Gaffer"], admin: "Gaffer" });
+    saveAll();
+    showToast(`League created! Code: ${code}`);
+    renderLeaguesPanel();
+  }
+
+  function joinLeague() {
+    let code = prompt("Enter league code:");
+    let league = userData.leagues.find(l => l.code === code);
+    if (!league) { showToast("Invalid code"); return; }
+    if (league.members.includes("Gaffer")) { showToast("Already in league"); return; }
+    league.members.push("Gaffer");
+    saveAll();
+    showToast(`Joined ${league.name}`);
+    renderLeaguesPanel();
+  }
+
+  function renderLeaguesPanel() {
+    const container = document.getElementById("leaguesPanel");
+    let myLeagues = userData.leagues.filter(l => l.members.includes("Gaffer"));
+    let html = `<div class="league-panel"><h3><i class="fas fa-users"></i> My Leagues</h3><button onclick="createLeague()" class="lock-btn">+ Create League</button> <button onclick="joinLeague()" class="lock-btn">Join League</button><div class="league-list">`;
+    for (let l of myLeagues) {
+      html += `<div class="league-item"><strong>${l.name}</strong> (${l.code})<br>Members: ${l.members.join(", ")}</div>`;
+    }
+    html += `</div></div>`;
+    container.innerHTML = html;
   }
 
   // rendering
@@ -369,10 +285,8 @@
   let currentGW = 32;
 
   function renderAwardsBar() {
-    const container = document.getElementById("awardsBar");
-    if (!currentUser) { container.innerHTML = `<div class="award-card">Sign in to predict awards</div>`; return; }
-    initAwardsForUser();
-    let awards = awardsState[currentUser];
+    initAwards();
+    let awards = userData.awards;
     let html = "";
     for (let [id, award] of Object.entries(awards)) {
       let name = id === "ballon" ? "Ballon d'Or" : (id === "ucl" ? "UCL Winner" : "Europa League");
@@ -387,14 +301,13 @@
         <button class="lock-award" onclick="toggleAwardLock('${id}')">${award.locked ? '🔒 Locked' : '🔓 Unlock'}</button>
       </div>`;
     }
-    container.innerHTML = html;
+    document.getElementById("awardsBar").innerHTML = html;
   }
 
   function renderLeaguePage(leagueId) {
-    if (!currentUser) return `<div class="pitch-container"><div class="accuracy-overlay">Sign In</div><div class="matches-pitch">Please sign in to predict</div></div>`;
     let league = leaguesData[leagueId];
     let isPast = currentGW < 32;
-    let userPreds = predictions?.[currentUser]?.[leagueId]?.[currentGW] || [];
+    let userPreds = userData.predictions?.[leagueId]?.[currentGW] || [];
     let actuals = actualResults[leagueId][currentGW];
     let matchesHtml = "";
     league.fixtures.forEach((m, idx) => {
@@ -415,9 +328,8 @@
         </div>
       `;
     });
-    let totalPoints = users[currentUser]?.totalPoints || 0;
-    let percent = Math.min(100, Math.floor((totalPoints / 3800) * 100));
-    let championPick = predictions?.[currentUser]?.[leagueId]?.champion || "";
+    let percent = Math.min(100, Math.floor((userData.totalPoints / 3800) * 100));
+    let championPick = userData.championPicks[leagueId] || "";
     return `
       <div class="pitch-container">
         <div class="halfway-line"></div><div class="center-circle"></div>
@@ -487,10 +399,8 @@
   }
 
   function showToast(msg) { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background="#b5f028"; t.style.color="black"; t.style.padding="6px 16px"; t.style.borderRadius="60px"; t.style.zIndex="999"; t.style.fontWeight="bold"; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
-  function showLoginModal() { document.getElementById("loginModal").style.display = "flex"; }
-  function closeModal(id) { document.getElementById(id).style.display = "none"; }
 
-  // expose globals for inline handlers
+  // expose globals
   window.updateMatchPred = updateMatchPred;
   window.updateAwardPick = updateAwardPick;
   window.toggleAwardLock = toggleAwardLock;
@@ -498,23 +408,16 @@
   window.joinLeague = joinLeague;
   window.savePredictionsGW = savePredictionsGW;
   window.updateChampionPick = updateChampionPick;
-  window.showLoginModal = showLoginModal;
-  window.closeModal = closeModal;
-  window.logout = logout;
-  window.loginOrRegister = loginOrRegister;
 
   // init
   (function() {
     const loader = document.getElementById("loader");
     setTimeout(() => loader.classList.add("hide"), 800);
-    let savedUser = localStorage.getItem(STORAGE_CURRENT_USER);
-    if (savedUser && users[savedUser]) currentUser = savedUser;
-    updateUIForUser();
     buildMenu();
     setupGWArrows();
     renderAwardsBar();
     renderCurrentPage();
-    updateUserTotalPoints();
+    updateTotalPoints();
   })();
 </script>
 </body>
