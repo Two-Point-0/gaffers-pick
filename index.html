@@ -2,84 +2,378 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes, viewport-fit=cover">
-  <title>The Gaffer's Pick | Full Interactive · No Login</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>The Gaffer's Pick | Transparent Pitch · Modern GW Arrows</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #2a2a2a; font-family: 'Barlow', sans-serif; color: white; overflow-x: hidden; }
-    .loader { position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: #1a1a1a; display: flex; justify-content: center; align-items: center; z-index: 9999; transition: opacity 0.5s; }
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      background: #2a2a2a;
+      font-family: 'Barlow', sans-serif;
+      color: white;
+      overflow-x: hidden;
+    }
+    /* loader */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #1a1a1a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
     .loader i { font-size: 4rem; color: #b5f028; animation: spin 1s linear infinite; }
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .loader.hide { opacity: 0; pointer-events: none; }
 
-    /* top menu */
-    .top-menu { position: sticky; top: 0; background: rgba(0,0,0,0.85); backdrop-filter: blur(12px); border-bottom: 1px solid #b5f028; z-index: 100; display: flex; justify-content: center; align-items: center; padding: 8px 1rem; flex-wrap: wrap; gap: 10px; }
-    .menu-container { display: flex; gap: 8px; flex-wrap: wrap; justify-content: center; }
-    .menu-btn { background: rgba(42,42,42,0.8); border: 1px solid #5a9e6a; color: #eee; font-family: 'Barlow Condensed'; font-weight: bold; padding: 6px 16px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.9rem; }
-    .menu-btn.active { background: #b5f028; color: #0a2a12; border-color: #b5f028; }
-    .user-area { display: none; } /* hidden since no login */
+    /* centered top menu */
+    .top-menu {
+      position: sticky;
+      top: 0;
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid #b5f028;
+      z-index: 100;
+      display: flex;
+      justify-content: center;
+      padding: 8px 0;
+    }
+    .menu-container {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 0 1rem;
+    }
+    .menu-btn {
+      background: rgba(42,42,42,0.8);
+      border: 1px solid #5a9e6a;
+      color: #eee;
+      font-family: 'Barlow Condensed';
+      font-weight: bold;
+      padding: 8px 24px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+    .menu-btn i { font-size: 0.9rem; }
+    .menu-btn.active {
+      background: #b5f028;
+      color: #0a2a12;
+      border-color: #b5f028;
+    }
 
-    /* GW selector */
-    .gw-indicator { background: rgba(0,0,0,0.8); backdrop-filter: blur(8px); padding: 6px 1rem; display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid #3a5a3a; flex-wrap: wrap; gap: 10px; }
-    .gw-nav { display: flex; align-items: center; gap: 12px; background: rgba(0,0,0,0.5); border-radius: 60px; padding: 2px 10px; }
-    .gw-arrow { background: #2a2a2a; border: 1px solid #b5f028; border-radius: 50%; width: 32px; height: 32px; display: flex; align-items: center; justify-content: center; cursor: pointer; }
-    .gw-current { font-family: 'Bebas Neue'; font-size: 1.2rem; background: #1a2a1a; padding: 2px 16px; border-radius: 40px; display: inline-flex; align-items: center; gap: 6px; }
+    /* modern GW selector with arrows */
+    .gw-indicator {
+      position: sticky;
+      top: 55px;
+      background: rgba(0,0,0,0.8);
+      backdrop-filter: blur(8px);
+      padding: 8px 16px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 99;
+      border-bottom: 1px solid #3a5a3a;
+    }
+    .gw-nav {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 60px;
+      padding: 4px 12px;
+    }
+    .gw-arrow {
+      background: #2a2a2a;
+      border: 1px solid #b5f028;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: 0.2s;
+    }
+    .gw-arrow:hover { background: #b5f028; color: black; }
+    .gw-current {
+      font-family: 'Bebas Neue';
+      font-size: 1.4rem;
+      background: #1a2a1a;
+      padding: 4px 20px;
+      border-radius: 40px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .gw-current i { color: #b5f028; }
 
-    /* awards bar (horizontal pitch-like) */
-    .awards-bar { display: flex; flex-wrap: wrap; justify-content: center; gap: 12px; margin: 12px; }
-    .award-card { background: rgba(30,60,30,0.4); backdrop-filter: blur(4px); border: 1px solid white; border-radius: 20px; padding: 6px 12px; min-width: 160px; text-align: center; position: relative; overflow: hidden; }
-    .award-card::before { content: ''; position: absolute; top: 50%; left: 0; right: 0; height: 1px; background: rgba(255,255,255,0.3); transform: translateY(-50%); pointer-events: none; }
-    .award-card select { background: rgba(0,0,0,0.6); border-radius: 30px; padding: 3px 6px; color: white; border: 1px solid #b5f028; margin: 4px 0; font-size: 0.7rem; }
-    .lock-award { background: none; border: 1px solid gold; border-radius: 30px; padding: 2px 10px; cursor: pointer; font-size: 0.7rem; }
+    /* awards bar */
+    .awards-bar {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      padding: 12px;
+      margin: 12px;
+      border-radius: 60px;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 16px;
+      z-index: 98;
+    }
+    .award-item {
+      background: rgba(26,58,40,0.7);
+      border-radius: 40px;
+      padding: 6px 16px;
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+    .award-item select {
+      background: rgba(10,42,18,0.8);
+      border-radius: 30px;
+      padding: 4px 8px;
+      color: white;
+      border: 1px solid #b5f028;
+    }
+    .lock-award {
+      background: none;
+      border: 1px solid gold;
+      border-radius: 30px;
+      padding: 2px 12px;
+      cursor: pointer;
+      font-size: 0.7rem;
+    }
 
     /* pages */
-    .page { display: none; padding: 0.5rem; }
-    .page.active-page { display: block; }
-    .pitch-container { position: relative; background: rgba(30,60,30,0.25); border-radius: 24px; margin-bottom: 1rem; min-height: 500px; border: 2px solid rgba(255,255,255,0.6); overflow: hidden; }
-    .pitch-container .halfway-line { position: absolute; top: 50%; left: 0; right: 0; height: 2px; background: white; transform: translateY(-50%); }
-    .pitch-container .center-circle { position: absolute; top: 50%; left: 50%; width: 70px; height: 70px; border: 2px solid white; border-radius: 50%; transform: translate(-50%, -50%); }
-    .penalty-area-left, .penalty-area-right { position: absolute; top: 50%; width: 40px; height: 100px; border: 2px solid white; transform: translateY(-50%); }
+    .page {
+      display: none;
+      min-height: calc(100vh - 200px);
+      padding: 1rem;
+    }
+    .page.active-page {
+      display: block;
+    }
+
+    /* TRANSPARENT PITCH CONTAINER with full white lines */
+    .pitch-container {
+      position: relative;
+      background: rgba(30, 60, 30, 0.25);
+      backdrop-filter: blur(2px);
+      border-radius: 24px;
+      margin-bottom: 1rem;
+      min-height: 550px;
+      border: 2px solid rgba(255,255,255,0.6);
+      overflow: hidden;
+    }
+    /* white pitch lines */
+    .pitch-container .halfway-line {
+      position: absolute;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: white;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    .pitch-container .center-circle {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 80px;
+      height: 80px;
+      border: 2px solid white;
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      z-index: 1;
+    }
+    .penalty-area-left, .penalty-area-right {
+      position: absolute;
+      top: 50%;
+      width: 50px;
+      height: 120px;
+      border: 2px solid white;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
     .penalty-area-left { left: 0; border-left: none; }
     .penalty-area-right { right: 0; border-right: none; }
-    .goal-line-left, .goal-line-right { position: absolute; top: 50%; width: 10px; height: 30px; background: white; transform: translateY(-50%); }
+    .goal-line-left, .goal-line-right {
+      position: absolute;
+      top: 50%;
+      width: 12px;
+      height: 40px;
+      background: white;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
     .goal-line-left { left: 0; }
     .goal-line-right { right: 0; }
-    .accuracy-overlay { position: absolute; inset: 0; background: rgba(10,40,10,0.55); display: flex; align-items: center; justify-content: center; font-family: 'Bebas Neue'; font-size: 6rem; font-weight: bold; color: rgba(0,0,0,0.65); pointer-events: none; z-index: 2; }
-    .matches-pitch { position: relative; z-index: 3; display: flex; flex-direction: column; gap: 15px; max-width: 800px; margin: 50px auto; padding: 0.5rem; }
-    .match-row { display: flex; align-items: center; justify-content: center; gap: 10px; background: rgba(0,0,0,0.3); border-radius: 60px; padding: 8px 15px; flex-wrap: wrap; }
-    .team-home, .team-away { font-weight: bold; font-size: 0.9rem; min-width: 80px; text-align: center; }
-    .score-input-pitch { width: 55px; height: 45px; background: transparent; border: 2px solid white; border-radius: 16px; text-align: center; font-size: 1.3rem; color: #b5f028; font-weight: bold; }
-    .score-input-pitch:disabled { border-color: #888; color: #ccc; }
-    .champion-control { background: rgba(0,0,0,0.5); border-radius: 60px; padding: 10px 15px; margin-top: 12px; display: flex; flex-wrap: wrap; gap: 10px; justify-content: space-between; }
-    .champion-select { background: rgba(10,42,18,0.8); border: 1px solid #b5f028; border-radius: 40px; padding: 6px 12px; color: white; flex: 2; font-size: 0.8rem; }
-    .lock-btn { background: rgba(0,0,0,0.6); border: 1px solid white; border-radius: 40px; padding: 5px 14px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; font-size: 0.8rem; }
-    .lock-btn.locked { background: #b5f028; color: black; }
+    .penalty-arc-left, .penalty-arc-right {
+      position: absolute;
+      top: 50%;
+      width: 30px;
+      height: 30px;
+      border: 1px solid white;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    .penalty-arc-left { left: 25px; border-left: none; border-bottom: none; border-top: none; }
+    .penalty-arc-right { right: 25px; border-right: none; border-bottom: none; border-top: none; }
 
-    /* league panel (simplified, no login) */
-    .league-panel { background: rgba(0,0,0,0.6); border-radius: 24px; padding: 1rem; margin: 0.5rem; }
-    .league-panel input, .league-panel button { margin: 5px; padding: 6px 12px; border-radius: 40px; border: none; }
-    .league-list { margin-top: 1rem; }
-    .league-item { background: rgba(255,255,255,0.1); border-radius: 16px; padding: 10px; margin-bottom: 8px; font-size: 0.8rem; }
+    /* dark green percentage overlay (visible behind content) */
+    .accuracy-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 40, 10, 0.55);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 9rem;
+      font-weight: bold;
+      color: rgba(0, 0, 0, 0.65);
+      text-shadow: 0 0 8px rgba(255,255,255,0.15);
+    }
+
+    /* matches grid with team names and transparent inputs */
+    .matches-pitch {
+      position: relative;
+      z-index: 3;
+      display: flex;
+      flex-direction: column;
+      gap: 20px;
+      max-width: 800px;
+      margin: 60px auto;
+      padding: 1rem;
+    }
+    .match-row {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 15px;
+      background: rgba(0,0,0,0.3);
+      backdrop-filter: blur(4px);
+      border-radius: 60px;
+      padding: 12px 20px;
+    }
+    .team-home, .team-away {
+      font-weight: bold;
+      font-size: 1rem;
+      white-space: nowrap;
+      text-shadow: 0 1px 2px black;
+      min-width: 100px;
+      text-align: center;
+    }
+    .team-home { text-align: right; }
+    .team-away { text-align: left; }
+    .score-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+    .score-input-pitch {
+      width: 65px;
+      height: 55px;
+      background: transparent;
+      border: 2px solid white;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #b5f028;
+      font-weight: bold;
+      backdrop-filter: blur(4px);
+    }
+    .score-input-pitch:focus { outline: none; border-color: #b5f028; }
+    .score-input-pitch:disabled {
+      border-color: #888;
+      color: #ccc;
+    }
+    .vs-badge {
+      font-weight: bold;
+      color: #b5f028;
+      font-size: 1rem;
+    }
+    .actual-hint {
+      font-size: 0.7rem;
+      color: #ddd;
+      margin-left: 10px;
+    }
+
+    /* champion controls (outside pitch) */
+    .champion-control {
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(12px);
+      border-radius: 60px;
+      padding: 12px 20px;
+      margin-top: 16px;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      gap: 12px;
+      justify-content: space-between;
+    }
+    .champion-select {
+      background: rgba(10,42,18,0.8);
+      border: 1px solid #b5f028;
+      border-radius: 40px;
+      padding: 8px 15px;
+      color: white;
+      flex: 2;
+      font-family: 'Barlow Condensed';
+    }
+    .lock-btn {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid white;
+      border-radius: 40px;
+      padding: 6px 18px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      font-weight: bold;
+    }
+    .lock-btn.locked { background: #b5f028; color: black; border-color: #b5f028; }
+    .lock-btn i { font-size: 0.9rem; }
 
     @media (max-width: 700px) {
-      .team-home, .team-away { min-width: 60px; font-size: 0.7rem; }
-      .score-input-pitch { width: 45px; height: 40px; font-size: 1rem; }
-      .accuracy-overlay { font-size: 3rem; }
-      .match-row { gap: 5px; }
+      .match-row { flex-wrap: wrap; gap: 8px; }
+      .team-home, .team-away { min-width: 80px; font-size: 0.8rem; }
+      .score-input-pitch { width: 55px; height: 45px; font-size: 1.2rem; }
+      .accuracy-overlay { font-size: 4rem; }
     }
   </style>
 </head>
 <body>
 <div class="loader" id="loader"><i class="fas fa-futbol"></i></div>
 
+<!-- centered top menu -->
 <div class="top-menu">
   <div class="menu-container" id="menuContainer"></div>
 </div>
 
+<!-- modern GW selector with arrows -->
 <div class="gw-indicator">
   <span><i class="fas fa-calendar-alt"></i> Gameweek</span>
   <div class="gw-nav">
@@ -89,336 +383,288 @@
   </div>
 </div>
 
+<!-- Awards Bar -->
 <div class="awards-bar" id="awardsBar"></div>
 
+<!-- Pages container -->
 <div id="pagesContainer"></div>
-<div id="leaguesPanel" style="display:none; padding:0.5rem;"></div>
 
 <script>
-  // ---------- LEAGUES DATA (Top 5 teams) ----------
+  // hide loader
+  (function() { const l=document.getElementById('loader'); function h(){ if(l) l.classList.add('hide'); } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',h); else h(); setTimeout(h,1500); })();
+
+  // ---------- LEAGUE DATA (TOP 5 TEAMS ONLY) ----------
   const leaguesData = {
-    epl: { name: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
-    liga: { name: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"], fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Athletic", away:"Villarreal"},{ home:"Real Betis", away:"Real Soc."},{ home:"Valencia", away:"Osasuna"}] },
-    serie: { name: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"], fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Lazio", away:"Roma"},{ home:"Atalanta", away:"Fiorentina"},{ home:"Torino", away:"Bologna"}] },
-    bundes: { name: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"], fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"Leipzig"},{ home:"Stuttgart", away:"Gladbach"},{ home:"Frankfurt", away:"Freiburg"},{ home:"Wolfsburg", away:"Hoffenheim"}] },
-    ligue: { name: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"], fixtures: [{ home:"PSG", away:"Monaco"},{ home:"Marseille", away:"Lyon"},{ home:"Lens", away:"Rennes"},{ home:"Lille", away:"Nice"},{ home:"Nantes", away:"Strasbourg"}] },
-    worldcup: { name: "World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], fixtures: [{ home:"Brazil", away:"Argentina"},{ home:"France", away:"Spain"},{ home:"Germany", away:"England"},{ home:"Portugal", away:"Netherlands"},{ home:"Belgium", away:"Croatia"}] }
+    epl: { name: "Premier League", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], 
+           fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
+    liga: { name: "La Liga", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"], 
+           fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Athletic", away:"Villarreal"},{ home:"Real Betis", away:"Real Soc."},{ home:"Valencia", away:"Osasuna"}] },
+    serie: { name: "Serie A", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"], 
+           fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Lazio", away:"Roma"},{ home:"Atalanta", away:"Fiorentina"},{ home:"Torino", away:"Bologna"}] },
+    bundes: { name: "Bundesliga", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"], 
+           fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"Leipzig"},{ home:"Stuttgart", away:"Gladbach"},{ home:"Frankfurt", away:"Freiburg"},{ home:"Wolfsburg", away:"Hoffenheim"}] },
+    ligue: { name: "Ligue 1", fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"], 
+           fixtures: [{ home:"PSG", away:"Monaco"},{ home:"Marseille", away:"Lyon"},{ home:"Lens", away:"Rennes"},{ home:"Lille", away:"Nice"},{ home:"Nantes", away:"Strasbourg"}] },
+    worldcup: { name: "World Cup", fullName: "World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], 
+           fixtures: [{ home:"Brazil", away:"Argentina"},{ home:"France", away:"Spain"},{ home:"Germany", away:"England"},{ home:"Portugal", away:"Netherlands"},{ home:"Belgium", away:"Croatia"}] }
   };
 
-  // generate actual results (random but consistent per GW)
-  let actualResults = {};
-  function generateActualResults() {
+  // generate actual results & user predictions
+  let actualResults = {}, userPredictions = {};
+  function generateData() {
     for (let league of Object.keys(leaguesData)) {
       actualResults[league] = {};
+      userPredictions[league] = {};
       for (let gw = 1; gw <= 38; gw++) {
         actualResults[league][gw] = [];
+        userPredictions[league][gw] = [];
         for (let i = 0; i < leaguesData[league].fixtures.length; i++) {
           let homeScore = Math.floor(Math.random() * 4);
           let awayScore = Math.floor(Math.random() * 3);
           if (homeScore === awayScore && homeScore === 0 && Math.random() > 0.3) homeScore = 1;
           actualResults[league][gw].push({ homeScore, awayScore });
+          let hPred = homeScore + (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
+          let aPred = awayScore + (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
+          hPred = Math.max(0, Math.min(5, hPred));
+          aPred = Math.max(0, Math.min(5, aPred));
+          userPredictions[league][gw].push({ hPred, aPred });
         }
       }
     }
   }
-  generateActualResults();
+  generateData();
 
-  // points calculation
-  function calculateMatchPoints(predHome, predAway, actualHome, actualAway) {
-    if (predHome === actualHome && predAway === actualAway) return 20;
-    let predWinner = predHome > predAway ? "home" : (predHome < predAway ? "away" : "draw");
-    let actualWinner = actualHome > actualAway ? "home" : (actualHome < actualAway ? "away" : "draw");
-    if (predWinner === actualWinner) {
-      let diffHome = Math.abs(predHome - actualHome);
-      let diffAway = Math.abs(predAway - actualAway);
-      if (diffHome <= 1 && diffAway <= 1) return 12;
-      return 8;
+  function computeAccuracy(league, currentGW) {
+    let total = 0, correct = 0;
+    for (let gw = 1; gw < currentGW; gw++) {
+      let matches = userPredictions[league][gw];
+      let actuals = actualResults[league][gw];
+      for (let i = 0; i < matches.length; i++) {
+        total++;
+        if (matches[i].hPred === actuals[i].homeScore && matches[i].aPred === actuals[i].awayScore) correct++;
+      }
     }
-    let diffHome = Math.abs(predHome - actualHome);
-    let diffAway = Math.abs(predAway - actualAway);
-    if (diffHome <= 1 && diffAway <= 1) return 4;
-    return 0;
+    return total === 0 ? 0 : Math.round((correct / total) * 100);
   }
 
-  // user data (single local user)
-  let userData = {
-    totalPoints: 0,
-    predictions: JSON.parse(localStorage.getItem("gaffer_predictions") || "{}"),
-    awards: JSON.parse(localStorage.getItem("gaffer_awards") || "{}"),
-    championPicks: JSON.parse(localStorage.getItem("gaffer_champions") || "{}"),
-    leagues: []  // simple league storage
-  };
+  let currentGW = 32;
+  let leagueScores = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0, worldcup: 0 };
+  let championPicks = { epl: "", liga: "", serie: "", bundes: "", ligue: "", worldcup: "" };
+  let lockState = {};
+  let penaltyPoints = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0, worldcup: 0 };
+  let leagueAccuracy = {};
+  function updateAllAccuracies() { for (let l of Object.keys(leaguesData)) leagueAccuracy[l] = computeAccuracy(l, currentGW); }
+  updateAllAccuracies();
 
-  function saveAll() {
-    localStorage.setItem("gaffer_predictions", JSON.stringify(userData.predictions));
-    localStorage.setItem("gaffer_awards", JSON.stringify(userData.awards));
-    localStorage.setItem("gaffer_champions", JSON.stringify(userData.championPicks));
-  }
+  // cards & suspension
+  let userCards = { yellows: 0, reds: 0, cardHistory: [] };
+  let isSuspended = false;
+  function giveYellowCard(reason) { if(isSuspended) return; userCards.yellows++; userCards.cardHistory.push({ gw: currentGW, reason, type:"yellow" }); showToast(`🟡 YELLOW: ${reason}`, "#f5d742"); let recent = userCards.cardHistory.filter(c=>c.type==="yellow" && (currentGW-c.gw)<=3).length; if(recent>=2 && userCards.reds===0) giveRedCard("Two yellows in 3 GWs"); }
+  function giveRedCard(reason) { if(userCards.reds>0) return; userCards.reds++; userCards.cardHistory.push({ gw: currentGW, reason, type:"red" }); let deduction = 20; let keys = Object.keys(leagueScores); for(let k of keys) leagueScores[k] = Math.max(0, leagueScores[k] - deduction/keys.length); showToast(`🔴 RED CARD! -20pts, suspended next GW. ${reason}`, "#e34d4d"); isSuspended=true; userCards.yellows=0; }
+  function showToast(msg, color="#b5f028") { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background=color; t.style.color="#0a2a12"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; t.style.fontWeight="bold"; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
 
-  // awards chip system
-  function initAwards() {
-    if (!userData.awards.ballon) {
-      userData.awards = {
-        ballon: { points: 1000, locked: false, lockGW: null, pick: "", basePoints: 1000 },
-        ucl: { points: 800, locked: false, lockGW: null, pick: "", basePoints: 800 },
-        europa: { points: 600, locked: false, lockGW: null, pick: "", basePoints: 600 }
-      };
-      saveAll();
-    }
-  }
-
-  function updateAwardPick(awardId, val) {
-    initAwards();
-    let award = userData.awards[awardId];
-    if (award.locked) { showToast("Award locked! Unlock first."); return; }
-    award.pick = val;
-    saveAll();
-    renderAwardsBar();
-  }
-
-  function toggleAwardLock(awardId) {
-    initAwards();
-    let award = userData.awards[awardId];
-    if (!award.locked) {
-      if (!award.pick) { showToast("Pick a winner first!"); return; }
-      award.locked = true;
-      award.lockGW = currentGW;
-      award.points = award.basePoints;
-      showToast(`🔒 ${awardId.toUpperCase()} locked at GW${currentGW} -> +${award.points} pts`);
-    } else {
-      let weeks = currentGW - (award.lockGW || currentGW);
-      let penalty = Math.min(weeks * 15, award.basePoints * 0.7);
-      award.points = Math.max(0, award.basePoints - penalty);
-      award.locked = false;
-      showToast(`🔓 Unlocked! Penalty -${Math.round(penalty)} pts. New value: ${Math.round(award.points)} pts`);
-    }
-    saveAll();
-    updateTotalPoints();
-    renderAwardsBar();
-  }
-
-  // prediction handlers
   function updateMatchPred(league, idx, type, val) {
-    let gw = currentGW;
-    if (gw <= 31) { showToast("Past GW locked!"); return; }
-    if (!userData.predictions[league]) userData.predictions[league] = {};
-    if (!userData.predictions[league][gw]) userData.predictions[league][gw] = [];
-    let preds = userData.predictions[league][gw];
-    while (preds.length <= idx) preds.push({ hPred: "", aPred: "" });
-    if (type === 'home') preds[idx].hPred = parseInt(val) || 0;
-    else preds[idx].aPred = parseInt(val) || 0;
-    saveAll();
-    updateTotalPoints();
+    if(isSuspended) { showToast("Suspended!"); return; }
+    if (currentGW <= 31) { showToast("Past gameweeks are locked!"); return; }
+    let pred = userPredictions[league][currentGW][idx];
+    if(type === 'home') pred.hPred = parseInt(val) || 0;
+    else pred.aPred = parseInt(val) || 0;
+    let margin = Math.abs(pred.hPred - pred.aPred);
+    if(margin >= 4) giveYellowCard(`Risky margin ${pred.hPred}-${pred.aPred}`);
     renderCurrentPage();
   }
 
-  function savePredictionsGW() {
-    if (currentGW <= 31) { showToast("Past GW locked"); return; }
-    showToast(`GW${currentGW} predictions saved!`);
-    updateTotalPoints();
+  function submitPredictions(leagueId) {
+    if(isSuspended) { showToast("Suspended!"); return; }
+    if (currentGW <= 31) { showToast("Past GW locked."); return; }
+    showToast(`✅ GW${currentGW} predictions saved for ${leaguesData[leagueId].name}`, "#b5f028");
   }
 
-  function updateChampionPick(leagueId, val) {
-    userData.championPicks[leagueId] = val;
-    saveAll();
-  }
-
-  // update total points from all predictions and awards
-  function updateTotalPoints() {
-    let total = 0;
-    for (let gw = 1; gw <= 38; gw++) {
-      for (let league of Object.keys(leaguesData)) {
-        let preds = userData.predictions?.[league]?.[gw];
-        if (preds) {
-          let actuals = actualResults[league][gw];
-          for (let i = 0; i < preds.length; i++) {
-            total += calculateMatchPoints(preds[i].hPred, preds[i].aPred, actuals[i].homeScore, actuals[i].awayScore);
-          }
-        }
-      }
-    }
-    // add award points
-    for (let award of ["ballon", "ucl", "europa"]) {
-      let a = userData.awards[award];
-      if (a && a.locked && a.pick) total += a.points;
-    }
-    userData.totalPoints = total;
-    // update display in UI
-    renderCurrentPage(); // refresh percentages
-  }
-
-  // league functions (simple, no login)
-  function createLeague() {
-    let name = prompt("League name:");
-    if (!name) return;
-    let code = Math.random().toString(36).substring(2, 8).toUpperCase();
-    userData.leagues.push({ name, code, members: ["Gaffer"], admin: "Gaffer" });
-    saveAll();
-    showToast(`League created! Code: ${code}`);
-    renderLeaguesPanel();
-  }
-
-  function joinLeague() {
-    let code = prompt("Enter league code:");
-    let league = userData.leagues.find(l => l.code === code);
-    if (!league) { showToast("Invalid code"); return; }
-    if (league.members.includes("Gaffer")) { showToast("Already in league"); return; }
-    league.members.push("Gaffer");
-    saveAll();
-    showToast(`Joined ${league.name}`);
-    renderLeaguesPanel();
-  }
-
-  function renderLeaguesPanel() {
-    const container = document.getElementById("leaguesPanel");
-    let myLeagues = userData.leagues.filter(l => l.members.includes("Gaffer"));
-    let html = `<div class="league-panel"><h3><i class="fas fa-users"></i> My Leagues</h3><button onclick="createLeague()" class="lock-btn">+ Create League</button> <button onclick="joinLeague()" class="lock-btn">Join League</button><div class="league-list">`;
-    for (let l of myLeagues) {
-      html += `<div class="league-item"><strong>${l.name}</strong> (${l.code})<br>Members: ${l.members.join(", ")}</div>`;
-    }
-    html += `</div></div>`;
-    container.innerHTML = html;
-  }
-
-  // rendering
-  let currentActiveLeague = "epl";
-  let currentGW = 32;
-
+  // Awards
+  const awardsList = [
+    { id: "ballon", name: "Ballon d'Or", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham"], points: 150, locked: false, pick: "" },
+    { id: "ucl", name: "UCL Winner", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal"], points: 120, locked: false, pick: "" },
+    { id: "europa", name: "Europa League", options: ["Liverpool","Roma","Sevilla","Leverkusen","Atalanta"], points: 100, locked: false, pick: "" }
+  ];
   function renderAwardsBar() {
-    initAwards();
-    let awards = userData.awards;
-    let html = "";
-    for (let [id, award] of Object.entries(awards)) {
-      let name = id === "ballon" ? "Ballon d'Or" : (id === "ucl" ? "UCL Winner" : "Europa League");
-      let options = id === "ballon" ? ["Messi","Haaland","Mbappé"] : (id === "ucl" ? ["Real Madrid","Man City","Bayern"] : ["Liverpool","Roma","Sevilla"]);
-      html += `<div class="award-card">
-        <span><i class="fas fa-trophy"></i> ${name}</span>
-        <select onchange="updateAwardPick('${id}', this.value)" ${award.locked ? 'disabled' : ''}>
-          <option value="">— Pick —</option>
-          ${options.map(opt => `<option ${award.pick===opt ? 'selected' : ''}>${opt}</option>`).join('')}
+    const container = document.getElementById("awardsBar");
+    container.innerHTML = "";
+    awardsList.forEach(award => {
+      const div = document.createElement("div");
+      div.className = "award-item";
+      div.innerHTML = `
+        <span><i class="fas fa-trophy"></i> ${award.name}</span>
+        <select id="award-${award.id}" ${award.locked ? 'disabled' : ''} onchange="updateAwardPick('${award.id}', this.value)">
+          <option value="">— Predict —</option>
+          ${award.options.map(opt => `<option ${award.pick===opt ? 'selected' : ''}>${opt}</option>`).join('')}
         </select>
-        <div style="font-size:0.75rem;">🏆 ${Math.round(award.points)} pts</div>
-        <button class="lock-award" onclick="toggleAwardLock('${id}')">${award.locked ? '🔒 Locked' : '🔓 Unlock'}</button>
-      </div>`;
-    }
-    document.getElementById("awardsBar").innerHTML = html;
+        <button class="lock-award" onclick="toggleAwardLock('${award.id}')">${award.locked ? '🔒 Locked' : '🔓 Unlock'}</button>
+      `;
+      container.appendChild(div);
+    });
+  }
+  window.updateAwardPick = (id, val) => { let a = awardsList.find(x=>x.id===id); if(a.locked) { showToast("Award locked!"); return; } a.pick = val; renderAwardsBar(); };
+  function toggleAwardLock(id) {
+    let a = awardsList.find(x=>x.id===id);
+    if(!a.locked) { if(!a.pick) { showToast("Pick a winner first!"); return; } a.locked=true; showToast(`🔒 ${a.name} locked`); }
+    else { a.locked=false; showToast(`🔓 ${a.name} unlocked`); }
+    renderAwardsBar();
   }
 
+  // League champion pick & lock
+  window.updateChampionPick = (leagueId, val) => {
+    if(lockState[leagueId]?.locked) { showToast("Champion locked! Unlock first."); return; }
+    championPicks[leagueId] = val;
+    renderCurrentPage();
+  };
+  function toggleLeagueLock(leagueId) {
+    let lock = lockState[leagueId];
+    if(!lock) lockState[leagueId] = { locked: false, lockGW: null };
+    lock = lockState[leagueId];
+    if(!lock.locked) {
+      if(!championPicks[leagueId]) { showToast("Select a champion first!"); return; }
+      lock.locked = true; lock.lockGW = currentGW;
+      showToast(`🔒 ${leaguesData[leagueId].fullName} champion locked at GW${currentGW}`);
+    } else {
+      let weeks = currentGW - (lock.lockGW || currentGW);
+      let penalty = weeks * 2;
+      if(penalty>0) {
+        penaltyPoints[leagueId] += penalty;
+        leagueScores[leagueId] = Math.max(0, leagueScores[leagueId] - penalty);
+        giveYellowCard(`Unlocked ${leaguesData[leagueId].fullName} after ${weeks} GWs (-${penalty} pts)`);
+      }
+      lock.locked = false; lock.lockGW = null;
+    }
+    renderCurrentPage();
+  }
+
+  // Render one league page (pitch with team names + transparent inputs)
   function renderLeaguePage(leagueId) {
-    let league = leaguesData[leagueId];
-    let isPast = currentGW < 32;
-    let userPreds = userData.predictions?.[leagueId]?.[currentGW] || [];
-    let actuals = actualResults[leagueId][currentGW];
+    const league = leaguesData[leagueId];
+    const lock = lockState[leagueId] || { locked: false };
+    const percent = leagueAccuracy[leagueId] || 0;
+    const championPick = championPicks[leagueId];
+    const isPast = currentGW < 32;
+    const userPreds = userPredictions[leagueId][currentGW];
+    const actuals = actualResults[leagueId][currentGW];
     let matchesHtml = "";
     league.fixtures.forEach((m, idx) => {
-      let userH = userPreds[idx]?.hPred !== undefined ? userPreds[idx].hPred : "";
-      let userA = userPreds[idx]?.aPred !== undefined ? userPreds[idx].aPred : "";
+      let userH = userPreds[idx].hPred;
+      let userA = userPreds[idx].aPred;
       let actualH = actuals[idx].homeScore;
       let actualA = actuals[idx].awayScore;
-      let displayHome = isPast ? actualH : userH;
-      let displayAway = isPast ? actualA : userA;
+      let displayHome = isPast ? actualH : (userH !== undefined ? userH : '');
+      let displayAway = isPast ? actualA : (userA !== undefined ? userA : '');
       matchesHtml += `
         <div class="match-row">
           <div class="team-home">${m.home}</div>
-          <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
-          <span class="vs-badge">VS</span>
-          <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+          <div class="score-group">
+            <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
+            <span class="vs-badge">VS</span>
+            <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+          </div>
           <div class="team-away">${m.away}</div>
           ${isPast ? `<span class="actual-hint">${actualH}–${actualA}</span>` : ''}
         </div>
       `;
     });
-    let percent = Math.min(100, Math.floor((userData.totalPoints / 3800) * 100));
-    let championPick = userData.championPicks[leagueId] || "";
     return `
-      <div class="pitch-container">
-        <div class="halfway-line"></div><div class="center-circle"></div>
-        <div class="penalty-area-left"></div><div class="penalty-area-right"></div>
-        <div class="goal-line-left"></div><div class="goal-line-right"></div>
-        <div class="accuracy-overlay">${percent}%</div>
-        <div class="matches-pitch">${matchesHtml}</div>
-        <div class="champion-control">
-          <select class="champion-select" onchange="updateChampionPick('${leagueId}', this.value)">
-            <option value="">— Pick Champion —</option>
-            ${league.teams.map(t => `<option ${championPick===t ? 'selected' : ''}>${t}</option>`).join('')}
-          </select>
-          ${!isPast ? `<button class="lock-btn" onclick="savePredictionsGW()"><i class="fas fa-save"></i> Save GW</button>` : ''}
+      <div class="page" id="page-${leagueId}" data-league="${leagueId}">
+        <div class="pitch-container">
+          <div class="halfway-line"></div>
+          <div class="center-circle"></div>
+          <div class="penalty-area-left"></div>
+          <div class="penalty-area-right"></div>
+          <div class="goal-line-left"></div>
+          <div class="goal-line-right"></div>
+          <div class="penalty-arc-left"></div>
+          <div class="penalty-arc-right"></div>
+          <div class="accuracy-overlay">${percent}%</div>
+          ${lock.locked && championPick ? `<div style="position: absolute; bottom: 20px; left: 20px; font-size: 1.4rem; color: rgba(255,255,255,0.3); font-family: 'Bebas Neue'; z-index: 3;"><i class="fas fa-crown"></i> ${championPick}</div>` : ''}
+          <div class="matches-pitch">
+            ${matchesHtml}
+          </div>
+          <div class="champion-control">
+            <select class="champion-select" id="champSelect-${leagueId}" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${leagueId}', this.value)">
+              <option value="">— Pick League Champion —</option>
+              ${league.teams.map(t => `<option ${championPicks[leagueId]===t ? 'selected' : ''}>${t}</option>`).join('')}
+            </select>
+            <button class="lock-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLeagueLock('${leagueId}')">
+              <i class="fas ${lock.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${lock.locked ? 'Locked' : 'Unlock'}
+            </button>
+            ${penaltyPoints[leagueId] ? `<span style="font-size:0.7rem; color:#ffaa66;"><i class="fas fa-exclamation-triangle"></i> -${penaltyPoints[leagueId]}</span>` : ''}
+            ${!isPast ? `<button class="lock-btn" style="background:#b5f028; color:black;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW</button>` : ''}
+          </div>
         </div>
       </div>
     `;
   }
 
+  let currentActiveLeague = "epl";
   function renderCurrentPage() {
     const container = document.getElementById("pagesContainer");
-    const leaguesPanel = document.getElementById("leaguesPanel");
-    let activeTab = document.querySelector(".menu-btn.active")?.getAttribute("data-tab") || "predict";
-    if (activeTab === "leagues") {
-      container.style.display = "none";
-      leaguesPanel.style.display = "block";
-      renderLeaguesPanel();
-    } else {
-      container.style.display = "block";
-      leaguesPanel.style.display = "none";
-      let html = "";
-      for (let id of Object.keys(leaguesData)) {
-        html += `<div class="page" id="page-${id}" data-league="${id}">${renderLeaguePage(id)}</div>`;
-      }
-      container.innerHTML = html;
-      document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
-      let activePage = document.getElementById(`page-${currentActiveLeague}`);
-      if (activePage) activePage.classList.add("active-page");
+    let html = "";
+    for (let leagueId of Object.keys(leaguesData)) {
+      html += renderLeaguePage(leagueId);
     }
+    container.innerHTML = html;
+    document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
+    const activePage = document.getElementById(`page-${currentActiveLeague}`);
+    if (activePage) activePage.classList.add("active-page");
+    document.querySelectorAll(".menu-btn").forEach(btn => {
+      if (btn.getAttribute("data-league") === currentActiveLeague) btn.classList.add("active");
+      else btn.classList.remove("active");
+    });
+    // update GW display
     document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`;
   }
 
+  // build centered menu
   function buildMenu() {
-    const menu = document.getElementById("menuContainer");
-    menu.innerHTML = `
-      <button class="menu-btn active" data-tab="predict" data-league="epl"><i class="fas fa-futbol"></i> Predict</button>
-      <button class="menu-btn" data-tab="leagues"><i class="fas fa-users"></i> Leagues</button>
-    `;
-    document.querySelectorAll(".menu-btn").forEach(btn => {
+    const menuContainer = document.getElementById("menuContainer");
+    menuContainer.innerHTML = "";
+    for (let [id, league] of Object.entries(leaguesData)) {
+      const btn = document.createElement("button");
+      btn.className = "menu-btn";
+      btn.innerHTML = `<i class="fas fa-futbol"></i> ${league.name}`;
+      btn.setAttribute("data-league", id);
       btn.onclick = () => {
-        document.querySelectorAll(".menu-btn").forEach(b => b.classList.remove("active"));
-        btn.classList.add("active");
-        let tab = btn.getAttribute("data-tab");
-        if (tab === "predict") {
-          let league = btn.getAttribute("data-league") || "epl";
-          currentActiveLeague = league;
-          renderCurrentPage();
-        } else {
-          renderCurrentPage();
-        }
+        currentActiveLeague = id;
+        renderCurrentPage();
       };
-    });
+      menuContainer.appendChild(btn);
+    }
   }
 
+  // modern GW arrows
   function setupGWArrows() {
-    document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; renderCurrentPage(); showToast(`GW ${currentGW}`); } };
-    document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; renderCurrentPage(); showToast(`GW ${currentGW}`); } };
+    const prevBtn = document.getElementById("gwPrev");
+    const nextBtn = document.getElementById("gwNext");
+    prevBtn.onclick = () => {
+      if (currentGW > 1) {
+        currentGW--;
+        updateGW();
+      }
+    };
+    nextBtn.onclick = () => {
+      if (currentGW < 38) {
+        currentGW++;
+        updateGW();
+      }
+    };
+  }
+  function updateGW() {
+    updateAllAccuracies();
+    renderCurrentPage();
+    showToast(`Gameweek ${currentGW} — Accuracy updated.`);
   }
 
-  function showToast(msg) { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background="#b5f028"; t.style.color="black"; t.style.padding="6px 16px"; t.style.borderRadius="60px"; t.style.zIndex="999"; t.style.fontWeight="bold"; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
+  for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l] = { locked: false, lockGW: null };
 
-  // expose globals
-  window.updateMatchPred = updateMatchPred;
-  window.updateAwardPick = updateAwardPick;
-  window.toggleAwardLock = toggleAwardLock;
-  window.createLeague = createLeague;
-  window.joinLeague = joinLeague;
-  window.savePredictionsGW = savePredictionsGW;
-  window.updateChampionPick = updateChampionPick;
-
-  // init
-  (function() {
-    const loader = document.getElementById("loader");
-    setTimeout(() => loader.classList.add("hide"), 800);
-    buildMenu();
-    setupGWArrows();
-    renderAwardsBar();
-    renderCurrentPage();
-    updateTotalPoints();
-  })();
+  buildMenu();
+  setupGWArrows();
+  renderAwardsBar();
+  renderCurrentPage();
 </script>
 </body>
 </html>
