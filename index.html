@@ -3,58 +3,236 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Discipline & Cards</title>
+  <title>The Gaffer's Pick | Pitch Edition · 38 Gameweeks</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
-    :root {
-      --pitch: #0a1210; --lime: #b5f028; --card-bg: #0f2118cc;
-      --card-border: #2a4532; --chip-early: #ff6b35; --chip-late: #b05eff;
-      --yellow-card: #f5d742; --red-card: #e34d4d;
+
+    /* PITCH BACKGROUND – green turf + white lines */
+    body {
+      background: #1a6d2f;
+      background-image: 
+        linear-gradient(white 2px, transparent 2px),
+        linear-gradient(90deg, white 2px, transparent 2px);
+      background-size: 40px 40px;
+      font-family: 'Barlow', sans-serif;
+      min-height: 100vh;
+      position: relative;
     }
-    body { background: radial-gradient(circle at 10% 20%, #0b1f17, #030a07); color: #f2efe7; font-family: 'Barlow', sans-serif; }
-    nav { background: rgba(8,18,12,0.95); backdrop-filter: blur(12px); display: flex; justify-content: space-between; padding: 0 2rem; height: 70px; align-items: center; border-bottom: 1px solid var(--lime); }
-    .logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; background: linear-gradient(135deg, var(--lime), #cfff70); -webkit-background-clip: text; background-clip: text; color: transparent; }
-    .gw-badge { background: var(--lime); color: #0a1f15; padding: 5px 16px; border-radius: 30px; font-weight: bold; }
-    .card-stack { display: flex; gap: 8px; background: rgba(0,0,0,0.5); padding: 6px 16px; border-radius: 40px; font-family: 'Barlow Condensed'; font-weight: bold; }
-    .yellow-badge { color: var(--yellow-card); background: rgba(245,215,66,0.2); padding: 2px 10px; border-radius: 20px; }
-    .red-badge { color: var(--red-card); background: rgba(227,77,77,0.2); padding: 2px 10px; border-radius: 20px; }
-    .score-bar { display: flex; gap: 12px; justify-content: center; flex-wrap: wrap; padding: 2rem 1rem; }
-    .score-seg { background: rgba(15,33,24,0.7); backdrop-filter: blur(4px); border-radius: 24px; padding: 1rem; text-align: center; cursor: pointer; transition: 0.2s; min-width: 120px; }
-    .score-seg.active { border: 2px solid var(--lime); }
-    .seg-trophy-img { width: 40px; height: 40px; object-fit: contain; }
-    .tab-bar { display: flex; gap: 4px; padding: 0 2rem; border-bottom: 1px solid var(--card-border); }
-    .tab { padding: 12px 24px; font-family: 'Barlow Condensed'; font-weight: 700; cursor: pointer; color: #8a9a8c; }
-    .tab.active { color: var(--lime); border-bottom: 2px solid var(--lime); }
-    .matches-grid { display: flex; flex-direction: column; gap: 12px; padding: 1rem 2rem; }
-    .match-card { background: var(--card-bg); backdrop-filter: blur(8px); border-radius: 20px; display: grid; grid-template-columns: 1fr auto 1fr auto; gap: 1rem; padding: 1rem; align-items: center; }
-    .score-input { width: 60px; height: 48px; background: #0a1410; border-radius: 14px; text-align: center; font-size: 1.6rem; color: var(--lime); border: 1px solid var(--card-border); }
-    .btn-submit { background: linear-gradient(95deg, var(--lime), #9fda1a); border: none; font-family: 'Bebas Neue'; padding: 10px 24px; border-radius: 60px; font-weight: bold; cursor: pointer; }
-    .league-winner-row { display: grid; grid-template-columns: 50px 1fr 150px 100px; gap: 12px; background: rgba(0,0,0,0.3); border-radius: 18px; padding: 0.8rem; margin-bottom: 8px; align-items: center; }
-    .lock-btn { background: none; border: 1px solid #8a9a8c; border-radius: 40px; padding: 6px 12px; cursor: pointer; }
-    .lock-btn.locked { background: var(--lime); color: black; border-color: var(--lime); }
-    .card-log { background: #0e1c15; border-radius: 20px; padding: 1rem; margin-top: 1rem; }
-    .card-entry { display: flex; gap: 12px; align-items: center; border-bottom: 1px solid #2a4532; padding: 8px 0; }
-    .card-yellow { color: var(--yellow-card); } .card-red { color: var(--red-card); }
-    @media (max-width: 700px) { .league-winner-row { grid-template-columns: 40px 1fr 120px 80px; } .match-card { grid-template-columns: 1fr; } }
+    /* center circle effect */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 50%;
+      width: 280px;
+      height: 280px;
+      border: 4px solid rgba(255,255,255,0.35);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+      z-index: 0;
+    }
+    body::after {
+      content: '';
+      position: fixed;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 4px;
+      background: rgba(255,255,255,0.4);
+      transform: translateY(-50%);
+      pointer-events: none;
+    }
+    /* main content overlay */
+    .pitch-overlay {
+      position: relative;
+      z-index: 2;
+      background: rgba(10, 30, 15, 0.65);
+      backdrop-filter: blur(2px);
+      min-height: 100vh;
+      padding-bottom: 2rem;
+    }
+
+    /* NAV */
+    nav {
+      background: rgba(0, 20, 5, 0.85);
+      backdrop-filter: blur(12px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0 2rem;
+      height: 70px;
+      border-bottom: 2px solid #b5f028;
+      flex-wrap: wrap;
+    }
+    .logo-text { font-family: 'Bebas Neue', sans-serif; font-size: 2rem; background: linear-gradient(135deg, #b5f028, #e0ff80); -webkit-background-clip: text; background-clip: text; color: transparent; }
+    .card-stack { background: #0a2a12aa; padding: 6px 16px; border-radius: 40px; display: flex; gap: 12px; font-weight: bold; }
+    .yellow-badge { color: #f5d742; }
+    .red-badge { color: #e34d4d; }
+    .gw-badge { background: #b5f028; color: #0a2a12; padding: 5px 18px; border-radius: 40px; font-weight: bold; }
+    .btn-login { background: transparent; border: 1.5px solid #b5f028; color: #b5f028; border-radius: 40px; padding: 6px 24px; cursor: pointer; transition: 0.2s; }
+
+    /* SCROLLABLE GAMEWEEK STRIP */
+    .gw-strip {
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
+      padding: 12px 0;
+      margin: 1rem 0;
+      overflow-x: auto;
+      white-space: nowrap;
+      scrollbar-width: thin;
+      border-top: 1px solid #b5f028;
+      border-bottom: 1px solid #b5f028;
+    }
+    .gw-container {
+      display: inline-flex;
+      gap: 8px;
+      padding: 0 1rem;
+    }
+    .gw-btn {
+      background: #1f3a24;
+      border: 1px solid #5a8f6a;
+      color: #ddd;
+      font-family: 'Barlow Condensed', sans-serif;
+      font-weight: bold;
+      padding: 8px 16px;
+      border-radius: 40px;
+      cursor: pointer;
+      transition: 0.1s;
+      font-size: 0.9rem;
+    }
+    .gw-btn.active-gw {
+      background: #b5f028;
+      color: #0a2a12;
+      border-color: #b5f028;
+      box-shadow: 0 0 8px #b5f028;
+    }
+    .gw-btn:hover { background: #5f9e6e; color: white; }
+
+    /* LEAGUE BADGES (instead of generic icons) */
+    .score-bar {
+      display: flex;
+      justify-content: center;
+      gap: 20px;
+      flex-wrap: wrap;
+      padding: 1.5rem;
+    }
+    .score-seg {
+      background: rgba(0, 0, 0, 0.55);
+      backdrop-filter: blur(4px);
+      border-radius: 24px;
+      padding: 0.8rem 1rem;
+      min-width: 130px;
+      text-align: center;
+      cursor: pointer;
+      transition: 0.2s;
+      border: 1px solid #3e6b48;
+    }
+    .score-seg.active { border: 2px solid #b5f028; box-shadow: 0 0 12px #b5f028; }
+    .league-badge {
+      width: 48px;
+      height: 48px;
+      object-fit: contain;
+      margin-bottom: 6px;
+      filter: drop-shadow(0 2px 4px black);
+    }
+    .seg-name { font-size: 0.7rem; letter-spacing: 1px; color: #c0e0c0; }
+    .seg-score { font-family: 'Bebas Neue', font-size: 1.8rem; color: #b5f028; }
+
+    /* TABS */
+    .tab-bar {
+      display: flex;
+      gap: 4px;
+      padding: 0 2rem;
+      border-bottom: 1px solid #3e6b48;
+    }
+    .tab {
+      padding: 10px 24px;
+      font-family: 'Barlow Condensed', font-weight: 700;
+      cursor: pointer;
+      color: #c0e0c0;
+    }
+    .tab.active { color: #b5f028; border-bottom: 2px solid #b5f028; }
+
+    /* MATCH CARDS */
+    .matches-grid {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      padding: 1rem 2rem;
+    }
+    .match-card {
+      background: rgba(10, 30, 18, 0.8);
+      backdrop-filter: blur(8px);
+      border-radius: 20px;
+      display: grid;
+      grid-template-columns: 1fr auto 1fr auto;
+      align-items: center;
+      gap: 1rem;
+      padding: 1rem 1.5rem;
+      border: 1px solid #4a7c58;
+    }
+    .score-input {
+      width: 60px;
+      height: 48px;
+      background: #0a2a12;
+      border-radius: 16px;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #b5f028;
+      border: 1px solid #6e9f7a;
+    }
+    .btn-submit {
+      background: linear-gradient(95deg, #b5f028, #9fda1a);
+      border: none;
+      font-family: 'Bebas Neue';
+      padding: 12px 28px;
+      border-radius: 60px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    /* champion rows */
+    .league-winner-row {
+      display: grid;
+      grid-template-columns: 60px 1fr 150px 110px;
+      gap: 12px;
+      background: rgba(0, 0, 0, 0.5);
+      border-radius: 20px;
+      padding: 0.8rem;
+      margin-bottom: 8px;
+      align-items: center;
+    }
+    .lock-btn { background: none; border: 1px solid #8aa; border-radius: 40px; padding: 6px 12px; cursor: pointer; }
+    .lock-btn.locked { background: #b5f028; color: black; border-color: #b5f028; }
+    .card-log { background: #0e2a18cc; border-radius: 24px; padding: 1rem; margin-top: 1rem; }
+    @media (max-width: 750px) {
+      .match-card { grid-template-columns: 1fr; gap: 0.5rem; }
+      .league-winner-row { grid-template-columns: 40px 1fr 100px 80px; }
+    }
   </style>
 </head>
 <body>
-
+<div class="pitch-overlay">
 <nav>
-  <div><div class="logo-text"><i class="fas fa-futbol"></i> The Gaffer's Pick</div><div class="logo-sub">CARDS · PENALTIES · GLORY</div></div>
+  <div><div class="logo-text"><i class="fas fa-futbol"></i> The Gaffer's Pick</div><div>PITCH · CARDS · 38 GW</div></div>
   <div style="display:flex; gap:1rem; align-items:center">
-    <div class="card-stack"><i class="fas fa-square" style="color:var(--yellow-card)"></i> <span id="yellowCount">0</span> &nbsp;|&nbsp; <i class="fas fa-square" style="color:var(--red-card)"></i> <span id="redCount">0</span></div>
-    <div class="gw-badge" id="globalGWbadge">GW 32</div>
-    <button class="btn-login" onclick="openModal()" style="background:transparent; border:1px solid var(--lime); padding:6px 20px; border-radius:40px; color:var(--lime)">Sign In</button>
+    <div class="card-stack"><i class="fas fa-square" style="color:#f5d742"></i> <span id="yellowCount">0</span> | <i class="fas fa-square" style="color:#e34d4d"></i> <span id="redCount">0</span></div>
+    <div class="gw-badge" id="globalGWbadge">GW 1</div>
+    <button class="btn-login" onclick="openModal()">Sign In</button>
   </div>
 </nav>
 
-<div class="hero" style="text-align:center; padding:1rem"><h1 style="font-family:'Bebas Neue'">PREDICT <span style="color:var(--lime)">· RISK ·</span> CARDS</h1></div>
+<!-- SCROLLABLE GAMEWEEK TIMELINE 1-38 -->
+<div class="gw-strip" id="gwStrip">
+  <div class="gw-container" id="gwContainer"></div>
+</div>
+
 <div class="score-bar" id="scoreBar"></div>
+
 <div class="tab-bar">
   <div class="tab active" data-tab="predict">⚡ Predictions</div>
   <div class="tab" data-tab="chips">🏆 Champions & Locks</div>
@@ -68,118 +246,123 @@
 <div id="panel-leaderboard" class="panel" style="display:none"></div>
 
 <div class="modal-overlay" id="modalOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.8); backdrop-filter:blur(6px); align-items:center; justify-content:center; z-index:200;">
-  <div style="background:#10261c; padding:2rem; border-radius:32px; width:90%; max-width:400px; border:1px solid var(--lime);"><h2>The Dugout</h2><input type="text" id="demoUser" placeholder="Username" style="width:100%; margin:1rem 0; padding:12px; background:#0a1812; border:1px solid var(--card-border); color:white; border-radius:40px;"><button onclick="fakeLogin()" class="btn-submit" style="width:100%">Enter</button><button onclick="closeModal()" style="margin-top:1rem; background:none; border:none; color:#8a9a8c;">Close</button></div>
+  <div style="background:#0f2a1a; padding:2rem; border-radius:32px; width:90%; max-width:400px; border:1px solid #b5f028;"><h2>Welcome Gaffer</h2><input type="text" id="demoUser" placeholder="Username" style="width:100%; margin:1rem 0; padding:12px; background:#0a1812; border:1px solid #3e6b48; color:white; border-radius:40px;"><button onclick="fakeLogin()" class="btn-submit" style="width:100%">Enter Pitch</button><button onclick="closeModal()" style="margin-top:1rem; background:none; border:none; color:#8aa;">Close</button></div>
+</div>
 </div>
 
 <script>
-  // ---------- DATA ----------
-  const leaguesData = {
-    epl: { name: "Premier League", trophyImg: "https://cdn-icons-png.flaticon.com/512/264/264409.png", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Tottenham"] },
-    liga: { name: "La Liga", trophyImg: "https://cdn-icons-png.flaticon.com/512/207/207395.png", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"] },
-    serie: { name: "Serie A", trophyImg: "https://cdn-icons-png.flaticon.com/512/207/207394.png", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"] },
-    bundes: { name: "Bundesliga", trophyImg: "https://cdn-icons-png.flaticon.com/512/264/264443.png", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"] },
-    ligue: { name: "Ligue 1", trophyImg: "https://cdn-icons-png.flaticon.com/512/264/264442.png", fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"] }
-  };
-  let currentLeague = "epl";
-  let currentGW = 32;
-  let leagueScores = { epl: 60, liga: 0, serie: 0, bundes: 0, ligue: 0 };
-  let championPicks = { epl: "", liga: "", serie: "", bundes: "", ligue: "" };
-  let lockState = {}; // { epl: { locked, lockGW } }
-  let penaltyPoints = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0 };
-  let matchesDB = {
-    epl: [{ home:"Arsenal", away:"Man City", hPred:"", aPred:"" },{ home:"Liverpool", away:"Chelsea", hPred:"", aPred:"" },{ home:"Man Utd", away:"Tottenham", hPred:"", aPred:"" },{ home:"Newcastle", away:"Aston Villa", hPred:"", aPred:"" },{ home:"Brighton", away:"West Ham", hPred:"", aPred:"" }],
-    liga: [{ home:"Real Madrid", away:"Barcelona", hPred:"", aPred:"" },{ home:"Atletico", away:"Sevilla", hPred:"", aPred:"" },{ home:"Athletic", away:"Villarreal", hPred:"", aPred:"" },{ home:"Real Betis", away:"Real Soc.", hPred:"", aPred:"" },{ home:"Valencia", away:"Osasuna", hPred:"", aPred:"" }],
-    serie: [{ home:"Inter Milan", away:"Juventus", hPred:"", aPred:"" },{ home:"AC Milan", away:"Napoli", hPred:"", aPred:"" },{ home:"Lazio", away:"Roma", hPred:"", aPred:"" },{ home:"Atalanta", away:"Fiorentina", hPred:"", aPred:"" },{ home:"Torino", away:"Bologna", hPred:"", aPred:"" }],
-    bundes: [{ home:"Bayern", away:"Dortmund", hPred:"", aPred:"" },{ home:"Leverkusen", away:"Leipzig", hPred:"", aPred:"" },{ home:"Stuttgart", away:"Gladbach", hPred:"", aPred:"" },{ home:"Frankfurt", away:"Freiburg", hPred:"", aPred:"" },{ home:"Wolfsburg", away:"Hoffenheim", hPred:"", aPred:"" }],
-    ligue: [{ home:"PSG", away:"Monaco", hPred:"", aPred:"" },{ home:"Marseille", away:"Lyon", hPred:"", aPred:"" },{ home:"Lens", away:"Rennes", hPred:"", aPred:"" },{ home:"Lille", away:"Nice", hPred:"", aPred:"" },{ home:"Nantes", away:"Strasbourg", hPred:"", aPred:"" }]
+  // ---------- OFFICIAL LEAGUE BADGES (high-res placeholders with official look) ----------
+  const leagueBadges = {
+    epl: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/120px-Premier_League_Logo.svg.png",
+    liga: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/LaLiga_logo.svg/120px-LaLiga_logo.svg.png",
+    serie: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Serie_A_logo_2022.svg/120px-Serie_A_logo_2022.svg.png",
+    bundes: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Bundesliga_logo.svg/120px-Bundesliga_logo.svg.png",
+    ligue: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ligue_1_Uber_Eats_logo.svg/120px-Ligue_1_Uber_Eats_logo.svg.png"
   };
 
+  const leaguesData = {
+    epl: { name: "Premier League", badge: leagueBadges.epl, fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Tottenham"] },
+    liga: { name: "La Liga", badge: leagueBadges.liga, fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"] },
+    serie: { name: "Serie A", badge: leagueBadges.serie, fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"] },
+    bundes: { name: "Bundesliga", badge: leagueBadges.bundes, fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"] },
+    ligue: { name: "Ligue 1", badge: leagueBadges.ligue, fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"] }
+  };
+
+  let currentLeague = "epl";
+  let currentGW = 1;       // 1..38
+  let leagueScores = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0 };
+  let championPicks = { epl: "", liga: "", serie: "", bundes: "", ligue: "" };
+  let lockState = {};       // each: { locked, lockGW }
+  let penaltyPoints = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0 };
+  
+  // matches per league – store predictions per gameweek (dynamic)
+  let matchesDB = {};  // will init for all GWs
+  function initMatchesDB() {
+    const baseMatches = {
+      epl: [{ home:"Arsenal", away:"Man City" },{ home:"Liverpool", away:"Chelsea" },{ home:"Man Utd", away:"Tottenham" },{ home:"Newcastle", away:"Aston Villa" },{ home:"Brighton", away:"West Ham" }],
+      liga: [{ home:"Real Madrid", away:"Barcelona" },{ home:"Atletico", away:"Sevilla" },{ home:"Athletic", away:"Villarreal" },{ home:"Real Betis", away:"Real Soc." },{ home:"Valencia", away:"Osasuna" }],
+      serie: [{ home:"Inter Milan", away:"Juventus" },{ home:"AC Milan", away:"Napoli" },{ home:"Lazio", away:"Roma" },{ home:"Atalanta", away:"Fiorentina" },{ home:"Torino", away:"Bologna" }],
+      bundes: [{ home:"Bayern", away:"Dortmund" },{ home:"Leverkusen", away:"Leipzig" },{ home:"Stuttgart", away:"Gladbach" },{ home:"Frankfurt", away:"Freiburg" },{ home:"Wolfsburg", away:"Hoffenheim" }],
+      ligue: [{ home:"PSG", away:"Monaco" },{ home:"Marseille", away:"Lyon" },{ home:"Lens", away:"Rennes" },{ home:"Lille", away:"Nice" },{ home:"Nantes", away:"Strasbourg" }]
+    };
+    for(let league of Object.keys(leaguesData)) {
+      matchesDB[league] = {};
+      for(let gw = 1; gw <= 38; gw++) {
+        matchesDB[league][gw] = baseMatches[league].map(m => ({ ...m, hPred: "", aPred: "" }));
+      }
+    }
+  }
+  initMatchesDB();
+
   // ----- CARDS SYSTEM -----
-  let userCards = { yellows: 0, reds: 0, cardHistory: [] }; // history: { gw, reason, type }
+  let userCards = { yellows: 0, reds: 0, cardHistory: [] };
+  let isSuspended = false;
   let lastYellowGW = 0;
-  let isSuspended = false; // if red card, skip next GW predictions
 
   function giveYellowCard(reason) {
     if(isSuspended) return;
     userCards.yellows++;
-    userCards.cardHistory.push({ gw: currentGW, reason, type: "yellow", timestamp: Date.now() });
+    userCards.cardHistory.push({ gw: currentGW, reason, type: "yellow" });
     showToast(`🟡 YELLOW CARD! ${reason}`, "#f5d742");
     updateCardUI();
-    // two yellows in same GW? actually check within 3 GWs
     const recentYellows = userCards.cardHistory.filter(c => c.type === "yellow" && (currentGW - c.gw) <= 3).length;
     if(recentYellows >= 2 && userCards.reds === 0) {
       giveRedCard("Two yellow cards in 3 gameweeks");
     }
   }
-
   function giveRedCard(reason) {
     if(userCards.reds > 0) return;
     userCards.reds++;
     userCards.cardHistory.push({ gw: currentGW, reason, type: "red" });
-    leagueScores = Object.fromEntries(Object.keys(leagueScores).map(k => [k, Math.max(0, leagueScores[k] - 20)]));
+    // -20 points across all leagues? deduct total from overall? simpler: deduct from each league proportionally? but for demo: subtract 20 from total score representation
+    let totalDeduction = 20;
+    let keys = Object.keys(leagueScores);
+    for(let k of keys) leagueScores[k] = Math.max(0, leagueScores[k] - (totalDeduction/keys.length));
     updateScoreDisplay();
     isSuspended = true;
-    showToast(`🔴 RED CARD! -20 points. Suspended next GW! ${reason}`, "#e34d4d");
+    showToast(`🔴 RED CARD! -20 points total. Suspended next GW! ${reason}`, "#e34d4d");
     updateCardUI();
-    // reset yellows after red
     userCards.yellows = 0;
   }
-
-  function clearSuspensionAfterGW() {
-    if(isSuspended) {
-      isSuspended = false;
-      showToast("✅ Suspension over. You can predict again.", "#b5f028");
-    }
-  }
-
   function updateCardUI() {
     document.getElementById("yellowCount").innerText = userCards.yellows;
     document.getElementById("redCount").innerText = userCards.reds;
   }
-
+  function clearSuspensionAfterGW() {
+    if(isSuspended) { isSuspended = false; showToast("✅ Suspension lifted. You can predict again.", "#b5f028"); }
+  }
   function checkRiskyPrediction(homeScore, awayScore) {
     const margin = Math.abs(parseInt(homeScore || 0) - parseInt(awayScore || 0));
-    if(margin >= 4) {
-      giveYellowCard(`Risky scoreline (${homeScore}-${awayScore}) margin ${margin}`);
-    }
+    if(margin >= 4) giveYellowCard(`Risky margin ${homeScore}-${awayScore}`);
   }
 
-  // override updateMatchPred to check for margin risk
-  const originalUpdateMatchPred = (league, idx, type, val) => {
-    if(type === 'home') matchesDB[league][idx].hPred = val;
-    else matchesDB[league][idx].aPred = val;
-    const match = matchesDB[league][idx];
+  // helpers
+  function showToast(msg, color="#b5f028") {
+    let t = document.createElement("div");
+    t.innerText = msg;
+    t.style.position = "fixed"; t.style.bottom = "20px"; t.style.left = "50%"; t.style.transform = "translateX(-50%)";
+    t.style.background = color; t.style.color = "#0a2a12"; t.style.padding = "10px 20px"; t.style.borderRadius = "60px";
+    t.style.zIndex = "999"; t.style.fontWeight = "bold"; t.style.backdropFilter = "blur(4px)";
+    document.body.appendChild(t); setTimeout(()=>t.remove(), 2500);
+  }
+
+  function updateMatchPred(league, idx, type, val) {
+    if(isSuspended) { showToast("Suspended! Cannot change predictions this GW."); return; }
+    if(type === 'home') matchesDB[league][currentGW][idx].hPred = val;
+    else matchesDB[league][currentGW][idx].aPred = val;
+    const match = matchesDB[league][currentGW][idx];
     if(match.hPred && match.aPred && match.hPred !== "" && match.aPred !== "") {
       checkRiskyPrediction(match.hPred, match.aPred);
     }
-  };
-  window.updateMatchPred = originalUpdateMatchPred;
-
-  // lock/unlock with additional yellow card chance
-  function toggleLockWithCard(leagueId) {
-    const lock = lockState[leagueId];
-    if(!lock.locked) {
-      if(!championPicks[leagueId]) { showToast(`Pick a champion first!`, "#ff9966"); return; }
-      lock.locked = true;
-      lock.lockGW = currentGW;
-      showToast(`🔒 ${leaguesData[leagueId].name} champion LOCKED.`, "#b5f028");
-    } else {
-      // unlocking -> penalty + possible yellow card
-      const weeksPassed = currentGW - (lock.lockGW || currentGW);
-      const penalty = weeksPassed * 2;
-      if(penalty > 0) {
-        penaltyPoints[leagueId] += penalty;
-        leagueScores[leagueId] = Math.max(0, leagueScores[leagueId] - penalty);
-        updateScoreDisplay();
-        giveYellowCard(`Unlocked champion after ${weeksPassed} GWs (penalty applied)`);
-      }
-      lock.locked = false;
-      lock.lockGW = null;
-    }
-    renderChipsPanel();
   }
 
-  // ----- RENDER FUNCTIONS -----
+  function submitPredictions() {
+    if(isSuspended) { showToast("You are suspended this GW! No predictions allowed."); return; }
+    showToast(`✅ Predictions for GW${currentGW} submitted! Points will be calculated after real matches.`);
+    clearSuspensionAfterGW();
+  }
+
+  // ----- RENDER UI -----
   function renderScoreBar() {
     const bar = document.getElementById("scoreBar");
     bar.innerHTML = "";
@@ -187,51 +370,111 @@
       const seg = document.createElement("div");
       seg.className = `score-seg ${currentLeague === key ? 'active' : ''}`;
       seg.onclick = () => { currentLeague = key; renderScoreBar(); renderPredictionsPanel(); };
-      seg.innerHTML = `<img src="${league.trophyImg}" class="seg-trophy-img" onerror="this.src='https://via.placeholder.com/40'"><div class="seg-name">${league.name}</div><div class="seg-score" id="score-${key}">${leagueScores[key]}</div><div>/100</div>`;
+      seg.innerHTML = `<img src="${league.badge}" class="league-badge" onerror="this.src='https://via.placeholder.com/48?text=${league.name[0]}'"><div class="seg-name">${league.name}</div><div class="seg-score" id="score-${key}">${Math.round(leagueScores[key])}</div><div style="font-size:0.7rem">/100</div>`;
       bar.appendChild(seg);
     }
   }
-  function updateScoreDisplay() { for(let l of Object.keys(leagueScores)) { let el = document.getElementById(`score-${l}`); if(el) el.innerText = leagueScores[l]; } }
+  function updateScoreDisplay() {
+    for(let l of Object.keys(leagueScores)) {
+      let el = document.getElementById(`score-${l}`);
+      if(el) el.innerText = Math.round(leagueScores[l]);
+    }
+  }
+
   function renderPredictionsPanel() {
-    if(isSuspended) { document.getElementById("panel-predict").innerHTML = `<div style="padding:2rem; text-align:center; background:#1a2a1f; border-radius:28px;"><i class="fas fa-ban" style="font-size:3rem; color:red"></i><h2>🔴 SUSPENDED THIS GAMEWEEK</h2><p>You received a red card. You cannot predict for GW ${currentGW}. Next GW you'll be back.</p></div>`; return; }
-    const matches = matchesDB[currentLeague];
+    if(isSuspended) {
+      document.getElementById("panel-predict").innerHTML = `<div style="padding:2rem; text-align:center; background:#1f3a2a; border-radius:28px; margin:1rem"><i class="fas fa-ban" style="font-size:3rem; color:#e34d4d"></i><h2>🔴 SUSPENDED FOR GW ${currentGW}</h2><p>You received a red card. You'll be back next gameweek.</p></div>`;
+      return;
+    }
+    const matches = matchesDB[currentLeague][currentGW];
+    if(!matches) return;
     let html = `<div class="matches-grid">`;
     matches.forEach((m, idx) => {
-      html += `<div class="match-card"><div class="team">${m.home}</div><div>VS</div><div class="team away">${m.away}</div><div><input class="score-input" type="number" id="h_${idx}" value="${m.hPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)"> : <input class="score-input" type="number" id="a_${idx}" value="${m.aPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)"></div></div>`;
+      html += `<div class="match-card"><div class="team"><i class="fas fa-shield-alt"></i> ${m.home}</div><div class="vs">VS</div><div class="team away">${m.away} <i class="fas fa-futbol"></i></div><div><input class="score-input" type="number" id="h_${idx}" value="${m.hPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)"> : <input class="score-input" type="number" id="a_${idx}" value="${m.aPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)"></div></div>`;
     });
-    html += `<div class="submit-row"><button class="btn-submit" onclick="submitPredictions()">Submit Predictions (GW${currentGW})</button></div></div>`;
+    html += `<div class="submit-row" style="display:flex; justify-content:flex-end; padding:1rem"><button class="btn-submit" onclick="submitPredictions()">📋 LOCK PREDICTIONS (GW${currentGW})</button></div></div>`;
     document.getElementById("panel-predict").innerHTML = html;
   }
-  function submitPredictions() { if(isSuspended) { showToast("You are suspended! Cannot submit predictions this GW.","red"); return; } showToast("Predictions submitted! Points will be calculated after matches."); clearSuspensionAfterGW(); }
+
+  // Champion & Lock panel
   function renderChipsPanel() {
     let rows = "";
     for(let [key, league] of Object.entries(leaguesData)) {
       const lock = lockState[key] || { locked: false, lockGW: null };
-      rows += `<div class="league-winner-row"><img src="${league.trophyImg}" width="36"><div><div>${league.fullName}</div><div>${championPicks[key] || "Not picked"}</div>${penaltyPoints[key] ? `<small style="color:#ffaa66">-${penaltyPoints[key]} pts</small>` : ""}</div><select id="champSelect-${key}" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${key}', this.value)"><option value="">— Pick —</option>${league.teams.map(t => `<option ${championPicks[key]===t ? 'selected' : ''}>${t}</option>`).join('')}</select><button class="lock-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLockWithCard('${key}')">${lock.locked ? '🔒 Locked' : '🔓 Unlock'}</button></div>`;
+      rows += `<div class="league-winner-row"><img src="${league.badge}" width="40" style="object-fit:contain"><div><div><strong>${league.fullName}</strong></div><div id="champLabel-${key}">${championPicks[key] || "❌ No pick"}</div>${penaltyPoints[key] ? `<small style="color:#ffaa66">-${penaltyPoints[key]} pts</small>` : ""}</div><select id="champSelect-${key}" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${key}', this.value)"><option value="">— Select Champion —</option>${league.teams.map(t => `<option ${championPicks[key]===t ? 'selected' : ''}>${t}</option>`).join('')}</select><button class="lock-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLockWithCard('${key}')">${lock.locked ? '🔒 Locked' : '🔓 Unlock'}</button></div>`;
     }
-    rows += `<div style="margin-top:1rem"><label>Gameweek: <input type="number" id="simGW" value="${currentGW}" onchange="updateGlobalGW(this.value)" style="background:#0a1a10; border:1px solid var(--lime); border-radius:30px; padding:5px;"></label><button class="btn-submit" style="margin-left:1rem" onclick="saveChampionSelections()">Save Champions</button></div>`;
+    rows += `<div style="margin-top:1.5rem; background:#0f2a1a; border-radius:20px; padding:1rem;"><h3>⚙️ Gameweek Navigator</h3><p>Current GW: ${currentGW}. Use the timeline above to jump any week. Unlocking champions after many GWs gives heavy penalty + yellow card.</p><button class="btn-submit" onclick="saveChampionSelections()">💾 Save Champion Picks</button></div>`;
     document.getElementById("panel-chips").innerHTML = rows;
   }
-  function renderCardsPanel() {
-    let historyHtml = `<div class="card-log"><h3><i class="fas fa-id-card"></i> Your Discipline Record</h3>`;
-    if(userCards.cardHistory.length === 0) historyHtml += `<p>Clean record. No cards yet.</p>`;
-    else {
-      userCards.cardHistory.slice().reverse().forEach(c => {
-        historyHtml += `<div class="card-entry"><i class="fas ${c.type === 'yellow' ? 'fa-square' : 'fa-circle'}" style="color:${c.type === 'yellow' ? '#f5d742' : '#e34d4d'}"></i> <strong>GW ${c.gw}</strong> — ${c.reason} (${c.type.toUpperCase()})</div>`;
-      });
+
+  function updateChampionPick(leagueId, val) {
+    if(lockState[leagueId]?.locked) { showToast("Champion is locked! Unlock first."); return; }
+    championPicks[leagueId] = val;
+    document.getElementById(`champLabel-${leagueId}`).innerText = val || "❌ No pick";
+  }
+  function toggleLockWithCard(leagueId) {
+    const lock = lockState[leagueId];
+    if(!lock.locked) {
+      if(!championPicks[leagueId]) { showToast("Pick a champion before locking!"); return; }
+      lock.locked = true;
+      lock.lockGW = currentGW;
+      showToast(`🔒 ${leaguesData[leagueId].fullName} champion LOCKED at GW${currentGW}.`, "#b5f028");
+    } else {
+      const weeksPassed = currentGW - (lock.lockGW || currentGW);
+      const penalty = weeksPassed * 2;
+      if(penalty > 0) {
+        penaltyPoints[leagueId] += penalty;
+        leagueScores[leagueId] = Math.max(0, leagueScores[leagueId] - penalty);
+        updateScoreDisplay();
+        giveYellowCard(`Unlocked champion after ${weeksPassed} GWs (penalty -${penalty} pts)`);
+      }
+      lock.locked = false;
+      lock.lockGW = null;
     }
-    historyHtml += `<div style="margin-top:1rem"><p>⚠️ <strong>Card Rules:</strong><br>🟡 Yellow: 4+ goal margin prediction OR unlocking a champion.<br>🔴 Red: Two yellows in 3 GWs → -20 pts & next GW suspension.</p></div></div>`;
+    renderChipsPanel();
+  }
+  function saveChampionSelections() { showToast("🏆 Champion picks saved! Season-end points will be calculated."); }
+
+  function renderCardsPanel() {
+    let historyHtml = `<div class="card-log"><h3><i class="fas fa-id-card"></i> Disciplinary Record</h3>`;
+    if(userCards.cardHistory.length === 0) historyHtml += `<p>✨ Clean sheet — no cards this season.</p>`;
+    else userCards.cardHistory.slice().reverse().forEach(c => {
+      historyHtml += `<div class="card-entry"><i class="fas ${c.type === 'yellow' ? 'fa-square' : 'fa-circle'}" style="color:${c.type === 'yellow' ? '#f5d742' : '#e34d4d'}"></i> <strong>GW ${c.gw}</strong> — ${c.reason} (${c.type.toUpperCase()})</div>`;
+    });
+    historyHtml += `<div style="margin-top:1rem"><p><i class="fas fa-info-circle"></i> <strong>Card Rules:</strong><br>🟡 Yellow: predicting 4+ goal margin OR unlocking a champion.<br>🔴 Red: 2 yellows in 3 GWs → -20 pts & next GW suspension.</p></div></div>`;
     document.getElementById("panel-cards").innerHTML = historyHtml;
   }
-  function renderLeaderboard() { document.getElementById("panel-leaderboard").innerHTML = `<div style="padding:2rem"><h2>🏆 Standings</h2><div>1. GafferOne - 4120 pts</div><div>2. TacticalKing - 3980</div><div>3. You - ${Object.values(leagueScores).reduce((a,b)=>a+b,0)} pts</div><div><small>Red cards cause -20 penalty.</small></div></div>`; }
-  function updateGlobalGW(newGW) { currentGW = parseInt(newGW); document.getElementById("globalGWbadge").innerHTML = `GW ${currentGW}`; showToast(`Gameweek set to ${currentGW}. Cards logic uses this.`); renderChipsPanel(); if(!isSuspended) renderPredictionsPanel(); else renderPredictionsPanel(); }
-  window.updateChampionPick = (leagueId, val) => { if(lockState[leagueId]?.locked) { showToast("Locked! Unlock first."); return; } championPicks[leagueId] = val; renderChipsPanel(); };
-  window.toggleLockWithCard = toggleLockWithCard;
-  function saveChampionSelections() { showToast("Champion picks saved! Points will apply at season end."); }
-  function showToast(msg, color="#b5f028") { let t = document.createElement("div"); t.innerText = msg; t.style.position="fixed"; t.style.bottom="20px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background=color; t.style.color="#0a1a10"; t.style.padding="10px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
-  function openModal() { document.getElementById("modalOverlay").style.display = "flex"; }
-  function closeModal() { document.getElementById("modalOverlay").style.display = "none"; }
-  function fakeLogin() { closeModal(); showToast("Welcome! Start predicting – but watch your discipline."); }
+  function renderLeaderboard() {
+    let totalPoints = Object.values(leagueScores).reduce((a,b)=>a+b,0);
+    document.getElementById("panel-leaderboard").innerHTML = `<div style="padding:2rem; background:rgba(0,0,0,0.5); border-radius:24px;"><h2>🏆 GLOBAL LEADERBOARD (Pitch Edition)</h2><div>1. ⚡ GoalMachine - 4,280</div><div>2. 🛡️ TacticalLord - 4,010</div><div>3. 🎯 YOU (The Gaffer) - ${totalPoints} pts</div><div><small>Penalties from cards & unlocking affect total.</small></div></div>`;
+  }
+
+  // Gameweek strip 1-38
+  function buildGWStrip() {
+    const container = document.getElementById("gwContainer");
+    container.innerHTML = "";
+    for(let i=1; i<=38; i++) {
+      const btn = document.createElement("button");
+      btn.innerText = `GW ${i}`;
+      btn.classList.add("gw-btn");
+      if(i === currentGW) btn.classList.add("active-gw");
+      btn.onclick = () => {
+        currentGW = i;
+        document.getElementById("globalGWbadge").innerHTML = `GW ${currentGW}`;
+        document.querySelectorAll(".gw-btn").forEach(b => b.classList.remove("active-gw"));
+        btn.classList.add("active-gw");
+        // reload all panels
+        renderScoreBar();
+        renderPredictionsPanel();
+        renderChipsPanel();
+        renderCardsPanel();
+        renderLeaderboard();
+        showToast(`Switched to Gameweek ${currentGW}`, "#b5f028");
+      };
+      container.appendChild(btn);
+    }
+  }
+
   function switchTab(tabId) {
     document.querySelectorAll(".panel").forEach(p => p.style.display = "none");
     document.getElementById(`panel-${tabId}`).style.display = "block";
@@ -240,18 +483,39 @@
     if(tabId === 'cards') renderCardsPanel();
     if(tabId === 'leaderboard') renderLeaderboard();
   }
-  function init() {
+
+  // init locks
+  function initLocks() {
     for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l] = { locked: false, lockGW: null };
-    renderScoreBar();
-    renderPredictionsPanel();
-    renderChipsPanel();
-    renderCardsPanel();
-    renderLeaderboard();
-    document.querySelectorAll(".tab").forEach(tab => tab.addEventListener("click", (e) => { document.querySelectorAll(".tab").forEach(t => t.classList.remove("active")); tab.classList.add("active"); switchTab(tab.getAttribute("data-tab")); }));
-    switchTab("predict");
-    updateCardUI();
   }
-  init();
+  function fakeLogin() { closeModal(); showToast("Welcome to the pitch! Use timeline (GW 1-38) & lock champions."); }
+  function openModal() { document.getElementById("modalOverlay").style.display = "flex"; }
+  function closeModal() { document.getElementById("modalOverlay").style.display = "none"; }
+
+  // attach global functions
+  window.updateMatchPred = updateMatchPred;
+  window.updateChampionPick = updateChampionPick;
+  window.toggleLockWithCard = toggleLockWithCard;
+
+  // initial render
+  initLocks();
+  buildGWStrip();
+  renderScoreBar();
+  renderPredictionsPanel();
+  renderChipsPanel();
+  renderCardsPanel();
+  renderLeaderboard();
+  updateCardUI();
+
+  // tab listeners
+  document.querySelectorAll(".tab").forEach(tab => {
+    tab.addEventListener("click", () => {
+      document.querySelectorAll(".tab").forEach(t => t.classList.remove("active"));
+      tab.classList.add("active");
+      switchTab(tab.getAttribute("data-tab"));
+    });
+  });
+  switchTab("predict");
 </script>
 </body>
 </html>
