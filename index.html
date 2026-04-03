@@ -1,9 +1,10 @@
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Pitch Perfect · Narrow Predictions · Ball Icon</title>
+  <title>The Gaffer's Pick | Vertical Pitches · Dynamic Accuracy</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -17,10 +18,9 @@
     body {
       background: #121212;
       font-family: 'Barlow', sans-serif;
-      min-height: 100vh;
       color: #f0f0f0;
     }
-    /* loader with soccer ball */
+    /* loader */
     .loader {
       position: fixed;
       top: 0;
@@ -39,20 +39,11 @@
       color: #b5f028;
       animation: spin 1s linear infinite;
     }
-    @keyframes spin {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
-    }
-    .loader.hide {
-      opacity: 0;
-      pointer-events: none;
-    }
-    .app-wrapper {
-      position: relative;
-      z-index: 2;
-      min-height: 100vh;
-    }
-    /* glass nav */
+    @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
+    .loader.hide { opacity: 0; pointer-events: none; }
+    .app-wrapper { position: relative; z-index: 2; min-height: 100vh; }
+
+    /* NAV */
     .glass-nav {
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
@@ -74,107 +65,78 @@
       background-clip: text;
       color: transparent;
     }
-    .season-badge {
-      background: #1f3a24;
-      padding: 4px 12px;
-      border-radius: 40px;
-      font-size: 0.7rem;
-      color: #b5f028;
-    }
-    .card-stack {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 5px 16px;
-      border-radius: 40px;
-      display: flex;
-      gap: 12px;
-      font-weight: bold;
-    }
-    .gw-badge {
-      background: #b5f028;
-      color: #0a2a12;
-      padding: 5px 18px;
-      border-radius: 40px;
-      font-weight: bold;
-    }
-    .btn-outline-lime {
-      background: transparent;
-      border: 1.5px solid #b5f028;
-      color: #b5f028;
-      border-radius: 40px;
-      padding: 6px 24px;
-      cursor: pointer;
-    }
-    ::-webkit-scrollbar { width: 6px; height: 6px; }
-    ::-webkit-scrollbar-track { background: #2a2a2a; border-radius: 10px; }
-    ::-webkit-scrollbar-thumb { background: #b5f028; border-radius: 10px; }
-    /* GW strip with ball icons */
-    .gw-strip {
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(8px);
-      padding: 12px 0;
-      overflow-x: auto;
-      border-bottom: 1px solid #b5f028;
-    }
-    .gw-container {
-      display: inline-flex;
-      gap: 8px;
-      padding: 0 1rem;
-    }
-    .gw-btn {
-      background: #2a2a2a;
-      border: 1px solid #5a9e6a;
-      color: #eee;
-      font-family: 'Barlow Condensed';
-      font-weight: bold;
-      padding: 6px 18px;
-      border-radius: 40px;
-      cursor: pointer;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
-    }
+    .season-badge { background: #1f3a24; padding: 4px 12px; border-radius: 40px; font-size: 0.7rem; color: #b5f028; }
+    .card-stack { background: rgba(0,0,0,0.7); padding: 5px 16px; border-radius: 40px; display: flex; gap: 12px; font-weight: bold; }
+    .gw-badge { background: #b5f028; color: #0a2a12; padding: 5px 18px; border-radius: 40px; font-weight: bold; }
+    .btn-outline-lime { background: transparent; border: 1.5px solid #b5f028; color: #b5f028; border-radius: 40px; padding: 6px 24px; cursor: pointer; }
+
+    /* GW strip */
+    .gw-strip { background: rgba(0,0,0,0.6); backdrop-filter: blur(8px); padding: 12px 0; overflow-x: auto; border-bottom: 1px solid #b5f028; }
+    .gw-container { display: inline-flex; gap: 8px; padding: 0 1rem; }
+    .gw-btn { background: #2a2a2a; border: 1px solid #5a9e6a; color: #eee; font-family: 'Barlow Condensed'; font-weight: bold; padding: 6px 18px; border-radius: 40px; cursor: pointer; display: inline-flex; align-items: center; gap: 6px; }
     .gw-btn i { font-size: 0.8rem; color: #b5f028; }
     .gw-btn.active-gw { background: #b5f028; color: #0a2a12; }
     .gw-btn.active-gw i { color: #0a2a12; }
-    /* LEAGUE CARDS - full pitch markings */
-    .leagues-scroll {
-      overflow-x: auto;
-      padding: 2rem 1rem;
+
+    /* VERTICAL LEAGUE LIST (each league as a row) */
+    .leagues-vertical {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: 0 auto;
     }
-    .leagues-track {
-      display: inline-flex;
-      gap: 24px;
-      padding: 0 1rem;
+    .league-row {
+      background: rgba(0,0,0,0.3);
+      border-radius: 24px;
+      padding: 1rem;
     }
-    .league-card {
+    .league-header {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+    .league-badge-img {
+      width: 50px;
+      height: 50px;
+      object-fit: contain;
+      filter: drop-shadow(0 2px 4px black);
+    }
+    .league-name { font-family: 'Bebas Neue', font-size: 1.8rem; letter-spacing: 1px; }
+    .league-points { font-size: 1.2rem; font-weight: bold; color: #b5f028; margin-left: auto; }
+
+    /* MINIATURE PITCH CONTAINER (no text inside, pure pitch) */
+    .mini-pitch {
       position: relative;
-      width: 300px;
       background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
       border-radius: 16px;
-      padding: 1.2rem;
+      height: 140px;
+      margin-bottom: 1rem;
       border: 2px solid white;
       box-shadow: 0 0 0 2px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(255,255,255,0.2);
-      transition: all 0.25s ease;
-      cursor: pointer;
       overflow: hidden;
+      cursor: pointer;
+      transition: 0.2s;
     }
-    .league-card .pitch-markings {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-      z-index: 1;
+    .mini-pitch.active-pitch {
+      border: 2px solid #b5f028;
+      box-shadow: 0 0 20px rgba(181,240,40,0.4);
     }
-    .league-card .pitch-markings::before {
+    /* pitch markings */
+    .mini-pitch::before {
       content: '';
       position: absolute;
       top: 50%;
       left: 0;
       right: 0;
       height: 2px;
-      background: rgba(255,255,255,0.5);
+      background: rgba(255,255,255,0.6);
       transform: translateY(-50%);
+      pointer-events: none;
     }
-    .league-card .pitch-markings::after {
+    .mini-pitch::after {
       content: '';
       position: absolute;
       top: 50%;
@@ -184,57 +146,43 @@
       border: 2px solid rgba(255,255,255,0.5);
       border-radius: 50%;
       transform: translate(-50%, -50%);
+      pointer-events: none;
     }
-    .league-card .goal-left, .league-card .goal-right {
+    .goal-left, .goal-right {
       position: absolute;
       top: 50%;
       width: 20px;
       height: 40px;
-      border: 2px solid rgba(255,255,255,0.5);
+      border: 2px solid rgba(255,255,255,0.6);
       transform: translateY(-50%);
+      pointer-events: none;
     }
-    .league-card .goal-left { left: 10px; border-right: none; }
-    .league-card .goal-right { right: 10px; border-left: none; }
-    .league-card.active-league {
-      border: 2px solid #b5f028;
-      box-shadow: 0 0 20px rgba(181,240,40,0.5);
-      transform: scale(1.02);
-    }
-    .accuracy-bg {
+    .goal-left { left: 10px; border-right: none; }
+    .goal-right { right: 10px; border-left: none; }
+    .accuracy-number {
       position: absolute;
       bottom: 5px;
       right: 12px;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 6rem;
+      font-size: 3.5rem;
       font-weight: bold;
-      color: rgba(0, 30, 0, 0.6);
+      color: rgba(0, 30, 0, 0.55);
       text-shadow: 0 0 2px rgba(255,255,255,0.3);
       pointer-events: none;
       z-index: 2;
     }
-    .league-card-content {
-      position: relative;
-      z-index: 3;
-      color: white;
-      text-shadow: 0 1px 2px black;
+
+    /* champion controls below pitch */
+    .champion-controls {
+      display: flex;
+      gap: 12px;
+      align-items: center;
+      flex-wrap: wrap;
     }
-    .league-badge-img {
-      width: 48px;
-      height: 48px;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 4px black);
-      background: rgba(0,0,0,0.3);
-      border-radius: 12px;
-      padding: 4px;
-    }
-    .league-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; }
-    .league-points { font-size: 1.2rem; font-weight: bold; color: #b5f028; }
     .champion-selector {
-      width: 100%;
-      margin: 12px 0;
-      padding: 8px;
-      background: rgba(0, 0, 0, 0.6);
-      backdrop-filter: blur(4px);
+      flex: 2;
+      padding: 8px 12px;
+      background: rgba(0,0,0,0.7);
       border-radius: 40px;
       color: white;
       border: 1px solid #b5f028;
@@ -242,106 +190,78 @@
       font-weight: 600;
     }
     .lock-champ-btn {
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
       border: 1px solid white;
       border-radius: 40px;
-      padding: 6px 12px;
-      font-size: 0.75rem;
+      padding: 6px 16px;
+      font-size: 0.8rem;
       cursor: pointer;
-      width: 100%;
       font-weight: bold;
       color: white;
-      display: flex;
+      display: inline-flex;
       align-items: center;
-      justify-content: center;
       gap: 8px;
-      transition: 0.2s;
     }
     .lock-champ-btn.locked { background: #b5f028; color: black; border-color: #b5f028; }
-    /* AWARDS CARDS */
-    .awards-panel { margin: 1rem; padding: 0.5rem; }
-    .awards-title { font-family: 'Bebas Neue'; font-size: 1.5rem; color: white; margin-bottom: 1rem; }
-    .awards-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
-    .award-card {
-      position: relative;
+    .penalty-text { font-size: 0.7rem; color: #ffaa66; margin-left: auto; }
+
+    /* HORIZONTAL SLIM MATCH PREDICTIONS (each match is a small pitch) */
+    .predictions-section {
+      margin-top: 1rem;
+    }
+    .section-title {
+      font-family: 'Bebas Neue';
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      padding: 0 1rem;
+    }
+    .matches-horizontal {
+      display: flex;
+      overflow-x: auto;
+      gap: 16px;
+      padding: 0.5rem 1rem 1rem;
+      scrollbar-width: thin;
+    }
+    .match-mini-pitch {
+      flex: 0 0 280px;
       background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
+      border-radius: 12px;
+      padding: 0.8rem;
       border: 2px solid white;
-      border-radius: 16px;
-      padding: 1rem;
-      min-width: 200px;
-      text-align: center;
-      overflow: hidden;
+      position: relative;
+      transition: 0.2s;
     }
-    .award-card .pitch-markings {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .award-card .pitch-markings::before {
+    .match-mini-pitch::before {
       content: '';
       position: absolute;
       top: 50%;
       left: 0;
       right: 0;
       height: 1px;
-      background: rgba(255,255,255,0.3);
+      background: rgba(255,255,255,0.4);
+      transform: translateY(-50%);
+      pointer-events: none;
     }
-    .award-card .pitch-markings::after {
-      content: '';
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      width: 30px;
-      height: 30px;
-      border: 1px solid rgba(255,255,255,0.3);
-      border-radius: 50%;
-      transform: translate(-50%, -50%);
-    }
-    .award-card select {
-      background: rgba(0,0,0,0.6);
-      border-radius: 40px;
-      padding: 6px;
-      margin: 8px 0;
-      width: 90%;
-      color: white;
-      border: 1px solid #b5f028;
-    }
-    .lock-award-btn {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid #ffcc44;
-      border-radius: 30px;
-      padding: 4px 12px;
-      cursor: pointer;
-      color: white;
-    }
-    /* NARROW MATCH CARDS */
-    .matches-grid {
+    .match-mini-pitch .teams {
       display: flex;
-      flex-direction: column;
-      gap: 10px;
-      padding: 1rem;
-      max-height: 500px;
-      overflow-y: auto;
-    }
-    .match-card {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(8px);
-      border-radius: 20px;
-      display: flex;
-      align-items: center;
       justify-content: space-between;
-      padding: 0.6rem 1rem;
-      border: 1px solid #b5f028;
-      flex-wrap: wrap;
-      gap: 0.5rem;
+      align-items: center;
+      margin-bottom: 10px;
+      position: relative;
+      z-index: 2;
     }
-    .team-home, .team-away { display: flex; align-items: center; gap: 8px; flex: 2; }
-    .team-away { justify-content: flex-end; }
-    .team-name { font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
-    .score-input {
+    .team-name-sm { font-weight: bold; font-size: 0.9rem; text-shadow: 0 1px 2px black; }
+    .vs-sm { font-size: 0.7rem; color: #b5f028; font-weight: bold; }
+    .score-inputs {
+      display: flex;
+      justify-content: center;
+      gap: 12px;
+      align-items: center;
+    }
+    .score-input-mini {
       width: 50px;
       height: 40px;
-      background: #1a3a1a;
+      background: rgba(0,0,0,0.7);
       border-radius: 12px;
       text-align: center;
       font-size: 1.3rem;
@@ -349,9 +269,13 @@
       border: 1px solid #b5f028;
       font-weight: bold;
     }
-    .score-input:disabled { background: #2a2a2a; color: #aaa; border-color: #555; }
-    .vs-text { font-weight: bold; color: #b5f028; margin: 0 5px; }
-    .actual-result { font-size: 0.7rem; color: #b5f028; background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
+    .score-input-mini:disabled { background: #2a2a2a; color: #aaa; border-color: #555; }
+    .actual-hint {
+      text-align: center;
+      font-size: 0.65rem;
+      margin-top: 6px;
+      color: #b5f028;
+    }
     .btn-submit-lime {
       background: linear-gradient(95deg, #b5f028, #8bcb1f);
       border: none;
@@ -360,9 +284,14 @@
       border-radius: 60px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 0.9rem;
+      margin: 1rem;
     }
-    .tab-bar-modern { display: flex; gap: 12px; padding: 0 2rem; margin: 1rem 0; }
+    .tab-bar-modern {
+      display: flex;
+      gap: 12px;
+      padding: 0 2rem;
+      margin: 1rem 0;
+    }
     .tab-modern {
       padding: 6px 24px;
       font-family: 'Barlow Condensed';
@@ -375,9 +304,8 @@
     .tab-modern.active { background: #b5f028; color: #0a2a12; }
     .card-log { background: rgba(0, 0, 0, 0.7); border: 1px solid #b5f028; border-radius: 28px; padding: 1.5rem; margin: 1rem; }
     @media (max-width: 700px) {
-      .match-card { flex-direction: column; align-items: stretch; }
-      .team-home, .team-away { justify-content: space-between; }
-      .league-card { width: 260px; }
+      .match-mini-pitch { flex: 0 0 240px; }
+      .league-row { padding: 0.8rem; }
     }
   </style>
 </head>
@@ -395,20 +323,29 @@
       <button class="btn-outline-lime" onclick="openModal()"><i class="fas fa-user-astronaut"></i> Sign In</button>
     </div>
   </div>
+
   <div class="gw-strip" id="gwStrip"><div class="gw-container" id="gwContainer"></div></div>
-  <div class="leagues-scroll"><div class="leagues-track" id="leaguesTrack"></div></div>
-  <div class="awards-panel">
-    <div class="awards-title"><i class="fas fa-star-of-life"></i> MAJOR AWARDS</div>
-    <div class="awards-grid" id="awardsGrid"></div>
+
+  <!-- VERTICAL LEAGUE LIST (mini pitches + champion controls below) -->
+  <div class="leagues-vertical" id="leaguesVertical"></div>
+
+  <!-- PREDICTIONS SECTION (horizontal slim pitch cards) -->
+  <div class="predictions-section">
+    <div class="section-title"><i class="fas fa-futbol"></i> Match Predictions · <span id="currentLeagueName">Premier League</span></div>
+    <div id="predictionsContainer" class="matches-horizontal"></div>
+    <div style="display: flex; justify-content: flex-end; padding: 0 1rem 1rem;">
+      <button class="btn-submit-lime" id="submitPredictionsBtn" onclick="submitPredictions()"><i class="fas fa-lock"></i> LOCK GW PREDICTIONS</button>
+    </div>
   </div>
+
   <div class="tab-bar-modern">
-    <div class="tab-modern active" data-tab="predict">⚡ Match Predictions</div>
+    <div class="tab-modern active" data-tab="predict">⚡ Predictions</div>
     <div class="tab-modern" data-tab="cards">🃏 Discipline</div>
     <div class="tab-modern" data-tab="leaderboard">📊 Leaderboard</div>
   </div>
-  <div id="panel-predict" class="panel"></div>
   <div id="panel-cards" class="panel" style="display:none"></div>
   <div id="panel-leaderboard" class="panel" style="display:none"></div>
+
   <div class="modal-overlay" id="modalOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(12px); align-items:center; justify-content:center; z-index:200;">
     <div style="background:#0f2a1a; padding:2rem; border-radius:40px; width:90%; max-width:400px; border:1px solid #b5f028;">
       <h2 style="color:white;">Enter The Dugout</h2>
@@ -418,26 +355,14 @@
     </div>
   </div>
 </div>
-<script>
-  // Hide loader safely
-  (function() {
-    const loader = document.getElementById('loader');
-    function hideLoader() {
-      if (loader) loader.classList.add('hide');
-    }
-    if (document.readyState === 'loading') {
-      document.addEventListener('DOMContentLoaded', hideLoader);
-    } else {
-      hideLoader();
-    }
-    setTimeout(hideLoader, 2000); // fallback
-  })();
 
-  // ------------------------------
-  // DATA & SIMULATION
-  // ------------------------------
+<script>
+  // hide loader
+  (function() { const l=document.getElementById('loader'); function h(){ if(l) l.classList.add('hide'); } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',h); else h(); setTimeout(h,1500); })();
+
+  // TOP 5 TEAMS ONLY
   const leaguesData = {
-    epl: { name: "Premier League", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/120px-Premier_League_Logo.svg.png", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Tottenham"], fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
+    epl: { name: "Premier League", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/120px-Premier_League_Logo.svg.png", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
     liga: { name: "La Liga", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/LaLiga_logo.svg/120px-LaLiga_logo.svg.png", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"], fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Athletic", away:"Villarreal"},{ home:"Real Betis", away:"Real Soc."},{ home:"Valencia", away:"Osasuna"}] },
     serie: { name: "Serie A", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Serie_A_logo_2022.svg/120px-Serie_A_logo_2022.svg.png", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"], fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Lazio", away:"Roma"},{ home:"Atalanta", away:"Fiorentina"},{ home:"Torino", away:"Bologna"}] },
     bundes: { name: "Bundesliga", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Bundesliga_logo.svg/120px-Bundesliga_logo.svg.png", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"], fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"Leipzig"},{ home:"Stuttgart", away:"Gladbach"},{ home:"Frankfurt", away:"Freiburg"},{ home:"Wolfsburg", away:"Hoffenheim"}] },
@@ -445,9 +370,8 @@
     worldcup: { name: "World Cup", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/FIFA_World_Cup_Logo_2026.png/120px-FIFA_World_Cup_Logo_2026.png", fullName: "FIFA World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], fixtures: [{ home:"Brazil", away:"Argentina"},{ home:"France", away:"Spain"},{ home:"Germany", away:"England"},{ home:"Portugal", away:"Netherlands"},{ home:"Belgium", away:"Croatia"}] }
   };
 
-  let actualResults = {};
-  let userPredictions = {};
-
+  // generate actual results and user predictions for all GWs (1-38)
+  let actualResults = {}, userPredictions = {};
   function generateData() {
     for (let league of Object.keys(leaguesData)) {
       actualResults[league] = {};
@@ -515,44 +439,54 @@
   function submitPredictions() {
     if(isSuspended) { showToast("Suspended! Cannot submit."); return; }
     if (currentGW <= 31) { showToast("Past gameweeks are already recorded."); return; }
-    showToast(`✅ GW${currentGW} predictions saved!`, "#b5f028");
+    showToast(`✅ GW${currentGW} predictions saved! Accuracy will update when you advance GW.`, "#b5f028");
+    // In a real app, you would lock submissions here.
   }
 
-  function renderLeagues() {
-    const track = document.getElementById("leaguesTrack");
-    track.innerHTML = "";
-    for(let [key, league] of Object.entries(leaguesData)) {
+  // RENDER VERTICAL LEAGUE ROWS (mini pitch + champion controls below)
+  function renderLeaguesVertical() {
+    const container = document.getElementById("leaguesVertical");
+    container.innerHTML = "";
+    for (let [key, league] of Object.entries(leaguesData)) {
       let lock = lockState[key] || { locked: false, lockGW: null };
       let percent = leagueAccuracy[key] || 0;
-      let card = document.createElement("div");
-      card.className = `league-card ${currentLeague === key ? 'active-league' : ''}`;
-      card.onclick = (e) => { if(e.target.tagName!=='SELECT' && e.target.tagName!=='BUTTON') { currentLeague = key; renderLeagues(); renderPredictions(); } };
-      card.innerHTML = `
-        <div class="pitch-markings"><div class="goal-left"></div><div class="goal-right"></div></div>
-        <div class="accuracy-bg">${percent}%</div>
-        <div class="league-card-content">
-          <div style="display:flex; align-items:center; gap:8px;">
-            <img src="${league.badge}" class="league-badge-img" onerror="this.src='https://via.placeholder.com/48'">
-            <div><div class="league-name">${league.name}</div><div class="league-points">${Math.round(leagueScores[key])} pts</div></div>
-          </div>
+      let row = document.createElement("div");
+      row.className = "league-row";
+      row.innerHTML = `
+        <div class="league-header">
+          <img src="${league.badge}" class="league-badge-img" onerror="this.src='https://via.placeholder.com/50'">
+          <div class="league-name">${league.name}</div>
+          <div class="league-points">${Math.round(leagueScores[key])} pts</div>
+        </div>
+        <div class="mini-pitch ${currentLeague === key ? 'active-pitch' : ''}" data-league="${key}" onclick="selectLeague('${key}')">
+          <div class="goal-left"></div><div class="goal-right"></div>
+          <div class="accuracy-number">${percent}%</div>
+        </div>
+        <div class="champion-controls">
           <select class="champion-selector" id="champSelect-${key}" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${key}', this.value)">
             <option value="">— Pick Champion —</option>
             ${league.teams.map(t => `<option ${championPicks[key]===t ? 'selected' : ''}>${t}</option>`).join('')}
           </select>
-          <button class="lock-champ-btn ${lock.locked ? 'locked' : ''}" onclick="event.stopPropagation(); toggleLeagueLock('${key}')">
+          <button class="lock-champ-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLeagueLock('${key}')">
             <i class="fas ${lock.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${lock.locked ? 'Locked' : 'Unlock'}
           </button>
-          ${penaltyPoints[key] ? `<div class="penalty-text">⚠️ Penalty -${penaltyPoints[key]}</div>` : ''}
+          ${penaltyPoints[key] ? `<div class="penalty-text">⚠️ -${penaltyPoints[key]} pts</div>` : ''}
         </div>
       `;
-      track.appendChild(card);
+      container.appendChild(row);
     }
   }
 
+  window.selectLeague = (leagueId) => {
+    currentLeague = leagueId;
+    renderLeaguesVertical();
+    renderPredictions();
+    document.getElementById("currentLeagueName").innerText = leaguesData[leagueId].name;
+  };
   window.updateChampionPick = (leagueId, val) => {
     if(lockState[leagueId]?.locked) { showToast("Champion locked! Unlock first."); return; }
     championPicks[leagueId] = val;
-    renderLeagues();
+    renderLeaguesVertical();
   };
   function toggleLeagueLock(leagueId) {
     let lock = lockState[leagueId];
@@ -573,49 +507,17 @@
       }
       lock.locked = false; lock.lockGW = null;
     }
-    renderLeagues();
+    renderLeaguesVertical();
   }
 
-  const awardsList = [
-    { id: "ballon", name: "Ballon d'Or", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham"], points: 150, locked: false, lockGW: null, pick: "" },
-    { id: "ucl", name: "UCL Winner", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal"], points: 120, locked: false, lockGW: null, pick: "" },
-    { id: "euro", name: "Euro / WC Winner", options: ["France","Spain","Germany","England","Argentina"], points: 100, locked: false, lockGW: null, pick: "" }
-  ];
-  function renderAwards() {
-    const container = document.getElementById("awardsGrid");
-    container.innerHTML = "";
-    awardsList.forEach(award => {
-      let card = document.createElement("div");
-      card.className = "award-card";
-      card.innerHTML = `
-        <div class="pitch-markings"></div>
-        <h3 style="color:white; font-size:1.1rem;">${award.name}</h3>
-        <select id="award-${award.id}" ${award.locked ? 'disabled' : ''} onchange="updateAwardPick('${award.id}', this.value)">
-          <option value="">— Predict Winner —</option>
-          ${award.options.map(opt => `<option ${award.pick===opt ? 'selected' : ''}>${opt}</option>`).join('')}
-        </select>
-        <div style="font-size:0.7rem; color:#ffd966;">🏆 Bonus: ${award.points} pts | Penalty: -${Math.floor(award.points*0.3)}</div>
-        <button class="lock-award-btn" onclick="toggleAwardLock('${award.id}')"><i class="fas ${award.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${award.locked ? 'Locked' : 'Unlock'}</button>
-      `;
-      container.appendChild(card);
-    });
-  }
-  window.updateAwardPick = (id, val) => { let a = awardsList.find(x=>x.id===id); if(a.locked) { showToast("Award locked!"); return; } a.pick = val; renderAwards(); };
-  function toggleAwardLock(id) {
-    let a = awardsList.find(x=>x.id===id);
-    if(!a.locked) { if(!a.pick) { showToast("Pick a winner first!"); return; } a.locked=true; a.lockGW=currentGW; showToast(`🔒 ${a.name} locked`); }
-    else { let weeks = currentGW - (a.lockGW||currentGW); let penalty = weeks*3; if(penalty>0) { let totalPenalty = Math.min(50, penalty); for(let k of Object.keys(leagueScores)) leagueScores[k] = Math.max(0, leagueScores[k] - totalPenalty/6); giveYellowCard(`Unlocked ${a.name} after ${weeks} GWs`); updateScoreDisplay(); } a.locked=false; a.lockGW=null; }
-    renderAwards();
-  }
-
+  // RENDER HORIZONTAL SLIM MATCH PITCHES
   function renderPredictions() {
-    const panel = document.getElementById("panel-predict");
-    if(isSuspended) { panel.innerHTML = `<div style="padding:2rem;text-align:center;"><i class="fas fa-ban"></i><h2>SUSPENDED GW ${currentGW}</h2></div>`; return; }
-    let matches = leaguesData[currentLeague].fixtures;
-    let userPreds = userPredictions[currentLeague][currentGW];
-    let actuals = actualResults[currentLeague][currentGW];
-    let isPast = currentGW < 32;
-    let html = `<div class="matches-grid">`;
+    const container = document.getElementById("predictionsContainer");
+    const matches = leaguesData[currentLeague].fixtures;
+    const userPreds = userPredictions[currentLeague][currentGW];
+    const actuals = actualResults[currentLeague][currentGW];
+    const isPast = currentGW < 32;
+    let html = "";
     matches.forEach((m, idx) => {
       let userH = userPreds[idx].hPred;
       let userA = userPreds[idx].aPred;
@@ -624,26 +526,22 @@
       let displayHome = isPast ? actualH : (userH !== undefined ? userH : '');
       let displayAway = isPast ? actualA : (userA !== undefined ? userA : '');
       html += `
-        <div class="match-card">
-          <div class="team-home">
-            <span class="team-name">${m.home}</span>
-            <input class="score-input" type="number" id="h_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)">
+        <div class="match-mini-pitch">
+          <div class="teams">
+            <span class="team-name-sm">${m.home}</span>
+            <span class="vs-sm">VS</span>
+            <span class="team-name-sm">${m.away}</span>
           </div>
-          <div class="vs-text">VS</div>
-          <div class="team-away">
-            <input class="score-input" type="number" id="a_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)">
-            <span class="team-name">${m.away}</span>
+          <div class="score-inputs">
+            <input class="score-input-mini" type="number" id="h_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)">
+            <span style="color:#b5f028;">-</span>
+            <input class="score-input-mini" type="number" id="a_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)">
           </div>
-          ${isPast ? `<div class="actual-result">Actual: ${actualH}–${actualA}</div>` : ''}
-        </div>`;
+          ${isPast ? `<div class="actual-hint">Actual: ${actualH}–${actualA}</div>` : '<div class="actual-hint">Predict score</div>'}
+        </div>
+      `;
     });
-    if (!isPast) {
-      html += `<div style="display:flex; justify-content:flex-end; margin-top:1rem"><button class="btn-submit-lime" onclick="submitPredictions()"><i class="fas fa-lock"></i> LOCK GW${currentGW} PREDICTIONS</button></div>`;
-    } else {
-      html += `<div style="margin-top:1rem; text-align:center; color:#aaa;">⚠️ Gameweek ${currentGW} is complete. Results are final.</div>`;
-    }
-    html += `</div>`;
-    panel.innerHTML = html;
+    container.innerHTML = html;
   }
 
   function renderCardsPanel() {
@@ -655,10 +553,11 @@
   }
   function renderLeaderboard() {
     let total = Object.values(leagueScores).reduce((a,b)=>a+b,0);
-    document.getElementById("panel-leaderboard").innerHTML = `<div class="card-log"><h2>🏆 GLOBAL LEADERBOARD</h2><div>1. ⚡ EliteGaffer - 4,890</div><div>2. 🎯 YOU - ${total.toFixed(0)} pts</div><div><small>Accuracy % based on correct predictions in past gameweeks.</small></div></div>`;
+    document.getElementById("panel-leaderboard").innerHTML = `<div class="card-log"><h2>🏆 GLOBAL LEADERBOARD</h2><div>1. ⚡ EliteGaffer - 4,890</div><div>2. 🎯 YOU - ${total.toFixed(0)} pts</div><div><small>Accuracy % updates per gameweek based on correct predictions.</small></div></div>`;
   }
-  function updateScoreDisplay() { renderLeagues(); }
+  function updateScoreDisplay() { renderLeaguesVertical(); }
 
+  // GW Strip 1-38 with dynamic accuracy update
   function buildGWStrip() {
     let container = document.getElementById("gwContainer");
     for(let i=1;i<=38;i++) {
@@ -671,29 +570,30 @@
         document.getElementById("globalGWbadge").innerHTML = `GW ${currentGW}`;
         document.querySelectorAll(".gw-btn").forEach(b=>b.classList.remove("active-gw"));
         btn.classList.add("active-gw");
-        updateAllAccuracies();
-        renderLeagues();
-        renderPredictions();
-        showToast(`Gameweek ${currentGW} ${currentGW < 32 ? '(Past - results locked)' : '(Active - predictions open)'}`);
+        updateAllAccuracies();   // recalc percentages based on new currentGW
+        renderLeaguesVertical();  // refresh % in league pitches
+        renderPredictions();      // show locked/unlocked matches
+        showToast(`Gameweek ${currentGW} — Accuracy updated based on past GWs.`);
       };
       container.appendChild(btn);
     }
   }
 
   for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l] = { locked: false, lockGW: null };
-  function fakeLogin() { closeModal(); showToast("Welcome! Past GWs have actual results. Your accuracy % updates automatically."); }
+  function fakeLogin() { closeModal(); showToast("Welcome! Change GW to see accuracy % change."); }
   function openModal() { document.getElementById("modalOverlay").style.display = "flex"; }
   function closeModal() { document.getElementById("modalOverlay").style.display = "none"; }
 
   window.updateMatchPred = updateMatchPred;
   buildGWStrip();
-  renderLeagues();
-  renderAwards();
+  renderLeaguesVertical();
   renderPredictions();
   renderCardsPanel();
   renderLeaderboard();
   updateCardUI();
+  document.getElementById("currentLeagueName").innerText = leaguesData[currentLeague].name;
 
+  // TABS
   document.querySelectorAll(".tab-modern").forEach(t=>t.addEventListener("click",()=>{
     document.querySelectorAll(".tab-modern").forEach(tt=>tt.classList.remove("active"));
     t.classList.add("active");
@@ -702,11 +602,11 @@
   function switchTab(tabId) {
     document.querySelectorAll(".panel").forEach(p=>p.style.display="none");
     document.getElementById(`panel-${tabId}`).style.display="block";
-    if(tabId==='predict') renderPredictions();
     if(tabId==='cards') renderCardsPanel();
     if(tabId==='leaderboard') renderLeaderboard();
   }
-  switchTab("predict");
+  // hide predictions panel initially? Actually predictions are always visible above tabs, but we keep them.
+  // Ensure predictions container stays visible.
 </script>
 </body>
 </html>
