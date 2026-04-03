@@ -1,10 +1,9 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Stadium View · Image Awards · Centered</title>
+  <title>The Gaffer's Pick | Dual‑Half Pitch · T‑Shirt Badges · World Cup 2026</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -19,9 +18,8 @@
       justify-content: center;
       align-items: center;
       min-height: 100vh;
-      padding: 0;
+      padding: 20px;
     }
-    /* loader */
     .loader {
       position: fixed;
       top: 0;
@@ -39,16 +37,13 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .loader.hide { opacity: 0; pointer-events: none; }
 
-    /* main app container – no outer margins, centered */
     .app-container {
       width: 100%;
       max-width: 1400px;
       margin: 0 auto;
-      padding: 0;
-      background: transparent;
     }
 
-    /* top menu – centered, green background behind each button */
+    /* menu */
     .top-menu {
       position: sticky;
       top: 0;
@@ -58,16 +53,12 @@
       display: flex;
       justify-content: center;
       padding: 12px 0;
-      border-bottom: none;
-    }
-    .menu-left {
-      display: flex;
       gap: 12px;
       flex-wrap: wrap;
-      justify-content: center;
+      border-radius: 60px;
+      margin-bottom: 20px;
     }
-    /* league button with image and green background */
-    .league-btn {
+    .menu-btn, .league-btn {
       width: 70px;
       height: 70px;
       border-radius: 16px;
@@ -77,15 +68,14 @@
       background-color: #2d6a3a;
       border: 2px solid rgba(255,255,255,0.4);
       cursor: pointer;
-      transition: transform 0.2s, border-color 0.2s, background-color 0.2s;
+      transition: all 0.2s;
     }
+    .menu-btn { width: auto; padding: 0 20px; background: #2d6a3a; display: inline-flex; align-items: center; gap: 8px; font-size: 1rem; color: white; border-radius: 40px; }
     .league-btn.active {
       border-color: #b5f028;
       transform: scale(1.05);
-      box-shadow: 0 0 12px #b5f028;
       background-color: #3a8a4a;
     }
-    /* GW selector – clean, no extra bars */
     .gw-indicator {
       background: rgba(0,0,0,0.6);
       backdrop-filter: blur(8px);
@@ -97,11 +87,6 @@
       margin: 10px auto 20px;
       border-radius: 60px;
       width: fit-content;
-    }
-    .gw-nav {
-      display: flex;
-      align-items: center;
-      gap: 12px;
     }
     .gw-arrow {
       background: #2a2a2a;
@@ -120,12 +105,8 @@
       background: #1a2a1a;
       padding: 4px 24px;
       border-radius: 40px;
-      display: inline-flex;
-      align-items: center;
-      gap: 8px;
     }
-
-    /* awards bar – image buttons */
+    /* awards bar */
     .awards-bar {
       display: flex;
       justify-content: center;
@@ -143,14 +124,9 @@
       background-color: #2d6a3a;
       border: 2px solid rgba(255,255,255,0.4);
       cursor: pointer;
-      transition: 0.2s;
       position: relative;
     }
-    .award-btn.locked {
-      border-color: #b5f028;
-      box-shadow: 0 0 12px #b5f028;
-      background-color: #3a8a4a;
-    }
+    .award-btn.locked { border-color: #b5f028; background-color: #3a8a4a; }
     .award-btn span {
       position: absolute;
       bottom: -25px;
@@ -162,24 +138,31 @@
       padding: 2px 8px;
       border-radius: 20px;
     }
-
-    /* pages container – no margins */
-    .page { display: none; padding: 0; }
+    /* page & pitch halves */
+    .page { display: none; }
     .page.active-page { display: block; }
-
-    /* pitch container – centered, stadium view, no outer bars */
-    .pitch-container {
+    .pitch-dual {
+      display: flex;
+      justify-content: center;
+      align-items: stretch;
+      gap: 40px;
+      margin: 20px auto;
+      flex-wrap: wrap;
+    }
+    .pitch-half {
       position: relative;
+      width: 450px;
+      min-width: 320px;
       background: rgba(30,60,30,0.3);
       backdrop-filter: blur(2px);
-      border-radius: 32px;
-      margin: 0 auto;
-      max-width: 1000px;
+      border-radius: 24px;
       border: 2px solid rgba(255,255,255,0.5);
-      overflow: hidden;
+      overflow: visible;
+      padding: 20px 10px;
     }
-    /* white pitch lines */
-    .pitch-container .halfway-line {
+    /* pitch lines */
+    .pitch-half::before {
+      content: '';
       position: absolute;
       top: 50%;
       left: 0;
@@ -188,184 +171,131 @@
       background: white;
       transform: translateY(-50%);
       z-index: 1;
+      opacity: 0.6;
     }
-    .pitch-container .center-circle {
+    .goal-area {
+      position: relative;
+      width: 100%;
+      height: 140px;
+      margin: 20px 0;
+      background: rgba(0,0,0,0.2);
+      border: 2px solid white;
+      border-radius: 0 0 20px 20px;
+      z-index: 2;
+    }
+    .goal-area::before {
+      content: '';
       position: absolute;
-      top: 50%;
+      top: -10px;
       left: 50%;
+      transform: translateX(-50%);
+      width: 60px;
+      height: 10px;
+      background: white;
+      border-radius: 5px;
+    }
+    .team-badge-shirt {
       width: 80px;
       height: 80px;
+      background-color: rgba(0,0,0,0.5);
+      border-radius: 20px 20px 10px 10px;
+      background-size: contain;
+      background-position: center;
+      background-repeat: no-repeat;
+      border: 1px solid rgba(255,255,255,0.5);
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      margin: 10px auto;
+    }
+    .team-name-text {
+      font-size: 0.7rem;
+      text-align: center;
+      font-weight: bold;
+    }
+    .score-input-goal {
+      width: 70px;
+      height: 55px;
+      background: transparent;
+      border: 2px solid white;
+      border-radius: 12px;
+      text-align: center;
+      font-size: 1.6rem;
+      color: #b5f028;
+      font-weight: bold;
+      margin: 10px;
+    }
+    .vs-badge {
+      font-size: 1.2rem;
+      font-weight: bold;
+      color: #b5f028;
+      margin: 0 10px;
+    }
+    .center-circle-percent {
+      width: 100px;
+      height: 100px;
+      background: rgba(10,40,10,0.7);
       border: 2px solid white;
       border-radius: 50%;
-      transform: translate(-50%, -50%);
-      z-index: 1;
-    }
-    .penalty-area-left, .penalty-area-right {
-      position: absolute;
-      top: 50%;
-      width: 50px;
-      height: 120px;
-      border: 2px solid white;
-      transform: translateY(-50%);
-      z-index: 1;
-    }
-    .penalty-area-left { left: 0; border-left: none; }
-    .penalty-area-right { right: 0; border-right: none; }
-    .goal-line-left, .goal-line-right {
-      position: absolute;
-      top: 50%;
-      width: 12px;
-      height: 40px;
-      background: white;
-      transform: translateY(-50%);
-      z-index: 1;
-    }
-    .goal-line-left { left: 0; }
-    .goal-line-right { right: 0; }
-    .accuracy-overlay {
-      position: absolute;
-      inset: 0;
-      background: rgba(10,40,10,0.55);
       display: flex;
       align-items: center;
       justify-content: center;
       font-family: 'Bebas Neue';
-      font-size: 7rem;
+      font-size: 2rem;
       font-weight: bold;
-      color: rgba(0,0,0,0.65);
-      pointer-events: none;
-      z-index: 2;
-    }
-    .matches-pitch {
-      position: relative;
-      z-index: 3;
-      display: flex;
-      flex-direction: column;
-      gap: 20px;
-      max-width: 700px;
-      margin: 60px auto;
-      padding: 20px;
-    }
-    .match-row {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 15px;
-      background: rgba(0,0,0,0.3);
-      border-radius: 60px;
-      padding: 10px 20px;
-      flex-wrap: wrap;
-    }
-    .team-badge {
-      width: 55px;
-      height: 55px;
-      background-size: contain;
-      background-position: center;
-      background-repeat: no-repeat;
-      background-color: rgba(0,0,0,0.4);
-      border-radius: 50%;
-      border: 1px solid rgba(255,255,255,0.5);
-    }
-    .team-home-badge, .team-away-badge {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 5px;
-    }
-    .team-name-text {
-      font-size: 0.7rem;
-      font-weight: bold;
-      text-align: center;
-      color: white;
-      text-shadow: 0 1px 2px black;
-    }
-    .score-input-pitch {
-      width: 60px;
-      height: 50px;
-      background: transparent;
-      border: 2px solid white;
-      border-radius: 16px;
-      text-align: center;
-      font-size: 1.5rem;
+      margin: 0 auto;
       color: #b5f028;
-      font-weight: bold;
     }
-    .score-input-pitch:disabled { border-color: #888; color: #ccc; }
-    .vs-badge { font-weight: bold; color: #b5f028; font-size: 1.2rem; }
     .champion-control {
       background: rgba(0,0,0,0.5);
       border-radius: 60px;
-      padding: 12px 20px;
-      margin: 20px;
+      padding: 10px;
+      margin-top: 20px;
       display: flex;
       flex-wrap: wrap;
-      gap: 12px;
-      justify-content: space-between;
+      gap: 10px;
+      justify-content: center;
     }
     .champion-select {
       background: rgba(10,42,18,0.8);
       border: 1px solid #b5f028;
       border-radius: 40px;
-      padding: 8px 15px;
+      padding: 6px 12px;
       color: white;
-      flex: 2;
     }
     .lock-btn {
       background: rgba(0,0,0,0.6);
       border: 1px solid white;
       border-radius: 40px;
-      padding: 6px 18px;
+      padding: 6px 16px;
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 8px;
+      gap: 6px;
     }
     .lock-btn.locked { background: #b5f028; color: black; }
-
-    /* league panel */
-    .league-panel {
-      background: rgba(0,0,0,0.6);
-      border-radius: 24px;
-      padding: 1.5rem;
-      margin: 20px auto;
-      max-width: 600px;
-    }
-    @media (max-width: 700px) {
-      .team-badge { width: 40px; height: 40px; }
-      .score-input-pitch { width: 50px; height: 45px; font-size: 1.2rem; }
-      .accuracy-overlay { font-size: 3.5rem; }
-      .match-row { gap: 8px; }
-      .league-btn { width: 55px; height: 55px; }
+    @media (max-width: 900px) {
+      .pitch-dual { flex-direction: column; align-items: center; }
+      .pitch-half { width: 100%; max-width: 450px; }
     }
   </style>
 </head>
 <body>
 <div class="loader" id="loader"><i class="fas fa-futbol"></i></div>
 <div class="app-container">
-  <!-- centered top menu with green background buttons -->
-  <div class="top-menu">
-    <div class="menu-left" id="menuLeft"></div>
-  </div>
-
-  <!-- GW selector centered -->
+  <div class="top-menu" id="menuLeft"></div>
   <div class="gw-indicator">
-    <div class="gw-nav">
-      <div class="gw-arrow" id="gwPrev"><i class="fas fa-chevron-left"></i></div>
-      <div class="gw-current" id="gwCurrentDisplay"><i class="fas fa-futbol"></i> GW 32</div>
-      <div class="gw-arrow" id="gwNext"><i class="fas fa-chevron-right"></i></div>
-    </div>
+    <div class="gw-arrow" id="gwPrev"><i class="fas fa-chevron-left"></i></div>
+    <div class="gw-current" id="gwCurrentDisplay"><i class="fas fa-futbol"></i> GW 32</div>
+    <div class="gw-arrow" id="gwNext"><i class="fas fa-chevron-right"></i></div>
   </div>
-
-  <!-- Awards as image buttons -->
   <div class="awards-bar" id="awardsBar"></div>
-
-  <!-- Pages container -->
   <div id="pagesContainer"></div>
-  <div id="leaguesPanel" style="display:none;"></div>
+  <div id="leaguesPanel" style="display:none; text-align:center;"></div>
 </div>
 
 <script>
-  // ---------- LEAGUE BUTTON IMAGES (using provided filenames) ----------
+  // ------------------------------
+  // 1. LEAGUE BUTTON IMAGES
+  // ------------------------------
   const leagueImages = {
     epl: "premier-league-footballlogos-org.png",
     liga: "laliga-footballlogos-org.png",
@@ -375,9 +305,11 @@
     worldcup: "world-cup-2026-footballogos-org.png"
   };
 
-  // ---------- TEAM BADGE MAPPING (only teams with images) ----------
+  // ------------------------------
+  // 2. TEAM BADGES (T-shirt shape) – all provided names
+  // ------------------------------
   const teamBadges = {
-    // Premier League
+    // Premier League (added Chelsea etc.)
     "Arsenal": "arsenal-footballlogos-org.png",
     "Man City": "manchester-city-footballlogos-org.png",
     "Liverpool": "liverpool-footballlogos-org.png",
@@ -432,42 +364,131 @@
     "Nice": "ogc-nice-footballlogos-org.png",
     "Nantes": "fc-nantes-footballlogos-org.png",
     "Strasbourg": "rc-strasbourg-footballlogos-org.png",
-    // World Cup (national teams) – using flag images if available, else placeholder
-    "Brazil": "brazil-flag.png",
-    "Argentina": "argentina-flag.png",
-    "France": "france-flag.png",
-    "Germany": "germany-flag.png",
-    "Spain": "spain-flag.png",
-    "England": "england-flag.png",
-    "Portugal": "portugal-flag.png",
-    "Netherlands": "netherlands-flag.png",
-    "Belgium": "belgium-flag.png",
-    "Croatia": "croatia-flag.png"
+    // World Cup (all provided nations)
+    "Brazil": "brazil-national-team-footballogos-org.png",
+    "Argentina": "argentina-national-team-footballlogos-o...",
+    "France": "france-national-team-footballlogos-org.N",
+    "Germany": "germany-national-team-footballlogos-o...",
+    "Spain": "spain-national-team-footballogos-org.p...",
+    "England": "england-national-team-footballlogos-or..",
+    "Portugal": "portugal-national-team-footballogos-or..",
+    "Netherlands": "netherlands-dutch-national-team-footb..",
+    "Belgium": "belgium-national-team-footballlogos-or..",
+    "Croatia": "croatia-national-team-footballlogos-org...",
+    "Uruguay": "uruguay-national-team-footballogos-or...",
+    "USA": "usa-national-team-footballlogos-org.png",
+    "Mexico": "mexico-national-team-footballlogos-org..",
+    "Japan": "apan-national-team-footballlogos-org.p...",
+    "South Korea": "south-korea-national-team-footballlogo...",
+    "Morocco": "morocco-national-team-footballlogos-o...",
+    "Egypt": "egypt-national-team-footballlogos-org...",
+    "Senegal": "senegal-national-team-footballogos-or..",
+    "Ghana": "ghana-footballlogos-org-png",
+    "Cameroon": "cameroun-national-team-footballlogos-org.png",
+    "Nigeria": "nigeria-national-team-footballlogos-org.png",
+    "Australia": "australia-national-team-footylogos.png",
+    "New Zealand": "new-zealand-national-team-footballlogo...",
+    "Canada": "canada-national-team-footballlogos-org..",
+    "Colombia": "colombia-national-team-footballlogos-o..",
+    "Ecuador": "ecuador-national-team-footbalogos-or..",
+    "Paraguay": "paraguay-national-teanm-footballlogos-o..",
+    "Peru": "peru-national-team-footballlogos-org.png",
+    "Chile": "chile-national-team-footballlogos-org.png",
+    "Austria": "austria-national-team-footballogos-org...",
+    "Switzerland": "swis5-national-team-footballlogos-org.p...",
+    "Sweden": "sweden-national-team-footballlogos-org.png",
+    "Denmark": "denmark-national-team-footballlogos-org.png",
+    "Poland": "poland-national-team-footballlogos-org.png",
+    "Serbia": "serbia-national-team-footballlogos-org.png",
+    "Ukraine": "ukraine-national-team-footballlogos-org.png",
+    "Scotland": "scotland-national-team-footballlogos-or..",
+    "Wales": "wales-national-team-footballlogos-org.png",
+    "Hungary": "hungary-national-team-footballlogos-org.png",
+    "Turkey": "turkey-national-team-footballlogos-org.png",
+    "Russia": "russia-national-team-footballlogos-org.png",
+    "Czech Republic": "czech-republic-national-team-footballlogos-org.png",
+    "Slovakia": "slovakia-national-team-footballlogos-org.png",
+    "Romania": "romania-national-team-footballlogos-org.png",
+    "Bulgaria": "bulgaria-national-team-footballlogos-org.png",
+    "Greece": "greece-national-team-footballlogos-org.png",
+    "Norway": "norway-national-team-footballlogos-org.png",
+    "Finland": "finland-national-team-footballlogos-org.png",
+    "Iceland": "iceland-national-team-footballlogos-org.png",
+    "Ireland": "ireland-national-team-footballlogos-org.png",
+    "Northern Ireland": "northern-ireland-national-team-footballlogos-org.png",
+    "Algeria": "algeria-national-team-footballlogos-org....",
+    "Tunisia": "tunisia-national-team-footballlogos-org...",
+    "South Africa": "south-africa-national-team-footballlogos-org.png",
+    "Côte d'Ivoire": "cote-d-ivoire-national-team-footballlog...",
+    "Mali": "mali-national-team-footballlogos-org.png",
+    "Burkina Faso": "burkina-faso-national-team-footballlogos-org.png",
+    "DR Congo": "dr-congo-national-team-footballlogos-org.png",
+    "Zambia": "zambia-national-team-footballlogos-org.png",
+    "Angola": "angola-national-team-footballlogos-org.png",
+    "Cabo Verde": "cabo-verde-footballlogos-org.png",
+    "Curacao": "curacao-national-team-footballlogos-or..",
+    "Haiti": "haiti-national-team-footylogos.png",
+    "Jamaica": "jamaica-national-team-footballlogos-org.png",
+    "Panama": "panama-national-team-footballlogos-or...",
+    "Costa Rica": "costa-rica-national-team-footballlogos-org.png",
+    "El Salvador": "el-salvador-national-team-footballlogos-org.png",
+    "Honduras": "honduras-national-team-footballlogos-org.png",
+    "Trinidad": "trinidad-national-team-footballlogos-org.png",
+    "Venezuela": "venezuela-national-team-footballlogos-org.png",
+    "Bolivia": "bolivia-national-team-footballlogos-org.png",
+    "Uzbekistan": "uzbekistan-national-team-footballlogos-..",
+    "Qatar": "gatar-national-team-footballlogos org.p.",
+    "Saudi Arabia": "saudi-arabia-national-team-footballlogo..",
+    "Iran": "iran-national-team-footballlogos-org.png",
+    "Iraq": "iraq-national-team-footballlogos-org.png",
+    "Jordan": "jordan-footballogos-org.png",
+    "Oman": "oman-national-team-footballlogos-org.png",
+    "UAE": "uae-national-team-footballlogos-org.png",
+    "Lebanon": "lebanon-national-team-footballlogos-org.png",
+    "Syria": "syria-national-team-footballlogos-org.png",
+    "Thailand": "thailand-national-team-footballlogos-org.png",
+    "Vietnam": "vietnam-national-team-footballlogos-org.png",
+    "Indonesia": "indonesia-national-team-footballlogos-org.png",
+    "Malaysia": "malaysia-national-team-footballlogos-org.png",
+    "Philippines": "philippines-national-team-footballlogos-org.png",
+    "India": "india-national-team-footballlogos-org.png"
   };
 
-  function getBadgeUrl(teamName) {
-    let file = teamBadges[teamName];
-    if (!file) return "https://via.placeholder.com/50?text=" + encodeURIComponent(teamName.charAt(0));
+  function getBadgeUrl(team) {
+    let file = teamBadges[team];
+    if (!file) return "https://via.placeholder.com/80?text=" + encodeURIComponent(team.slice(0,2));
     return file;
   }
 
-  // leagues data (fixtures unchanged)
+  // ------------------------------
+  // 3. LEAGUES DATA (only top teams for club leagues, full World Cup)
+  // ------------------------------
   const leaguesData = {
-    epl: { name: "Premier League", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], 
+    epl: { name: "Premier League", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd","Tottenham","Newcastle","Aston Villa","Brighton","West Ham"],
            fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
-    liga: { name: "La Liga", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"], 
+    liga: { name: "La Liga", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis","Sevilla","Villarreal","Real Soc.","Valencia","Osasuna"],
            fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Athletic", away:"Villarreal"},{ home:"Real Betis", away:"Real Soc."},{ home:"Valencia", away:"Osasuna"}] },
-    serie: { name: "Serie A", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"], 
+    serie: { name: "Serie A", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio","Roma","Atalanta","Fiorentina","Torino","Bologna"],
            fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Lazio", away:"Roma"},{ home:"Atalanta", away:"Fiorentina"},{ home:"Torino", away:"Bologna"}] },
-    bundes: { name: "Bundesliga", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"], 
+    bundes: { name: "Bundesliga", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart","Gladbach","Frankfurt","Freiburg","Wolfsburg","Hoffenheim"],
            fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"Leipzig"},{ home:"Stuttgart", away:"Gladbach"},{ home:"Frankfurt", away:"Freiburg"},{ home:"Wolfsburg", away:"Hoffenheim"}] },
-    ligue: { name: "Ligue 1", fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"], 
+    ligue: { name: "Ligue 1", fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens","Rennes","Lille","Nice","Nantes","Strasbourg"],
            fixtures: [{ home:"PSG", away:"Monaco"},{ home:"Marseille", away:"Lyon"},{ home:"Lens", away:"Rennes"},{ home:"Lille", away:"Nice"},{ home:"Nantes", away:"Strasbourg"}] },
-    worldcup: { name: "World Cup", fullName: "World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], 
-           fixtures: [{ home:"Brazil", away:"Argentina"},{ home:"France", away:"Spain"},{ home:"Germany", away:"England"},{ home:"Portugal", away:"Netherlands"},{ home:"Belgium", away:"Croatia"}] }
+    worldcup: { name: "World Cup", fullName: "World Cup 2026", teams: ["Brazil","Argentina","France","Germany","Spain","England","Portugal","Netherlands","Belgium","Croatia","Uruguay","USA","Mexico","Japan","South Korea","Morocco","Egypt","Senegal","Ghana","Cameroon","Nigeria","Australia","New Zealand","Canada","Colombia","Ecuador","Paraguay","Peru","Chile","Austria","Switzerland","Sweden","Denmark","Poland","Serbia","Ukraine","Scotland","Wales","Hungary","Turkey","Russia","Czech Republic","Slovakia","Romania","Bulgaria","Greece","Norway","Finland","Iceland","Ireland","Northern Ireland","Algeria","Tunisia","South Africa","Côte d'Ivoire","Mali","Burkina Faso","DR Congo","Zambia","Angola","Cabo Verde","Curacao","Haiti","Jamaica","Panama","Costa Rica","El Salvador","Honduras","Trinidad","Venezuela","Bolivia","Uzbekistan","Qatar","Saudi Arabia","Iran","Iraq","Jordan","Oman","UAE","Lebanon","Syria","Thailand","Vietnam","Indonesia","Malaysia","Philippines","India"],
+           fixtures: (() => {
+             // 2026 World Cup group stage simulation – 48 teams, 12 groups of 4.
+             // We'll create 6 matches per group (top 2 from each group + best 3rd? but for simplicity we take 8 groups of 6? Actually 48 teams = 16 groups of 3? No, new format: 12 groups of 4. We'll just pick 12 matches for demo.
+             const topNations = ["Brazil","Argentina","France","Germany","Spain","England","Portugal","Netherlands","Belgium","Croatia","Uruguay","USA","Mexico","Japan","South Korea","Morocco","Egypt","Senegal","Ghana","Cameroon","Nigeria","Australia","New Zealand","Canada","Colombia","Ecuador","Paraguay","Peru","Chile","Austria","Switzerland","Sweden","Denmark","Poland","Serbia","Ukraine","Scotland","Wales","Hungary","Turkey","Russia","Czech Republic","Slovakia","Romania","Bulgaria","Greece","Norway","Finland","Iceland","Ireland","Northern Ireland","Algeria","Tunisia","South Africa","Côte d'Ivoire","Mali","Burkina Faso","DR Congo","Zambia","Angola","Cabo Verde","Curacao","Haiti","Jamaica","Panama","Costa Rica","El Salvador","Honduras","Trinidad","Venezuela","Bolivia","Uzbekistan","Qatar","Saudi Arabia","Iran","Iraq","Jordan","Oman","UAE","Lebanon","Syria","Thailand","Vietnam","Indonesia","Malaysia","Philippines","India"];
+             let matchList = [];
+             for (let i = 0; i < 12; i++) {
+               if (i*2+1 < topNations.length) matchList.push({ home: topNations[i*2], away: topNations[i*2+1] });
+               else matchList.push({ home: topNations[i*2], away: topNations[0] });
+             }
+             return matchList.slice(0,10);
+           })() }
   };
 
-  // generate actual results & user predictions
+  // generate actual results & user predictions (same logic)
   let actualResults = {}, userPredictions = {};
   function generateData() {
     for (let league of Object.keys(leaguesData)) {
@@ -476,7 +497,8 @@
       for (let gw = 1; gw <= 38; gw++) {
         actualResults[league][gw] = [];
         userPredictions[league][gw] = [];
-        for (let i = 0; i < leaguesData[league].fixtures.length; i++) {
+        let fixtures = leaguesData[league].fixtures;
+        for (let i = 0; i < fixtures.length; i++) {
           let homeScore = Math.floor(Math.random() * 4);
           let awayScore = Math.floor(Math.random() * 3);
           if (homeScore === awayScore && homeScore === 0 && Math.random() > 0.3) homeScore = 1;
@@ -506,59 +528,38 @@
   }
 
   let currentGW = 32;
-  let leagueScores = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0, worldcup: 0 };
-  let championPicks = { epl: "", liga: "", serie: "", bundes: "", ligue: "", worldcup: "" };
+  let leagueScores = { epl:0, liga:0, serie:0, bundes:0, ligue:0, worldcup:0 };
+  let championPicks = { epl:"", liga:"", serie:"", bundes:"", ligue:"", worldcup:"" };
   let lockState = {};
-  let penaltyPoints = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0, worldcup: 0 };
+  let penaltyPoints = { epl:0, liga:0, serie:0, bundes:0, ligue:0, worldcup:0 };
   let leagueAccuracy = {};
   function updateAllAccuracies() { for (let l of Object.keys(leaguesData)) leagueAccuracy[l] = computeAccuracy(l, currentGW); }
   updateAllAccuracies();
 
-  // cards & suspension
-  let userCards = { yellows: 0, reds: 0, cardHistory: [] };
   let isSuspended = false;
-  function giveYellowCard(reason) { if(isSuspended) return; userCards.yellows++; userCards.cardHistory.push({ gw: currentGW, reason, type:"yellow" }); showToast(`🟡 YELLOW: ${reason}`, "#f5d742"); let recent = userCards.cardHistory.filter(c=>c.type==="yellow" && (currentGW-c.gw)<=3).length; if(recent>=2 && userCards.reds===0) giveRedCard("Two yellows in 3 GWs"); }
-  function giveRedCard(reason) { if(userCards.reds>0) return; userCards.reds++; userCards.cardHistory.push({ gw: currentGW, reason, type:"red" }); let deduction = 20; let keys = Object.keys(leagueScores); for(let k of keys) leagueScores[k] = Math.max(0, leagueScores[k] - deduction/keys.length); showToast(`🔴 RED CARD! -20pts, suspended next GW. ${reason}`, "#e34d4d"); isSuspended=true; userCards.yellows=0; }
-  function showToast(msg, color="#b5f028") { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background=color; t.style.color="#0a2a12"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; t.style.fontWeight="bold"; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
+  function showToast(msg, color="#b5f028") { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background=color; t.style.color="black"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
 
   function updateMatchPred(league, idx, type, val) {
-    if(isSuspended) { showToast("Suspended!"); return; }
-    if (currentGW <= 31) { showToast("Past gameweeks are locked!"); return; }
+    if (currentGW <= 31) { showToast("Past GW locked!"); return; }
     let pred = userPredictions[league][currentGW][idx];
     if(type === 'home') pred.hPred = parseInt(val) || 0;
     else pred.aPred = parseInt(val) || 0;
-    let margin = Math.abs(pred.hPred - pred.aPred);
-    if(margin >= 4) giveYellowCard(`Risky margin ${pred.hPred}-${pred.aPred}`);
     renderCurrentPage();
   }
-
   function submitPredictions(leagueId) {
-    if(isSuspended) { showToast("Suspended!"); return; }
     if (currentGW <= 31) { showToast("Past GW locked."); return; }
-    showToast(`✅ GW${currentGW} predictions saved for ${leaguesData[leagueId].name}`, "#b5f028");
+    showToast(`✅ GW${currentGW} predictions saved for ${leaguesData[leagueId].name}`);
   }
 
   // Awards as image buttons
   const awardsData = {
-    ballon: { name: "Ballon d'Or", image: "ballondor.png", points: 1000, locked: false, pick: "" },
+    ballon: { name: "Ballon d'Or", image: "ballon.jpg", points: 1000, locked: false, pick: "" },
     ucl: { name: "UCL Winner", image: "ucl.png", points: 800, locked: false, pick: "" },
     europa: { name: "Europa League", image: "europa.png", points: 600, locked: false, pick: "" }
   };
-  // load saved awards state
   let savedAwards = JSON.parse(localStorage.getItem("gaffer_awards_image") || "{}");
-  if (savedAwards) {
-    for (let id of Object.keys(awardsData)) {
-      if (savedAwards[id]) awardsData[id].locked = savedAwards[id].locked;
-      if (savedAwards[id]) awardsData[id].pick = savedAwards[id].pick;
-    }
-  }
-  function saveAwards() {
-    let toSave = {};
-    for (let id of Object.keys(awardsData)) {
-      toSave[id] = { locked: awardsData[id].locked, pick: awardsData[id].pick };
-    }
-    localStorage.setItem("gaffer_awards_image", JSON.stringify(toSave));
-  }
+  for (let id of Object.keys(awardsData)) if (savedAwards[id]) awardsData[id].locked = savedAwards[id].locked;
+  function saveAwards() { let toSave={}; for(let id of Object.keys(awardsData)) toSave[id]={locked:awardsData[id].locked}; localStorage.setItem("gaffer_awards_image",JSON.stringify(toSave)); }
   function renderAwardsBar() {
     const container = document.getElementById("awardsBar");
     container.innerHTML = "";
@@ -566,68 +567,42 @@
       const btn = document.createElement("div");
       btn.className = `award-btn ${award.locked ? 'locked' : ''}`;
       btn.style.backgroundImage = `url('${award.image}')`;
-      btn.setAttribute("data-award", id);
-      btn.innerHTML = `<span>${award.name}<br>${Math.round(award.points)} pts</span>`;
+      btn.innerHTML = `<span>${award.name}<br>${award.points} pts</span>`;
       btn.onclick = () => toggleAwardLock(id);
       container.appendChild(btn);
     }
   }
   function toggleAwardLock(id) {
     let award = awardsData[id];
-    if (!award.locked) {
-      award.locked = true;
-      award.points = award.points; // keep base points
-      showToast(`🔒 ${award.name} locked! +${award.points} pts`, "#b5f028");
-    } else {
-      let weeks = currentGW - (award.lockGW || currentGW);
-      let penalty = Math.min(weeks * 15, award.points * 0.5);
-      award.points = Math.max(0, award.points - penalty);
-      award.locked = false;
-      showToast(`🔓 ${award.name} unlocked! Penalty -${Math.round(penalty)} pts`, "#e34d4d");
-    }
-    award.lockGW = currentGW;
-    saveAwards();
-    renderAwardsBar();
-    updateTotalPoints();
+    if (!award.locked) { award.locked=true; showToast(`🔒 ${award.name} locked! +${award.points} pts`); }
+    else { award.locked=false; showToast(`🔓 ${award.name} unlocked`); }
+    saveAwards(); renderAwardsBar();
   }
 
-  // League champion pick & lock
+  // champion pick & lock
   window.updateChampionPick = (leagueId, val) => {
     if(lockState[leagueId]?.locked) { showToast("Champion locked! Unlock first."); return; }
     championPicks[leagueId] = val;
     renderCurrentPage();
   };
   function toggleLeagueLock(leagueId) {
-    let lock = lockState[leagueId];
-    if(!lock) lockState[leagueId] = { locked: false, lockGW: null };
-    lock = lockState[leagueId];
+    let lock = lockState[leagueId] || { locked: false };
     if(!lock.locked) {
-      if(!championPicks[leagueId]) { showToast("Select a champion first!"); return; }
-      lock.locked = true; lock.lockGW = currentGW;
-      showToast(`🔒 ${leaguesData[leagueId].fullName} champion locked at GW${currentGW}`);
+      if(!championPicks[leagueId]) { showToast("Pick a champion first!"); return; }
+      lock.locked=true; lock.lockGW=currentGW;
+      showToast(`🔒 ${leaguesData[leagueId].fullName} champion locked`);
     } else {
       let weeks = currentGW - (lock.lockGW || currentGW);
       let penalty = weeks * 2;
-      if(penalty>0) {
-        penaltyPoints[leagueId] += penalty;
-        leagueScores[leagueId] = Math.max(0, leagueScores[leagueId] - penalty);
-        giveYellowCard(`Unlocked ${leaguesData[leagueId].fullName} after ${weeks} GWs (-${penalty} pts)`);
-      }
-      lock.locked = false; lock.lockGW = null;
+      if(penalty>0) penaltyPoints[leagueId] += penalty;
+      lock.locked=false;
+      showToast(`🔓 Unlocked! Penalty -${penalty}`);
     }
+    lockState[leagueId]=lock;
     renderCurrentPage();
   }
 
-  // update total points (simplified)
-  function updateTotalPoints() {
-    let total = 0;
-    for (let award of Object.values(awardsData)) {
-      if (award.locked) total += award.points;
-    }
-    // we don't track match points in this version for simplicity, but we keep the UI consistent
-  }
-
-  // Render league page with team names below badges
+  // render dual‑half pitch
   function renderLeaguePage(leagueId) {
     const league = leaguesData[leagueId];
     const lock = lockState[leagueId] || { locked: false };
@@ -638,57 +613,55 @@
     const actuals = actualResults[leagueId][currentGW];
     let matchesHtml = "";
     league.fixtures.forEach((m, idx) => {
-      let userH = userPreds[idx].hPred;
-      let userA = userPreds[idx].aPred;
-      let actualH = actuals[idx].homeScore;
-      let actualA = actuals[idx].awayScore;
-      let displayHome = isPast ? actualH : (userH !== undefined ? userH : '');
-      let displayAway = isPast ? actualA : (userA !== undefined ? userA : '');
+      let userH = userPreds[idx]?.hPred !== undefined ? userPreds[idx].hPred : '';
+      let userA = userPreds[idx]?.aPred !== undefined ? userPreds[idx].aPred : '';
+      let actualH = actuals[idx]?.homeScore;
+      let actualA = actuals[idx]?.awayScore;
+      let displayHome = isPast ? actualH : userH;
+      let displayAway = isPast ? actualA : userA;
       const homeLogo = getBadgeUrl(m.home);
       const awayLogo = getBadgeUrl(m.away);
       matchesHtml += `
-        <div class="match-row">
-          <div class="team-home-badge">
-            <div class="team-badge" style="background-image: url('${homeLogo}');"></div>
+        <div style="display:flex; justify-content:space-between; align-items:center; margin:20px 0;">
+          <div style="text-align:center; width:100px;">
+            <div class="team-badge-shirt" style="background-image:url('${homeLogo}');"></div>
             <div class="team-name-text">${m.home}</div>
           </div>
-          <div class="score-group">
-            <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
+          <div class="goal-area" style="display:flex; align-items:center; justify-content:center; gap:10px; width:200px;">
+            <input class="score-input-goal" type="number" value="${displayHome}" ${isPast ? 'disabled' : ''} onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
             <span class="vs-badge">VS</span>
-            <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+            <input class="score-input-goal" type="number" value="${displayAway}" ${isPast ? 'disabled' : ''} onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
           </div>
-          <div class="team-away-badge">
-            <div class="team-badge" style="background-image: url('${awayLogo}');"></div>
+          <div style="text-align:center; width:100px;">
+            <div class="team-badge-shirt" style="background-image:url('${awayLogo}');"></div>
             <div class="team-name-text">${m.away}</div>
           </div>
-          ${isPast ? `<span class="actual-hint">${actualH}–${actualA}</span>` : ''}
         </div>
+        ${isPast ? `<div style="text-align:center; font-size:0.8rem;">Actual: ${actualH}–${actualA}</div>` : ''}
       `;
     });
     return `
-      <div class="page" id="page-${leagueId}" data-league="${leagueId}">
-        <div class="pitch-container">
-          <div class="halfway-line"></div>
-          <div class="center-circle"></div>
-          <div class="penalty-area-left"></div>
-          <div class="penalty-area-right"></div>
-          <div class="goal-line-left"></div>
-          <div class="goal-line-right"></div>
-          <div class="accuracy-overlay">${percent}%</div>
-          ${lock.locked && championPick ? `<div style="position: absolute; bottom: 20px; left: 20px; font-size: 1.4rem; color: rgba(255,255,255,0.3); font-family: 'Bebas Neue'; z-index: 3;"><i class="fas fa-crown"></i> ${championPick}</div>` : ''}
-          <div class="matches-pitch">
+      <div class="page" id="page-${leagueId}">
+        <div class="pitch-dual">
+          <div class="pitch-half">
+            <div class="center-circle-percent" style="margin-bottom:20px;">${percent}%</div>
             ${matchesHtml}
           </div>
-          <div class="champion-control">
-            <select class="champion-select" id="champSelect-${leagueId}" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${leagueId}', this.value)">
-              <option value="">— Pick League Champion —</option>
-              ${league.teams.map(t => `<option ${championPicks[leagueId]===t ? 'selected' : ''}>${t}</option>`).join('')}
-            </select>
-            <button class="lock-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLeagueLock('${leagueId}')">
-              <i class="fas ${lock.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${lock.locked ? 'Locked' : 'Unlock'}
-            </button>
-            ${penaltyPoints[leagueId] ? `<span style="font-size:0.7rem; color:#ffaa66;"><i class="fas fa-exclamation-triangle"></i> -${penaltyPoints[leagueId]}</span>` : ''}
-            ${!isPast ? `<button class="lock-btn" style="background:#b5f028; color:black;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW</button>` : ''}
+          <div class="pitch-half" style="background: rgba(30,60,30,0.1);">
+            <div style="text-align:center; margin-top:20px;">
+              <div class="center-circle-percent" style="width:80px; height:80px; font-size:1.5rem;">🏆</div>
+            </div>
+            ${lock.locked && championPick ? `<div style="text-align:center; margin:20px; font-size:1.2rem;"><i class="fas fa-crown"></i> Champion: ${championPick}</div>` : ''}
+            <div class="champion-control">
+              <select class="champion-select" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${leagueId}', this.value)">
+                <option value="">— Pick Champion —</option>
+                ${league.teams.map(t => `<option ${championPicks[leagueId]===t ? 'selected' : ''}>${t}</option>`).join('')}
+              </select>
+              <button class="lock-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLeagueLock('${leagueId}')">
+                <i class="fas ${lock.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${lock.locked ? 'Locked' : 'Unlock'}
+              </button>
+              ${!isPast ? `<button class="lock-btn" style="background:#b5f028; color:black;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW</button>` : ''}
+            </div>
           </div>
         </div>
       </div>
@@ -698,128 +671,68 @@
   let currentActiveLeague = "epl";
   let currentTab = "predict";
   function renderCurrentPage() {
-    const pagesContainer = document.getElementById("pagesContainer");
+    const pagesDiv = document.getElementById("pagesContainer");
     const leaguesPanel = document.getElementById("leaguesPanel");
     if (currentTab === "leagues") {
-      pagesContainer.style.display = "none";
+      pagesDiv.style.display = "none";
       leaguesPanel.style.display = "block";
       renderLeaguesPanel();
     } else {
-      pagesContainer.style.display = "block";
+      pagesDiv.style.display = "block";
       leaguesPanel.style.display = "none";
       let html = "";
-      for (let leagueId of Object.keys(leaguesData)) {
-        html += renderLeaguePage(leagueId);
-      }
-      pagesContainer.innerHTML = html;
+      for (let id of Object.keys(leaguesData)) html += renderLeaguePage(id);
+      pagesDiv.innerHTML = html;
       document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
-      const activePage = document.getElementById(`page-${currentActiveLeague}`);
-      if (activePage) activePage.classList.add("active-page");
+      document.getElementById(`page-${currentActiveLeague}`)?.classList.add("active-page");
     }
     document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`;
-    // update active league buttons
     document.querySelectorAll(".league-btn").forEach(btn => {
-      const leagueId = btn.getAttribute("data-league");
-      if (currentTab === "predict" && leagueId === currentActiveLeague) btn.classList.add("active");
+      let lid = btn.getAttribute("data-league");
+      if (currentTab==="predict" && lid===currentActiveLeague) btn.classList.add("active");
       else btn.classList.remove("active");
     });
-    const leaguesTabBtn = document.querySelector(".leagues-tab-btn");
-    if (leaguesTabBtn) {
-      if (currentTab === "leagues") leaguesTabBtn.classList.add("active");
-      else leaguesTabBtn.classList.remove("active");
-    }
   }
 
-  // Leagues (create/join)
+  // leagues (create/join)
   let userLeagues = JSON.parse(localStorage.getItem("gaffer_leagues") || "[]");
   function saveLeagues() { localStorage.setItem("gaffer_leagues", JSON.stringify(userLeagues)); }
-  function createLeague() {
-    let name = prompt("League name:");
-    if (!name) return;
-    let code = Math.random().toString(36).substring(2, 8).toUpperCase();
-    userLeagues.push({ name, code, members: ["Gaffer"], admin: "Gaffer" });
-    saveLeagues();
-    showToast(`League created! Code: ${code}`);
-    renderLeaguesPanel();
-  }
-  function joinLeague() {
-    let code = prompt("Enter league code:");
-    let league = userLeagues.find(l => l.code === code);
-    if (!league) { showToast("Invalid code"); return; }
-    if (league.members.includes("Gaffer")) { showToast("Already in league"); return; }
-    league.members.push("Gaffer");
-    saveLeagues();
-    showToast(`Joined ${league.name}`);
-    renderLeaguesPanel();
-  }
+  function createLeague() { let name=prompt("League name:"); if(!name) return; let code=Math.random().toString(36).substring(2,8).toUpperCase(); userLeagues.push({name,code,members:["Gaffer"],admin:"Gaffer"}); saveLeagues(); showToast(`League created! Code: ${code}`); renderLeaguesPanel(); }
+  function joinLeague() { let code=prompt("Enter code:"); let l=userLeagues.find(l=>l.code===code); if(!l){ showToast("Invalid"); return; } if(l.members.includes("Gaffer")){ showToast("Already in"); return; } l.members.push("Gaffer"); saveLeagues(); showToast(`Joined ${l.name}`); renderLeaguesPanel(); }
   function renderLeaguesPanel() {
-    const container = document.getElementById("leaguesPanel");
-    let myLeagues = userLeagues.filter(l => l.members.includes("Gaffer"));
-    let html = `<div class="league-panel"><h3><i class="fas fa-users"></i> My Leagues</h3><button onclick="createLeague()" class="lock-btn">+ Create League</button> <button onclick="joinLeague()" class="lock-btn">Join League</button><div class="league-list">`;
-    for (let l of myLeagues) {
-      html += `<div class="league-item"><strong>${l.name}</strong> (${l.code})<br>Members: ${l.members.join(", ")}</div>`;
-    }
+    let myLeagues = userLeagues.filter(l=>l.members.includes("Gaffer"));
+    let html = `<div style="background:rgba(0,0,0,0.6); padding:20px; border-radius:24px;"><h3>My Leagues</h3><button onclick="createLeague()" class="lock-btn">+ Create</button> <button onclick="joinLeague()" class="lock-btn">Join</button><div>`;
+    for(let l of myLeagues) html += `<div><strong>${l.name}</strong> (${l.code})<br>Members: ${l.members.join(", ")}</div>`;
     html += `</div></div>`;
-    container.innerHTML = html;
+    document.getElementById("leaguesPanel").innerHTML = html;
   }
 
-  // build menu with image buttons
+  // build menu
   function buildMenu() {
-    const menuLeft = document.getElementById("menuLeft");
-    menuLeft.innerHTML = "";
-    // Leagues tab button
+    const menu = document.getElementById("menuLeft");
+    menu.innerHTML = "";
     const leaguesTab = document.createElement("button");
-    leaguesTab.className = "menu-btn leagues-tab-btn";
-    leaguesTab.innerHTML = `<i class="fas fa-users"></i> Leagues`;
-    leaguesTab.style.background = "#2d6a3a";
-    leaguesTab.style.border = "1px solid white";
-    leaguesTab.style.color = "white";
-    leaguesTab.style.padding = "8px 20px";
-    leaguesTab.style.borderRadius = "40px";
-    leaguesTab.style.cursor = "pointer";
-    leaguesTab.onclick = () => {
-      currentTab = "leagues";
-      renderCurrentPage();
-    };
-    menuLeft.appendChild(leaguesTab);
-    // League image buttons (all 6 leagues)
-    const leagueOrder = ["epl", "liga", "serie", "bundes", "ligue", "worldcup"];
-    for (let id of leagueOrder) {
-      const league = leaguesData[id];
-      if (!league) continue;
+    leaguesTab.className = "menu-btn"; leaguesTab.innerHTML = `<i class="fas fa-users"></i> Leagues`;
+    leaguesTab.onclick = () => { currentTab="leagues"; renderCurrentPage(); };
+    menu.appendChild(leaguesTab);
+    for(let id of Object.keys(leagueImages)) {
       const btn = document.createElement("div");
       btn.className = "league-btn";
       btn.style.backgroundImage = `url('${leagueImages[id]}')`;
       btn.setAttribute("data-league", id);
-      btn.title = league.name;
-      btn.onclick = () => {
-        currentTab = "predict";
-        currentActiveLeague = id;
-        renderCurrentPage();
-      };
-      menuLeft.appendChild(btn);
+      btn.title = leaguesData[id].name;
+      btn.onclick = () => { currentTab="predict"; currentActiveLeague=id; renderCurrentPage(); };
+      menu.appendChild(btn);
     }
   }
-
   function setupGWArrows() {
-    document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; updateGW(); } };
-    document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; updateGW(); } };
-  }
-  function updateGW() {
-    updateAllAccuracies();
-    renderCurrentPage();
-    showToast(`Gameweek ${currentGW} — Accuracy updated.`);
+    document.getElementById("gwPrev").onclick = () => { if(currentGW>1){ currentGW--; updateAllAccuracies(); renderCurrentPage(); showToast(`GW ${currentGW}`); } };
+    document.getElementById("gwNext").onclick = () => { if(currentGW<38){ currentGW++; updateAllAccuracies(); renderCurrentPage(); showToast(`GW ${currentGW}`); } };
   }
 
-  for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l] = { locked: false, lockGW: null };
-
-  buildMenu();
-  setupGWArrows();
-  renderAwardsBar();
-  renderCurrentPage();
-
-  // hide loader
-  (function() { const l=document.getElementById('loader'); function h(){ if(l) l.classList.add('hide'); } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',h); else h(); setTimeout(h,1500); })();
+  for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l]={locked:false};
+  buildMenu(); setupGWArrows(); renderAwardsBar(); renderCurrentPage();
+  setTimeout(()=>document.getElementById("loader").classList.add("hide"),1000);
 </script>
 </body>
 </html>
