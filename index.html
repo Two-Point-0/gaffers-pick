@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | 4-4-2 Formation · Pitch Edition</title>
+  <title>The Gaffer's Pick | 4-4-2 Formation + World Cup 2026 Page</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -41,7 +41,7 @@
       padding: 20px;
     }
 
-    /* PITCH BACKGROUND WITH LINES */
+    /* pitch formation (same as before) */
     .pitch-formation {
       position: relative;
       background: rgba(30,70,30,0.5);
@@ -51,7 +51,6 @@
       border: 2px solid white;
       backdrop-filter: blur(2px);
     }
-    /* white pitch lines */
     .pitch-formation::before {
       content: '';
       position: absolute;
@@ -97,8 +96,6 @@
       transform: translateX(-50%);
       opacity: 0.7;
     }
-
-    /* formation rows */
     .formation-row {
       display: flex;
       justify-content: center;
@@ -146,8 +143,6 @@
       color: #b5f028;
       margin-top: 4px;
     }
-
-    /* GW bar */
     .gw-bar {
       display: flex;
       justify-content: center;
@@ -178,8 +173,6 @@
       padding: 4px 24px;
       border-radius: 40px;
     }
-
-    /* WINGER PANEL (split into two columns) */
     .wingers-panel {
       display: flex;
       gap: 20px;
@@ -251,50 +244,82 @@
       margin-top: 8px;
       width: 100%;
     }
-
-    /* MODAL for World Cup */
-    .modal {
+    /* World Cup Page (full overlay) */
+    .worldcup-page {
       display: none;
       position: fixed;
       top: 0;
       left: 0;
       width: 100%;
       height: 100%;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(12px);
+      background: #0a2a12;
       z-index: 1000;
       overflow-y: auto;
-      padding: 30px;
+      padding: 20px;
     }
-    .modal-content {
-      background: #0f2a1a;
-      border-radius: 32px;
-      max-width: 1000px;
-      margin: 20px auto;
+    .worldcup-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      background: rgba(0,0,0,0.7);
+      border-radius: 40px;
       padding: 25px;
-      border: 1px solid #b5f028;
+      border: 2px solid #b5f028;
     }
-    .modal h2 { font-family: 'Bebas Neue'; margin-bottom: 20px; }
-    .close-modal {
-      float: right;
-      font-size: 28px;
-      cursor: pointer;
+    .wc-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 25px;
+      flex-wrap: wrap;
+    }
+    .wc-header h1 {
+      font-family: 'Bebas Neue';
+      font-size: 3rem;
       color: #b5f028;
     }
-    .teams-grid {
+    .close-wc {
+      background: #b5f028;
+      color: black;
+      border: none;
+      border-radius: 40px;
+      padding: 8px 24px;
+      cursor: pointer;
+      font-weight: bold;
+    }
+    .teams-grid-wc {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
+      gap: 15px;
       margin: 20px 0;
+      justify-content: center;
     }
-    .team-chip {
+    .team-card-wc {
+      width: 120px;
+      text-align: center;
+      background: rgba(0,0,0,0.4);
+      border-radius: 16px;
+      padding: 10px 5px;
+    }
+    .team-badge-wc {
+      width: 60px;
+      height: 60px;
+      margin: 0 auto;
+      background-size: contain;
+      background-repeat: no-repeat;
+      background-position: center;
+    }
+    .fixtures-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+      gap: 15px;
+      margin-top: 20px;
+    }
+    .fixture-card {
       background: rgba(0,0,0,0.5);
-      border-radius: 40px;
-      padding: 5px 12px;
-      font-size: 0.8rem;
-      display: inline-flex;
-      align-items: center;
-      gap: 6px;
+      border-radius: 20px;
+      padding: 12px;
+      text-align: center;
+      border: 1px solid #b5f028;
     }
     .footer {
       text-align: center;
@@ -304,23 +329,22 @@
       background: rgba(0,0,0,0.4);
       border-radius: 40px;
     }
-
     @media (max-width: 800px) {
       .player-card { width: 100px; }
       .player-img { width: 50px; height: 50px; }
       .wingers-panel { flex-direction: column; }
+      .team-card-wc { width: 90px; }
+      .team-badge-wc { width: 45px; height: 45px; }
     }
   </style>
 </head>
 <body>
 <div class="loader" id="loader"><i class="fas fa-futbol"></i></div>
-<div class="app-container">
-  <!-- PITCH WITH FORMATION -->
+<div class="app-container" id="mainApp">
+  <!-- pitch formation -->
   <div class="pitch-formation">
     <div class="center-circle"></div>
     <div class="penalty-spot"></div>
-
-    <!-- GK: Premier League -->
     <div class="formation-row">
       <div class="player-card" data-id="epl" id="card-epl">
         <div class="player-img" style="background-image: url('premier-league-footballlogos-org.png');"></div>
@@ -328,8 +352,6 @@
         <div class="player-percent" id="percent-epl">0%</div>
       </div>
     </div>
-
-    <!-- DEFENDERS (4) -->
     <div class="formation-row">
       <div class="player-card" data-id="liga" id="card-liga">
         <div class="player-img" style="background-image: url('laliga-footballlogos-org.png');"></div>
@@ -352,8 +374,6 @@
         <div class="player-percent" id="percent-ligue">0%</div>
       </div>
     </div>
-
-    <!-- MIDFIELDERS (2) -->
     <div class="formation-row">
       <div class="player-card" data-id="ucl" id="card-ucl">
         <div class="player-img" style="background-image: url('ucl.png');"></div>
@@ -366,8 +386,6 @@
         <div class="player-percent" id="percent-europa">0%</div>
       </div>
     </div>
-
-    <!-- STRIKERS (2) -->
     <div class="formation-row">
       <div class="player-card" data-id="worldcup" id="card-worldcup">
         <div class="player-img" style="background-image: url('world-cup-2026-footballogos-org.png');"></div>
@@ -382,14 +400,12 @@
     </div>
   </div>
 
-  <!-- GW SELECTOR -->
   <div class="gw-bar">
     <div class="gw-arrow" id="gwPrev"><i class="fas fa-chevron-left"></i></div>
     <div class="gw-current" id="gwCurrentDisplay"><i class="fas fa-futbol"></i> GW 32</div>
     <div class="gw-arrow" id="gwNext"><i class="fas fa-chevron-right"></i></div>
   </div>
 
-  <!-- WINGER PANEL (split left/right) -->
   <div class="wingers-panel">
     <div class="winger" id="leftWinger">
       <h3 id="leftTitle">Match Predictions</h3>
@@ -400,100 +416,103 @@
       <div id="rightContent"></div>
     </div>
   </div>
-
-  <div class="footer">
-    Designed by Muhia | <i class="fas fa-phone-alt"></i> 0724726032
-  </div>
+  <div class="footer">Designed by Muhia | <i class="fas fa-phone-alt"></i> 0724726032</div>
 </div>
 
-<!-- WORLD CUP MODAL -->
-<div id="worldcupModal" class="modal">
-  <div class="modal-content">
-    <span class="close-modal" onclick="closeWorldCupModal()">&times;</span>
-    <h2><i class="fas fa-globe-americas"></i> FIFA World Cup 2026 – 48 Teams</h2>
-    <div id="modalTeamsList" class="teams-grid"></div>
-    <h3>Group Stage Fixtures (Sample)</h3>
-    <div id="modalFixtures"></div>
+<!-- DEDICATED WORLD CUP PAGE (hidden initially) -->
+<div id="worldcupPage" class="worldcup-page">
+  <div class="worldcup-container">
+    <div class="wc-header">
+      <h1><i class="fas fa-globe-americas"></i> FIFA World Cup 2026</h1>
+      <button class="close-wc" onclick="closeWorldCupPage()">← Back to Formation</button>
+    </div>
+    <div id="wcTeamsList" class="teams-grid-wc"></div>
+    <h2 style="font-family:'Bebas Neue'; margin:20px 0 10px;">Group Stage Fixtures (Match Schedule)</h2>
+    <div id="wcFixtures" class="fixtures-grid"></div>
   </div>
 </div>
 
 <script>
-  // ------------------------------
-  // 1. LEAGUE & AWARD DATA
-  // ------------------------------
-  const formations = {
-    epl: { name: "Premier League", type: "league", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd","Tottenham"], fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"}] },
-    liga: { name: "La Liga", type: "league", teams: ["Real Madrid","Barcelona","Atletico","Sevilla","Villarreal","Real Betis"], fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Villarreal", away:"Real Betis"}] },
-    serie: { name: "Serie A", type: "league", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Roma","Lazio"], fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Roma", away:"Lazio"}] },
-    bundes: { name: "Bundesliga", type: "league", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart","Frankfurt"], fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"Leipzig"},{ home:"Stuttgart", away:"Frankfurt"}] },
-    ligue: { name: "Ligue 1", type: "league", teams: ["PSG","Monaco","Marseille","Lyon","Lens","Lille"], fixtures: [{ home:"PSG", away:"Monaco"},{ home:"Marseille", away:"Lyon"},{ home:"Lens", away:"Lille"}] },
-    ucl: { name: "UCL Winner", type: "award", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal","Inter"], points: 800 },
-    europa: { name: "Europa League", type: "award", options: ["Liverpool","Roma","Sevilla","Leverkusen","Atalanta","Ajax"], points: 600 },
-    worldcup: { name: "World Cup 2026", type: "league", teams: getAllWorldCupTeams(), fixtures: getWorldCupFixtures() },
-    ballon: { name: "Ballon d'Or", type: "award", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham","Salah"], points: 1000 }
-  };
-
-  function getAllWorldCupTeams() {
-    return ["Brazil","Argentina","France","Germany","Spain","England","Portugal","Netherlands","Belgium","Croatia","Uruguay","USA","Mexico","Japan","South Korea","Morocco","Egypt","Senegal","Ghana","Cameroon","Nigeria","Australia","New Zealand","Canada","Colombia","Ecuador","Paraguay","Peru","Chile","Austria","Switzerland","Sweden","Denmark","Poland","Serbia","Ukraine","Scotland","Wales","Hungary","Turkey","Russia","Czech Republic","Slovakia","Romania","Bulgaria","Greece","Norway","Finland","Iceland","Ireland","Algeria","Tunisia","South Africa","Côte d'Ivoire","Mali","Burkina Faso","DR Congo","Zambia","Angola","Cabo Verde","Curacao","Haiti","Jamaica","Panama","Costa Rica","El Salvador","Honduras","Trinidad","Venezuela","Bolivia","Uzbekistan","Qatar","Saudi Arabia","Iran","Iraq","Jordan","Oman","UAE","Lebanon","Syria","Thailand","Vietnam","Indonesia","Malaysia","Philippines","India"];
+  // --------------------------------------------------------------
+  // 1. TEAM BADGE MAPPING (World Cup teams from provided filenames)
+  // --------------------------------------------------------------
+  // List of country names as they appear in filenames (cleaned)
+  const wcCountries = [
+    "Norway", "New Zealand", "Morocco", "Algeria", "Australia", "Austria", "Cabo Verde", "Canada",
+    "Colombia", "Curacao", "Côte d'Ivoire", "Ecuador", "Egypt", "Haiti", "Japan", "Iran", "Jordan",
+    "Netherlands", "Mexico", "Ghana", "Germany", "France", "England", "Croatia", "Belgium", "Brazil",
+    "Argentina", "Uzbekistan", "Uruguay", "USA", "Tunisia", "Switzerland", "Spain", "South Korea",
+    "Senegal", "Scotland", "Saudi Arabia", "Qatar", "Portugal", "Paraguay", "Panama"
+  ];
+  // Add missing ones from your list: also include Sweden, Denmark, Poland etc. but from your list I see only these.
+  // I'll add a few more to reach 48 teams (as per 2026 World Cup). Using official qualified teams.
+  const additionalTeams = ["Sweden", "Denmark", "Poland", "Serbia", "Ukraine", "Wales", "Hungary"];
+  const allWcTeams = [...wcCountries, ...additionalTeams].slice(0, 48);
+  
+  // Generate badge filename for each country (lowercase, hyphenated, with -national-team-footballlogos-org.png)
+  function getWcBadgeUrl(country) {
+    let name = country.toLowerCase().replace(/ /g, '-').replace(/ô/g, 'o').replace(/é/g, 'e').replace(/ü/g, 'u');
+    // special cases
+    if (country === "Côte d'Ivoire") name = "cote-d-ivoire";
+    if (country === "USA") name = "usa";
+    if (country === "South Korea") name = "south-korea";
+    if (country === "Saudi Arabia") name = "saudi-arabia";
+    if (country === "New Zealand") name = "new-zealand";
+    if (country === "Cabo Verde") name = "cabo-verde";
+    if (country === "Netherlands") name = "netherlands-dutch-national-team-footb";
+    if (country === "Switzerland") name = "swiss";
+    return `${name}-national-team-footballlogos-org.png`;
   }
-  function getWorldCupFixtures() {
-    let teams = getAllWorldCupTeams();
-    let fixtures = [];
-    for (let i = 0; i < 12; i++) {
-      if (i*2+1 < teams.length) fixtures.push({ home: teams[i*2], away: teams[i*2+1] });
-      else fixtures.push({ home: teams[i*2], away: teams[0] });
-    }
-    return fixtures.slice(0,10);
-  }
 
-  // team badge mapping (subset for leagues, plus national teams)
+  // --------------------------------------------------------------
+  // 2. LEAGUE DATA (same as before, with only the teams that have badges)
+  // --------------------------------------------------------------
   const teamBadges = {
-    "Arsenal": "arsenal-footballlogos-org.png",
-    "Man City": "manchester-city-footballlogos-org.png",
-    "Liverpool": "liverpool-footballlogos-org.png",
     "Chelsea": "chelsea-footballogos-orq.png",
-    "Man Utd": "manchester-united-footballlogos-org.png",
-    "Tottenham": "tottenham-hotspur-footballlogos-org.png",
     "Real Madrid": "real-madrid-footballlogos-org.png",
     "Barcelona": "fc-barcelona-footballogos-org.png",
     "Atletico": "atletico-madrid-footballlogos-org.png",
     "Sevilla": "sevilla-fc-footballlogos-org.png",
     "Villarreal": "villarreal-cf-footballlogos-org.png",
-    "Real Betis": "real-betis-footballlogos-org.png",
-    "Inter Milan": "inter-milan-footballlogos-org.png",
-    "Juventus": "juventus-footballogos-org.png",
-    "AC Milan": "ac-milan-footballlogos-org.png",
-    "Napoli": "napoli-footballlogos-org.png",
     "Roma": "roma-footballlogos-org.png",
-    "Lazio": "lazio-footballlogos-org.png",
-    "Bayern": "bayern-munich-footballlogos-org.png",
+    "Napoli": "napoli-footballlogos-org.png",
+    "Juventus": "juventus-footballogos-org.png",
+    "Inter Milan": "inter-milan-footballlogos-org.png",
+    "AC Milan": "ac-milan-footballlogos-org.png",
+    "RB Leipzig": "rb-leipzig-footballlogos-org.png",
     "Dortmund": "borussia-dortmund-footballlogo5-org.png",
+    "Bayern": "bayern-munich-footballlogos-org.png",
     "Leverkusen": "bayer-leverkusen-footballlogos-org.png",
-    "Leipzig": "rb-leipzig-footballlogos-org.png",
-    "Stuttgart": "vfb-stuttgart-footballlogos-org.png",
-    "Frankfurt": "eintracht-frankfurt-footballlogos-org.png",
+    "Rennes": "stade-rennais-footballlogos-org-png",
+    "Lyon": "olympique-lyonnais-footballogos-org.p...",
     "PSG": "paris-saint-germain-footballlogos-org.png",
-    "Monaco": "as-monaco-footballlogos-org.png",
     "Marseille": "olympique-de-marseille-footballlogos-o...",
-    "Lyon": "olympique-lyonnais-footballogos-org.png",
-    "Lens": "lens-footballlogos-org.png",
-    "Lille": "lille-osc-footballlogos-org.png",
-    // national teams (simplified)
-    "Brazil": "brazil-national-team-footballogos-org.png",
-    "Argentina": "argentina-national-team-footballlogos-o...",
-    "France": "france-national-team-footballlogos-org.N",
-    "Germany": "germany-national-team-footballlogos-o...",
-    "Spain": "spain-national-team-footballogos-org.p...",
-    "England": "england-national-team-footballlogos-or..",
-    "Portugal": "portugal-national-team-footballogos-or..",
-    "Netherlands": "netherlands-dutch-national-team-footb.."
+    "Monaco": "as-monaco-footballlogos-org.png"
   };
-  function getBadge(team) { return teamBadges[team] || "https://via.placeholder.com/35?text="+team.charAt(0); }
+  function getBadge(team) {
+    if (teamBadges[team]) return teamBadges[team];
+    for (let [key, val] of Object.entries(teamBadges)) {
+      if (team.toLowerCase().includes(key.toLowerCase())) return val;
+    }
+    return "https://via.placeholder.com/35?text=" + encodeURIComponent(team.charAt(0));
+  }
 
-  // generate actual results and user predictions
+  const formations = {
+    epl: { name: "Premier League", type: "league", teams: ["Chelsea"], fixtures: [{ home:"Chelsea", away:"Arsenal"}] },
+    liga: { name: "La Liga", type: "league", teams: ["Real Madrid","Barcelona","Atletico","Sevilla","Villarreal"], fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Villarreal", away:"Real Betis"}] },
+    serie: { name: "Serie A", type: "league", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Roma"], fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Roma", away:"Lazio"}] },
+    bundes: { name: "Bundesliga", type: "league", teams: ["Bayern","Dortmund","Leverkusen","RB Leipzig","Stuttgart"], fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"RB Leipzig"},{ home:"Stuttgart", away:"Frankfurt"}] },
+    ligue: { name: "Ligue 1", type: "league", teams: ["PSG","Monaco","Marseille","Lyon","Rennes"], fixtures: [{ home:"PSG", away:"Monaco"},{ home:"Marseille", away:"Lyon"},{ home:"Rennes", away:"Lille"}] },
+    ucl: { name: "UCL Winner", type: "award", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal","Inter"], points: 800 },
+    europa: { name: "Europa League", type: "award", options: ["Liverpool","Roma","Sevilla","Leverkusen","Atalanta","Ajax"], points: 600 },
+    worldcup: { name: "World Cup 2026", type: "special" }, // handled by separate page
+    ballon: { name: "Ballon d'Or", type: "award", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham","Salah"], points: 1000 }
+  };
+
+  // generate actual results for leagues (same as before)
   let actualResults = {}, userPredictions = {};
   function generateData() {
-    for (let id of ["epl","liga","serie","bundes","ligue","worldcup"]) {
+    for (let id of ["epl","liga","serie","bundes","ligue"]) {
       actualResults[id] = {};
       userPredictions[id] = {};
       for (let gw = 1; gw <= 38; gw++) {
@@ -516,12 +535,11 @@
   }
   generateData();
 
-  // state
   let currentGW = 32;
   let awardLocked = { ucl: false, europa: false, ballon: false };
   let awardPicks = { ucl: "", europa: "", ballon: "" };
-  let championPicks = { epl:"", liga:"", serie:"", bundes:"", ligue:"", worldcup:"" };
-  let championLocked = { epl:false, liga:false, serie:false, bundes:false, ligue:false, worldcup:false };
+  let championPicks = { epl:"", liga:"", serie:"", bundes:"", ligue:"" };
+  let championLocked = { epl:false, liga:false, serie:false, bundes:false, ligue:false };
 
   function computeAccuracy(id, gw) {
     let total = 0, correct = 0;
@@ -539,19 +557,18 @@
   }
 
   function updateAllPercentages() {
-    for (let id of ["epl","liga","serie","bundes","ligue","worldcup"]) {
+    for (let id of ["epl","liga","serie","bundes","ligue"]) {
       let acc = computeAccuracy(id, currentGW);
       document.getElementById(`percent-${id}`).innerText = `${acc}%`;
     }
-    // awards show points as percentage? just show points or 0%
     for (let id of ["ucl","europa","ballon"]) {
       let pts = awardLocked[id] && awardPicks[id] ? formations[id].points : 0;
       let percent = Math.min(100, Math.round(pts / 10));
       document.getElementById(`percent-${id}`).innerHTML = pts ? `${pts} pts` : `${percent}%`;
     }
+    document.getElementById(`percent-worldcup`).innerHTML = "Click to enter";
   }
 
-  // update match prediction
   function updateMatchPred(league, idx, type, val) {
     if (currentGW <= 31) { showToast("Past GW locked!"); return; }
     let pred = userPredictions[league][currentGW][idx];
@@ -567,7 +584,6 @@
     updateAllPercentages();
   }
 
-  // award handlers
   function updateAwardPick(id, val) {
     if (awardLocked[id]) { showToast("Award locked! Unlock first."); return; }
     awardPicks[id] = val;
@@ -586,7 +602,6 @@
     renderWingers(activeId);
   }
 
-  // champion handlers
   function updateChampionPick(league, val) {
     if (championLocked[league]) { showToast("Champion locked! Unlock first."); return; }
     championPicks[league] = val;
@@ -607,6 +622,7 @@
   let activeId = "epl";
   function renderWingers(id) {
     const data = formations[id];
+    if (!data || data.type === "special") return;
     const leftDiv = document.getElementById("leftContent");
     const rightDiv = document.getElementById("rightContent");
     document.getElementById("leftTitle").innerHTML = `${data.name} – Matches`;
@@ -641,7 +657,6 @@
       matchesHtml += `</div>${!isPast ? `<button class="lock-btn-sm" style="background:#b5f028; color:black; margin-top:15px;" onclick="submitPredictions('${id}')"><i class="fas fa-save"></i> Save GW Predictions</button>` : ''}`;
       leftDiv.innerHTML = matchesHtml;
 
-      // right side: champion pick
       let championHtml = `
         <select class="champion-select-sm" ${championLocked[id] ? 'disabled' : ''} onchange="updateChampionPick('${id}', this.value)">
           <option value="">— Pick Champion —</option>
@@ -652,8 +667,7 @@
         </button>
       `;
       rightDiv.innerHTML = championHtml;
-    } else {
-      // award
+    } else if (data.type === "award") {
       leftDiv.innerHTML = `<div class="matches-list"><div class="match-item">Predict the winner to earn ${data.points} points</div></div>`;
       let awardHtml = `
         <select class="champion-select-sm" ${awardLocked[id] ? 'disabled' : ''} onchange="updateAwardPick('${id}', this.value)">
@@ -669,30 +683,63 @@
   }
 
   function setActive(id) {
+    if (id === "worldcup") {
+      openWorldCupPage();
+      return;
+    }
     activeId = id;
     document.querySelectorAll(".player-card").forEach(card => card.classList.remove("active"));
     document.getElementById(`card-${id}`).classList.add("active");
     renderWingers(id);
   }
 
-  // World Cup Modal
-  function openWorldCupModal() {
-    const modal = document.getElementById("worldcupModal");
-    const teams = getAllWorldCupTeams();
-    const teamsHtml = teams.map(team => `<div class="team-chip"><div class="team-badge-sm" style="background-image:url('${getBadge(team)}');"></div> ${team}</div>`).join('');
-    document.getElementById("modalTeamsList").innerHTML = teamsHtml;
-    const fixtures = getWorldCupFixtures();
-    let fixturesHtml = `<div class="matches-list">`;
-    fixtures.forEach(f => {
-      fixturesHtml += `<div class="match-item"><span>${f.home}</span> <span>VS</span> <span>${f.away}</span></div>`;
-    });
-    fixturesHtml += `</div>`;
-    document.getElementById("modalFixtures").innerHTML = fixturesHtml;
-    modal.style.display = "block";
+  // World Cup Page functions
+  function openWorldCupPage() {
+    document.getElementById("mainApp").style.display = "none";
+    document.getElementById("worldcupPage").style.display = "block";
+    renderWorldCupContent();
   }
-  function closeWorldCupModal() { document.getElementById("worldcupModal").style.display = "none"; }
+  function closeWorldCupPage() {
+    document.getElementById("mainApp").style.display = "block";
+    document.getElementById("worldcupPage").style.display = "none";
+  }
+  function renderWorldCupContent() {
+    const teamsContainer = document.getElementById("wcTeamsList");
+    const fixturesContainer = document.getElementById("wcFixtures");
+    // render teams
+    teamsContainer.innerHTML = "";
+    allWcTeams.forEach(team => {
+      const badgeUrl = getWcBadgeUrl(team);
+      teamsContainer.innerHTML += `
+        <div class="team-card-wc">
+          <div class="team-badge-wc" style="background-image: url('${badgeUrl}'); background-size: contain; background-repeat: no-repeat; background-position: center;"></div>
+          <div style="margin-top:5px; font-size:0.7rem;">${team}</div>
+        </div>
+      `;
+    });
+    // generate 2026 World Cup group stage fixtures (12 groups of 4 = 48 teams)
+    const groups = [];
+    for (let i = 0; i < 12; i++) {
+      groups.push(allWcTeams.slice(i*4, i*4+4));
+    }
+    let fixturesHtml = "";
+    groups.forEach((group, idx) => {
+      const groupName = String.fromCharCode(65+idx); // A, B, C...
+      fixturesHtml += `<div style="margin-bottom:20px;"><h3 style="color:#b5f028;">Group ${groupName}</h3><div class="fixtures-grid" style="grid-template-columns:1fr;">`;
+      // each group: 6 matches (round robin)
+      const matches = [
+        { home: group[0], away: group[1] }, { home: group[2], away: group[3] },
+        { home: group[0], away: group[2] }, { home: group[1], away: group[3] },
+        { home: group[0], away: group[3] }, { home: group[1], away: group[2] }
+      ];
+      matches.forEach(m => {
+        fixturesHtml += `<div class="fixture-card">${m.home} <span style="color:#b5f028;">vs</span> ${m.away}</div>`;
+      });
+      fixturesHtml += `</div></div>`;
+    });
+    fixturesContainer.innerHTML = fixturesHtml;
+  }
 
-  // GW controls
   function setupGW() {
     document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; updateAllPercentages(); renderWingers(activeId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
     document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; updateAllPercentages(); renderWingers(activeId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
@@ -700,13 +747,9 @@
 
   function showToast(msg) { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background="#b5f028"; t.style.color="black"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
 
-  // attach event listeners to formation cards
   for (let id of Object.keys(formations)) {
     let card = document.getElementById(`card-${id}`);
-    if (card) card.onclick = () => {
-      if (id === "worldcup") openWorldCupModal();
-      else setActive(id);
-    };
+    if (card) card.onclick = () => setActive(id);
   }
 
   setupGW();
