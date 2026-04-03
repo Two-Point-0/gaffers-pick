@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Live Data · Past GWs Locked · Accuracy %</title>
+  <title>The Gaffer's Pick | Pitch Perfect · Narrow Predictions · Ball Icon</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,12 +15,39 @@
       box-sizing: border-box;
     }
 
-    /* DARK GREY BACKGROUND - text clearly visible */
     body {
-      background: #1e1e1e;
+      background: #121212;
       font-family: 'Barlow', sans-serif;
       min-height: 100vh;
       color: #f0f0f0;
+    }
+
+    /* loading spinner with soccer ball */
+    .loader {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #0a0a0a;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s;
+    }
+    .loader i {
+      font-size: 4rem;
+      color: #b5f028;
+      animation: spin 1s linear infinite;
+    }
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+    .loader.hide {
+      opacity: 0;
+      pointer-events: none;
     }
 
     .app-wrapper {
@@ -29,7 +56,7 @@
       min-height: 100vh;
     }
 
-    /* MODERN NAV */
+    /* modern nav */
     .glass-nav {
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
@@ -87,12 +114,11 @@
       cursor: pointer;
     }
 
-    /* custom scrollbar */
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #2a2a2a; border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: #b5f028; border-radius: 10px; }
 
-    /* GW STRIP */
+    /* GW strip with ball icons */
     .gw-strip {
       background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(8px);
@@ -100,13 +126,11 @@
       overflow-x: auto;
       border-bottom: 1px solid #b5f028;
     }
-
     .gw-container {
       display: inline-flex;
       gap: 8px;
       padding: 0 1rem;
     }
-
     .gw-btn {
       background: #2a2a2a;
       border: 1px solid #5a9e6a;
@@ -116,25 +140,32 @@
       padding: 6px 18px;
       border-radius: 40px;
       cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
-
+    .gw-btn i {
+      font-size: 0.8rem;
+      color: #b5f028;
+    }
     .gw-btn.active-gw {
       background: #b5f028;
       color: #0a2a12;
     }
+    .gw-btn.active-gw i {
+      color: #0a2a12;
+    }
 
-    /* LEAGUE CARDS - green containers only */
+    /* LEAGUE CARDS - full pitch markings */
     .leagues-scroll {
       overflow-x: auto;
       padding: 2rem 1rem;
     }
-
     .leagues-track {
       display: inline-flex;
       gap: 24px;
       padding: 0 1rem;
     }
-
     .league-card {
       position: relative;
       width: 300px;
@@ -147,30 +178,49 @@
       cursor: pointer;
       overflow: hidden;
     }
-
-    /* pitch markings */
-    .league-card::before {
+    /* pitch markings: center circle, halfway line, goal areas */
+    .league-card .pitch-markings {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+    .league-card .pitch-markings::before {
       content: '';
       position: absolute;
-      top: 8%;
-      left: 5%;
-      width: 90%;
-      height: 84%;
-      border: 1px solid rgba(255,255,255,0.5);
-      border-radius: 8px;
-      pointer-events: none;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 2px;
+      background: rgba(255,255,255,0.5);
+      transform: translateY(-50%);
     }
-    .league-card::after {
+    .league-card .pitch-markings::after {
       content: '';
       position: absolute;
       top: 50%;
       left: 50%;
-      width: 40px;
-      height: 40px;
-      border: 1px solid rgba(255,255,255,0.4);
+      width: 50px;
+      height: 50px;
+      border: 2px solid rgba(255,255,255,0.5);
       border-radius: 50%;
       transform: translate(-50%, -50%);
-      pointer-events: none;
+    }
+    .league-card .goal-left, .league-card .goal-right {
+      position: absolute;
+      top: 50%;
+      width: 20px;
+      height: 40px;
+      border: 2px solid rgba(255,255,255,0.5);
+      transform: translateY(-50%);
+    }
+    .league-card .goal-left {
+      left: 10px;
+      border-right: none;
+    }
+    .league-card .goal-right {
+      right: 10px;
+      border-left: none;
     }
 
     .league-card.active-league {
@@ -179,16 +229,18 @@
       transform: scale(1.02);
     }
 
+    /* darker green percentage (visible) */
     .accuracy-bg {
       position: absolute;
       bottom: 5px;
       right: 12px;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 6.5rem;
+      font-size: 6rem;
       font-weight: bold;
-      color: rgba(255, 255, 255, 0.15);
+      color: rgba(0, 30, 0, 0.6);
+      text-shadow: 0 0 2px rgba(255,255,255,0.3);
       pointer-events: none;
-      z-index: 1;
+      z-index: 2;
     }
 
     .league-card-content {
@@ -219,12 +271,11 @@
       color: #b5f028;
     }
 
-    /* transparent pick champion */
     .champion-selector {
       width: 100%;
       margin: 12px 0;
       padding: 8px;
-      background: rgba(0, 0, 0, 0.5);
+      background: rgba(0, 0, 0, 0.6);
       backdrop-filter: blur(4px);
       border-radius: 40px;
       color: white;
@@ -249,33 +300,29 @@
       gap: 8px;
       transition: 0.2s;
     }
-
     .lock-champ-btn.locked {
       background: #b5f028;
       color: black;
       border-color: #b5f028;
     }
 
-    /* AWARDS CARDS - also green */
+    /* AWARDS CARDS with transparent text and pitch markings */
     .awards-panel {
       margin: 1rem;
       padding: 0.5rem;
     }
-
     .awards-title {
       font-family: 'Bebas Neue';
       font-size: 1.5rem;
       color: white;
       margin-bottom: 1rem;
     }
-
     .awards-grid {
       display: flex;
       flex-wrap: wrap;
       gap: 20px;
       justify-content: center;
     }
-
     .award-card {
       position: relative;
       background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
@@ -286,13 +333,35 @@
       text-align: center;
       overflow: hidden;
     }
-    .award-card::before {
+    .award-card .pitch-markings {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+    }
+    .award-card .pitch-markings::before {
       content: '';
       position: absolute;
-      inset: 8px;
-      border: 1px solid rgba(255,255,255,0.4);
-      border-radius: 8px;
-      pointer-events: none;
+      top: 50%;
+      left: 0;
+      right: 0;
+      height: 1px;
+      background: rgba(255,255,255,0.3);
+    }
+    .award-card .pitch-markings::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 30px;
+      height: 30px;
+      border: 1px solid rgba(255,255,255,0.3);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
+    }
+    /* transparent text inside award cards */
+    .award-card h3, .award-card select, .award-card .award-points, .award-card .lock-award-btn {
+      position: relative;
+      z-index: 2;
     }
     .award-card select {
       background: rgba(0,0,0,0.6);
@@ -312,71 +381,48 @@
       color: white;
     }
 
-    /* TABS */
-    .tab-bar-modern {
-      display: flex;
-      gap: 12px;
-      padding: 0 2rem;
-      margin: 1rem 0;
-    }
-
-    .tab-modern {
-      padding: 8px 28px;
-      font-family: 'Barlow Condensed';
-      font-weight: bold;
-      cursor: pointer;
-      border-radius: 60px;
-      background: rgba(0, 0, 0, 0.5);
-      color: #eee;
-      transition: 0.2s;
-    }
-
-    .tab-modern.active {
-      background: #b5f028;
-      color: #0a2a12;
-    }
-
-    /* MATCH CARDS - scores on each side */
+    /* NARROWER MATCH CARDS */
     .matches-grid {
       display: flex;
       flex-direction: column;
-      gap: 12px;
-      padding: 1rem 2rem;
+      gap: 10px;
+      padding: 1rem;
       max-height: 500px;
       overflow-y: auto;
     }
-
     .match-card {
       background: rgba(0, 0, 0, 0.7);
       backdrop-filter: blur(8px);
-      border-radius: 24px;
-      display: grid;
-      grid-template-columns: 1fr auto 1fr auto;
+      border-radius: 20px;
+      display: flex;
       align-items: center;
-      gap: 0.5rem;
-      padding: 1rem 1.5rem;
+      justify-content: space-between;
+      padding: 0.6rem 1rem;
       border: 1px solid #b5f028;
+      flex-wrap: wrap;
+      gap: 0.5rem;
     }
-
     .team-home, .team-away {
       display: flex;
       align-items: center;
-      gap: 12px;
+      gap: 8px;
+      flex: 2;
     }
     .team-away {
       justify-content: flex-end;
     }
     .team-name {
-      font-weight: 700;
-      font-size: 1rem;
+      font-weight: 600;
+      font-size: 0.85rem;
+      white-space: nowrap;
     }
     .score-input {
-      width: 60px;
-      height: 48px;
+      width: 50px;
+      height: 40px;
       background: #1a3a1a;
-      border-radius: 16px;
+      border-radius: 12px;
       text-align: center;
-      font-size: 1.6rem;
+      font-size: 1.3rem;
       color: #b5f028;
       border: 1px solid #b5f028;
       font-weight: bold;
@@ -386,18 +432,50 @@
       color: #aaa;
       border-color: #555;
     }
+    .vs-text {
+      font-weight: bold;
+      color: #b5f028;
+      margin: 0 5px;
+    }
+    .actual-result {
+      font-size: 0.7rem;
+      color: #b5f028;
+      background: rgba(0,0,0,0.5);
+      padding: 2px 8px;
+      border-radius: 20px;
+      white-space: nowrap;
+    }
 
     .btn-submit-lime {
       background: linear-gradient(95deg, #b5f028, #8bcb1f);
       border: none;
       font-family: 'Bebas Neue';
-      padding: 12px 28px;
+      padding: 10px 24px;
       border-radius: 60px;
       cursor: pointer;
       font-weight: bold;
-      font-size: 1rem;
+      font-size: 0.9rem;
     }
 
+    .tab-bar-modern {
+      display: flex;
+      gap: 12px;
+      padding: 0 2rem;
+      margin: 1rem 0;
+    }
+    .tab-modern {
+      padding: 6px 24px;
+      font-family: 'Barlow Condensed';
+      font-weight: bold;
+      cursor: pointer;
+      border-radius: 60px;
+      background: rgba(0, 0, 0, 0.5);
+      color: #eee;
+    }
+    .tab-modern.active {
+      background: #b5f028;
+      color: #0a2a12;
+    }
     .card-log {
       background: rgba(0, 0, 0, 0.7);
       border: 1px solid #b5f028;
@@ -408,19 +486,20 @@
 
     @media (max-width: 700px) {
       .match-card {
-        grid-template-columns: 1fr;
-        gap: 0.5rem;
+        flex-direction: column;
+        align-items: stretch;
+      }
+      .team-home, .team-away {
+        justify-content: space-between;
       }
       .league-card {
         width: 260px;
-      }
-      .team-home, .team-away {
-        justify-content: center;
       }
     }
   </style>
 </head>
 <body>
+<div class="loader" id="loader"><i class="fas fa-futbol"></i></div>
 <div class="app-wrapper">
   <div class="glass-nav">
     <div style="display: flex; gap: 12px; align-items: baseline;">
@@ -466,8 +545,13 @@
 </div>
 
 <script>
+  // hide loader after load
+  window.addEventListener('load', () => {
+    document.getElementById('loader').classList.add('hide');
+  });
+
   // ------------------------------
-  // 1. LEAGUES DATA & FIXTURES (realistic 2025-26)
+  // DATA & SIMULATION
   // ------------------------------
   const leaguesData = {
     epl: { name: "Premier League", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/120px-Premier_League_Logo.svg.png", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Tottenham"], fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
@@ -478,41 +562,23 @@
     worldcup: { name: "World Cup", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/FIFA_World_Cup_Logo_2026.png/120px-FIFA_World_Cup_Logo_2026.png", fullName: "FIFA World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], fixtures: [{ home:"Brazil", away:"Argentina"},{ home:"France", away:"Spain"},{ home:"Germany", away:"England"},{ home:"Portugal", away:"Netherlands"},{ home:"Belgium", away:"Croatia"}] }
   };
 
-  // ------------------------------
-  // 2. SIMULATED ACTUAL RESULTS (for GW 1 to 38)
-  // ------------------------------
-  let actualResults = {}; // actualResults[league][gw][matchIdx] = { homeScore, awayScore }
-  function generateActualResults() {
+  let actualResults = {};
+  let userPredictions = {};
+
+  function generateData() {
     for (let league of Object.keys(leaguesData)) {
       actualResults[league] = {};
+      userPredictions[league] = {};
       for (let gw = 1; gw <= 38; gw++) {
         actualResults[league][gw] = [];
+        userPredictions[league][gw] = [];
         for (let i = 0; i < leaguesData[league].fixtures.length; i++) {
-          // realistic random scores: home win/draw/away
           let homeScore = Math.floor(Math.random() * 4);
           let awayScore = Math.floor(Math.random() * 3);
           if (homeScore === awayScore && homeScore === 0 && Math.random() > 0.3) homeScore = 1;
           actualResults[league][gw].push({ homeScore, awayScore });
-        }
-      }
-    }
-  }
-  generateActualResults();
-
-  // ------------------------------
-  // 3. USER PREDICTIONS STORAGE (simulate past predictions)
-  // ------------------------------
-  let userPredictions = {}; // userPredictions[league][gw][matchIdx] = { hPred, aPred }
-  function initUserPredictions() {
-    for (let league of Object.keys(leaguesData)) {
-      userPredictions[league] = {};
-      for (let gw = 1; gw <= 38; gw++) {
-        userPredictions[league][gw] = [];
-        for (let i = 0; i < leaguesData[league].fixtures.length; i++) {
-          // simulate user predictions: sometimes correct, sometimes off
-          let actual = actualResults[league][gw][i];
-          let hPred = actual.homeScore + (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
-          let aPred = actual.awayScore + (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
+          let hPred = homeScore + (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
+          let aPred = awayScore + (Math.random() > 0.6 ? (Math.random() > 0.5 ? 1 : -1) : 0);
           hPred = Math.max(0, Math.min(5, hPred));
           aPred = Math.max(0, Math.min(5, aPred));
           userPredictions[league][gw].push({ hPred, aPred });
@@ -520,46 +586,31 @@
       }
     }
   }
-  initUserPredictions();
+  generateData();
 
-  // ------------------------------
-  // 4. CALCULATE ACCURACY PER LEAGUE (based on past GWs up to currentGW-1)
-  // ------------------------------
   function computeAccuracy(league, currentGW) {
-    let totalMatches = 0;
-    let correctExact = 0;
+    let total = 0, correct = 0;
     for (let gw = 1; gw < currentGW; gw++) {
       let matches = userPredictions[league][gw];
       let actuals = actualResults[league][gw];
       for (let i = 0; i < matches.length; i++) {
-        totalMatches++;
-        if (matches[i].hPred === actuals[i].homeScore && matches[i].aPred === actuals[i].awayScore) {
-          correctExact++;
-        }
+        total++;
+        if (matches[i].hPred === actuals[i].homeScore && matches[i].aPred === actuals[i].awayScore) correct++;
       }
     }
-    return totalMatches === 0 ? 0 : Math.round((correctExact / totalMatches) * 100);
+    return total === 0 ? 0 : Math.round((correct / total) * 100);
   }
 
-  // ------------------------------
-  // 5. GLOBAL STATE
-  // ------------------------------
   let currentLeague = "epl";
-  let currentGW = 32;        // current gameweek (we are at GW32, past GWs locked)
+  let currentGW = 32;
   let leagueScores = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0, worldcup: 0 };
   let championPicks = { epl: "", liga: "", serie: "", bundes: "", ligue: "", worldcup: "" };
   let lockState = {};
   let penaltyPoints = { epl: 0, liga: 0, serie: 0, bundes: 0, ligue: 0, worldcup: 0 };
   let leagueAccuracy = {};
-
-  function updateAllAccuracies() {
-    for (let l of Object.keys(leaguesData)) {
-      leagueAccuracy[l] = computeAccuracy(l, currentGW);
-    }
-  }
+  function updateAllAccuracies() { for (let l of Object.keys(leaguesData)) leagueAccuracy[l] = computeAccuracy(l, currentGW); }
   updateAllAccuracies();
 
-  // cards system (simplified)
   let userCards = { yellows: 0, reds: 0, cardHistory: [] };
   let isSuspended = false;
   function giveYellowCard(reason) { if(isSuspended) return; userCards.yellows++; userCards.cardHistory.push({ gw: currentGW, reason, type:"yellow" }); showToast(`🟡 YELLOW: ${reason}`, "#f5d742"); updateCardUI(); let recent = userCards.cardHistory.filter(c=>c.type==="yellow" && (currentGW-c.gw)<=3).length; if(recent>=2 && userCards.reds===0) giveRedCard("Two yellows in 3 GWs"); }
@@ -575,18 +626,16 @@
     if(type === 'home') pred.hPred = parseInt(val) || 0;
     else pred.aPred = parseInt(val) || 0;
     checkRiskyPrediction(pred.hPred, pred.aPred);
-    // re-render to show updated values
     renderPredictions();
   }
 
   function submitPredictions() {
     if(isSuspended) { showToast("Suspended! Cannot submit."); return; }
     if (currentGW <= 31) { showToast("Past gameweeks are already recorded."); return; }
-    showToast(`✅ GW${currentGW} predictions saved! Accuracy will update after GW ends.`, "#b5f028");
-    // In real app, you would lock submissions. Here we just notify.
+    showToast(`✅ GW${currentGW} predictions saved!`, "#b5f028");
   }
 
-  // render league cards with accuracy %
+  // RENDER LEAGUE CARDS with pitch markings and dark green percentage
   function renderLeagues() {
     const track = document.getElementById("leaguesTrack");
     track.innerHTML = "";
@@ -597,6 +646,9 @@
       card.className = `league-card ${currentLeague === key ? 'active-league' : ''}`;
       card.onclick = (e) => { if(e.target.tagName!=='SELECT' && e.target.tagName!=='BUTTON') { currentLeague = key; renderLeagues(); renderPredictions(); } };
       card.innerHTML = `
+        <div class="pitch-markings">
+          <div class="goal-left"></div><div class="goal-right"></div>
+        </div>
         <div class="accuracy-bg">${percent}%</div>
         <div class="league-card-content">
           <div style="display:flex; align-items:center; gap:8px;">
@@ -644,7 +696,7 @@
     renderLeagues();
   }
 
-  // Awards (unchanged)
+  // AWARDS with pitch markings and transparent text
   const awardsList = [
     { id: "ballon", name: "Ballon d'Or", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham"], points: 150, locked: false, lockGW: null, pick: "" },
     { id: "ucl", name: "UCL Winner", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal"], points: 120, locked: false, lockGW: null, pick: "" },
@@ -657,13 +709,14 @@
       let card = document.createElement("div");
       card.className = "award-card";
       card.innerHTML = `
+        <div class="pitch-markings"></div>
         <h3 style="color:white; font-size:1.1rem;">${award.name}</h3>
         <select id="award-${award.id}" ${award.locked ? 'disabled' : ''} onchange="updateAwardPick('${award.id}', this.value)">
           <option value="">— Predict Winner —</option>
           ${award.options.map(opt => `<option ${award.pick===opt ? 'selected' : ''}>${opt}</option>`).join('')}
         </select>
         <div style="font-size:0.7rem; color:#ffd966;">🏆 Bonus: ${award.points} pts | Penalty: -${Math.floor(award.points*0.3)}</div>
-        <button class="lock-award-btn" onclick="toggleAwardLock('${award.id}')">${award.locked ? '🔒 Locked' : '🔓 Unlock'}</button>
+        <button class="lock-award-btn" onclick="toggleAwardLock('${award.id}')"><i class="fas ${award.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${award.locked ? 'Locked' : 'Unlock'}</button>
       `;
       container.appendChild(card);
     });
@@ -676,34 +729,34 @@
     renderAwards();
   }
 
-  // render predictions with scores on each side
+  // NARROW MATCH PREDICTIONS
   function renderPredictions() {
     const panel = document.getElementById("panel-predict");
     if(isSuspended) { panel.innerHTML = `<div style="padding:2rem;text-align:center;"><i class="fas fa-ban"></i><h2>SUSPENDED GW ${currentGW}</h2></div>`; return; }
     let matches = leaguesData[currentLeague].fixtures;
     let userPreds = userPredictions[currentLeague][currentGW];
     let actuals = actualResults[currentLeague][currentGW];
-    let isPast = currentGW < 32; // GW 1-31 are past, locked
+    let isPast = currentGW < 32;
     let html = `<div class="matches-grid">`;
     matches.forEach((m, idx) => {
       let userH = userPreds[idx].hPred;
       let userA = userPreds[idx].aPred;
       let actualH = actuals[idx].homeScore;
       let actualA = actuals[idx].awayScore;
-      let displayHomeScore = isPast ? actualH : (userH !== undefined ? userH : '');
-      let displayAwayScore = isPast ? actualA : (userA !== undefined ? userA : '');
+      let displayHome = isPast ? actualH : (userH !== undefined ? userH : '');
+      let displayAway = isPast ? actualA : (userA !== undefined ? userA : '');
       html += `
         <div class="match-card">
           <div class="team-home">
             <span class="team-name">${m.home}</span>
-            <input class="score-input" type="number" id="h_${idx}" value="${displayHomeScore}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)">
+            <input class="score-input" type="number" id="h_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)">
           </div>
-          <div>VS</div>
+          <div class="vs-text">VS</div>
           <div class="team-away">
-            <input class="score-input" type="number" id="a_${idx}" value="${displayAwayScore}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)">
+            <input class="score-input" type="number" id="a_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)">
             <span class="team-name">${m.away}</span>
           </div>
-          ${isPast ? `<div style="font-size:0.8rem; color:#b5f028;">Actual: ${actualH} - ${actualA}</div>` : '<div></div>'}
+          ${isPast ? `<div class="actual-result">Actual: ${actualH}–${actualA}</div>` : ''}
         </div>`;
     });
     if (!isPast) {
@@ -728,20 +781,18 @@
   }
   function updateScoreDisplay() { renderLeagues(); }
 
-  // GW strip 1-38
   function buildGWStrip() {
     let container = document.getElementById("gwContainer");
     for(let i=1;i<=38;i++) {
       let btn = document.createElement("button");
-      btn.innerText = `GW ${i}`;
-      btn.classList.add("gw-btn");
+      btn.className = "gw-btn";
+      btn.innerHTML = `<i class="fas fa-futbol"></i> GW ${i}`;
       if(i===currentGW) btn.classList.add("active-gw");
       btn.onclick = () => {
         currentGW = i;
         document.getElementById("globalGWbadge").innerHTML = `GW ${currentGW}`;
         document.querySelectorAll(".gw-btn").forEach(b=>b.classList.remove("active-gw"));
         btn.classList.add("active-gw");
-        // update accuracies based on new currentGW (for display)
         updateAllAccuracies();
         renderLeagues();
         renderPredictions();
