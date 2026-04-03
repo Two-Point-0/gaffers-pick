@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Real Football Pitch · 38 GWs · World Cup Groups</title>
+  <title>The Gaffer's Pick | Pitch Menu · Home/Away Panels</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -39,13 +39,9 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .loader.hide { opacity: 0; pointer-events: none; }
 
-    .app-container {
-      max-width: 1300px;
-      width: 100%;
-      margin: 0 auto;
-    }
+    .app-container { max-width: 1400px; width: 100%; margin: 0 auto; }
 
-    /* PITCH WITH EXACT WHITE MARKINGS */
+    /* PITCH WITH EXACT MARKINGS (formation menu) */
     .real-pitch {
       position: relative;
       background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
@@ -55,7 +51,6 @@
       padding: 20px 15px 40px;
       box-shadow: 0 0 0 8px rgba(0,0,0,0.2);
     }
-    /* outer lines */
     .real-pitch::before {
       content: '';
       position: absolute;
@@ -67,7 +62,6 @@
       border-radius: 50px;
       pointer-events: none;
     }
-    /* halfway line */
     .halfway-line {
       position: absolute;
       top: 50%;
@@ -78,7 +72,6 @@
       transform: translateY(-50%);
       z-index: 1;
     }
-    /* center circle (footer area) */
     .center-circle-footer {
       position: absolute;
       bottom: 15px;
@@ -99,7 +92,6 @@
       z-index: 2;
       backdrop-filter: blur(4px);
     }
-    /* penalty area (goal area for GK) */
     .goal-area {
       position: absolute;
       top: 15px;
@@ -113,7 +105,6 @@
       background: rgba(0,0,0,0.15);
       pointer-events: none;
     }
-    /* penalty spot */
     .penalty-spot {
       position: absolute;
       top: 80px;
@@ -125,7 +116,6 @@
       transform: translateX(-50%);
       z-index: 1;
     }
-    /* six-yard box */
     .six-yard-box {
       position: absolute;
       top: 25px;
@@ -138,13 +128,7 @@
       border-radius: 0 0 8px 8px;
       pointer-events: none;
     }
-
-    /* formation rows (absolutely positioned) */
-    .pitch-players {
-      position: relative;
-      z-index: 5;
-      min-height: 500px;
-    }
+    .pitch-players { position: relative; z-index: 5; min-height: 500px; }
     .player-card {
       position: absolute;
       width: 110px;
@@ -184,8 +168,7 @@
       font-size: 0.6rem;
       color: #b5f028;
     }
-
-    /* positions on pitch */
+    /* positions */
     .gk { top: 35px; left: 50%; }
     .defender { top: 150px; }
     .defender-1 { left: 25%; }
@@ -231,7 +214,7 @@
       border-radius: 40px;
     }
 
-    /* winger panel (split) */
+    /* Home/Away Panels */
     .wingers-panel {
       display: flex;
       gap: 20px;
@@ -251,62 +234,64 @@
       margin-bottom: 15px;
       text-align: center;
     }
-    .matches-list {
+    .home-list, .away-list {
       display: flex;
       flex-direction: column;
-      gap: 12px;
+      gap: 15px;
     }
-    .match-item {
+    .home-item, .away-item {
       display: flex;
       align-items: center;
       justify-content: space-between;
       background: rgba(0,0,0,0.4);
       border-radius: 40px;
-      padding: 6px 12px;
-      flex-wrap: wrap;
-      gap: 8px;
-      font-size: 0.8rem;
+      padding: 8px 15px;
+      gap: 10px;
     }
-    .team-badge-sm {
-      width: 30px;
-      height: 30px;
+    .team-badge {
+      width: 40px;
+      height: 40px;
       background-size: contain;
       background-repeat: no-repeat;
       background-position: center;
-      border-radius: 6px;
+      border-radius: 8px;
     }
-    .score-input-sm {
-      width: 45px;
-      height: 32px;
+    .score-input {
+      width: 60px;
+      height: 40px;
       background: transparent;
       border: 2px solid white;
-      border-radius: 10px;
+      border-radius: 12px;
       text-align: center;
-      font-size: 1rem;
+      font-size: 1.2rem;
       color: #b5f028;
     }
-    .champion-select-sm, .award-select-sm {
+    .score-input:disabled { border-color: #888; color: #aaa; }
+    .award-select, .champion-select {
       background: rgba(10,42,18,0.8);
       border: 1px solid #b5f028;
       border-radius: 40px;
-      padding: 5px;
+      padding: 8px;
       color: white;
       width: 100%;
-      margin-top: 8px;
-      font-size: 0.7rem;
+      margin-top: 10px;
     }
-    .lock-btn-sm {
+    .lock-btn {
       background: rgba(0,0,0,0.6);
       border: 1px solid white;
       border-radius: 40px;
-      padding: 4px 10px;
+      padding: 6px 12px;
       cursor: pointer;
-      font-size: 0.65rem;
-      margin-top: 8px;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      margin-top: 10px;
       width: 100%;
+      justify-content: center;
     }
+    .lock-btn.locked { background: #b5f028; color: black; }
 
-    /* World Cup Modal (full page with groups and score inputs) */
+    /* World Cup Modal */
     .wc-modal {
       display: none;
       position: fixed;
@@ -351,7 +336,6 @@
       border: 1px solid #b5f028;
     }
     .group-title { font-family: 'Bebas Neue'; font-size: 1.5rem; margin-bottom: 12px; text-align: center; }
-    .group-matches { display: flex; flex-direction: column; gap: 10px; }
     .wc-match {
       display: flex;
       align-items: center;
@@ -359,8 +343,7 @@
       background: rgba(0,0,0,0.4);
       border-radius: 40px;
       padding: 6px 10px;
-      flex-wrap: wrap;
-      gap: 8px;
+      margin-bottom: 8px;
     }
     .wc-team-badge {
       width: 30px;
@@ -401,23 +384,21 @@
 <body>
 <div class="loader" id="loader"><i class="fas fa-futbol"></i></div>
 <div class="app-container" id="mainApp">
-  <!-- REAL FOOTBALL PITCH WITH EXACT MARKINGS -->
+  <!-- PITCH MENU -->
   <div class="real-pitch">
     <div class="halfway-line"></div>
     <div class="goal-area"></div>
     <div class="six-yard-box"></div>
     <div class="penalty-spot"></div>
-    <div class="center-circle-footer">
-      <i class="fas fa-futbol"></i><br>Kick Off
-    </div>
+    <div class="center-circle-footer"><i class="fas fa-futbol"></i><br>Kick Off</div>
     <div class="pitch-players">
-      <!-- GK: Premier League (inside goal area) -->
+      <!-- GK -->
       <div class="player-card gk" data-id="epl" id="card-epl">
         <div class="player-img" style="background-image: url('premier-league-footballlogos-org.png');"></div>
         <div class="player-name">Premier League</div>
         <div class="player-percent" id="percent-epl">0%</div>
       </div>
-      <!-- Defenders: 4 leagues -->
+      <!-- Defenders -->
       <div class="player-card defender defender-1" data-id="liga" id="card-liga">
         <div class="player-img" style="background-image: url('laliga-footballlogos-org.png');"></div>
         <div class="player-name">La Liga</div>
@@ -438,7 +419,7 @@
         <div class="player-name">Ligue 1</div>
         <div class="player-percent" id="percent-ligue">0%</div>
       </div>
-      <!-- Midfielders: UCL + Europa -->
+      <!-- Midfielders -->
       <div class="player-card midfielder midfielder-1" data-id="ucl" id="card-ucl">
         <div class="player-img" style="background-image: url('ucl.png');"></div>
         <div class="player-name">UCL Winner</div>
@@ -449,7 +430,7 @@
         <div class="player-name">Europa League</div>
         <div class="player-percent" id="percent-europa">0%</div>
       </div>
-      <!-- Strikers: World Cup + Ballon d'Or -->
+      <!-- Strikers -->
       <div class="player-card striker striker-1" data-id="worldcup" id="card-worldcup">
         <div class="player-img" style="background-image: url('world-cup-2026-footballogos-org.png');"></div>
         <div class="player-name">World Cup 2026</div>
@@ -470,21 +451,21 @@
     <div class="gw-arrow" id="gwNext"><i class="fas fa-chevron-right"></i></div>
   </div>
 
-  <!-- Winger Panel (split predictions) -->
+  <!-- Home/Away Panels -->
   <div class="wingers-panel">
     <div class="winger" id="leftWinger">
-      <h3 id="leftTitle">Match Predictions</h3>
+      <h3 id="leftTitle">🏠 Home Teams</h3>
       <div id="leftContent"></div>
     </div>
     <div class="winger" id="rightWinger">
-      <h3 id="rightTitle">Champion / Award</h3>
+      <h3 id="rightTitle">✈️ Away Teams</h3>
       <div id="rightContent"></div>
     </div>
   </div>
   <div class="footer">Designed by Muhia | <i class="fas fa-phone-alt"></i> 0724726032</div>
 </div>
 
-<!-- WORLD CUP MODAL (groups with score inputs) -->
+<!-- World Cup Modal (separate, called when World Cup card is clicked) -->
 <div id="wcModal" class="wc-modal">
   <div class="wc-container">
     <div class="wc-header">
@@ -498,7 +479,7 @@
 
 <script>
   // --------------------------------------------------------------
-  // 1. TEAM BADGES (provided club images + World Cup country images)
+  // 1. CLUB & COUNTRY BADGES (all provided filenames)
   // --------------------------------------------------------------
   const clubBadges = {
     "Chelsea": "chelsea-footballogos-orq.png",
@@ -527,10 +508,10 @@
     for (let [key, val] of Object.entries(clubBadges)) {
       if (team.toLowerCase().includes(key.toLowerCase())) return val;
     }
-    return "https://via.placeholder.com/30?text=" + encodeURIComponent(team.charAt(0));
+    return "https://via.placeholder.com/40?text=" + encodeURIComponent(team.charAt(0));
   }
 
-  // World Cup countries (48 teams) with badge filenames as per your list
+  // World Cup 48 teams (using your list)
   const wcCountries = [
     "Norway", "New Zealand", "Morocco", "Algeria", "Australia", "Austria", "Cabo Verde", "Canada",
     "Colombia", "Curacao", "Côte d'Ivoire", "Ecuador", "Egypt", "Haiti", "Japan", "Iran", "Jordan",
@@ -553,7 +534,7 @@
   }
 
   // --------------------------------------------------------------
-  // 2. LEAGUE DATA (38 gameweeks simulated)
+  // 2. LEAGUES & AWARDS DATA (fixtures for 38 GWs)
   // --------------------------------------------------------------
   const leagues = {
     epl: { name: "Premier League", teams: ["Chelsea"], fixtures: [{ home:"Chelsea", away:"Arsenal"}] },
@@ -626,13 +607,14 @@
     document.getElementById(`percent-worldcup`).innerHTML = "Open";
   }
 
+  // Shared prediction update for leagues (both panels update same prediction)
   function updateMatchPred(league, idx, type, val) {
     if (currentGW <= 31) { showToast("Past GW locked!"); return; }
     let pred = userPredictions[league][currentGW][idx];
     if (type === 'home') pred.hPred = parseInt(val) || 0;
     else pred.aPred = parseInt(val) || 0;
     updateAllPercentages();
-    renderWingers(activeId);
+    renderLeagueContent(activeId); // re-render both panels
   }
 
   function submitPredictions(league) {
@@ -641,10 +623,11 @@
     updateAllPercentages();
   }
 
+  // Award handlers
   function updateAwardPick(id, val) {
     if (awardLocked[id]) { showToast("Award locked! Unlock first."); return; }
     awardPicks[id] = val;
-    renderWingers(activeId);
+    renderAwardContent(id);
   }
   function toggleAwardLock(id) {
     if (!awardLocked[id]) {
@@ -656,13 +639,14 @@
       showToast(`🔓 ${leagues[id].name} unlocked`);
     }
     updateAllPercentages();
-    renderWingers(activeId);
+    renderAwardContent(id);
   }
 
+  // Champion handlers (for leagues)
   function updateChampionPick(league, val) {
     if (championLocked[league]) { showToast("Champion locked! Unlock first."); return; }
     championPicks[league] = val;
-    renderWingers(activeId);
+    renderLeagueContent(league);
   }
   function toggleChampionLock(league) {
     if (!championLocked[league]) {
@@ -673,72 +657,91 @@
       championLocked[league] = false;
       showToast(`🔓 Champion unlocked`);
     }
-    renderWingers(activeId);
+    renderLeagueContent(league);
+  }
+
+  // Render Home/Away panels for a league
+  function renderLeagueContent(leagueId) {
+    const data = leagues[leagueId];
+    const isPast = currentGW < 32;
+    const fixtures = data.fixtures;
+    const userPreds = userPredictions[leagueId][currentGW] || [];
+    const actuals = actualResults[leagueId][currentGW] || [];
+    let homeHtml = `<div class="home-list">`;
+    let awayHtml = `<div class="away-list">`;
+    fixtures.forEach((m, idx) => {
+      let userH = userPreds[idx]?.hPred !== undefined ? userPreds[idx].hPred : '';
+      let userA = userPreds[idx]?.aPred !== undefined ? userPreds[idx].aPred : '';
+      let actualH = actuals[idx]?.homeScore;
+      let actualA = actuals[idx]?.awayScore;
+      let displayHome = isPast ? actualH : userH;
+      let displayAway = isPast ? actualA : userA;
+      homeHtml += `
+        <div class="home-item">
+          <div class="team-badge" style="background-image:url('${getClubBadge(m.home)}');"></div>
+          <span style="flex:1;">${m.home}</span>
+          <input class="score-input" type="number" value="${displayHome}" ${isPast ? 'disabled' : ''} onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
+        </div>
+      `;
+      awayHtml += `
+        <div class="away-item">
+          <div class="team-badge" style="background-image:url('${getClubBadge(m.away)}');"></div>
+          <span style="flex:1;">${m.away}</span>
+          <input class="score-input" type="number" value="${displayAway}" ${isPast ? 'disabled' : ''} onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+          ${isPast ? `<span class="actual-hint">(actual ${actualA})</span>` : ''}
+        </div>
+      `;
+    });
+    homeHtml += `</div>`;
+    awayHtml += `</div>`;
+    if (!isPast) {
+      homeHtml += `<button class="lock-btn" style="background:#b5f028; color:black; margin-top:15px;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW Predictions</button>`;
+      awayHtml += `<button class="lock-btn" style="background:#b5f028; color:black; margin-top:15px;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW Predictions</button>`;
+    }
+    // Champion pick section (only on left or right? Put on left panel)
+    let championHtml = `
+      <div style="margin-top:20px; border-top:1px solid #b5f028; padding-top:15px;">
+        <select class="champion-select" ${championLocked[leagueId] ? 'disabled' : ''} onchange="updateChampionPick('${leagueId}', this.value)">
+          <option value="">— Pick League Champion —</option>
+          ${data.teams.map(t => `<option ${championPicks[leagueId]===t ? 'selected' : ''}>${t}</option>`).join('')}
+        </select>
+        <button class="lock-btn ${championLocked[leagueId] ? 'locked' : ''}" onclick="toggleChampionLock('${leagueId}')">
+          <i class="fas ${championLocked[leagueId] ? 'fa-lock' : 'fa-lock-open'}"></i> ${championLocked[leagueId] ? 'Locked' : 'Unlock Champion'}
+        </button>
+      </div>
+    `;
+    document.getElementById("leftContent").innerHTML = homeHtml + championHtml;
+    document.getElementById("rightContent").innerHTML = awayHtml;
+    document.getElementById("leftTitle").innerHTML = `🏠 ${data.name} – Home Teams`;
+    document.getElementById("rightTitle").innerHTML = `✈️ ${data.name} – Away Teams`;
+  }
+
+  // Render award panels
+  function renderAwardContent(awardId) {
+    const data = leagues[awardId];
+    const leftDiv = document.getElementById("leftContent");
+    const rightDiv = document.getElementById("rightContent");
+    document.getElementById("leftTitle").innerHTML = `🏆 ${data.name}`;
+    document.getElementById("rightTitle").innerHTML = `🔒 Lock / Unlock`;
+    leftDiv.innerHTML = `
+      <div style="padding:10px;">
+        <p>Predict the winner to earn <strong>${data.points}</strong> points.</p>
+        <select class="champion-select" ${awardLocked[awardId] ? 'disabled' : ''} onchange="updateAwardPick('${awardId}', this.value)">
+          <option value="">— Select Winner —</option>
+          ${data.options.map(opt => `<option ${awardPicks[awardId]===opt ? 'selected' : ''}>${opt}</option>`).join('')}
+        </select>
+      </div>
+    `;
+    rightDiv.innerHTML = `
+      <div style="padding:10px;">
+        <button class="lock-btn ${awardLocked[awardId] ? 'locked' : ''}" onclick="toggleAwardLock('${awardId}')">
+          <i class="fas ${awardLocked[awardId] ? 'fa-lock' : 'fa-lock-open'}"></i> ${awardLocked[awardId] ? 'Locked' : 'Unlock Prediction'}
+        </button>
+      </div>
+    `;
   }
 
   let activeId = "epl";
-  function renderWingers(id) {
-    const data = leagues[id];
-    if (!data) return;
-    const leftDiv = document.getElementById("leftContent");
-    const rightDiv = document.getElementById("rightContent");
-    document.getElementById("leftTitle").innerHTML = `${data.name} – Matches`;
-    document.getElementById("rightTitle").innerHTML = `${data.name} – ${data.type === "award" ? "Award Prediction" : "Champion Pick"}`;
-
-    if (data.type === "award") {
-      leftDiv.innerHTML = `<div class="matches-list"><div class="match-item">Predict the winner to earn ${data.points} points</div></div>`;
-      let awardHtml = `
-        <select class="champion-select-sm" ${awardLocked[id] ? 'disabled' : ''} onchange="updateAwardPick('${id}', this.value)">
-          <option value="">— Select Winner —</option>
-          ${data.options.map(opt => `<option ${awardPicks[id]===opt ? 'selected' : ''}>${opt}</option>`).join('')}
-        </select>
-        <button class="lock-btn-sm ${awardLocked[id] ? 'locked' : ''}" onclick="toggleAwardLock('${id}')">
-          <i class="fas ${awardLocked[id] ? 'fa-lock' : 'fa-lock-open'}"></i> ${awardLocked[id] ? 'Locked' : 'Unlock'}
-        </button>
-      `;
-      rightDiv.innerHTML = awardHtml;
-    } else {
-      const isPast = currentGW < 32;
-      const fixtures = data.fixtures;
-      const userPreds = userPredictions[id][currentGW] || [];
-      const actuals = actualResults[id][currentGW] || [];
-      let matchesHtml = `<div class="matches-list">`;
-      fixtures.forEach((m, idx) => {
-        let userH = userPreds[idx]?.hPred !== undefined ? userPreds[idx].hPred : '';
-        let userA = userPreds[idx]?.aPred !== undefined ? userPreds[idx].aPred : '';
-        let actualH = actuals[idx]?.homeScore;
-        let actualA = actuals[idx]?.awayScore;
-        let displayHome = isPast ? actualH : userH;
-        let displayAway = isPast ? actualA : userA;
-        matchesHtml += `
-          <div class="match-item">
-            <div style="display:flex; align-items:center; gap:6px;"><div class="team-badge-sm" style="background-image:url('${getClubBadge(m.home)}');"></div><span>${m.home}</span></div>
-            <div>
-              <input class="score-input-sm" type="number" value="${displayHome}" ${isPast ? 'disabled' : ''} onchange="updateMatchPred('${id}',${idx},'home',this.value)">
-              <span style="margin:0 5px;">VS</span>
-              <input class="score-input-sm" type="number" value="${displayAway}" ${isPast ? 'disabled' : ''} onchange="updateMatchPred('${id}',${idx},'away',this.value)">
-            </div>
-            <div style="display:flex; align-items:center; gap:6px;"><span>${m.away}</span><div class="team-badge-sm" style="background-image:url('${getClubBadge(m.away)}');"></div></div>
-            ${isPast ? `<div class="actual-hint">${actualH}–${actualA}</div>` : ''}
-          </div>
-        `;
-      });
-      matchesHtml += `</div>${!isPast ? `<button class="lock-btn-sm" style="background:#b5f028; color:black; margin-top:15px;" onclick="submitPredictions('${id}')"><i class="fas fa-save"></i> Save GW Predictions</button>` : ''}`;
-      leftDiv.innerHTML = matchesHtml;
-
-      let championHtml = `
-        <select class="champion-select-sm" ${championLocked[id] ? 'disabled' : ''} onchange="updateChampionPick('${id}', this.value)">
-          <option value="">— Pick Champion —</option>
-          ${data.teams.map(t => `<option ${championPicks[id]===t ? 'selected' : ''}>${t}</option>`).join('')}
-        </select>
-        <button class="lock-btn-sm ${championLocked[id] ? 'locked' : ''}" onclick="toggleChampionLock('${id}')">
-          <i class="fas ${championLocked[id] ? 'fa-lock' : 'fa-lock-open'}"></i> ${championLocked[id] ? 'Locked' : 'Unlock'}
-        </button>
-      `;
-      rightDiv.innerHTML = championHtml;
-    }
-  }
-
   function setActive(id) {
     if (id === "worldcup") {
       openWorldCupModal();
@@ -747,11 +750,15 @@
     activeId = id;
     document.querySelectorAll(".player-card").forEach(card => card.classList.remove("active"));
     document.getElementById(`card-${id}`).classList.add("active");
-    renderWingers(id);
+    if (leagues[id].type === "award") {
+      renderAwardContent(id);
+    } else {
+      renderLeagueContent(id);
+    }
   }
 
-  // World Cup Modal with groups and score inputs (scrollable)
-  let wcUserPredictions = {}; // store predictions per match
+  // World Cup Modal
+  let wcUserPredictions = JSON.parse(localStorage.getItem("wc_predictions") || "{}");
   function openWorldCupModal() {
     document.getElementById("mainApp").style.display = "none";
     document.getElementById("wcModal").style.display = "block";
@@ -764,11 +771,8 @@
   function renderWorldCupGroups() {
     const container = document.getElementById("wcGroupsContainer");
     container.innerHTML = "";
-    // create 12 groups of 4 teams
     const groups = [];
-    for (let i = 0; i < 12; i++) {
-      groups.push(wcCountries.slice(i*4, i*4+4));
-    }
+    for (let i = 0; i < 12; i++) groups.push(wcCountries.slice(i*4, i*4+4));
     groups.forEach((group, idx) => {
       const groupName = String.fromCharCode(65+idx);
       const matches = [
@@ -782,13 +786,13 @@
         const saved = wcUserPredictions[key] || { home: '', away: '' };
         matchesHtml += `
           <div class="wc-match">
-            <div style="display:flex; align-items:center; gap:6px;"><div class="wc-team-badge" style="background-image:url('${getWcBadgeUrl(m.home)}');"></div><span style="font-size:0.8rem;">${m.home}</span></div>
+            <div style="display:flex; align-items:center; gap:6px;"><div class="wc-team-badge" style="background-image:url('${getWcBadgeUrl(m.home)}');"></div><span>${m.home}</span></div>
             <div>
               <input class="wc-score-input" type="number" id="wc_h_${key}" value="${saved.home}" placeholder="0" onchange="saveWcPrediction('${key}', 'home', this.value)">
               <span style="margin:0 5px;">VS</span>
               <input class="wc-score-input" type="number" id="wc_a_${key}" value="${saved.away}" placeholder="0" onchange="saveWcPrediction('${key}', 'away', this.value)">
             </div>
-            <div style="display:flex; align-items:center; gap:6px;"><span style="font-size:0.8rem;">${m.away}</span><div class="wc-team-badge" style="background-image:url('${getWcBadgeUrl(m.away)}');"></div></div>
+            <div style="display:flex; align-items:center; gap:6px;"><span>${m.away}</span><div class="wc-team-badge" style="background-image:url('${getWcBadgeUrl(m.away)}');"></div></div>
           </div>
         `;
       });
@@ -805,16 +809,14 @@
     localStorage.setItem("wc_predictions", JSON.stringify(wcUserPredictions));
     showToast(`World Cup prediction saved`);
   };
-  // load saved WC predictions
-  const savedWc = localStorage.getItem("wc_predictions");
-  if (savedWc) wcUserPredictions = JSON.parse(savedWc);
 
   function setupGW() {
-    document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; updateAllPercentages(); renderWingers(activeId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
-    document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; updateAllPercentages(); renderWingers(activeId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
+    document.getElementById("gwPrev").onclick = () => { if (currentGW > 1) { currentGW--; updateAllPercentages(); if (activeId !== "worldcup") setActive(activeId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
+    document.getElementById("gwNext").onclick = () => { if (currentGW < 38) { currentGW++; updateAllPercentages(); if (activeId !== "worldcup") setActive(activeId); document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`; showToast(`GW ${currentGW}`); } };
   }
   function showToast(msg) { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background="#b5f028"; t.style.color="black"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
 
+  // attach click handlers to all player cards
   for (let id of Object.keys(leagues)) {
     let card = document.getElementById(`card-${id}`);
     if (card) card.onclick = () => setActive(id);
