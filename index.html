@@ -14,15 +14,13 @@
       padding: 0;
       box-sizing: border-box;
     }
-
     body {
       background: #121212;
       font-family: 'Barlow', sans-serif;
       min-height: 100vh;
       color: #f0f0f0;
     }
-
-    /* loading spinner with soccer ball */
+    /* loader with soccer ball */
     .loader {
       position: fixed;
       top: 0;
@@ -49,14 +47,12 @@
       opacity: 0;
       pointer-events: none;
     }
-
     .app-wrapper {
       position: relative;
       z-index: 2;
       min-height: 100vh;
     }
-
-    /* modern nav */
+    /* glass nav */
     .glass-nav {
       background: rgba(0, 0, 0, 0.85);
       backdrop-filter: blur(16px);
@@ -70,7 +66,6 @@
       top: 0;
       z-index: 100;
     }
-
     .logo-text {
       font-family: 'Bebas Neue', sans-serif;
       font-size: 1.8rem;
@@ -79,7 +74,6 @@
       background-clip: text;
       color: transparent;
     }
-
     .season-badge {
       background: #1f3a24;
       padding: 4px 12px;
@@ -87,7 +81,6 @@
       font-size: 0.7rem;
       color: #b5f028;
     }
-
     .card-stack {
       background: rgba(0, 0, 0, 0.7);
       padding: 5px 16px;
@@ -96,7 +89,6 @@
       gap: 12px;
       font-weight: bold;
     }
-
     .gw-badge {
       background: #b5f028;
       color: #0a2a12;
@@ -104,7 +96,6 @@
       border-radius: 40px;
       font-weight: bold;
     }
-
     .btn-outline-lime {
       background: transparent;
       border: 1.5px solid #b5f028;
@@ -113,11 +104,9 @@
       padding: 6px 24px;
       cursor: pointer;
     }
-
     ::-webkit-scrollbar { width: 6px; height: 6px; }
     ::-webkit-scrollbar-track { background: #2a2a2a; border-radius: 10px; }
     ::-webkit-scrollbar-thumb { background: #b5f028; border-radius: 10px; }
-
     /* GW strip with ball icons */
     .gw-strip {
       background: rgba(0, 0, 0, 0.6);
@@ -144,18 +133,9 @@
       align-items: center;
       gap: 6px;
     }
-    .gw-btn i {
-      font-size: 0.8rem;
-      color: #b5f028;
-    }
-    .gw-btn.active-gw {
-      background: #b5f028;
-      color: #0a2a12;
-    }
-    .gw-btn.active-gw i {
-      color: #0a2a12;
-    }
-
+    .gw-btn i { font-size: 0.8rem; color: #b5f028; }
+    .gw-btn.active-gw { background: #b5f028; color: #0a2a12; }
+    .gw-btn.active-gw i { color: #0a2a12; }
     /* LEAGUE CARDS - full pitch markings */
     .leagues-scroll {
       overflow-x: auto;
@@ -178,7 +158,6 @@
       cursor: pointer;
       overflow: hidden;
     }
-    /* pitch markings: center circle, halfway line, goal areas */
     .league-card .pitch-markings {
       position: absolute;
       inset: 0;
@@ -214,22 +193,13 @@
       border: 2px solid rgba(255,255,255,0.5);
       transform: translateY(-50%);
     }
-    .league-card .goal-left {
-      left: 10px;
-      border-right: none;
-    }
-    .league-card .goal-right {
-      right: 10px;
-      border-left: none;
-    }
-
+    .league-card .goal-left { left: 10px; border-right: none; }
+    .league-card .goal-right { right: 10px; border-left: none; }
     .league-card.active-league {
       border: 2px solid #b5f028;
       box-shadow: 0 0 20px rgba(181,240,40,0.5);
       transform: scale(1.02);
     }
-
-    /* darker green percentage (visible) */
     .accuracy-bg {
       position: absolute;
       bottom: 5px;
@@ -242,14 +212,12 @@
       pointer-events: none;
       z-index: 2;
     }
-
     .league-card-content {
       position: relative;
       z-index: 3;
       color: white;
       text-shadow: 0 1px 2px black;
     }
-
     .league-badge-img {
       width: 48px;
       height: 48px;
@@ -259,18 +227,8 @@
       border-radius: 12px;
       padding: 4px;
     }
-
-    .league-name {
-      font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.4rem;
-    }
-
-    .league-points {
-      font-size: 1.2rem;
-      font-weight: bold;
-      color: #b5f028;
-    }
-
+    .league-name { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; }
+    .league-points { font-size: 1.2rem; font-weight: bold; color: #b5f028; }
     .champion-selector {
       width: 100%;
       margin: 12px 0;
@@ -283,7 +241,6 @@
       font-family: 'Barlow Condensed';
       font-weight: 600;
     }
-
     .lock-champ-btn {
       background: rgba(0,0,0,0.5);
       border: 1px solid white;
@@ -300,29 +257,11 @@
       gap: 8px;
       transition: 0.2s;
     }
-    .lock-champ-btn.locked {
-      background: #b5f028;
-      color: black;
-      border-color: #b5f028;
-    }
-
-    /* AWARDS CARDS with transparent text and pitch markings */
-    .awards-panel {
-      margin: 1rem;
-      padding: 0.5rem;
-    }
-    .awards-title {
-      font-family: 'Bebas Neue';
-      font-size: 1.5rem;
-      color: white;
-      margin-bottom: 1rem;
-    }
-    .awards-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 20px;
-      justify-content: center;
-    }
+    .lock-champ-btn.locked { background: #b5f028; color: black; border-color: #b5f028; }
+    /* AWARDS CARDS */
+    .awards-panel { margin: 1rem; padding: 0.5rem; }
+    .awards-title { font-family: 'Bebas Neue'; font-size: 1.5rem; color: white; margin-bottom: 1rem; }
+    .awards-grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
     .award-card {
       position: relative;
       background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
@@ -358,11 +297,6 @@
       border-radius: 50%;
       transform: translate(-50%, -50%);
     }
-    /* transparent text inside award cards */
-    .award-card h3, .award-card select, .award-card .award-points, .award-card .lock-award-btn {
-      position: relative;
-      z-index: 2;
-    }
     .award-card select {
       background: rgba(0,0,0,0.6);
       border-radius: 40px;
@@ -380,8 +314,7 @@
       cursor: pointer;
       color: white;
     }
-
-    /* NARROWER MATCH CARDS */
+    /* NARROW MATCH CARDS */
     .matches-grid {
       display: flex;
       flex-direction: column;
@@ -402,20 +335,9 @@
       flex-wrap: wrap;
       gap: 0.5rem;
     }
-    .team-home, .team-away {
-      display: flex;
-      align-items: center;
-      gap: 8px;
-      flex: 2;
-    }
-    .team-away {
-      justify-content: flex-end;
-    }
-    .team-name {
-      font-weight: 600;
-      font-size: 0.85rem;
-      white-space: nowrap;
-    }
+    .team-home, .team-away { display: flex; align-items: center; gap: 8px; flex: 2; }
+    .team-away { justify-content: flex-end; }
+    .team-name { font-weight: 600; font-size: 0.85rem; white-space: nowrap; }
     .score-input {
       width: 50px;
       height: 40px;
@@ -427,25 +349,9 @@
       border: 1px solid #b5f028;
       font-weight: bold;
     }
-    .score-input:disabled {
-      background: #2a2a2a;
-      color: #aaa;
-      border-color: #555;
-    }
-    .vs-text {
-      font-weight: bold;
-      color: #b5f028;
-      margin: 0 5px;
-    }
-    .actual-result {
-      font-size: 0.7rem;
-      color: #b5f028;
-      background: rgba(0,0,0,0.5);
-      padding: 2px 8px;
-      border-radius: 20px;
-      white-space: nowrap;
-    }
-
+    .score-input:disabled { background: #2a2a2a; color: #aaa; border-color: #555; }
+    .vs-text { font-weight: bold; color: #b5f028; margin: 0 5px; }
+    .actual-result { font-size: 0.7rem; color: #b5f028; background: rgba(0,0,0,0.5); padding: 2px 8px; border-radius: 20px; white-space: nowrap; }
     .btn-submit-lime {
       background: linear-gradient(95deg, #b5f028, #8bcb1f);
       border: none;
@@ -456,13 +362,7 @@
       font-weight: bold;
       font-size: 0.9rem;
     }
-
-    .tab-bar-modern {
-      display: flex;
-      gap: 12px;
-      padding: 0 2rem;
-      margin: 1rem 0;
-    }
+    .tab-bar-modern { display: flex; gap: 12px; padding: 0 2rem; margin: 1rem 0; }
     .tab-modern {
       padding: 6px 24px;
       font-family: 'Barlow Condensed';
@@ -472,29 +372,12 @@
       background: rgba(0, 0, 0, 0.5);
       color: #eee;
     }
-    .tab-modern.active {
-      background: #b5f028;
-      color: #0a2a12;
-    }
-    .card-log {
-      background: rgba(0, 0, 0, 0.7);
-      border: 1px solid #b5f028;
-      border-radius: 28px;
-      padding: 1.5rem;
-      margin: 1rem;
-    }
-
+    .tab-modern.active { background: #b5f028; color: #0a2a12; }
+    .card-log { background: rgba(0, 0, 0, 0.7); border: 1px solid #b5f028; border-radius: 28px; padding: 1.5rem; margin: 1rem; }
     @media (max-width: 700px) {
-      .match-card {
-        flex-direction: column;
-        align-items: stretch;
-      }
-      .team-home, .team-away {
-        justify-content: space-between;
-      }
-      .league-card {
-        width: 260px;
-      }
+      .match-card { flex-direction: column; align-items: stretch; }
+      .team-home, .team-away { justify-content: space-between; }
+      .league-card { width: 260px; }
     }
   </style>
 </head>
@@ -512,28 +395,20 @@
       <button class="btn-outline-lime" onclick="openModal()"><i class="fas fa-user-astronaut"></i> Sign In</button>
     </div>
   </div>
-
   <div class="gw-strip" id="gwStrip"><div class="gw-container" id="gwContainer"></div></div>
-
-  <div class="leagues-scroll">
-    <div class="leagues-track" id="leaguesTrack"></div>
-  </div>
-
+  <div class="leagues-scroll"><div class="leagues-track" id="leaguesTrack"></div></div>
   <div class="awards-panel">
     <div class="awards-title"><i class="fas fa-star-of-life"></i> MAJOR AWARDS</div>
     <div class="awards-grid" id="awardsGrid"></div>
   </div>
-
   <div class="tab-bar-modern">
     <div class="tab-modern active" data-tab="predict">⚡ Match Predictions</div>
     <div class="tab-modern" data-tab="cards">🃏 Discipline</div>
     <div class="tab-modern" data-tab="leaderboard">📊 Leaderboard</div>
   </div>
-
   <div id="panel-predict" class="panel"></div>
   <div id="panel-cards" class="panel" style="display:none"></div>
   <div id="panel-leaderboard" class="panel" style="display:none"></div>
-
   <div class="modal-overlay" id="modalOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(12px); align-items:center; justify-content:center; z-index:200;">
     <div style="background:#0f2a1a; padding:2rem; border-radius:40px; width:90%; max-width:400px; border:1px solid #b5f028;">
       <h2 style="color:white;">Enter The Dugout</h2>
@@ -543,12 +418,20 @@
     </div>
   </div>
 </div>
-
 <script>
-  // hide loader after load
-  window.addEventListener('load', () => {
-    document.getElementById('loader').classList.add('hide');
-  });
+  // Hide loader safely
+  (function() {
+    const loader = document.getElementById('loader');
+    function hideLoader() {
+      if (loader) loader.classList.add('hide');
+    }
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', hideLoader);
+    } else {
+      hideLoader();
+    }
+    setTimeout(hideLoader, 2000); // fallback
+  })();
 
   // ------------------------------
   // DATA & SIMULATION
@@ -635,7 +518,6 @@
     showToast(`✅ GW${currentGW} predictions saved!`, "#b5f028");
   }
 
-  // RENDER LEAGUE CARDS with pitch markings and dark green percentage
   function renderLeagues() {
     const track = document.getElementById("leaguesTrack");
     track.innerHTML = "";
@@ -646,9 +528,7 @@
       card.className = `league-card ${currentLeague === key ? 'active-league' : ''}`;
       card.onclick = (e) => { if(e.target.tagName!=='SELECT' && e.target.tagName!=='BUTTON') { currentLeague = key; renderLeagues(); renderPredictions(); } };
       card.innerHTML = `
-        <div class="pitch-markings">
-          <div class="goal-left"></div><div class="goal-right"></div>
-        </div>
+        <div class="pitch-markings"><div class="goal-left"></div><div class="goal-right"></div></div>
         <div class="accuracy-bg">${percent}%</div>
         <div class="league-card-content">
           <div style="display:flex; align-items:center; gap:8px;">
@@ -696,7 +576,6 @@
     renderLeagues();
   }
 
-  // AWARDS with pitch markings and transparent text
   const awardsList = [
     { id: "ballon", name: "Ballon d'Or", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham"], points: 150, locked: false, lockGW: null, pick: "" },
     { id: "ucl", name: "UCL Winner", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal"], points: 120, locked: false, lockGW: null, pick: "" },
@@ -729,7 +608,6 @@
     renderAwards();
   }
 
-  // NARROW MATCH PREDICTIONS
   function renderPredictions() {
     const panel = document.getElementById("panel-predict");
     if(isSuspended) { panel.innerHTML = `<div style="padding:2rem;text-align:center;"><i class="fas fa-ban"></i><h2>SUSPENDED GW ${currentGW}</h2></div>`; return; }
