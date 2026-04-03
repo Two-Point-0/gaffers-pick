@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Black Pitch · League Cards as Mini Pitches</title>
+  <title>The Gaffer's Pick | Pitch Perfect · Green · Miniature Pitches</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,14 +15,16 @@
       box-sizing: border-box;
     }
 
+    /* MAIN GREEN BACKGROUND WITH PITCH TEXTURE */
     body {
-      background: #0a0a0a;
+      background: linear-gradient(145deg, #1a7a2e 0%, #0c4a1a 100%);
       font-family: 'Barlow', sans-serif;
       min-height: 100vh;
       position: relative;
+      overflow-x: hidden;
     }
 
-    /* subtle pitch texture overlay */
+    /* grass pattern overlay */
     body::before {
       content: '';
       position: fixed;
@@ -30,8 +32,8 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background-image: radial-gradient(circle at 20% 40%, rgba(0,255,0,0.03) 1.5%, transparent 2%);
-      background-size: 40px 40px;
+      background-image: radial-gradient(circle at 15% 30%, rgba(255,255,255,0.08) 1.5%, transparent 2%);
+      background-size: 32px 32px;
       pointer-events: none;
       z-index: 0;
     }
@@ -42,9 +44,9 @@
       min-height: 100vh;
     }
 
-    /* MODERN DARK NAV */
+    /* MODERN DARK NAV (semi-transparent) */
     .glass-nav {
-      background: rgba(0, 0, 0, 0.9);
+      background: rgba(0, 20, 5, 0.85);
       backdrop-filter: blur(16px);
       border-bottom: 1px solid #b5f028;
       padding: 0 2rem;
@@ -75,7 +77,7 @@
     }
 
     .card-stack {
-      background: rgba(0, 0, 0, 0.7);
+      background: rgba(0, 0, 0, 0.6);
       padding: 5px 16px;
       border-radius: 40px;
       display: flex;
@@ -102,13 +104,28 @@
       transition: 0.2s;
     }
 
+    /* CUSTOM SCROLLBAR (modern, thin) */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #1a3a1a;
+      border-radius: 10px;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #b5f028;
+      border-radius: 10px;
+    }
+
     /* GW STRIP */
     .gw-strip {
-      background: rgba(0, 0, 0, 0.8);
+      background: rgba(0, 0, 0, 0.6);
+      backdrop-filter: blur(8px);
       padding: 12px 0;
       overflow-x: auto;
       white-space: nowrap;
-      border-bottom: 1px solid #2a4532;
+      border-bottom: 1px solid #b5f028;
     }
 
     .gw-container {
@@ -118,9 +135,9 @@
     }
 
     .gw-btn {
-      background: #1a2a1f;
-      border: 1px solid #3e6b48;
-      color: #ccc;
+      background: #1a3a1a;
+      border: 1px solid #5a9e6a;
+      color: #eee;
       font-family: 'Barlow Condensed';
       font-weight: bold;
       padding: 6px 18px;
@@ -133,11 +150,10 @@
       color: #0a2a12;
     }
 
-    /* HORIZONTAL LEAGUE CARDS — each looks like a mini football pitch */
+    /* LEAGUE CARDS — MINIATURE FOOTBALL PITCHES */
     .leagues-scroll {
       overflow-x: auto;
       padding: 2rem 1rem;
-      scrollbar-width: thin;
     }
 
     .leagues-track {
@@ -149,49 +165,60 @@
     .league-card {
       position: relative;
       width: 300px;
-      background: linear-gradient(145deg, #1a6b2e, #0f451f);
-      border-radius: 20px;
+      background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
+      border-radius: 16px;
       padding: 1.2rem;
-      border: 3px solid white;
-      box-shadow: 0 0 0 2px rgba(0,0,0,0.3), inset 0 0 0 2px rgba(255,255,255,0.2);
+      border: 2px solid white;
+      box-shadow: 0 0 0 2px rgba(0,0,0,0.2), inset 0 0 0 2px rgba(255,255,255,0.2);
       transition: all 0.25s ease;
       cursor: pointer;
       overflow: hidden;
-      backdrop-filter: blur(2px);
     }
 
-    /* white pitch lines inside card */
+    /* pitch markings inside league card */
     .league-card::before {
       content: '';
       position: absolute;
-      top: 10%;
+      top: 8%;
       left: 5%;
       width: 90%;
-      height: 80%;
-      border: 1px dashed rgba(255,255,255,0.3);
-      border-radius: 12px;
+      height: 84%;
+      border: 1px solid rgba(255,255,255,0.5);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    /* center circle */
+    .league-card::after {
+      content: '';
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 40px;
+      height: 40px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 50%;
+      transform: translate(-50%, -50%);
       pointer-events: none;
     }
 
     .league-card.active-league {
-      border: 3px solid #b5f028;
+      border: 2px solid #b5f028;
       box-shadow: 0 0 20px rgba(181,240,40,0.5);
       transform: scale(1.02);
     }
 
-    /* big transparent percentage – completely behind content, not blocking */
+    /* big transparent percentage - truly behind content */
     .accuracy-bg {
       position: absolute;
       bottom: 5px;
-      right: 10px;
+      right: 12px;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 7rem;
+      font-size: 6.5rem;
       font-weight: bold;
       color: rgba(255, 255, 255, 0.12);
       pointer-events: none;
       z-index: 1;
       line-height: 1;
-      user-select: none;
     }
 
     .league-card-content {
@@ -202,8 +229,8 @@
     }
 
     .league-badge-img {
-      width: 50px;
-      height: 50px;
+      width: 48px;
+      height: 48px;
       object-fit: contain;
       filter: drop-shadow(0 2px 4px black);
       background: rgba(0,0,0,0.3);
@@ -213,17 +240,17 @@
 
     .league-name {
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 1.5rem;
+      font-size: 1.4rem;
       letter-spacing: 1px;
-      color: white;
     }
 
     .league-points {
-      font-size: 1.3rem;
+      font-size: 1.2rem;
       font-weight: bold;
       color: #b5f028;
     }
 
+    /* modern pick champion (no trophy icon) */
     .champion-selector {
       width: 100%;
       margin: 12px 0;
@@ -233,6 +260,7 @@
       color: white;
       border: 1px solid #b5f028;
       font-family: 'Barlow Condensed';
+      font-weight: 600;
     }
 
     .lock-champ-btn {
@@ -258,10 +286,61 @@
       border-color: #b5f028;
     }
 
-    .penalty-text {
-      font-size: 0.7rem;
-      color: #ffaa66;
-      margin-top: 5px;
+    /* AWARDS SECTION - also miniature pitches */
+    .awards-panel {
+      margin: 1rem;
+      padding: 0.5rem;
+    }
+
+    .awards-title {
+      font-family: 'Bebas Neue';
+      font-size: 1.5rem;
+      color: white;
+      margin-bottom: 1rem;
+      text-shadow: 0 2px 3px black;
+    }
+
+    .awards-grid {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      justify-content: center;
+    }
+
+    .award-card {
+      position: relative;
+      background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
+      border: 2px solid white;
+      border-radius: 16px;
+      padding: 1rem;
+      min-width: 200px;
+      text-align: center;
+      overflow: hidden;
+    }
+    .award-card::before {
+      content: '';
+      position: absolute;
+      inset: 8px;
+      border: 1px solid rgba(255,255,255,0.4);
+      border-radius: 8px;
+      pointer-events: none;
+    }
+    .award-card select {
+      background: rgba(0,0,0,0.7);
+      border-radius: 40px;
+      padding: 6px;
+      margin: 8px 0;
+      width: 90%;
+      color: white;
+      border: 1px solid #b5f028;
+    }
+    .lock-award-btn {
+      background: rgba(0,0,0,0.6);
+      border: 1px solid #ffcc44;
+      border-radius: 30px;
+      padding: 4px 12px;
+      cursor: pointer;
+      color: white;
     }
 
     /* TABS */
@@ -278,8 +357,8 @@
       font-weight: bold;
       cursor: pointer;
       border-radius: 60px;
-      background: rgba(0, 0, 0, 0.6);
-      color: #ccc;
+      background: rgba(0, 0, 0, 0.5);
+      color: #eee;
       transition: 0.2s;
     }
 
@@ -288,7 +367,7 @@
       color: #0a2a12;
     }
 
-    /* MATCH CARDS - improved visibility */
+    /* MATCH CARDS with scoreboards on sides */
     .matches-grid {
       display: flex;
       flex-direction: column;
@@ -299,7 +378,7 @@
     }
 
     .match-card {
-      background: rgba(0, 0, 0, 0.85);
+      background: rgba(0, 0, 0, 0.75);
       backdrop-filter: blur(8px);
       border-radius: 24px;
       display: grid;
@@ -311,15 +390,20 @@
       color: white;
     }
 
+    .team-block {
+      text-align: center;
+    }
+
     .team-name {
-      font-weight: 600;
+      font-weight: 700;
       font-size: 1rem;
+      letter-spacing: 0.5px;
     }
 
     .score-input {
       width: 60px;
       height: 48px;
-      background: #1a2a1f;
+      background: #1a3a1a;
       border-radius: 16px;
       text-align: center;
       font-size: 1.6rem;
@@ -339,43 +423,8 @@
       font-size: 1rem;
     }
 
-    /* AWARDS */
-    .awards-panel {
-      background: rgba(0, 0, 0, 0.7);
-      backdrop-filter: blur(12px);
-      border-radius: 32px;
-      margin: 1rem;
-      padding: 1rem;
-    }
-
-    .awards-grid {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 16px;
-      justify-content: center;
-    }
-
-    .award-card {
-      background: #0f2a1a;
-      border-radius: 24px;
-      padding: 12px;
-      min-width: 180px;
-      text-align: center;
-      border: 1px solid gold;
-      color: white;
-    }
-
-    .lock-award-btn {
-      background: none;
-      border: 1px solid #ffcc44;
-      border-radius: 30px;
-      padding: 4px 12px;
-      cursor: pointer;
-      color: white;
-    }
-
     .card-log {
-      background: #0a0a0a;
+      background: rgba(0, 0, 0, 0.7);
       border: 1px solid #b5f028;
       border-radius: 28px;
       padding: 1.5rem;
@@ -410,8 +459,15 @@
 
   <div class="gw-strip" id="gwStrip"><div class="gw-container" id="gwContainer"></div></div>
 
+  <!-- LEAGUE CARDS (miniature pitches) -->
   <div class="leagues-scroll">
     <div class="leagues-track" id="leaguesTrack"></div>
+  </div>
+
+  <!-- AWARDS SECTION (also miniature pitches) - placed below league containers -->
+  <div class="awards-panel">
+    <div class="awards-title"><i class="fas fa-star-of-life"></i> MAJOR AWARDS · PITCH PREDICTIONS</div>
+    <div class="awards-grid" id="awardsGrid"></div>
   </div>
 
   <div class="tab-bar-modern">
@@ -423,11 +479,6 @@
   <div id="panel-predict" class="panel"></div>
   <div id="panel-cards" class="panel" style="display:none"></div>
   <div id="panel-leaderboard" class="panel" style="display:none"></div>
-
-  <div class="awards-panel">
-    <div style="font-family:'Bebas Neue'; font-size:1.6rem; color:white;"><i class="fas fa-star-of-life"></i> MAJOR AWARDS</div>
-    <div class="awards-grid" id="awardsGrid"></div>
-  </div>
 
   <div class="modal-overlay" id="modalOverlay" style="display:none; position:fixed; inset:0; background:rgba(0,0,0,0.95); backdrop-filter:blur(12px); align-items:center; justify-content:center; z-index:200;">
     <div style="background:#0f2a1a; padding:2rem; border-radius:40px; width:90%; max-width:400px; border:1px solid #b5f028;">
@@ -510,11 +561,11 @@
         <div class="accuracy-bg">${percent}%</div>
         <div class="league-card-content">
           <div style="display:flex; align-items:center; gap:8px;">
-            <img src="${league.badge}" class="league-badge-img" onerror="this.src='https://via.placeholder.com/50'">
+            <img src="${league.badge}" class="league-badge-img" onerror="this.src='https://via.placeholder.com/48'">
             <div><div class="league-name">${league.name}</div><div class="league-points">${Math.round(leagueScores[key])} pts</div></div>
           </div>
           <select class="champion-selector" id="champSelect-${key}" ${lock.locked ? 'disabled' : ''} onchange="updateChampionPick('${key}', this.value)">
-            <option value="">🏆 Pick Champion</option>
+            <option value="">— Pick Champion —</option>
             ${league.teams.map(t => `<option ${championPicks[key]===t ? 'selected' : ''}>${t}</option>`).join('')}
           </select>
           <button class="lock-champ-btn ${lock.locked ? 'locked' : ''}" onclick="event.stopPropagation(); toggleLeagueLock('${key}')">
@@ -566,12 +617,12 @@
       let card = document.createElement("div");
       card.className = "award-card";
       card.innerHTML = `
-        <h3><i class="fas fa-trophy"></i> ${award.name}</h3>
+        <h3 style="color:white; font-size:1.1rem;">${award.name}</h3>
         <select id="award-${award.id}" ${award.locked ? 'disabled' : ''} onchange="updateAwardPick('${award.id}', this.value)">
-          <option value="">— Predict —</option>
+          <option value="">— Predict Winner —</option>
           ${award.options.map(opt => `<option ${award.pick===opt ? 'selected' : ''}>${opt}</option>`).join('')}
         </select>
-        <div class="award-points">🏅 Bonus: ${award.points} pts | Penalty: -${Math.floor(award.points*0.3)}</div>
+        <div style="font-size:0.7rem; color:#ffd966;">🏆 Bonus: ${award.points} pts | Penalty: -${Math.floor(award.points*0.3)}</div>
         <button class="lock-award-btn" onclick="toggleAwardLock('${award.id}')">${award.locked ? '🔒 Locked' : '🔓 Unlock'}</button>
       `;
       container.appendChild(card);
@@ -591,7 +642,13 @@
     if(!matches) return;
     let html = `<div class="matches-grid">`;
     matches.forEach((m, idx) => {
-      html += `<div class="match-card"><div><i class="fas fa-shield-alt"></i> <span class="team-name">${m.home}</span></div><div>VS</div><div><span class="team-name">${m.away}</span> <i class="fas fa-futbol"></i></div><div><input class="score-input" type="number" id="h_${idx}" value="${m.hPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)"> : <input class="score-input" type="number" id="a_${idx}" value="${m.aPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)"></div></div>`;
+      html += `
+        <div class="match-card">
+          <div class="team-block"><i class="fas fa-shield-alt"></i> <div class="team-name">${m.home}</div></div>
+          <div>VS</div>
+          <div class="team-block"><div class="team-name">${m.away}</div> <i class="fas fa-futbol"></i></div>
+          <div><input class="score-input" type="number" id="h_${idx}" value="${m.hPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'home',this.value)"> : <input class="score-input" type="number" id="a_${idx}" value="${m.aPred}" placeholder="0" onchange="updateMatchPred('${currentLeague}',${idx},'away',this.value)"></div>
+        </div>`;
     });
     html += `<div style="display:flex; justify-content:flex-end; margin-top:1rem"><button class="btn-submit-lime" onclick="submitPredictions()"><i class="fas fa-lock"></i> LOCK GW${currentGW} PREDICTIONS</button></div></div>`;
     document.getElementById("panel-predict").innerHTML = html;
