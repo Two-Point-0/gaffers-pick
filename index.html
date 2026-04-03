@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Pitch Pages · Awards Bar</title>
+  <title>The Gaffer's Pick | Pitch Only · Score Inputs · Dark Green %</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -15,7 +15,7 @@
       box-sizing: border-box;
     }
     body {
-      background: #0a0a0a;
+      background: #2a2a2a;
       font-family: 'Barlow', sans-serif;
       color: white;
       overflow-x: hidden;
@@ -27,7 +27,7 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: #0a0a0a;
+      background: #1a1a1a;
       display: flex;
       justify-content: center;
       align-items: center;
@@ -38,21 +38,23 @@
     @keyframes spin { 0% { transform: rotate(0deg); } 100% { transform: rotate(360deg); } }
     .loader.hide { opacity: 0; pointer-events: none; }
 
-    /* top menu bar */
+    /* centered top menu */
     .top-menu {
       position: sticky;
       top: 0;
-      background: rgba(0,0,0,0.9);
-      backdrop-filter: blur(16px);
+      background: rgba(0,0,0,0.85);
+      backdrop-filter: blur(12px);
       border-bottom: 1px solid #b5f028;
       z-index: 100;
-      overflow-x: auto;
-      white-space: nowrap;
+      display: flex;
+      justify-content: center;
       padding: 8px 0;
     }
     .menu-container {
-      display: inline-flex;
+      display: flex;
       gap: 8px;
+      flex-wrap: wrap;
+      justify-content: center;
       padding: 0 1rem;
     }
     .menu-btn {
@@ -72,7 +74,7 @@
       border-color: #b5f028;
     }
 
-    /* fixed GW indicator */
+    /* GW indicator with modern icons */
     .gw-indicator {
       position: sticky;
       top: 55px;
@@ -97,13 +99,18 @@
       border-radius: 40px;
       cursor: pointer;
       font-size: 0.8rem;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
+    .gw-chip i { font-size: 0.7rem; color: #b5f028; }
     .gw-chip.active-gw {
       background: #b5f028;
       color: black;
     }
+    .gw-chip.active-gw i { color: black; }
 
-    /* awards bar (visible on every page) */
+    /* awards bar */
     .awards-bar {
       background: rgba(0,0,0,0.6);
       backdrop-filter: blur(12px);
@@ -141,123 +148,162 @@
       font-size: 0.7rem;
     }
 
-    /* each league page = full pitch layout */
+    /* pages */
     .page {
       display: none;
-      min-height: calc(100vh - 180px);
+      min-height: calc(100vh - 200px);
       padding: 1rem;
     }
     .page.active-page {
       display: block;
     }
+
+    /* TRANSPARENT PITCH CONTAINER with full white lines */
     .pitch-container {
-      background: linear-gradient(145deg, #2d8c3a, #1a5e2a);
-      border-radius: 32px;
-      border: 3px solid white;
       position: relative;
-      padding: 2rem 1rem;
-      margin-bottom: 1rem;
-    }
-    /* pitch markings */
-    .pitch-container::before {
-      content: '';
-      position: absolute;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      bottom: 10px;
-      border: 2px solid rgba(255,255,255,0.4);
+      background: rgba(30, 60, 30, 0.3);
+      backdrop-filter: blur(2px);
       border-radius: 24px;
-      pointer-events: none;
+      margin-bottom: 1rem;
+      min-height: 500px;
+      border: 2px solid rgba(255,255,255,0.6);
+      overflow: hidden;
     }
-    .pitch-container::after {
-      content: '';
+    /* white pitch lines */
+    .pitch-container .halfway-line {
       position: absolute;
       top: 50%;
       left: 0;
       right: 0;
       height: 2px;
-      background: rgba(255,255,255,0.5);
+      background: white;
       transform: translateY(-50%);
-      pointer-events: none;
+      z-index: 1;
     }
-    .center-circle {
+    .pitch-container .center-circle {
       position: absolute;
       top: 50%;
       left: 50%;
       width: 80px;
       height: 80px;
-      border: 2px solid rgba(255,255,255,0.5);
+      border: 2px solid white;
       border-radius: 50%;
       transform: translate(-50%, -50%);
-      pointer-events: none;
+      z-index: 1;
     }
-    /* matches grid inside pitch */
+    /* penalty areas */
+    .penalty-area-left, .penalty-area-right {
+      position: absolute;
+      top: 50%;
+      width: 50px;
+      height: 120px;
+      border: 2px solid white;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    .penalty-area-left {
+      left: 0;
+      border-left: none;
+    }
+    .penalty-area-right {
+      right: 0;
+      border-right: none;
+    }
+    /* goal lines */
+    .goal-line-left, .goal-line-right {
+      position: absolute;
+      top: 50%;
+      width: 12px;
+      height: 40px;
+      background: white;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    .goal-line-left { left: 0; }
+    .goal-line-right { right: 0; }
+    /* penalty arc simulation */
+    .penalty-arc-left, .penalty-arc-right {
+      position: absolute;
+      top: 50%;
+      width: 30px;
+      height: 30px;
+      border: 1px solid white;
+      border-radius: 50%;
+      transform: translateY(-50%);
+      z-index: 1;
+    }
+    .penalty-arc-left { left: 25px; border-left: none; border-bottom: none; border-top: none; }
+    .penalty-arc-right { right: 25px; border-right: none; border-bottom: none; border-top: none; }
+
+    /* dark green percentage overlay (covers whole pitch) */
+    .accuracy-overlay {
+      position: absolute;
+      inset: 0;
+      background: rgba(10, 40, 10, 0.65);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 2;
+      pointer-events: none;
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 8rem;
+      font-weight: bold;
+      color: rgba(0,0,0,0.7);
+      text-shadow: 0 0 8px rgba(255,255,255,0.2);
+    }
+
+    /* score inputs grid (no team names) */
     .matches-pitch {
+      position: relative;
+      z-index: 3;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      max-width: 800px;
-      margin: 0 auto;
-      position: relative;
-      z-index: 3;
+      max-width: 600px;
+      margin: 60px auto;
+      padding: 1rem;
     }
     .match-row {
       display: flex;
       align-items: center;
-      justify-content: space-between;
-      background: rgba(0,0,0,0.6);
-      backdrop-filter: blur(8px);
+      justify-content: center;
+      gap: 20px;
+      background: rgba(0,0,0,0.5);
+      backdrop-filter: blur(4px);
       border-radius: 60px;
-      padding: 8px 20px;
-      gap: 15px;
-    }
-    .team-home {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      justify-content: flex-end;
-    }
-    .team-away {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      flex: 1;
-      justify-content: flex-start;
-    }
-    .team-name {
-      font-weight: bold;
-      font-size: 1rem;
-    }
-    .score-box {
-      display: flex;
-      align-items: center;
-      gap: 8px;
+      padding: 12px 20px;
     }
     .score-input-pitch {
-      width: 55px;
-      height: 45px;
-      background: #0a2a12;
-      border-radius: 12px;
+      width: 70px;
+      height: 55px;
+      background: rgba(0,0,0,0.7);
+      border-radius: 16px;
       text-align: center;
-      font-size: 1.3rem;
+      font-size: 1.6rem;
       color: #b5f028;
-      border: 1px solid #b5f028;
+      border: 2px solid #b5f028;
       font-weight: bold;
+    }
+    .score-input-pitch:disabled {
+      background: #2a2a2a;
+      color: #aaa;
+      border-color: #555;
     }
     .vs-badge {
       font-weight: bold;
       color: #b5f028;
+      font-size: 1.2rem;
     }
     .actual-hint {
       font-size: 0.7rem;
-      color: #aaa;
-      margin-left: 8px;
+      color: #ddd;
+      margin-left: 10px;
     }
-    /* champion control */
+
+    /* champion controls (outside pitch) */
     .champion-control {
-      background: rgba(0,0,0,0.5);
+      background: rgba(0,0,0,0.6);
+      backdrop-filter: blur(12px);
       border-radius: 60px;
       padding: 12px 20px;
       margin-top: 16px;
@@ -271,9 +317,10 @@
       background: #0a2a12;
       border: 1px solid #b5f028;
       border-radius: 40px;
-      padding: 6px 15px;
+      padding: 8px 15px;
       color: white;
       flex: 2;
+      font-family: 'Barlow Condensed';
     }
     .lock-btn {
       background: rgba(0,0,0,0.6);
@@ -283,64 +330,60 @@
       cursor: pointer;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
+      font-weight: bold;
     }
-    .lock-btn.locked { background: #b5f028; color: black; }
-    .percentage-badge {
-      font-family: 'Bebas Neue';
-      font-size: 1.2rem;
-      background: rgba(0,0,0,0.5);
-      padding: 4px 12px;
-      border-radius: 40px;
-    }
+    .lock-btn.locked { background: #b5f028; color: black; border-color: #b5f028; }
+    .lock-btn i { font-size: 0.9rem; }
+
     @media (max-width: 700px) {
-      .match-row { flex-direction: column; align-items: stretch; }
-      .team-home, .team-away { justify-content: center; }
-      .score-box { justify-content: center; }
+      .match-row { gap: 10px; padding: 8px 12px; }
+      .score-input-pitch { width: 55px; height: 45px; font-size: 1.2rem; }
+      .accuracy-overlay { font-size: 4rem; }
     }
   </style>
 </head>
 <body>
 <div class="loader" id="loader"><i class="fas fa-futbol"></i></div>
 
-<!-- Top menu (league pages) -->
+<!-- centered top menu -->
 <div class="top-menu">
   <div class="menu-container" id="menuContainer"></div>
 </div>
 
-<!-- GW indicator (sticky) -->
+<!-- GW indicator with modern icons -->
 <div class="gw-indicator">
-  <span><i class="fas fa-calendar-week"></i> Gameweek</span>
+  <span><i class="fas fa-calendar-alt"></i> Gameweek</span>
   <div class="gw-selector" id="gwSelector"></div>
 </div>
 
-<!-- Awards Bar (visible on all pages) -->
+<!-- Awards Bar -->
 <div class="awards-bar" id="awardsBar"></div>
 
-<!-- Dynamic league pages will be injected here -->
+<!-- Pages container -->
 <div id="pagesContainer"></div>
 
 <script>
   // hide loader
   (function() { const l=document.getElementById('loader'); function h(){ if(l) l.classList.add('hide'); } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',h); else h(); setTimeout(h,1500); })();
 
-  // ---------- LEAGUE DATA (Top 5 teams, home/away arranged for pitch view) ----------
+  // ---------- LEAGUE DATA ----------
   const leaguesData = {
-    epl: { name: "Premier League", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/120px-Premier_League_Logo.svg.png", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], 
+    epl: { name: "Premier League", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], 
            fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
-    liga: { name: "La Liga", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/LaLiga_logo.svg/120px-LaLiga_logo.svg.png", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"], 
+    liga: { name: "La Liga", fullName: "La Liga", teams: ["Real Madrid","Barcelona","Atletico","Athletic","Real Betis"], 
            fixtures: [{ home:"Real Madrid", away:"Barcelona"},{ home:"Atletico", away:"Sevilla"},{ home:"Athletic", away:"Villarreal"},{ home:"Real Betis", away:"Real Soc."},{ home:"Valencia", away:"Osasuna"}] },
-    serie: { name: "Serie A", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Serie_A_logo_2022.svg/120px-Serie_A_logo_2022.svg.png", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"], 
+    serie: { name: "Serie A", fullName: "Serie A", teams: ["Inter Milan","Juventus","AC Milan","Napoli","Lazio"], 
            fixtures: [{ home:"Inter Milan", away:"Juventus"},{ home:"AC Milan", away:"Napoli"},{ home:"Lazio", away:"Roma"},{ home:"Atalanta", away:"Fiorentina"},{ home:"Torino", away:"Bologna"}] },
-    bundes: { name: "Bundesliga", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Bundesliga_logo.svg/120px-Bundesliga_logo.svg.png", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"], 
+    bundes: { name: "Bundesliga", fullName: "Bundesliga", teams: ["Bayern","Dortmund","Leverkusen","Leipzig","Stuttgart"], 
            fixtures: [{ home:"Bayern", away:"Dortmund"},{ home:"Leverkusen", away:"Leipzig"},{ home:"Stuttgart", away:"Gladbach"},{ home:"Frankfurt", away:"Freiburg"},{ home:"Wolfsburg", away:"Hoffenheim"}] },
-    ligue: { name: "Ligue 1", badge: "https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ligue_1_Uber_Eats_logo.svg/120px-Ligue_1_Uber_Eats_logo.svg.png", fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"], 
+    ligue: { name: "Ligue 1", fullName: "Ligue 1", teams: ["PSG","Monaco","Marseille","Lyon","Lens"], 
            fixtures: [{ home:"PSG", away:"Monaco"},{ home:"Marseille", away:"Lyon"},{ home:"Lens", away:"Rennes"},{ home:"Lille", away:"Nice"},{ home:"Nantes", away:"Strasbourg"}] },
-    worldcup: { name: "World Cup", badge: "https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/FIFA_World_Cup_Logo_2026.png/120px-FIFA_World_Cup_Logo_2026.png", fullName: "World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], 
+    worldcup: { name: "World Cup", fullName: "World Cup", teams: ["Brazil","Argentina","France","Germany","Spain"], 
            fixtures: [{ home:"Brazil", away:"Argentina"},{ home:"France", away:"Spain"},{ home:"Germany", away:"England"},{ home:"Portugal", away:"Netherlands"},{ home:"Belgium", away:"Croatia"}] }
   };
 
-  // generate actual results & user predictions for all GWs (1-38)
+  // generate actual results & user predictions
   let actualResults = {}, userPredictions = {};
   function generateData() {
     for (let league of Object.keys(leaguesData)) {
@@ -390,9 +433,8 @@
   // cards & suspension
   let userCards = { yellows: 0, reds: 0, cardHistory: [] };
   let isSuspended = false;
-  function giveYellowCard(reason) { if(isSuspended) return; userCards.yellows++; userCards.cardHistory.push({ gw: currentGW, reason, type:"yellow" }); showToast(`🟡 YELLOW: ${reason}`, "#f5d742"); updateCardUI(); let recent = userCards.cardHistory.filter(c=>c.type==="yellow" && (currentGW-c.gw)<=3).length; if(recent>=2 && userCards.reds===0) giveRedCard("Two yellows in 3 GWs"); }
-  function giveRedCard(reason) { if(userCards.reds>0) return; userCards.reds++; userCards.cardHistory.push({ gw: currentGW, reason, type:"red" }); let deduction = 20; let keys = Object.keys(leagueScores); for(let k of keys) leagueScores[k] = Math.max(0, leagueScores[k] - deduction/keys.length); updateScoreDisplay(); isSuspended=true; showToast(`🔴 RED CARD! -20pts, suspended next GW. ${reason}`, "#e34d4d"); updateCardUI(); userCards.yellows=0; }
-  function updateCardUI() { /* optional */ }
+  function giveYellowCard(reason) { if(isSuspended) return; userCards.yellows++; userCards.cardHistory.push({ gw: currentGW, reason, type:"yellow" }); showToast(`🟡 YELLOW: ${reason}`, "#f5d742"); let recent = userCards.cardHistory.filter(c=>c.type==="yellow" && (currentGW-c.gw)<=3).length; if(recent>=2 && userCards.reds===0) giveRedCard("Two yellows in 3 GWs"); }
+  function giveRedCard(reason) { if(userCards.reds>0) return; userCards.reds++; userCards.cardHistory.push({ gw: currentGW, reason, type:"red" }); let deduction = 20; let keys = Object.keys(leagueScores); for(let k of keys) leagueScores[k] = Math.max(0, leagueScores[k] - deduction/keys.length); showToast(`🔴 RED CARD! -20pts, suspended next GW. ${reason}`, "#e34d4d"); isSuspended=true; userCards.yellows=0; }
   function showToast(msg, color="#b5f028") { let t=document.createElement("div"); t.innerText=msg; t.style.position="fixed"; t.style.bottom="80px"; t.style.left="50%"; t.style.transform="translateX(-50%)"; t.style.background=color; t.style.color="#0a2a12"; t.style.padding="8px 20px"; t.style.borderRadius="60px"; t.style.zIndex="999"; t.style.fontWeight="bold"; document.body.appendChild(t); setTimeout(()=>t.remove(),2500); }
 
   function updateMatchPred(league, idx, type, val) {
@@ -403,7 +445,7 @@
     else pred.aPred = parseInt(val) || 0;
     let margin = Math.abs(pred.hPred - pred.aPred);
     if(margin >= 4) giveYellowCard(`Risky margin ${pred.hPred}-${pred.aPred}`);
-    renderCurrentPage(); // re-render active page
+    renderCurrentPage();
   }
 
   function submitPredictions(leagueId) {
@@ -412,7 +454,7 @@
     showToast(`✅ GW${currentGW} predictions saved for ${leaguesData[leagueId].name}`, "#b5f028");
   }
 
-  // Awards state (Ballon d'Or, UCL, Europa)
+  // Awards
   const awardsList = [
     { id: "ballon", name: "Ballon d'Or", options: ["Messi","Haaland","Mbappé","Vinicius","Bellingham"], points: 150, locked: false, pick: "" },
     { id: "ucl", name: "UCL Winner", options: ["Real Madrid","Man City","Bayern","PSG","Arsenal"], points: 120, locked: false, pick: "" },
@@ -469,9 +511,8 @@
     }
     renderCurrentPage();
   }
-  function updateScoreDisplay() { renderCurrentPage(); }
 
-  // RENDER A SINGLE LEAGUE PAGE (pitch layout)
+  // Render one league page (pitch with only score inputs)
   function renderLeaguePage(leagueId) {
     const league = leaguesData[leagueId];
     const lock = lockState[leagueId] || { locked: false };
@@ -490,27 +531,26 @@
       let displayAway = isPast ? actualA : (userA !== undefined ? userA : '');
       matchesHtml += `
         <div class="match-row">
-          <div class="team-home">
-            <span class="team-name">${m.home}</span>
-            <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
-          </div>
-          <div class="score-box">
-            <span class="vs-badge">VS</span>
-          </div>
-          <div class="team-away">
-            <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
-            <span class="team-name">${m.away}</span>
-          </div>
-          ${isPast ? `<div class="actual-hint">${actualH}–${actualA}</div>` : ''}
+          <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
+          <span class="vs-badge">VS</span>
+          <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+          ${isPast ? `<span class="actual-hint">${actualH}–${actualA}</span>` : ''}
         </div>
       `;
     });
     return `
       <div class="page" id="page-${leagueId}" data-league="${leagueId}">
         <div class="pitch-container">
+          <div class="halfway-line"></div>
           <div class="center-circle"></div>
-          <div style="position: absolute; top: 10px; right: 20px; font-family: 'Bebas Neue'; font-size: 1.8rem; color: rgba(0,30,0,0.5);">${percent}%</div>
-          ${lock.locked && championPick ? `<div style="position: absolute; bottom: 20px; left: 20px; font-size: 1.8rem; color: rgba(255,255,255,0.2); font-family: 'Bebas Neue';">🏆 ${championPick}</div>` : ''}
+          <div class="penalty-area-left"></div>
+          <div class="penalty-area-right"></div>
+          <div class="goal-line-left"></div>
+          <div class="goal-line-right"></div>
+          <div class="penalty-arc-left"></div>
+          <div class="penalty-arc-right"></div>
+          <div class="accuracy-overlay">${percent}%</div>
+          ${lock.locked && championPick ? `<div style="position: absolute; bottom: 20px; left: 20px; font-size: 1.4rem; color: rgba(255,255,255,0.3); font-family: 'Bebas Neue'; z-index: 3;">🏆 ${championPick}</div>` : ''}
           <div class="matches-pitch">
             ${matchesHtml}
           </div>
@@ -522,7 +562,7 @@
             <button class="lock-btn ${lock.locked ? 'locked' : ''}" onclick="toggleLeagueLock('${leagueId}')">
               <i class="fas ${lock.locked ? 'fa-lock' : 'fa-lock-open'}"></i> ${lock.locked ? 'Locked' : 'Unlock'}
             </button>
-            ${penaltyPoints[leagueId] ? `<span style="font-size:0.7rem; color:#ffaa66;">⚠️ -${penaltyPoints[leagueId]}</span>` : ''}
+            ${penaltyPoints[leagueId] ? `<span style="font-size:0.7rem; color:#ffaa66;"><i class="fas fa-exclamation-triangle"></i> -${penaltyPoints[leagueId]}</span>` : ''}
             ${!isPast ? `<button class="lock-btn" style="background:#b5f028; color:black;" onclick="submitPredictions('${leagueId}')"><i class="fas fa-save"></i> Save GW</button>` : ''}
           </div>
         </div>
@@ -538,25 +578,23 @@
       html += renderLeaguePage(leagueId);
     }
     container.innerHTML = html;
-    // show active page
     document.querySelectorAll(".page").forEach(p => p.classList.remove("active-page"));
     const activePage = document.getElementById(`page-${currentActiveLeague}`);
     if (activePage) activePage.classList.add("active-page");
-    // highlight menu button
     document.querySelectorAll(".menu-btn").forEach(btn => {
       if (btn.getAttribute("data-league") === currentActiveLeague) btn.classList.add("active");
       else btn.classList.remove("active");
     });
   }
 
-  // build top menu
+  // build centered menu
   function buildMenu() {
     const menuContainer = document.getElementById("menuContainer");
     menuContainer.innerHTML = "";
     for (let [id, league] of Object.entries(leaguesData)) {
       const btn = document.createElement("button");
       btn.className = "menu-btn";
-      btn.innerText = league.name;
+      btn.innerHTML = `<i class="fas fa-futbol"></i> ${league.name}`;
       btn.setAttribute("data-league", id);
       btn.onclick = () => {
         currentActiveLeague = id;
@@ -566,13 +604,13 @@
     }
   }
 
-  // GW selector (1-38)
+  // GW selector with modern icons
   function buildGWSelector() {
     const container = document.getElementById("gwSelector");
     for (let i = 1; i <= 38; i++) {
       const chip = document.createElement("div");
       chip.className = "gw-chip";
-      chip.innerText = `GW ${i}`;
+      chip.innerHTML = `<i class="fas fa-calendar-week"></i> GW ${i}`;
       if (i === currentGW) chip.classList.add("active-gw");
       chip.onclick = () => {
         currentGW = i;
@@ -586,7 +624,6 @@
     }
   }
 
-  // init locks
   for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l] = { locked: false, lockGW: null };
 
   buildMenu();
