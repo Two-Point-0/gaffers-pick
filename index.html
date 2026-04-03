@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Pitch Only · Score Inputs · Dark Green %</title>
+  <title>The Gaffer's Pick | Transparent Pitch · Modern GW Arrows</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet">
@@ -58,7 +58,7 @@
       padding: 0 1rem;
     }
     .menu-btn {
-      background: #2a2a2a;
+      background: rgba(42,42,42,0.8);
       border: 1px solid #5a9e6a;
       color: #eee;
       font-family: 'Barlow Condensed';
@@ -67,14 +67,18 @@
       border-radius: 40px;
       cursor: pointer;
       transition: 0.2s;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
     }
+    .menu-btn i { font-size: 0.9rem; }
     .menu-btn.active {
       background: #b5f028;
       color: #0a2a12;
       border-color: #b5f028;
     }
 
-    /* GW indicator with modern icons */
+    /* modern GW selector with arrows */
     .gw-indicator {
       position: sticky;
       top: 55px;
@@ -87,32 +91,42 @@
       z-index: 99;
       border-bottom: 1px solid #3a5a3a;
     }
-    .gw-selector {
+    .gw-nav {
       display: flex;
-      gap: 8px;
-      overflow-x: auto;
-    }
-    .gw-chip {
-      background: #1a2a1a;
-      border: 1px solid #5a9e6a;
+      align-items: center;
+      gap: 16px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 60px;
       padding: 4px 12px;
-      border-radius: 40px;
+    }
+    .gw-arrow {
+      background: #2a2a2a;
+      border: 1px solid #b5f028;
+      border-radius: 50%;
+      width: 36px;
+      height: 36px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       cursor: pointer;
-      font-size: 0.8rem;
+      transition: 0.2s;
+    }
+    .gw-arrow:hover { background: #b5f028; color: black; }
+    .gw-current {
+      font-family: 'Bebas Neue';
+      font-size: 1.4rem;
+      background: #1a2a1a;
+      padding: 4px 20px;
+      border-radius: 40px;
       display: inline-flex;
       align-items: center;
-      gap: 6px;
+      gap: 8px;
     }
-    .gw-chip i { font-size: 0.7rem; color: #b5f028; }
-    .gw-chip.active-gw {
-      background: #b5f028;
-      color: black;
-    }
-    .gw-chip.active-gw i { color: black; }
+    .gw-current i { color: #b5f028; }
 
     /* awards bar */
     .awards-bar {
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.5);
       backdrop-filter: blur(12px);
       padding: 12px;
       margin: 12px;
@@ -124,7 +138,7 @@
       z-index: 98;
     }
     .award-item {
-      background: #1a3a28;
+      background: rgba(26,58,40,0.7);
       border-radius: 40px;
       padding: 6px 16px;
       display: flex;
@@ -133,7 +147,7 @@
       flex-wrap: wrap;
     }
     .award-item select {
-      background: #0a2a12;
+      background: rgba(10,42,18,0.8);
       border-radius: 30px;
       padding: 4px 8px;
       color: white;
@@ -161,11 +175,11 @@
     /* TRANSPARENT PITCH CONTAINER with full white lines */
     .pitch-container {
       position: relative;
-      background: rgba(30, 60, 30, 0.3);
+      background: rgba(30, 60, 30, 0.25);
       backdrop-filter: blur(2px);
       border-radius: 24px;
       margin-bottom: 1rem;
-      min-height: 500px;
+      min-height: 550px;
       border: 2px solid rgba(255,255,255,0.6);
       overflow: hidden;
     }
@@ -191,7 +205,6 @@
       transform: translate(-50%, -50%);
       z-index: 1;
     }
-    /* penalty areas */
     .penalty-area-left, .penalty-area-right {
       position: absolute;
       top: 50%;
@@ -201,15 +214,8 @@
       transform: translateY(-50%);
       z-index: 1;
     }
-    .penalty-area-left {
-      left: 0;
-      border-left: none;
-    }
-    .penalty-area-right {
-      right: 0;
-      border-right: none;
-    }
-    /* goal lines */
+    .penalty-area-left { left: 0; border-left: none; }
+    .penalty-area-right { right: 0; border-right: none; }
     .goal-line-left, .goal-line-right {
       position: absolute;
       top: 50%;
@@ -221,7 +227,6 @@
     }
     .goal-line-left { left: 0; }
     .goal-line-right { right: 0; }
-    /* penalty arc simulation */
     .penalty-arc-left, .penalty-arc-right {
       position: absolute;
       top: 50%;
@@ -235,31 +240,31 @@
     .penalty-arc-left { left: 25px; border-left: none; border-bottom: none; border-top: none; }
     .penalty-arc-right { right: 25px; border-right: none; border-bottom: none; border-top: none; }
 
-    /* dark green percentage overlay (covers whole pitch) */
+    /* dark green percentage overlay (visible behind content) */
     .accuracy-overlay {
       position: absolute;
       inset: 0;
-      background: rgba(10, 40, 10, 0.65);
+      background: rgba(10, 40, 10, 0.55);
       display: flex;
       align-items: center;
       justify-content: center;
       z-index: 2;
       pointer-events: none;
       font-family: 'Bebas Neue', sans-serif;
-      font-size: 8rem;
+      font-size: 9rem;
       font-weight: bold;
-      color: rgba(0,0,0,0.7);
-      text-shadow: 0 0 8px rgba(255,255,255,0.2);
+      color: rgba(0, 0, 0, 0.65);
+      text-shadow: 0 0 8px rgba(255,255,255,0.15);
     }
 
-    /* score inputs grid (no team names) */
+    /* matches grid with team names and transparent inputs */
     .matches-pitch {
       position: relative;
       z-index: 3;
       display: flex;
       flex-direction: column;
       gap: 20px;
-      max-width: 600px;
+      max-width: 800px;
       margin: 60px auto;
       padding: 1rem;
     }
@@ -267,32 +272,48 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      gap: 20px;
-      background: rgba(0,0,0,0.5);
+      gap: 15px;
+      background: rgba(0,0,0,0.3);
       backdrop-filter: blur(4px);
       border-radius: 60px;
       padding: 12px 20px;
     }
+    .team-home, .team-away {
+      font-weight: bold;
+      font-size: 1rem;
+      white-space: nowrap;
+      text-shadow: 0 1px 2px black;
+      min-width: 100px;
+      text-align: center;
+    }
+    .team-home { text-align: right; }
+    .team-away { text-align: left; }
+    .score-group {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
     .score-input-pitch {
-      width: 70px;
+      width: 65px;
       height: 55px;
-      background: rgba(0,0,0,0.7);
+      background: transparent;
+      border: 2px solid white;
       border-radius: 16px;
       text-align: center;
       font-size: 1.6rem;
       color: #b5f028;
-      border: 2px solid #b5f028;
       font-weight: bold;
+      backdrop-filter: blur(4px);
     }
+    .score-input-pitch:focus { outline: none; border-color: #b5f028; }
     .score-input-pitch:disabled {
-      background: #2a2a2a;
-      color: #aaa;
-      border-color: #555;
+      border-color: #888;
+      color: #ccc;
     }
     .vs-badge {
       font-weight: bold;
       color: #b5f028;
-      font-size: 1.2rem;
+      font-size: 1rem;
     }
     .actual-hint {
       font-size: 0.7rem;
@@ -302,7 +323,7 @@
 
     /* champion controls (outside pitch) */
     .champion-control {
-      background: rgba(0,0,0,0.6);
+      background: rgba(0,0,0,0.5);
       backdrop-filter: blur(12px);
       border-radius: 60px;
       padding: 12px 20px;
@@ -314,7 +335,7 @@
       justify-content: space-between;
     }
     .champion-select {
-      background: #0a2a12;
+      background: rgba(10,42,18,0.8);
       border: 1px solid #b5f028;
       border-radius: 40px;
       padding: 8px 15px;
@@ -337,7 +358,8 @@
     .lock-btn i { font-size: 0.9rem; }
 
     @media (max-width: 700px) {
-      .match-row { gap: 10px; padding: 8px 12px; }
+      .match-row { flex-wrap: wrap; gap: 8px; }
+      .team-home, .team-away { min-width: 80px; font-size: 0.8rem; }
       .score-input-pitch { width: 55px; height: 45px; font-size: 1.2rem; }
       .accuracy-overlay { font-size: 4rem; }
     }
@@ -351,10 +373,14 @@
   <div class="menu-container" id="menuContainer"></div>
 </div>
 
-<!-- GW indicator with modern icons -->
+<!-- modern GW selector with arrows -->
 <div class="gw-indicator">
   <span><i class="fas fa-calendar-alt"></i> Gameweek</span>
-  <div class="gw-selector" id="gwSelector"></div>
+  <div class="gw-nav">
+    <div class="gw-arrow" id="gwPrev"><i class="fas fa-chevron-left"></i></div>
+    <div class="gw-current" id="gwCurrentDisplay"><i class="fas fa-futbol"></i> GW 32</div>
+    <div class="gw-arrow" id="gwNext"><i class="fas fa-chevron-right"></i></div>
+  </div>
 </div>
 
 <!-- Awards Bar -->
@@ -367,7 +393,7 @@
   // hide loader
   (function() { const l=document.getElementById('loader'); function h(){ if(l) l.classList.add('hide'); } if(document.readyState==='loading') document.addEventListener('DOMContentLoaded',h); else h(); setTimeout(h,1500); })();
 
-  // ---------- LEAGUE DATA ----------
+  // ---------- LEAGUE DATA (TOP 5 TEAMS ONLY) ----------
   const leaguesData = {
     epl: { name: "Premier League", fullName: "Premier League", teams: ["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], 
            fixtures: [{ home:"Arsenal", away:"Man City"},{ home:"Liverpool", away:"Chelsea"},{ home:"Man Utd", away:"Tottenham"},{ home:"Newcastle", away:"Aston Villa"},{ home:"Brighton", away:"West Ham"}] },
@@ -512,7 +538,7 @@
     renderCurrentPage();
   }
 
-  // Render one league page (pitch with only score inputs)
+  // Render one league page (pitch with team names + transparent inputs)
   function renderLeaguePage(leagueId) {
     const league = leaguesData[leagueId];
     const lock = lockState[leagueId] || { locked: false };
@@ -531,9 +557,13 @@
       let displayAway = isPast ? actualA : (userA !== undefined ? userA : '');
       matchesHtml += `
         <div class="match-row">
-          <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
-          <span class="vs-badge">VS</span>
-          <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+          <div class="team-home">${m.home}</div>
+          <div class="score-group">
+            <input class="score-input-pitch" type="number" id="h_${leagueId}_${idx}" value="${displayHome}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'home',this.value)">
+            <span class="vs-badge">VS</span>
+            <input class="score-input-pitch" type="number" id="a_${leagueId}_${idx}" value="${displayAway}" ${isPast ? 'disabled' : ''} placeholder="0" onchange="updateMatchPred('${leagueId}',${idx},'away',this.value)">
+          </div>
+          <div class="team-away">${m.away}</div>
           ${isPast ? `<span class="actual-hint">${actualH}–${actualA}</span>` : ''}
         </div>
       `;
@@ -550,7 +580,7 @@
           <div class="penalty-arc-left"></div>
           <div class="penalty-arc-right"></div>
           <div class="accuracy-overlay">${percent}%</div>
-          ${lock.locked && championPick ? `<div style="position: absolute; bottom: 20px; left: 20px; font-size: 1.4rem; color: rgba(255,255,255,0.3); font-family: 'Bebas Neue'; z-index: 3;">🏆 ${championPick}</div>` : ''}
+          ${lock.locked && championPick ? `<div style="position: absolute; bottom: 20px; left: 20px; font-size: 1.4rem; color: rgba(255,255,255,0.3); font-family: 'Bebas Neue'; z-index: 3;"><i class="fas fa-crown"></i> ${championPick}</div>` : ''}
           <div class="matches-pitch">
             ${matchesHtml}
           </div>
@@ -585,6 +615,8 @@
       if (btn.getAttribute("data-league") === currentActiveLeague) btn.classList.add("active");
       else btn.classList.remove("active");
     });
+    // update GW display
+    document.getElementById("gwCurrentDisplay").innerHTML = `<i class="fas fa-futbol"></i> GW ${currentGW}`;
   }
 
   // build centered menu
@@ -604,30 +636,33 @@
     }
   }
 
-  // GW selector with modern icons
-  function buildGWSelector() {
-    const container = document.getElementById("gwSelector");
-    for (let i = 1; i <= 38; i++) {
-      const chip = document.createElement("div");
-      chip.className = "gw-chip";
-      chip.innerHTML = `<i class="fas fa-calendar-week"></i> GW ${i}`;
-      if (i === currentGW) chip.classList.add("active-gw");
-      chip.onclick = () => {
-        currentGW = i;
-        document.querySelectorAll(".gw-chip").forEach(c => c.classList.remove("active-gw"));
-        chip.classList.add("active-gw");
-        updateAllAccuracies();
-        renderCurrentPage();
-        showToast(`Gameweek ${currentGW} — Accuracy updated.`);
-      };
-      container.appendChild(chip);
-    }
+  // modern GW arrows
+  function setupGWArrows() {
+    const prevBtn = document.getElementById("gwPrev");
+    const nextBtn = document.getElementById("gwNext");
+    prevBtn.onclick = () => {
+      if (currentGW > 1) {
+        currentGW--;
+        updateGW();
+      }
+    };
+    nextBtn.onclick = () => {
+      if (currentGW < 38) {
+        currentGW++;
+        updateGW();
+      }
+    };
+  }
+  function updateGW() {
+    updateAllAccuracies();
+    renderCurrentPage();
+    showToast(`Gameweek ${currentGW} — Accuracy updated.`);
   }
 
   for(let l of Object.keys(leaguesData)) if(!lockState[l]) lockState[l] = { locked: false, lockGW: null };
 
   buildMenu();
-  buildGWSelector();
+  setupGWArrows();
   renderAwardsBar();
   renderCurrentPage();
 </script>
