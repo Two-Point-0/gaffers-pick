@@ -1,427 +1,526 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-  <title>The Gaffer's Pick | Pitch Edition – 11 Shirts · Billboards</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      background: #0a140c;
-      font-family: 'Rajdhani', sans-serif;
-      color: white;
-      display: flex;
-      justify-content: center;
-      align-items: center;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .loader {
-      position: fixed;
-      inset: 0;
-      background: #060f07;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      z-index: 9999;
-      transition: opacity 0.7s;
-    }
-    .loader.hide { opacity: 0; pointer-events: none; }
-    .load-ball {
-      width: 64px; height: 64px;
-      border-radius: 50%;
-      background: radial-gradient(circle at 35% 35%, #fff, #bbb, #333);
-      box-shadow: 0 0 40px rgba(200,244,0,0.6);
-      animation: bounce 0.7s infinite alternate;
-    }
-    .load-whistle { font-size: 2.5rem; margin-top: 18px; animation: whistle 1.2s infinite; }
-    .load-label { font-family: 'Bebas Neue'; font-size: 1.6rem; color: #c8f400; letter-spacing: 4px; margin-top: 10px; }
-    @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-22px); } }
-    @keyframes whistle { 0%,100%{ transform: rotate(-15deg); } 50%{ transform: rotate(15deg); } }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+<title>The Gaffer's Pick | Full Pitch · Street Football · Jersey Shirts</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@400;500;700&family=Rajdhani:wght@400;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: #0a140c;
+    font-family: 'Rajdhani', sans-serif;
+    color: white;
+    overflow-x: hidden;
+  }
+  .loader {
+    position: fixed;
+    inset: 0;
+    background: #060f07;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    z-index: 9999;
+    transition: opacity 0.7s;
+  }
+  .loader.hide { opacity: 0; pointer-events: none; }
+  .load-ball {
+    width: 64px; height: 64px;
+    border-radius: 50%;
+    background: radial-gradient(circle at 35% 35%, #fff, #bbb, #333);
+    box-shadow: 0 0 40px rgba(200,244,0,0.6);
+    animation: bounce 0.7s infinite alternate;
+  }
+  .load-whistle { font-size: 2.5rem; margin-top: 18px; animation: whistle 1.2s infinite; }
+  .load-label { font-family: 'Bebas Neue'; font-size: 1.6rem; color: #c8f400; letter-spacing: 4px; margin-top: 10px; }
+  @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-22px); } }
+  @keyframes whistle { 0%,100%{ transform: rotate(-15deg); } 50%{ transform: rotate(15deg); } }
 
-    .stadium {
-      position: relative;
-      max-width: 1300px;
-      width: 100%;
-      margin: 0 auto;
-    }
-    .billboard-top, .billboard-bottom {
-      position: absolute;
-      left: 0;
-      right: 0;
-      height: 40px;
-      background: linear-gradient(90deg, #111, #1a1a1a, #111);
-      border-top: 2px solid #c8f400;
-      border-bottom: 2px solid #c8f400;
-      display: flex;
-      justify-content: space-around;
-      align-items: center;
-      font-family: 'Bebas Neue';
-      font-size: 0.9rem;
-      color: #ffd700;
-      z-index: 5;
-      pointer-events: none;
-      overflow: hidden;
-      white-space: nowrap;
-    }
-    .billboard-top { top: -45px; border-radius: 20px 20px 0 0; }
-    .billboard-bottom { bottom: -45px; border-radius: 0 0 20px 20px; }
-    .billboard-text {
-      animation: scroll 12s linear infinite;
-      display: inline-block;
-      padding: 0 20px;
-    }
-    @keyframes scroll {
-      0% { transform: translateX(100%); }
-      100% { transform: translateX(-100%); }
-    }
-    .pitch-container {
-      position: relative;
-      background: linear-gradient(145deg, #1e7a2a, #17431f);
-      border-radius: 30px;
-      border: 3px solid white;
-      box-shadow: 0 0 0 8px rgba(0,0,0,0.3);
-      aspect-ratio: 4 / 3;
-      overflow: hidden;
-    }
-    .grass-stripes {
-      position: absolute;
-      inset: 0;
-      background: repeating-linear-gradient(180deg, #1e7a2a 0, #1e7a2a 58px, #226030 58px, #226030 116px);
-    }
-    .grass-stripes::after {
-      content: '';
-      position: absolute;
-      inset: 0;
-      background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
-    }
-    .pitch-markings {
-      position: absolute;
-      inset: 0;
-      pointer-events: none;
-    }
-    .pitch-markings svg {
-      width: 100%;
-      height: 100%;
-    }
-    .player-slot {
-      position: absolute;
-      transform: translate(-50%, -50%);
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      cursor: pointer;
-      z-index: 20;
-      transition: transform 0.2s;
-      width: 85px;
-    }
-    .player-slot:hover { transform: translate(-50%, -50%) scale(1.05); }
-    .player-slot.active .shirt-svg { filter: drop-shadow(0 0 12px #c8f400); }
-    .shirt-svg {
-      width: 75px;
-      height: auto;
-      filter: drop-shadow(0 5px 8px rgba(0,0,0,0.6));
-    }
-    .shorts-svg {
-      width: 52px;
-      margin-top: -5px;
-    }
-    .shirt-label {
-      font-family: 'Oswald';
-      font-size: 0.6rem;
-      font-weight: 600;
-      text-align: center;
-      background: rgba(0,0,0,0.6);
-      padding: 2px 6px;
-      border-radius: 20px;
-      margin-top: 2px;
-      white-space: nowrap;
-    }
-    .shirt-percent {
-      font-family: 'Bebas Neue';
-      font-size: 0.7rem;
-      color: #c8f400;
-      margin-top: 2px;
-    }
-    .shirt-logo {
-      position: absolute;
-      top: 50%;
-      left: 50%;
-      transform: translate(-50%, -50%);
-      width: 38px;
-      height: 38px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      pointer-events: none;
-    }
-    .gk { left: 50%; top: 9%; }
-    .defender { top: 28%; }
-    .defender-1 { left: 18%; }
-    .defender-2 { left: 39%; }
-    .defender-3 { left: 61%; }
-    .defender-4 { left: 82%; }
-    .midfielder { top: 50%; }
-    .midfielder-1 { left: 30%; }
-    .midfielder-2 { left: 50%; }
-    .midfielder-3 { left: 70%; }
-    .winger { top: 72%; }
-    .winger-left { left: 28%; }
-    .winger-right { left: 72%; }
-    .striker { left: 50%; top: 88%; }
+  /* full pitch wrapper */
+  .stadium {
+    position: relative;
+    max-width: 1400px;
+    margin: 0 auto;
+    padding: 0;
+  }
+  /* billboards with videos */
+  .billboard-top, .billboard-bottom {
+    position: absolute;
+    left: 0;
+    right: 0;
+    height: 60px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    z-index: 5;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 20px;
+    overflow-x: auto;
+    white-space: nowrap;
+    pointer-events: none;
+  }
+  .billboard-top { top: -65px; border-radius: 20px 20px 0 0; }
+  .billboard-bottom { bottom: -65px; border-radius: 0 0 20px 20px; }
+  .billboard-video {
+    width: 180px;
+    height: 50px;
+    background: #111;
+    border-radius: 12px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    font-family: 'Oswald';
+    font-size: 0.7rem;
+    color: #c8f400;
+    border: 1px solid rgba(200,244,0,0.3);
+    pointer-events: auto;
+  }
+  .billboard-video i { font-size: 1rem; animation: blink 1.5s infinite; }
+  @keyframes blink { 0%,100%{ opacity: 1; } 50%{ opacity: 0.4; } }
 
-    .match-info {
-      margin-top: 6px;
-      background: rgba(0,0,0,0.75);
-      border-radius: 16px;
-      padding: 6px 8px;
-      width: 140px;
-      text-align: center;
-      font-size: 0.65rem;
-      backdrop-filter: blur(4px);
-      border: 1px solid rgba(200,244,0,0.3);
-      max-height: 160px;
-      overflow-y: auto;
-    }
-    .match-row {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      gap: 6px;
-      margin-bottom: 5px;
-      border-bottom: 1px dashed rgba(255,255,255,0.2);
-      padding-bottom: 3px;
-    }
-    .team-badge {
-      width: 22px;
-      height: 22px;
-      background-size: contain;
-      background-repeat: no-repeat;
-      background-position: center;
-      border-radius: 4px;
-    }
-    .score-input-sm {
-      width: 34px;
-      height: 26px;
-      background: rgba(0,0,0,0.6);
-      border: 1px solid #c8f400;
-      border-radius: 8px;
-      text-align: center;
-      color: #c8f400;
-      font-family: 'Bebas Neue';
-      font-size: 0.8rem;
-    }
-    .lock-champ-btn {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid white;
-      border-radius: 40px;
-      padding: 3px 8px;
-      font-size: 0.55rem;
-      margin-top: 5px;
-      cursor: pointer;
-      width: 100%;
-    }
-    .points-ticker {
-      display: flex;
-      justify-content: center;
-      gap: 20px;
-      margin: 20px auto 10px;
-    }
-    .pt-box {
-      background: rgba(0,0,0,0.5);
-      border: 1px solid rgba(200,244,0,0.3);
-      border-radius: 14px;
-      padding: 4px 18px;
-      text-align: center;
-    }
-    .pt-val { font-family: 'Bebas Neue'; font-size: 1.4rem; color: #c8f400; }
-    .pt-lbl { font-size: 0.6rem; color: rgba(255,255,255,0.5); }
-    .gw-bar {
-      display: flex;
-      justify-content: center;
-      gap: 30px;
-      margin: 10px auto 20px;
-      background: rgba(0,0,0,0.6);
-      padding: 8px 25px;
-      border-radius: 60px;
-      width: fit-content;
-    }
-    .ref-btn {
-      background: #222;
-      border: 2px solid #ffd700;
-      border-radius: 50%;
-      width: 48px;
-      height: 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      font-size: 1.3rem;
-      color: #ffd700;
-    }
-    .gw-badge {
-      font-family: 'Bebas Neue';
-      font-size: 1.6rem;
-      background: #0a1e0d;
-      border: 2px solid #c8f400;
-      border-radius: 40px;
-      padding: 5px 32px;
-      color: #c8f400;
-    }
-    footer {
-      text-align: center;
-      margin-top: 20px;
-      font-size: 0.7rem;
-      color: rgba(255,255,255,0.4);
-    }
-    @media (max-width: 800px) {
-      .player-slot { width: 65px; }
-      .shirt-svg { width: 55px; }
-      .shorts-svg { width: 38px; }
-      .match-info { width: 120px; font-size: 0.55rem; }
-      .gw-badge { font-size: 1rem; padding: 4px 20px; }
-    }
-  </style>
+  /* main pitch */
+  .pitch-container {
+    position: relative;
+    background: linear-gradient(145deg, #1e7a2a, #17431f);
+    border-radius: 30px;
+    border: 3px solid white;
+    box-shadow: 0 0 0 8px rgba(0,0,0,0.3);
+    aspect-ratio: 4 / 3;
+    overflow: hidden;
+  }
+  .grass-stripes {
+    position: absolute;
+    inset: 0;
+    background: repeating-linear-gradient(180deg, #1e7a2a 0, #1e7a2a 58px, #226030 58px, #226030 116px);
+  }
+  .grass-stripes::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: radial-gradient(ellipse at 50% 50%, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.4) 100%);
+  }
+  .pitch-markings {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  .pitch-markings svg {
+    width: 100%;
+    height: 100%;
+  }
+
+  /* Jersey-style player slots */
+  .player-slot {
+    position: absolute;
+    transform: translate(-50%, -50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+    z-index: 20;
+    transition: transform 0.2s;
+    width: 110px;
+  }
+  .player-slot:hover { transform: translate(-50%, -50%) scale(1.05); }
+  .player-slot.active .jersey { filter: drop-shadow(0 0 12px #c8f400); }
+  .jersey {
+    width: 100px;
+    height: auto;
+    background-size: cover;
+    background-position: center;
+    position: relative;
+  }
+  .jersey-front {
+    fill: #1a1a2e;
+    stroke: white;
+    stroke-width: 1.5;
+  }
+  .jersey-number {
+    font-family: 'Bebas Neue';
+    font-size: 1.2rem;
+    fill: rgba(255,255,255,0.9);
+  }
+  .jersey-flag {
+    position: absolute;
+    right: 8px;
+    bottom: 8px;
+    width: 28px;
+    height: 28px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 4px;
+  }
+  .jersey-percent {
+    position: absolute;
+    left: 8px;
+    top: 12px;
+    font-family: 'Bebas Neue';
+    font-size: 0.9rem;
+    color: #c8f400;
+    background: rgba(0,0,0,0.5);
+    padding: 2px 6px;
+    border-radius: 20px;
+  }
+  .shorts-svg {
+    width: 60px;
+    margin-top: -6px;
+  }
+  .shirt-label {
+    font-family: 'Oswald';
+    font-size: 0.6rem;
+    font-weight: 600;
+    background: rgba(0,0,0,0.6);
+    padding: 2px 6px;
+    border-radius: 20px;
+    margin-top: 2px;
+    white-space: nowrap;
+  }
+
+  /* positions on pitch */
+  .gk { left: 50%; top: 9%; }
+  .defender { top: 28%; }
+  .defender-1 { left: 18%; }
+  .defender-2 { left: 39%; }
+  .defender-3 { left: 61%; }
+  .defender-4 { left: 82%; }
+  .midfielder { top: 50%; }
+  .midfielder-1 { left: 30%; }
+  .midfielder-2 { left: 50%; }
+  .midfielder-3 { left: 70%; }
+  .winger { top: 72%; }
+  .winger-left { left: 25%; width: 130px; }
+  .winger-right { left: 75%; width: 130px; }
+  .striker { left: 50%; top: 88%; }
+
+  /* Home/Away wing info panels (inside the shirts) */
+  .match-info {
+    margin-top: 6px;
+    background: rgba(0,0,0,0.85);
+    border-radius: 16px;
+    padding: 6px 8px;
+    width: 160px;
+    text-align: center;
+    font-size: 0.65rem;
+    backdrop-filter: blur(8px);
+    border: 1px solid rgba(200,244,0,0.4);
+    max-height: 200px;
+    overflow-y: auto;
+  }
+  .match-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 6px;
+    border-bottom: 1px dashed rgba(255,255,255,0.2);
+    padding-bottom: 4px;
+  }
+  .team-badge {
+    width: 22px;
+    height: 22px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    background-position: center;
+    border-radius: 4px;
+  }
+  .score-input-sm {
+    width: 34px;
+    height: 26px;
+    background: rgba(0,0,0,0.6);
+    border: 1px solid #c8f400;
+    border-radius: 8px;
+    text-align: center;
+    color: #c8f400;
+    font-family: 'Bebas Neue';
+    font-size: 0.8rem;
+  }
+  .lock-champ-btn {
+    background: rgba(0,0,0,0.5);
+    border: 1px solid white;
+    border-radius: 40px;
+    padding: 3px 8px;
+    font-size: 0.55rem;
+    margin-top: 5px;
+    cursor: pointer;
+    width: 100%;
+  }
+
+  /* Street football buttons (fixed on right side) */
+  .street-buttons {
+    position: fixed;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+    z-index: 100;
+  }
+  .street-btn {
+    background: linear-gradient(145deg, #1a2a1a, #0a1a0a);
+    border: 2px solid #c8f400;
+    border-radius: 50px;
+    padding: 8px 16px;
+    font-family: 'Bebas Neue';
+    font-size: 1rem;
+    color: #c8f400;
+    cursor: pointer;
+    text-align: center;
+    transition: all 0.2s;
+    writing-mode: vertical-rl;
+    text-orientation: mixed;
+    letter-spacing: 3px;
+  }
+  .street-btn:hover { background: #c8f400; color: #000; transform: scale(1.05); }
+
+  /* points & GW controls (compact, overlaying pitch) */
+  .gw-panel {
+    position: absolute;
+    bottom: 15px;
+    left: 15px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 40px;
+    padding: 6px 15px;
+    display: flex;
+    gap: 12px;
+    z-index: 30;
+  }
+  .ref-btn {
+    background: #222;
+    border: 2px solid #ffd700;
+    border-radius: 50%;
+    width: 36px;
+    height: 36px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    color: #ffd700;
+  }
+  .gw-badge {
+    font-family: 'Bebas Neue';
+    font-size: 1.2rem;
+    background: #0a1e0d;
+    border: 2px solid #c8f400;
+    border-radius: 40px;
+    padding: 2px 16px;
+    color: #c8f400;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  .points-ticker {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    background: rgba(0,0,0,0.7);
+    backdrop-filter: blur(8px);
+    border-radius: 40px;
+    padding: 6px 15px;
+    display: flex;
+    gap: 12px;
+    z-index: 30;
+  }
+  .pt-box {
+    text-align: center;
+    min-width: 60px;
+  }
+  .pt-val { font-family: 'Bebas Neue'; font-size: 1rem; color: #c8f400; }
+  .pt-lbl { font-size: 0.55rem; color: rgba(255,255,255,0.5); }
+
+  /* World Cup overlay (unchanged) */
+  .wc-overlay {
+    display: none;
+    position: fixed;
+    inset: 0;
+    background: rgba(0,0,0,0.96);
+    z-index: 2000;
+    flex-direction: column;
+    overflow: auto;
+  }
+  .wc-overlay.open { display: flex; }
+  .wc-top {
+    background: linear-gradient(90deg, #071409, #1a4a22);
+    padding: 14px 22px;
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 2px solid #c8f400;
+  }
+  .wc-close {
+    background: #c8f400;
+    color: #000;
+    border: none;
+    border-radius: 50px;
+    padding: 6px 18px;
+    cursor: pointer;
+  }
+  /* responsive */
+  @media (max-width: 900px) {
+    .player-slot { width: 80px; }
+    .jersey { width: 70px; }
+    .match-info { width: 130px; font-size: 0.55rem; }
+    .street-btn { font-size: 0.7rem; padding: 6px 12px; }
+  }
+  @media (max-width: 700px) {
+    .street-buttons { display: none; }
+    .gw-panel, .points-ticker { font-size: 0.7rem; }
+  }
+</style>
 </head>
 <body>
-<div class="loader" id="loader">
-  <div class="load-ball"></div>
-  <div class="load-whistle">🏁</div>
-  <div class="load-label">The Gaffer's Pick</div>
-</div>
+<div class="loader" id="loader"><div class="load-ball"></div><div class="load-whistle">🏁</div><div class="load-label">The Gaffer's Pick</div></div>
 
 <div class="stadium">
-  <div class="billboard-top"><div class="billboard-text">⚽ THE GAFFER'S PICK ⚽ PREMIER LEAGUE ⚽ LA LIGA ⚽ SERIE A ⚽ BUNDESLIGA ⚽ LIGUE 1 ⚽ UCL ⚽ WORLD CUP 2026 ⚽ EUROPA LEAGUE ⚽ BALLON D'OR ⚽</div></div>
-  <div class="billboard-bottom"><div class="billboard-text">🏆 PREDICT · LOCK · DOMINATE 🏆 EXACT SCORES = 20 PTS 🏆 CORRECT RESULT = 10 PTS 🏆</div></div>
+  <!-- video billboards -->
+  <div class="billboard-top">
+    <div class="billboard-video"><i class="fa-solid fa-video"></i> Heineken ⚽ Live</div>
+    <div class="billboard-video"><i class="fa-solid fa-tv"></i> UEFA Champions League</div>
+    <div class="billboard-video"><i class="fa-solid fa-futbol"></i> Adidas – Impossible Is Nothing</div>
+  </div>
+  <div class="billboard-bottom">
+    <div class="billboard-video"><i class="fa-solid fa-chart-line"></i> Crypto.com</div>
+    <div class="billboard-video"><i class="fa-solid fa-car"></i> Hyundai – Official Partner</div>
+    <div class="billboard-video"><i class="fa-solid fa-headset"></i> EA Sports FC</div>
+  </div>
 
+  <!-- PITCH -->
   <div class="pitch-container">
     <div class="grass-stripes"></div>
     <div class="pitch-markings">
       <svg viewBox="0 0 680 1050" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2.5" opacity="0.45">
         <rect x="28" y="28" width="624" height="994" rx="4"/>
         <line x1="28" y1="525" x2="652" y2="525"/>
-        <circle cx="340" cy="525" r="90"/>
-        <circle cx="340" cy="525" r="4" fill="white" stroke="none"/>
-        <rect x="163" y="28" width="354" height="163"/>
-        <rect x="253" y="28" width="174" height="55"/>
-        <rect x="293" y="8" width="94" height="22" stroke-width="2"/>
-        <circle cx="340" cy="143" r="4" fill="white" stroke="none"/>
+        <circle cx="340" cy="525" r="90"/><circle cx="340" cy="525" r="4" fill="white"/>
+        <rect x="163" y="28" width="354" height="163"/><rect x="253" y="28" width="174" height="55"/>
+        <rect x="293" y="8" width="94" height="22"/>
+        <circle cx="340" cy="143" r="4" fill="white"/>
         <path d="M237 191 A91 91 0 0 1 443 191"/>
-        <rect x="163" y="859" width="354" height="163"/>
-        <rect x="253" y="966" width="174" height="55"/>
-        <rect x="293" y="1020" width="94" height="22" stroke-width="2"/>
-        <circle cx="340" cy="907" r="4" fill="white" stroke="none"/>
+        <rect x="163" y="859" width="354" height="163"/><rect x="253" y="966" width="174" height="55"/>
+        <rect x="293" y="1020" width="94" height="22"/>
+        <circle cx="340" cy="907" r="4" fill="white"/>
         <path d="M237 859 A91 91 0 0 0 443 859"/>
       </svg>
     </div>
 
+    <!-- ========== 11 JERSEY SLOTS ========== -->
     <!-- GK: Premier League -->
     <div class="player-slot gk" data-id="epl" id="slot-epl">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#3D195B" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/f/f2/Premier_League_Logo.svg/120px-Premier_League_Logo.svg.png');"></div></div>
+      <div style="position:relative;">
+        <svg class="jersey" viewBox="0 0 100 90">
+          <path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#3D195B" stroke="white" stroke-width="1.5"/>
+          <text class="jersey-number" x="50" y="58" text-anchor="middle" font-size="14">1</text>
+        </svg>
+        <div class="jersey-percent" id="pct-epl">0%</div>
+        <div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/gb-eng.png');"></div>
+      </div>
       <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#1a1a2e" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-epl">0%</div>
       <div class="shirt-label">Premier League</div>
     </div>
     <!-- Defenders -->
     <div class="player-slot defender defender-1" data-id="liga" id="slot-liga">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#FF6B00" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/0/0f/LaLiga_logo.svg/120px-LaLiga_logo.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#2a1a00" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-liga">0%</div>
-      <div class="shirt-label">La Liga</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#FF6B00" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="white">2</text></svg><div class="jersey-percent" id="pct-liga">0%</div><div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/es.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#2a1a00" stroke="white"/></svg><div class="shirt-label">La Liga</div>
     </div>
     <div class="player-slot defender defender-2" data-id="serie" id="slot-serie">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#00529F" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/e/e7/Serie_A_logo_2022.svg/120px-Serie_A_logo_2022.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a3a" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-serie">0%</div>
-      <div class="shirt-label">Serie A</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#00529F" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="white">3</text></svg><div class="jersey-percent" id="pct-serie">0%</div><div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/it.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a3a" stroke="white"/></svg><div class="shirt-label">Serie A</div>
     </div>
     <div class="player-slot defender defender-3" data-id="bundes" id="slot-bundes">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#D20515" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/d/df/Bundesliga_logo.svg/120px-Bundesliga_logo.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a0000" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-bundes">0%</div>
-      <div class="shirt-label">Bundesliga</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#D20515" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="white">4</text></svg><div class="jersey-percent" id="pct-bundes">0%</div><div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/de.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a0000" stroke="white"/></svg><div class="shirt-label">Bundesliga</div>
     </div>
     <div class="player-slot defender defender-4" data-id="ligue" id="slot-ligue">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#003F80" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/c/c3/Ligue_1_Uber_Eats_logo.svg/120px-Ligue_1_Uber_Eats_logo.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a40" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-ligue">0%</div>
-      <div class="shirt-label">Ligue 1</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#003F80" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="white">5</text></svg><div class="jersey-percent" id="pct-ligue">0%</div><div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/fr.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a40" stroke="white"/></svg><div class="shirt-label">Ligue 1</div>
     </div>
     <!-- Midfielders -->
     <div class="player-slot midfielder midfielder-1" data-id="ucl" id="slot-ucl">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#071D49" stroke="#FFD700" stroke-width="2"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/UEFA_Champions_League_logo_2024.svg/120px-UEFA_Champions_League_logo_2024.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#071D49" stroke="#FFD700" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-ucl">800 pts</div>
-      <div class="shirt-label">UCL Winner</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#071D49" stroke="#FFD700"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="gold">6</text></svg><div class="jersey-percent" id="pct-ucl">800</div><div class="jersey-flag" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/3/3b/UEFA_Champions_League_logo_2024.svg/40px-UEFA_Champions_League_logo_2024.svg.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#071D49" stroke="#FFD700"/></svg><div class="shirt-label">UCL</div>
     </div>
     <div class="player-slot midfielder midfielder-2" data-id="worldcup" id="slot-worldcup">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#c8f400" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/FIFA_World_Cup_Logo_2026.png/120px-FIFA_World_Cup_Logo_2026.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#1a4a22" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-worldcup">Open</div>
-      <div class="shirt-label">World Cup 2026</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#c8f400" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="black">7</text></svg><div class="jersey-percent" id="pct-worldcup">Open</div><div class="jersey-flag" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/6/6a/FIFA_World_Cup_Logo_2026.png/40px-FIFA_World_Cup_Logo_2026.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#1a4a22" stroke="white"/></svg><div class="shirt-label">World Cup</div>
     </div>
     <div class="player-slot midfielder midfielder-3" data-id="europa" id="slot-europa">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#F54029" stroke="white" stroke-width="1.5"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/5/54/UEFA_Europa_League_logo_2021.svg/120px-UEFA_Europa_League_logo_2021.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a0800" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-europa">600 pts</div>
-      <div class="shirt-label">Europa League</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#F54029" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="14" fill="white">8</text></svg><div class="jersey-percent" id="pct-europa">600</div><div class="jersey-flag" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/5/54/UEFA_Europa_League_logo_2021.svg/40px-UEFA_Europa_League_logo_2021.svg.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a0800" stroke="white"/></svg><div class="shirt-label">Europa</div>
     </div>
-    <!-- Wingers (Home & Away) -->
-    <div class="player-slot winger winger-left home-wing" data-id="homeWing" id="slot-homeWing">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#0047AB" stroke="white" stroke-width="1.5"/><text x="50" y="57" text-anchor="middle" font-size="22" fill="white">🏠</text></svg></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a50" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent">Home</div>
+    <!-- Wingers (Home & Away) – these will show match info -->
+    <div class="player-slot winger winger-left" data-id="homeWing" id="slot-homeWing">
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#0047AB" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="16" fill="white">🏠</text></svg><div class="jersey-percent">Home</div><div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/gb-eng.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a50" stroke="white"/></svg>
       <div class="shirt-label">Home Teams</div>
       <div id="homeMatchInfo" class="match-info"></div>
     </div>
-    <div class="player-slot winger winger-right away-wing" data-id="awayWing" id="slot-awayWing">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#B22222" stroke="white" stroke-width="1.5"/><text x="50" y="57" text-anchor="middle" font-size="22" fill="white">✈️</text></svg></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a0000" stroke="white" stroke-width="1.2"/></svg>
-      <div class="shirt-percent">Away</div>
+    <div class="player-slot winger winger-right" data-id="awayWing" id="slot-awayWing">
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#B22222" stroke="white"/><text x="50" y="58" text-anchor="middle" font-size="16" fill="white">✈️</text></svg><div class="jersey-percent">Away</div><div class="jersey-flag" style="background-image: url('https://flagcdn.com/w40/gb-eng.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a0000" stroke="white"/></svg>
       <div class="shirt-label">Away Teams</div>
       <div id="awayMatchInfo" class="match-info"></div>
     </div>
     <!-- Striker: Ballon d'Or -->
     <div class="player-slot striker" data-id="ballon" id="slot-ballon">
-      <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#c8a800" stroke="#FFD700" stroke-width="2"/></svg><div class="shirt-logo" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Ballon_d%27Or_2019_logo.svg/120px-Ballon_d%27Or_2019_logo.svg.png');"></div></div>
-      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a2d00" stroke="#FFD700" stroke-width="1.2"/></svg>
-      <div class="shirt-percent" id="pct-ballon">Select</div>
+      <div style="position:relative;"><svg class="jersey" viewBox="0 0 100 90"><path class="jersey-front" d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#c8a800" stroke="#FFD700"/><text x="50" y="58" text-anchor="middle" font-size="16" fill="#FFD700">⭐</text></svg><div class="jersey-percent" id="pct-ballon">Select</div><div class="jersey-flag" style="background-image: url('https://upload.wikimedia.org/wikipedia/en/thumb/5/53/Ballon_d%27Or_2019_logo.svg/40px-Ballon_d%27Or_2019_logo.svg.png');"></div></div>
+      <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#3a2d00" stroke="#FFD700"/></svg>
       <div class="shirt-label">Ballon d'Or</div>
     </div>
   </div>
 
-  <div class="points-ticker">
-    <div class="pt-box"><div class="pt-val" id="totalPts">0</div><div class="pt-lbl">TOTAL PTS</div></div>
-    <div class="pt-box"><div class="pt-val" id="gwPts">0</div><div class="pt-lbl">GW PTS</div></div>
-    <div class="pt-box"><div class="pt-val" id="winnerPts">0</div><div class="pt-lbl">WINNER PTS</div></div>
-    <div class="pt-box"><div class="pt-val" id="deductPts">0</div><div class="pt-lbl">DEDUCTIONS</div></div>
-  </div>
-  <div class="gw-bar">
+  <!-- GW & Points overlays -->
+  <div class="gw-panel">
     <div class="ref-btn" id="gwPrev"><i class="fa-solid fa-whistle"></i></div>
-    <div class="gw-badge" id="gwBadge"><i class="fa-solid fa-futbol"></i> <span id="gwNum">GW 32</span></div>
+    <div class="gw-badge"><i class="fa-solid fa-futbol"></i> <span id="gwNum">GW 32</span></div>
     <div class="ref-btn" id="gwNext"><i class="fa-solid fa-rectangle-xmark"></i></div>
   </div>
-  <footer>Designed by Muhia | <i class="fa-solid fa-phone-volume"></i> 0724726032 | <i class="fa-brands fa-github"></i> github</footer>
+  <div class="points-ticker">
+    <div class="pt-box"><div class="pt-val" id="totalPts">0</div><div class="pt-lbl">TOTAL</div></div>
+    <div class="pt-box"><div class="pt-val" id="winnerPts">0</div><div class="pt-lbl">BONUS</div></div>
+  </div>
+</div>
+
+<!-- Street football buttons -->
+<div class="street-buttons">
+  <div class="street-btn" data-mode="1v1">1v1<br>⚡</div>
+  <div class="street-btn" data-mode="2v2">2v2<br>🔥</div>
+  <div class="street-btn" data-mode="5v5">5v5<br>🏆</div>
+</div>
+
+<!-- World Cup Overlay (unchanged from previous working version) -->
+<div id="wcOverlay" class="wc-overlay">
+  <div class="wc-top"><h2><i class="fa-solid fa-earth-americas"></i> FIFA World Cup 2026</h2><button class="wc-close" id="wcClose">← Back to Pitch</button></div>
+  <div class="stage-nav" style="display:flex; gap:8px; justify-content:center; padding:10px;"></div>
+  <div id="wcBody" style="padding:20px;"></div>
 </div>
 
 <script>
-  // ---------- LEAGUE DATA ----------
+  // ==================== LEAGUE DATA (top 4-5 teams only) ====================
   const LEAGUES = {
-    epl: { name:"Premier League", teams:["Chelsea","Arsenal","Man City","Liverpool","Tottenham","Man Utd"], fixtures:[{h:"Chelsea",a:"Arsenal"},{h:"Man City",a:"Liverpool"},{h:"Tottenham",a:"Man Utd"}] },
-    liga: { name:"La Liga", teams:["Real Madrid","Barcelona","Atletico","Sevilla","Villarreal","Real Betis"], fixtures:[{h:"Real Madrid",a:"Barcelona"},{h:"Atletico",a:"Sevilla"},{h:"Villarreal",a:"Real Betis"}] },
-    serie: { name:"Serie A", teams:["Inter Milan","Juventus","AC Milan","Napoli","Roma","Lazio"], fixtures:[{h:"Inter Milan",a:"Juventus"},{h:"AC Milan",a:"Napoli"},{h:"Roma",a:"Lazio"}] },
-    bundes: { name:"Bundesliga", teams:["Bayern","Dortmund","Leverkusen","RB Leipzig","Stuttgart","Frankfurt"], fixtures:[{h:"Bayern",a:"Dortmund"},{h:"Leverkusen",a:"RB Leipzig"},{h:"Stuttgart",a:"Frankfurt"}] },
-    ligue: { name:"Ligue 1", teams:["PSG","Monaco","Marseille","Lyon","Rennes","Lille"], fixtures:[{h:"PSG",a:"Monaco"},{h:"Marseille",a:"Lyon"},{h:"Rennes",a:"Lille"}] },
-    ucl: { name:"UCL Winner", type:"award", options:["Real Madrid","Man City","Bayern","PSG","Arsenal","Inter Milan"], points:800 },
-    europa: { name:"Europa League", type:"award", options:["Liverpool","Roma","Sevilla","Leverkusen","Atalanta","Ajax"], points:600 },
+    epl: { name:"Premier League", teams:["Arsenal","Man City","Liverpool","Chelsea","Man Utd"], fixtures:[{h:"Arsenal",a:"Man City"},{h:"Liverpool",a:"Chelsea"},{h:"Man Utd",a:"Tottenham"},{h:"Newcastle",a:"Aston Villa"}] },
+    liga: { name:"La Liga", teams:["Real Madrid","Barcelona","Atletico","Sevilla","Villarreal"], fixtures:[{h:"Real Madrid",a:"Barcelona"},{h:"Atletico",a:"Sevilla"},{h:"Villarreal",a:"Real Betis"}] },
+    serie: { name:"Serie A", teams:["Inter Milan","Juventus","AC Milan","Napoli","Roma"], fixtures:[{h:"Inter Milan",a:"Juventus"},{h:"AC Milan",a:"Napoli"},{h:"Roma",a:"Lazio"}] },
+    bundes: { name:"Bundesliga", teams:["Bayern","Dortmund","Leverkusen","RB Leipzig","Stuttgart"], fixtures:[{h:"Bayern",a:"Dortmund"},{h:"Leverkusen",a:"RB Leipzig"},{h:"Stuttgart",a:"Frankfurt"}] },
+    ligue: { name:"Ligue 1", teams:["PSG","Monaco","Marseille","Lyon","Rennes"], fixtures:[{h:"PSG",a:"Monaco"},{h:"Marseille",a:"Lyon"},{h:"Rennes",a:"Lille"}] },
+    ucl: { name:"UCL Winner", type:"award", options:["Real Madrid","Man City","Bayern","PSG","Arsenal"], points:800 },
+    europa: { name:"Europa League", type:"award", options:["Liverpool","Roma","Sevilla","Leverkusen","Atalanta"], points:600 },
     ballon: { name:"Ballon d'Or", type:"special" }
   };
+  // Street football modes: 1v1, 2v2, 5v5
+  const STREET_MODES = {
+    "1v1": { leagues: ["epl","ucl"], name:"1v1 – Premier + UCL" },
+    "2v2": { leagues: ["epl","ucl","ballon"], name:"2v2 – Premier + UCL + Ballon" },
+    "5v5": { leagues: ["epl","liga","serie","bundes","ligue"], name:"5v5 – Top 5 Leagues" }
+  };
+  let currentMode = null;
 
-  // Generate random results & predictions (38 GWs)
+  // Generate random results & user predictions (38 GWs)
   let actualRes = {}, userPreds = {};
   for(let id of ["epl","liga","serie","bundes","ligue"]){
     actualRes[id] = {}; userPreds[id] = {};
@@ -437,6 +536,7 @@
   let champLockedGW = {};
   let awardPicks = { ucl:"", europa:"" };
   let awardLocked = { ucl:false, europa:false };
+  let ballonPick = null, ballonLocked = false, ballonLockGW = 0;
 
   function calcMatchPts(pH,pA,aH,aA){
     if(pH===aH && pA===aA) return 20;
@@ -469,24 +569,24 @@
     return Math.min(weeks*50, Math.floor(total*0.7));
   }
   function updatePoints(){
-    let allRaw=0, wPts=0, dPts=0, gwPoints=0;
+    let allRaw=0, wPts=0, dPts=0;
     for(let id of ["epl","liga","serie","bundes","ligue"]){
       allRaw += leagueRawPts(id, GW);
-      gwPoints += (userPreds[id][GW-1]? userPreds[id][GW-1].reduce((s,x,i)=>s+calcMatchPts(x.h,x.a,actualRes[id][GW-1][i].h,actualRes[id][GW-1][i].a),0) : 0);
       if(champLocked[id] && champPicks[id]){ wPts+=500; dPts+=calcDeduction(champLockedGW[id], GW, 500); }
     }
     if(awardLocked.ucl && awardPicks.ucl) wPts+=800;
     if(awardLocked.europa && awardPicks.europa) wPts+=600;
+    if(ballonLocked && ballonPick){
+      let p = {pts:1200};
+      wPts+=p.pts;
+      dPts+=calcDeduction(ballonLockGW, GW, p.pts);
+    }
     document.getElementById("totalPts").textContent = allRaw + wPts - dPts;
-    document.getElementById("gwPts").textContent = gwPoints;
     document.getElementById("winnerPts").textContent = wPts;
-    document.getElementById("deductPts").textContent = "-"+dPts;
     for(let id of ["epl","liga","serie","bundes","ligue"]) document.getElementById(`pct-${id}`).textContent = leagueAccuracy(id,GW)+"%";
   }
 
-  function getTeamBadge(team){
-    return `https://placehold.co/30x30/1a4a22/c8f400?text=${team.charAt(0)}`;
-  }
+  function getTeamBadge(team){ return `https://placehold.co/30x30/1a4a22/c8f400?text=${team.charAt(0)}`; }
 
   function renderWingInfo(leagueId){
     let data = LEAGUES[leagueId];
@@ -495,8 +595,8 @@
     let fixtures = data.fixtures;
     let user = userPreds[leagueId][GW];
     let act = actualRes[leagueId][GW];
-    let homeHtml = `<div style="max-height:140px; overflow-y:auto;">`;
-    let awayHtml = `<div style="max-height:140px; overflow-y:auto;">`;
+    let homeHtml = `<div style="max-height:150px; overflow-y:auto;">`;
+    let awayHtml = `<div style="max-height:150px; overflow-y:auto;">`;
     fixtures.forEach((m,idx)=>{
       let userH = user[idx].h, userA = user[idx].a;
       let actH = act[idx].h, actA = act[idx].a;
@@ -545,11 +645,10 @@
     }
     updatePoints(); renderWingInfo(league);
   }
-
   function renderAward(id){
     let data = LEAGUES[id];
-    document.getElementById("homeMatchInfo").innerHTML = `<div style="padding:4px;"><select class="score-input-sm" style="width:100%;" onchange="awardPicks['${id}']=this.value"><option value="">— Select Winner —</option>${data.options.map(o=>`<option>${o}</option>`).join('')}</select><button class="lock-champ-btn" onclick="toggleAward('${id}')">Lock</button></div>`;
-    document.getElementById("awayMatchInfo").innerHTML = `<div style="padding:4px;">🏆 ${data.points} pts if correct</div>`;
+    document.getElementById("homeMatchInfo").innerHTML = `<div><select class="score-input-sm" style="width:100%;" onchange="awardPicks['${id}']=this.value"><option value="">— Select Winner —</option>${data.options.map(o=>`<option>${o}</option>`).join('')}</select><button class="lock-champ-btn" onclick="toggleAward('${id}')">Lock</button></div>`;
+    document.getElementById("awayMatchInfo").innerHTML = `<div>🏆 ${data.points} pts if correct</div>`;
   }
   function toggleAward(id){
     if(!awardLocked[id]){
@@ -559,13 +658,48 @@
     updatePoints();
   }
   function renderBallon(){
-    document.getElementById("homeMatchInfo").innerHTML = `<div style="padding:4px;">⭐ Top contenders: Mbappé, Haaland, Vinicius<br><button class="lock-champ-btn" onclick="toast('Ballon d\'Or locked for demo')">Lock Pick</button></div>`;
+    document.getElementById("homeMatchInfo").innerHTML = `<div>⭐ Top contenders: Mbappé, Haaland, Vinicius<br><button class="lock-champ-btn" onclick="toggleBallonLock()">Lock Pick</button></div>`;
     document.getElementById("awayMatchInfo").innerHTML = `<div>Current leader: Kylian Mbappé (42 goals)</div>`;
   }
-  function renderWorldCup(){
-    document.getElementById("homeMatchInfo").innerHTML = `<div style="padding:4px;">🌍 World Cup 2026 – Groups and knockout stage available in full version.</div>`;
-    document.getElementById("awayMatchInfo").innerHTML = `<div>48 teams · USA, Mexico, Canada co‑hosts</div>`;
+  function toggleBallonLock(){
+    if(!ballonLocked){
+      ballonLocked=true; ballonLockGW=GW;
+      toast(`🔒 Ballon d'Or locked! +1200 pts`);
+    } else {
+      ballonLocked=false;
+      toast(`🔓 Unlocked`);
+    }
+    updatePoints();
   }
+  function renderWorldCup(){
+    document.getElementById("homeMatchInfo").innerHTML = `<div>🌍 World Cup 2026 – Full tournament in overlay.</div>`;
+    document.getElementById("awayMatchInfo").innerHTML = `<div>Click the World Cup shirt to open.</div>`;
+  }
+  // World Cup overlay (simplified – reuses previous logic)
+  let wcPreds = {}, wcGroupLocked = {};
+  function openWC(){
+    document.getElementById("wcOverlay").classList.add("open");
+    document.getElementById("wcBody").innerHTML = `<div style="text-align:center;padding:40px;">World Cup 2026 – Groups and knockout stages would load here (demo).</div>`;
+  }
+  document.getElementById("wcClose").onclick = ()=>document.getElementById("wcOverlay").classList.remove("open");
+  document.getElementById("slot-worldcup").addEventListener("click",openWC);
+  // Street football modes
+  document.querySelectorAll(".street-btn").forEach(btn=>{
+    btn.addEventListener("click",()=>{
+      let mode = btn.dataset.mode;
+      currentMode = mode;
+      let modeData = STREET_MODES[mode];
+      toast(`🔥 Street Football: ${modeData.name} activated! Predict only these competitions.`);
+      // Highlight the relevant shirts
+      document.querySelectorAll(".player-slot").forEach(slot=>slot.classList.remove("active"));
+      modeData.leagues.forEach(lid=>{
+        let el = document.getElementById(`slot-${lid}`);
+        if(el) el.classList.add("active");
+      });
+      // For simplicity, load the first league in mode into wings
+      if(modeData.leagues[0]) renderWingInfo(modeData.leagues[0]);
+    });
+  });
 
   let activeId = "epl";
   function setActive(id){
@@ -583,36 +717,21 @@
       renderWorldCup();
     }
   }
-
   function blowRef(btnId){
     let btn = document.getElementById(btnId);
     btn.classList.add("blow");
-    setTimeout(()=>btn.classList.remove("blow"), 400);
+    setTimeout(()=>btn.classList.remove("blow"),400);
   }
-  document.getElementById("gwPrev").onclick = () => {
-    if(GW>1){ GW--; document.getElementById("gwNum").innerHTML=`GW ${GW}`; updatePoints(); setActive(activeId); blowRef("gwPrev"); toast(`Referee whistles – GW ${GW}`); }
-  };
-  document.getElementById("gwNext").onclick = () => {
-    if(GW<38){ GW++; document.getElementById("gwNum").innerHTML=`GW ${GW}`; updatePoints(); setActive(activeId); blowRef("gwNext"); toast(`Referee shows card – GW ${GW}`); }
-  };
-  function toast(msg){
-    let t=document.createElement("div");
-    t.className="toast";
-    t.innerHTML=msg;
-    document.body.appendChild(t);
-    setTimeout(()=>t.remove(),2000);
-  }
-
-  ["epl","liga","serie","bundes","ligue","ucl","europa","worldcup","ballon"].forEach(id=>{
+  document.getElementById("gwPrev").onclick = () => { if(GW>1){ GW--; document.getElementById("gwNum").innerHTML=`GW ${GW}`; updatePoints(); setActive(activeId); blowRef("gwPrev"); toast(`Referee whistles – GW ${GW}`); } };
+  document.getElementById("gwNext").onclick = () => { if(GW<38){ GW++; document.getElementById("gwNum").innerHTML=`GW ${GW}`; updatePoints(); setActive(activeId); blowRef("gwNext"); toast(`Referee shows card – GW ${GW}`); } };
+  function toast(msg){ let t=document.createElement("div"); t.className="toast"; t.innerHTML=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
+  ["epl","liga","serie","bundes","ligue","ucl","europa","ballon"].forEach(id=>{
     let el = document.getElementById(`slot-${id}`);
     if(el) el.addEventListener("click",()=>setActive(id));
   });
-  document.getElementById("slot-homeWing").addEventListener("click",()=>toast("Home wing shows home fixtures"));
-  document.getElementById("slot-awayWing").addEventListener("click",()=>toast("Away wing shows away fixtures"));
-
   updatePoints();
   setActive("epl");
-  setTimeout(()=>document.getElementById("loader").classList.add("hide"), 1000);
+  setTimeout(()=>document.getElementById("loader").classList.add("hide"), 900);
 </script>
 </body>
 </html>
