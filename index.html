@@ -19,7 +19,6 @@
       min-height: 100vh;
       padding: 20px;
     }
-    /* LOADER */
     .loader {
       position: fixed;
       inset: 0;
@@ -44,14 +43,12 @@
     @keyframes bounce { from { transform: translateY(0); } to { transform: translateY(-22px); } }
     @keyframes whistle { 0%,100%{ transform: rotate(-15deg); } 50%{ transform: rotate(15deg); } }
 
-    /* MAIN STADIUM */
     .stadium {
       position: relative;
       max-width: 1300px;
       width: 100%;
       margin: 0 auto;
     }
-    /* BILLBOARDS */
     .billboard-top, .billboard-bottom {
       position: absolute;
       left: 0;
@@ -82,8 +79,6 @@
       0% { transform: translateX(100%); }
       100% { transform: translateX(-100%); }
     }
-
-    /* PITCH */
     .pitch-container {
       position: relative;
       background: linear-gradient(145deg, #1e7a2a, #17431f);
@@ -113,8 +108,6 @@
       width: 100%;
       height: 100%;
     }
-
-    /* SHIRT CONTAINERS (11 positions) */
     .player-slot {
       position: absolute;
       transform: translate(-50%, -50%);
@@ -166,7 +159,6 @@
       background-position: center;
       pointer-events: none;
     }
-    /* Position coordinates */
     .gk { left: 50%; top: 9%; }
     .defender { top: 28%; }
     .defender-1 { left: 18%; }
@@ -182,7 +174,6 @@
     .winger-right { left: 72%; }
     .striker { left: 50%; top: 88%; }
 
-    /* Home / Away wing – match info panels */
     .match-info {
       margin-top: 6px;
       background: rgba(0,0,0,0.75);
@@ -234,8 +225,6 @@
       cursor: pointer;
       width: 100%;
     }
-
-    /* GW Controls & Points */
     .points-ticker {
       display: flex;
       justify-content: center;
@@ -381,7 +370,7 @@
       <div class="shirt-percent" id="pct-europa">600 pts</div>
       <div class="shirt-label">Europa League</div>
     </div>
-    <!-- Wingers (Home & Away) – these show match info -->
+    <!-- Wingers (Home & Away) -->
     <div class="player-slot winger winger-left home-wing" data-id="homeWing" id="slot-homeWing">
       <div style="position:relative;"><svg class="shirt-svg" viewBox="0 0 100 90"><path d="M18,10 L0,28 L18,36 L18,82 L82,82 L82,36 L100,28 L82,10 L64,20 Q50,28 36,20 Z" fill="#0047AB" stroke="white" stroke-width="1.5"/><text x="50" y="57" text-anchor="middle" font-size="22" fill="white">🏠</text></svg></div>
       <svg class="shorts-svg" viewBox="0 0 80 44"><path d="M8,0 L72,0 L78,44 L42,44 L40,32 L38,44 L2,44 Z" fill="#001a50" stroke="white" stroke-width="1.2"/></svg>
@@ -405,7 +394,6 @@
     </div>
   </div>
 
-  <!-- Points & GW Controls -->
   <div class="points-ticker">
     <div class="pt-box"><div class="pt-val" id="totalPts">0</div><div class="pt-lbl">TOTAL PTS</div></div>
     <div class="pt-box"><div class="pt-val" id="gwPts">0</div><div class="pt-lbl">GW PTS</div></div>
@@ -421,7 +409,7 @@
 </div>
 
 <script>
-  // ---------- LEAGUE DATA (top teams & fixtures) ----------
+  // ---------- LEAGUE DATA ----------
   const LEAGUES = {
     epl: { name:"Premier League", teams:["Chelsea","Arsenal","Man City","Liverpool","Tottenham","Man Utd"], fixtures:[{h:"Chelsea",a:"Arsenal"},{h:"Man City",a:"Liverpool"},{h:"Tottenham",a:"Man Utd"}] },
     liga: { name:"La Liga", teams:["Real Madrid","Barcelona","Atletico","Sevilla","Villarreal","Real Betis"], fixtures:[{h:"Real Madrid",a:"Barcelona"},{h:"Atletico",a:"Sevilla"},{h:"Villarreal",a:"Real Betis"}] },
@@ -433,7 +421,7 @@
     ballon: { name:"Ballon d'Or", type:"special" }
   };
 
-  // Generate random actual results & user predictions (38 GWs)
+  // Generate random results & predictions (38 GWs)
   let actualRes = {}, userPreds = {};
   for(let id of ["epl","liga","serie","bundes","ligue"]){
     actualRes[id] = {}; userPreds[id] = {};
@@ -449,7 +437,6 @@
   let champLockedGW = {};
   let awardPicks = { ucl:"", europa:"" };
   let awardLocked = { ucl:false, europa:false };
-  let ballonPick = null, ballonLocked = false;
 
   function calcMatchPts(pH,pA,aH,aA){
     if(pH===aH && pA===aA) return 20;
@@ -497,12 +484,10 @@
     for(let id of ["epl","liga","serie","bundes","ligue"]) document.getElementById(`pct-${id}`).textContent = leagueAccuracy(id,GW)+"%";
   }
 
-  // Helper: team badge placeholder (initials)
   function getTeamBadge(team){
     return `https://placehold.co/30x30/1a4a22/c8f400?text=${team.charAt(0)}`;
   }
 
-  // Render match info inside Home/Away wing shirts
   function renderWingInfo(leagueId){
     let data = LEAGUES[leagueId];
     if(!data || data.type === "award") return;
@@ -532,7 +517,6 @@
     awayHtml += `</div>${!isPast?`<button class="lock-champ-btn" onclick="saveGW('${leagueId}')"><i class="fa-regular fa-floppy-disk"></i> Save GW</button>`:''}`;
     document.getElementById("homeMatchInfo").innerHTML = homeHtml;
     document.getElementById("awayMatchInfo").innerHTML = awayHtml;
-    // Champion picker
     let champHtml = `<div style="margin-top:6px; border-top:1px solid rgba(200,244,0,0.3); padding-top:5px;">
       <select class="score-input-sm" style="width:100%;" ${champLocked[leagueId]?'disabled':''} onchange="champPicks['${leagueId}']=this.value">
         <option value="">🏆 Pick Champion</option>
@@ -562,7 +546,6 @@
     updatePoints(); renderWingInfo(league);
   }
 
-  // Award handlers
   function renderAward(id){
     let data = LEAGUES[id];
     document.getElementById("homeMatchInfo").innerHTML = `<div style="padding:4px;"><select class="score-input-sm" style="width:100%;" onchange="awardPicks['${id}']=this.value"><option value="">— Select Winner —</option>${data.options.map(o=>`<option>${o}</option>`).join('')}</select><button class="lock-champ-btn" onclick="toggleAward('${id}')">Lock</button></div>`;
@@ -575,18 +558,15 @@
     } else { awardLocked[id]=false; toast(`🔓 Unlocked`); }
     updatePoints();
   }
-  // Ballon d'Or
   function renderBallon(){
     document.getElementById("homeMatchInfo").innerHTML = `<div style="padding:4px;">⭐ Top contenders: Mbappé, Haaland, Vinicius<br><button class="lock-champ-btn" onclick="toast('Ballon d\'Or locked for demo')">Lock Pick</button></div>`;
     document.getElementById("awayMatchInfo").innerHTML = `<div>Current leader: Kylian Mbappé (42 goals)</div>`;
   }
-  // World Cup demo
   function renderWorldCup(){
     document.getElementById("homeMatchInfo").innerHTML = `<div style="padding:4px;">🌍 World Cup 2026 – Groups and knockout stage available in full version.</div>`;
     document.getElementById("awayMatchInfo").innerHTML = `<div>48 teams · USA, Mexico, Canada co‑hosts</div>`;
   }
 
-  // Active league highlight & content loading
   let activeId = "epl";
   function setActive(id){
     activeId = id;
@@ -604,7 +584,6 @@
     }
   }
 
-  // GW controls with referee animation
   function blowRef(btnId){
     let btn = document.getElementById(btnId);
     btn.classList.add("blow");
@@ -624,18 +603,16 @@
     setTimeout(()=>t.remove(),2000);
   }
 
-  // Attach click handlers to all shirts
   ["epl","liga","serie","bundes","ligue","ucl","europa","worldcup","ballon"].forEach(id=>{
     let el = document.getElementById(`slot-${id}`);
     if(el) el.addEventListener("click",()=>setActive(id));
   });
-  // Home/away wings just show current info (do nothing)
   document.getElementById("slot-homeWing").addEventListener("click",()=>toast("Home wing shows home fixtures"));
   document.getElementById("slot-awayWing").addEventListener("click",()=>toast("Away wing shows away fixtures"));
 
   updatePoints();
   setActive("epl");
-  setTimeout(()=>document.getElementById("loader").classList.add("hide"), 800);
+  setTimeout(()=>document.getElementById("loader").classList.add("hide"), 1000);
 </script>
 </body>
 </html>
