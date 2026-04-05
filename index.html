@@ -2,843 +2,534 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>The Gaffer's Pick</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+  <title>The Gaffer's Pick | Stadium Edition</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Oswald:wght@300;400;600;700&family=Rajdhani:wght@400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
   <style>
-    :root {
-      --lime: #c8f400;
-      --lime-dim: rgba(200,244,0,0.18);
-      --gold: #ffd700;
-      --red: #ff3b3b;
-      --white: #ffffff;
-      --pitch-dark: #1a4a22;
-      --pitch-mid: #236b2e;
-      --pitch-light: #2e8b3a;
-      --glass: rgba(0,0,0,0.55);
-      --glass-border: rgba(255,255,255,0.15);
-      --card-bg: rgba(10,30,14,0.82);
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      user-select: none;
     }
-
-    * { margin:0; padding:0; box-sizing:border-box; }
 
     body {
       font-family: 'Rajdhani', sans-serif;
-      background: #0d1f10;
+      background: #0a1a0c;
       color: #fff;
       min-height: 100vh;
       overflow-x: hidden;
     }
 
-    /* ── LOADER ── */
-    #loader {
-      position: fixed; inset:0; background:#0a1a0c;
-      display:flex; flex-direction:column; align-items:center; justify-content:center;
-      z-index:9999; transition: opacity 0.6s ease;
-    }
-    #loader.hide { opacity:0; pointer-events:none; }
-    .loader-ball {
-      width:60px; height:60px;
-      background: radial-gradient(circle at 35% 35%, #fff 0%, #aaa 60%, #333 100%);
-      border-radius:50%;
-      box-shadow: 0 0 30px rgba(200,244,0,0.5);
-      animation: bounceBall 0.8s infinite alternate ease-in-out;
-    }
-    .loader-text { font-family:'Bebas Neue'; font-size:1.8rem; color:var(--lime); margin-top:16px; letter-spacing:3px; }
-    @keyframes bounceBall { from{transform:translateY(0)} to{transform:translateY(-20px)} }
-
-    /* ── HEADER ── */
-    header {
-      text-align:center; padding:18px 20px 10px;
-      background: linear-gradient(180deg,rgba(0,0,0,0.7) 0%, transparent 100%);
-      position:relative; z-index:10;
-    }
-    header h1 {
-      font-family:'Bebas Neue'; font-size:clamp(2.2rem,5vw,3.8rem);
-      letter-spacing:4px;
-      background: linear-gradient(90deg, #fff 0%, var(--lime) 50%, #fff 100%);
-      -webkit-background-clip:text; -webkit-text-fill-color:transparent;
-      background-clip:text;
-      text-shadow: none;
-    }
-    header p { font-family:'Oswald'; font-size:0.85rem; color:rgba(255,255,255,0.5); letter-spacing:2px; margin-top:2px; }
-
-    /* ── REFEREE BAR ── */
-    .referee-bar {
-      display:flex; align-items:center; justify-content:center; gap:20px;
-      padding:10px 0 6px;
-    }
-    .ref-btn {
-      width:52px; height:52px; border-radius:50%;
-      background: linear-gradient(145deg,#111,#222);
-      border:2px solid var(--gold);
-      display:flex; align-items:center; justify-content:center;
-      cursor:pointer; transition:all 0.2s; color:var(--gold); font-size:1.2rem;
-      box-shadow: 0 0 12px rgba(255,215,0,0.25);
-      position:relative;
-    }
-    .ref-btn:hover { background:var(--gold); color:#000; box-shadow:0 0 20px rgba(255,215,0,0.6); transform:scale(1.08); }
-    .ref-btn .tooltip {
-      position:absolute; bottom:-30px; left:50%; transform:translateX(-50%);
-      background:#000; color:#fff; font-size:0.6rem; padding:3px 8px; border-radius:20px;
-      white-space:nowrap; opacity:0; pointer-events:none; transition:opacity 0.2s;
-    }
-    .ref-btn:hover .tooltip { opacity:1; }
-    .gw-badge {
-      font-family:'Bebas Neue'; font-size:1.8rem; letter-spacing:2px;
-      background: linear-gradient(135deg, #0a1e0d, #1a4a22);
-      border:2px solid var(--lime); border-radius:40px;
-      padding:6px 30px; color:var(--lime);
-      box-shadow: 0 0 18px rgba(200,244,0,0.2);
-      display:flex; align-items:center; gap:10px;
-    }
-    .gw-badge i { font-size:1.1rem; animation: spinSlow 4s linear infinite; }
-    @keyframes spinSlow { from{transform:rotate(0)} to{transform:rotate(360deg)} }
-
-    /* ── PITCH OUTER WRAPPER ── */
-    .pitch-section {
-      padding: 0 16px 20px;
-      max-width: 1400px; margin: 0 auto;
-    }
-
-    /* ── THE REAL PITCH ── */
-    .football-pitch {
+    /* ========= MODERN STADIUM AERIAL ========= */
+    .stadium {
       position: relative;
       width: 100%;
-      aspect-ratio: 68/105;
-      max-height: 85vh;
+      min-height: 100vh;
+      background: radial-gradient(ellipse at 50% 30%, #1a3a1a, #071007);
+      overflow-x: auto;
+    }
+
+    /* Pitch container with margins for billboards */
+    .pitch-container {
+      position: relative;
+      max-width: 1400px;
       margin: 0 auto;
-      border-radius: 8px;
+      padding: 20px 20px 20px 20px;
+    }
+
+    /* Main grass pitch */
+    .pitch {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 10;
+      background: linear-gradient(145deg, #1c7926, #0f4a17);
+      border-radius: 40px 40px 30px 30px;
+      box-shadow: 0 0 0 8px rgba(255, 255, 255, 0.08), 0 25px 40px rgba(0, 0, 0, 0.6);
       overflow: hidden;
-      box-shadow: 0 0 60px rgba(0,0,0,0.8), inset 0 0 40px rgba(0,0,0,0.3);
+      border: 1px solid rgba(200, 244, 0, 0.3);
     }
 
     /* Grass stripes */
-    .pitch-grass {
-      position: absolute; inset:0;
-      background:
-        repeating-linear-gradient(
-          180deg,
-          #1e7a2a 0px, #1e7a2a 60px,
-          #236b2e 60px, #236b2e 120px
-        );
-    }
-    .pitch-grass::after {
-      content:'';
-      position:absolute; inset:0;
-      background: radial-gradient(ellipse at 50% 50%, rgba(255,255,255,0.03) 0%, rgba(0,0,0,0.2) 100%);
+    .grass-pattern {
+      position: absolute;
+      inset: 0;
+      background: repeating-linear-gradient(90deg, rgba(0,0,0,0.1) 0px, rgba(0,0,0,0.1) 2px, transparent 2px, transparent 40px);
+      pointer-events: none;
     }
 
-    /* Pitch markings */
-    .pitch-markings {
-      position:absolute; inset:0; pointer-events:none;
+    /* Pitch markings SVG */
+    .markings {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
     }
-    .pitch-markings svg { width:100%; height:100%; }
+    .markings svg {
+      width: 100%;
+      height: 100%;
+    }
 
-    /* ── PLAYER CARD ON PITCH ── */
-    .player-slot {
+    /* ========= SHIRT CONTAINERS (jersey style) ========= */
+    .shirt-slot {
       position: absolute;
       transform: translate(-50%, -50%);
       display: flex;
       flex-direction: column;
       align-items: center;
       cursor: pointer;
-      z-index: 10;
-      transition: transform 0.2s;
+      z-index: 20;
+      transition: all 0.2s ease;
+      width: auto;
     }
-    .player-slot:hover { transform: translate(-50%, -50%) scale(1.08); }
-    .player-slot.active .slot-circle { border-color: var(--lime); box-shadow: 0 0 0 3px var(--lime), 0 0 25px rgba(200,244,0,0.6); }
-    .player-slot.active .slot-label { color: var(--lime); }
-
-    .slot-circle {
-      width: clamp(52px, 7.5vw, 80px);
-      height: clamp(52px, 7.5vw, 80px);
-      border-radius: 50%;
-      border: 3px solid rgba(255,255,255,0.6);
-      background: var(--card-bg);
+    .shirt-slot:hover { transform: translate(-50%, -50%) scale(1.05); }
+    .shirt-slot.active .jersey-card { border: 3px solid var(--lime); box-shadow: 0 0 0 4px rgba(200,244,0,0.3), 0 0 0 8px rgba(0,0,0,0.2); }
+    .jersey-card {
+      background: rgba(10, 20, 12, 0.85);
       backdrop-filter: blur(10px);
-      display: flex; align-items:center; justify-content:center;
-      overflow:hidden;
-      box-shadow: 0 4px 20px rgba(0,0,0,0.5);
+      border-radius: 24px;
+      padding: 6px 12px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      border: 1px solid rgba(255,255,255,0.2);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.5);
       transition: all 0.2s;
+      min-width: 85px;
     }
-    .slot-circle img {
-      width: 70%; height: 70%;
-      object-fit: contain;
-      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.5));
+    .jersey-icon {
+      font-size: 2.4rem;
+      filter: drop-shadow(0 2px 4px rgba(0,0,0,0.6));
     }
-    .slot-circle.has-emoji { font-size: clamp(1.5rem, 3vw, 2.2rem); }
-
-    .slot-label {
-      margin-top: 5px;
+    .shirt-label {
       font-family: 'Oswald';
-      font-size: clamp(0.5rem, 1.1vw, 0.75rem);
+      font-size: 0.7rem;
       font-weight: 600;
       text-align: center;
       color: rgba(255,255,255,0.9);
-      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-      white-space: nowrap;
-      letter-spacing: 0.5px;
+      letter-spacing: 1px;
+      margin-top: 2px;
     }
-    .slot-sub {
+    .shirt-sub {
       font-family: 'Rajdhani';
-      font-size: clamp(0.45rem, 0.9vw, 0.62rem);
+      font-size: 0.6rem;
       color: var(--lime);
-      text-align:center;
-      text-shadow: 0 1px 4px rgba(0,0,0,0.8);
-    }
-
-    /* ── BOTTOM PANEL ── */
-    .bottom-panel {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 16px;
-      padding: 0 16px 24px;
-      max-width: 1400px; margin: 0 auto;
-    }
-    .panel-card {
-      background: var(--glass);
-      backdrop-filter: blur(16px);
-      border: 1px solid var(--glass-border);
+      background: rgba(0,0,0,0.5);
       border-radius: 20px;
-      padding: 18px;
-      min-height: 340px;
-      overflow: hidden;
+      padding: 2px 8px;
+      margin-top: 4px;
+      display: flex;
+      align-items: center;
+      gap: 5px;
     }
-    .panel-title {
+    .shirt-sub img {
+      width: 16px;
+      height: 12px;
+      object-fit: cover;
+      border-radius: 2px;
+    }
+    .accuracy-glow {
+      transition: all 0.3s;
+    }
+    .gold-glow { text-shadow: 0 0 6px #ffd700; color: #ffd700; }
+    .silver-glow { text-shadow: 0 0 5px #c0c0c0; color: #e0e0e0; }
+    .bronze-glow { text-shadow: 0 0 4px #cd7f32; color: #f4a460; }
+
+    /* ========= BILLBOARDS (ad boards) ========= */
+    .ad-board {
+      position: absolute;
+      background: rgba(0,0,0,0.7);
+      backdrop-filter: blur(10px);
+      border-radius: 16px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 20px;
+      padding: 8px 20px;
+      white-space: nowrap;
+      overflow-x: auto;
+      scrollbar-width: none;
+      border: 1px solid rgba(200,244,0,0.3);
+      z-index: 15;
+      pointer-events: none;
+    }
+    .ad-board span {
       font-family: 'Bebas Neue';
-      font-size: 1.3rem;
+      font-size: 1rem;
       letter-spacing: 2px;
       color: var(--lime);
-      margin-bottom: 14px;
-      display: flex; align-items:center; gap:8px;
-      border-bottom: 1px solid rgba(200,244,0,0.2);
-      padding-bottom: 10px;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
     }
-    .panel-title i { font-size:1rem; }
+    .ad-board i { font-size: 1rem; }
+    .ad-top { top: -35px; left: 20px; right: 20px; }
+    .ad-bottom { bottom: -35px; left: 20px; right: 20px; }
 
-    /* Match row */
-    .match-row {
-      display: flex; align-items:center; gap:8px;
-      background: rgba(0,0,0,0.35);
-      border-radius: 50px;
-      padding: 7px 12px;
-      margin-bottom: 8px;
-      border: 1px solid rgba(255,255,255,0.07);
-      transition: background 0.2s;
+    /* ========= SEAT CONTAINERS (left & right wings) ========= */
+    .seat-stands {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 300px;
+      background: linear-gradient(135deg, #111a11, #0a130a);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(200,244,0,0.2);
+      border-radius: 28px;
+      padding: 20px 16px;
+      overflow-y: auto;
+      z-index: 25;
+      box-shadow: 0 0 30px rgba(0,0,0,0.7);
+      transition: all 0.3s;
     }
-    .match-row:hover { background:rgba(0,0,0,0.55); }
-    .team-name { flex:1; font-family:'Oswald'; font-size:0.82rem; font-weight:600; }
-    .team-badge-sm {
-      width:28px; height:28px;
-      object-fit:contain; flex-shrink:0;
-      filter: drop-shadow(0 1px 3px rgba(0,0,0,0.6));
+    .seat-left { left: -320px; }
+    .seat-right { right: -320px; }
+    /* on large screens we show them inside */
+    @media (min-width: 1300px) {
+      .seat-left { left: 20px; }
+      .seat-right { right: 20px; }
+      .pitch-container { padding: 0 340px; }
     }
-    .score-in {
-      width: 44px; height:34px;
-      background: rgba(0,0,0,0.5);
-      border: 1.5px solid rgba(255,255,255,0.3);
-      border-radius: 8px;
+    .seat-title {
+      font-family: 'Bebas Neue';
+      font-size: 1.6rem;
       color: var(--lime);
-      text-align:center; font-size:1.1rem;
-      font-family:'Bebas Neue'; letter-spacing:1px;
-      outline:none; transition:border-color 0.2s;
+      border-bottom: 2px solid rgba(200,244,0,0.4);
+      margin-bottom: 16px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
     }
-    .score-in:focus { border-color:var(--lime); box-shadow:0 0 8px rgba(200,244,0,0.3); }
-    .score-in:disabled { color:#555; border-color:#333; }
-    .vs-label { font-family:'Bebas Neue'; font-size:0.85rem; color:rgba(255,255,255,0.4); }
+    .match-row {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      background: rgba(0,0,0,0.5);
+      border-radius: 40px;
+      padding: 8px 12px;
+      margin-bottom: 8px;
+      font-size: 0.8rem;
+    }
+    .score-input {
+      width: 45px;
+      height: 32px;
+      background: #000;
+      border: 1px solid var(--lime);
+      border-radius: 10px;
+      text-align: center;
+      color: var(--lime);
+      font-family: 'Bebas Neue';
+      font-size: 1rem;
+    }
+    .lock-btn-sm {
+      background: rgba(255,255,255,0.1);
+      border: none;
+      padding: 6px 12px;
+      border-radius: 30px;
+      font-size: 0.7rem;
+      cursor: pointer;
+      margin-top: 6px;
+    }
+    .lock-active { background: var(--lime); color: #000; }
 
-    /* Champion row */
-    .champion-row {
-      margin-top:14px; padding-top:14px;
-      border-top:1px solid rgba(255,255,255,0.1);
+    /* ========= MODE SWITCHER ========= */
+    .mode-bar {
+      display: flex;
+      justify-content: center;
+      gap: 15px;
+      padding: 15px 0 5px;
+      flex-wrap: wrap;
+      position: relative;
+      z-index: 30;
     }
-    .styled-select {
-      width:100%; padding:9px 14px;
-      background:rgba(0,0,0,0.5);
-      border:1.5px solid rgba(200,244,0,0.4);
-      border-radius:50px; color:#fff;
-      font-family:'Oswald'; font-size:0.9rem;
-      outline:none; cursor:pointer;
-      appearance: none;
+    .mode-btn {
+      background: rgba(0,0,0,0.6);
+      border: 2px solid var(--lime);
+      border-radius: 60px;
+      padding: 8px 24px;
+      font-family: 'Bebas Neue';
+      font-size: 1.2rem;
+      color: var(--lime);
+      cursor: pointer;
+      transition: 0.2s;
     }
-    .styled-select:disabled { opacity:0.5; cursor:not-allowed; }
-    .lock-btn {
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      width:100%; margin-top:10px;
-      padding:9px; border-radius:50px;
-      background:rgba(255,255,255,0.07);
-      border:1.5px solid rgba(255,255,255,0.2);
-      color:#fff; font-family:'Oswald'; font-size:0.9rem;
-      cursor:pointer; transition:all 0.2s;
-      letter-spacing:1px;
+    .mode-btn.active, .mode-btn:hover {
+      background: var(--lime);
+      color: #000;
+      transform: scale(1.02);
     }
-    .lock-btn:hover { background:rgba(200,244,0,0.15); border-color:var(--lime); }
-    .lock-btn.locked { background:var(--lime); color:#000; border-color:var(--lime); }
+    .street-bg { background: radial-gradient(circle at 30% 20%, #2c2c2c, #0a0a0a); }
+    .pitch-bg { background: radial-gradient(ellipse at 50% 30%, #1a3a1a, #071007); }
 
-    /* Save btn */
-    .save-btn {
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      width:100%; margin-top:10px;
-      padding:10px; border-radius:50px;
-      background: linear-gradient(90deg, #1a5a22, #2d8c3a);
-      border:1.5px solid var(--lime);
-      color:var(--lime); font-family:'Oswald'; font-size:0.9rem;
-      cursor:pointer; transition:all 0.2s; letter-spacing:1px;
-    }
-    .save-btn:hover { background:var(--lime); color:#000; }
-
-    /* ── BALLON D'OR CARDS ── */
-    .ballon-grid {
-      display:flex; flex-direction:column; gap:10px; overflow-y:auto; max-height:280px;
-      scrollbar-width:thin; scrollbar-color:var(--lime) transparent;
-    }
-    .ballon-card {
-      display:flex; gap:12px; align-items:center;
-      background:rgba(0,0,0,0.4); border-radius:14px; padding:10px 12px;
-      border:1.5px solid transparent; cursor:pointer; transition:all 0.2s;
-    }
-    .ballon-card:hover,.ballon-card.selected { border-color:var(--lime); background:rgba(200,244,0,0.08); }
-    .ballon-avatar {
-      width:52px; height:52px; border-radius:50%; object-fit:cover;
-      border:2px solid rgba(255,255,255,0.3); flex-shrink:0;
-    }
-    .ballon-info { flex:1; }
-    .ballon-name { font-family:'Oswald'; font-size:0.95rem; font-weight:700; }
-    .ballon-rank { font-size:0.7rem; color:var(--gold); }
-    .ballon-stats { font-size:0.68rem; color:rgba(255,255,255,0.6); margin-top:2px; }
-
-    .form-badge {
-      display:inline-block; width:22px; height:22px; border-radius:50%;
-      text-align:center; line-height:22px; font-size:0.7rem; font-weight:700;
-      margin:1px;
-    }
-    .form-W { background:#1db954; color:#000; }
-    .form-D { background:#f0a500; color:#000; }
-    .form-L { background:#e03030; color:#fff; }
-
-    .stat-grid { display:grid; grid-template-columns:1fr 1fr; gap:8px; margin-top:8px; }
-    .stat-box {
-      background:rgba(0,0,0,0.35); border-radius:10px; padding:8px;
-      text-align:center; border:1px solid rgba(255,255,255,0.08);
-    }
-    .stat-val { font-family:'Bebas Neue'; font-size:1.4rem; color:var(--lime); }
-    .stat-lbl { font-size:0.62rem; color:rgba(255,255,255,0.5); }
-
-    /* ── WORLD CUP ── */
-    .wc-overlay {
-      display:none; position:fixed; inset:0;
-      background:rgba(0,0,0,0.95); z-index:2000;
-      flex-direction:column; overflow:hidden;
-    }
-    .wc-overlay.open { display:flex; }
-    .wc-header-bar {
-      background: linear-gradient(90deg,#0a1e0d,#1a4a22);
-      padding:16px 24px; display:flex; align-items:center; justify-content:space-between;
-      border-bottom:2px solid var(--lime); flex-shrink:0;
-    }
-    .wc-header-bar h2 { font-family:'Bebas Neue'; font-size:1.8rem; color:var(--lime); letter-spacing:2px; }
-    .wc-close {
-      background:var(--lime); color:#000; border:none; border-radius:50px;
-      padding:8px 22px; font-family:'Oswald'; font-weight:700; font-size:0.9rem;
-      cursor:pointer; letter-spacing:1px; transition:all 0.2s;
-    }
-    .wc-close:hover { background:#fff; }
-
-    .wc-stage-nav {
-      display:flex; align-items:center; gap:12px; justify-content:center;
-      padding:12px; background:rgba(0,0,0,0.4); flex-shrink:0; flex-wrap:wrap;
-    }
-    .stage-btn {
-      padding:7px 18px; border-radius:50px;
-      background:rgba(255,255,255,0.07);
-      border:1.5px solid rgba(255,255,255,0.2);
-      color:#fff; font-family:'Oswald'; font-size:0.85rem;
-      cursor:pointer; transition:all 0.2s; letter-spacing:1px;
-    }
-    .stage-btn.active, .stage-btn:hover { background:var(--lime); color:#000; border-color:var(--lime); }
-
-    .wc-content {
-      flex:1; overflow-y:auto; padding:20px 24px;
-      scrollbar-width:thin; scrollbar-color:var(--lime) transparent;
-    }
-
-    .groups-grid {
-      display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px;
-    }
-    .group-card {
-      background:rgba(255,255,255,0.04); border:1px solid rgba(200,244,0,0.25);
-      border-radius:16px; padding:14px; overflow:hidden;
-    }
-    .group-title {
-      font-family:'Bebas Neue'; font-size:1.1rem; color:var(--lime);
-      letter-spacing:2px; margin-bottom:10px;
-      display:flex; align-items:center; gap:8px;
-    }
-    .wc-match-row {
-      display:flex; align-items:center; gap:6px;
-      background:rgba(0,0,0,0.3); border-radius:50px;
-      padding:6px 10px; margin-bottom:6px;
-      font-family:'Oswald'; font-size:0.78rem;
-    }
-    .wc-flag {
-      width:24px; height:16px; object-fit:cover; border-radius:3px; flex-shrink:0;
-      background: linear-gradient(135deg, #2a5, #183);
-    }
-    .wc-score { width:38px; height:28px; background:rgba(0,0,0,0.5); border:1.5px solid rgba(255,255,255,0.25); border-radius:6px; text-align:center; font-family:'Bebas Neue'; font-size:1rem; color:var(--lime); outline:none; }
-    .wc-score:focus { border-color:var(--lime); }
-    .wc-vs { font-size:0.7rem; color:rgba(255,255,255,0.4); font-family:'Bebas Neue'; }
-    .wc-team-name { flex:1; font-size:0.75rem; }
-    .wc-lock-btn {
-      display:flex; align-items:center; justify-content:center; gap:8px;
-      width:100%; margin-top:10px;
-      padding:7px; border-radius:50px;
-      background:rgba(255,255,255,0.05);
-      border:1px solid rgba(255,255,255,0.15);
-      color:#fff; font-family:'Oswald'; font-size:0.8rem;
-      cursor:pointer; transition:all 0.2s;
-    }
-    .wc-lock-btn.locked { background:var(--lime); color:#000; border-color:var(--lime); }
-    .wc-lock-btn:hover { border-color:var(--lime); }
-
-    /* KO bracket */
-    .ko-bracket { max-width:900px; margin:0 auto; }
-    .ko-round-title { font-family:'Bebas Neue'; font-size:1.4rem; color:var(--lime); letter-spacing:2px; margin:20px 0 10px; text-align:center; }
-    .ko-matches { display:grid; grid-template-columns:repeat(auto-fill,minmax(260px,1fr)); gap:12px; }
-    .ko-match {
-      background:rgba(255,255,255,0.04); border:1px solid rgba(200,244,0,0.2);
-      border-radius:14px; padding:12px;
-    }
-    .ko-team {
-      display:flex; align-items:center; gap:8px;
-      padding:7px 10px; border-radius:8px;
-      cursor:pointer; transition:background 0.15s;
-      font-family:'Oswald'; font-size:0.88rem;
-    }
-    .ko-team:hover { background:rgba(200,244,0,0.1); }
-    .ko-team.picked { background:rgba(200,244,0,0.15); border-left:3px solid var(--lime); }
-    .ko-score { width:38px; height:28px; background:rgba(0,0,0,0.5); border:1.5px solid rgba(255,255,255,0.2); border-radius:6px; text-align:center; font-family:'Bebas Neue'; color:var(--lime); outline:none; margin-left:auto; }
-
-    /* ── TOAST ── */
+    /* ========= TOAST & FOOTER ========= */
     .toast {
-      position:fixed; bottom:80px; left:50%; transform:translateX(-50%);
-      background: linear-gradient(90deg,#0a1e0d,#1a4a22);
-      border:1.5px solid var(--lime); color:var(--lime);
-      padding:9px 22px; border-radius:50px; z-index:9998;
-      font-family:'Oswald'; font-size:0.9rem; letter-spacing:1px;
-      pointer-events:none; animation: toastIn 0.3s ease, toastOut 0.4s ease 1.6s both;
-      box-shadow: 0 0 20px rgba(200,244,0,0.2);
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%);
+      background: var(--lime); color: #000; padding: 10px 24px;
+      border-radius: 40px; font-family: 'Oswald'; z-index: 9999;
+      animation: fadeInOut 2s ease forwards;
     }
-    @keyframes toastIn { from{opacity:0;transform:translate(-50%,10px)} to{opacity:1;transform:translate(-50%,0)} }
-    @keyframes toastOut { from{opacity:1} to{opacity:0} }
-
-    /* ── FOOTER ── */
+    @keyframes fadeInOut { 0%{opacity:0;bottom:0} 10%{opacity:1;bottom:30px} 90%{opacity:1} 100%{opacity:0;bottom:0} }
     footer {
-      text-align:center; padding:14px;
-      font-family:'Oswald'; font-size:0.75rem; color:rgba(255,255,255,0.3);
-      letter-spacing:1px; border-top:1px solid rgba(255,255,255,0.06);
+      text-align: center;
+      padding: 20px;
+      font-size: 0.7rem;
+      color: rgba(255,255,255,0.4);
+      margin-top: 30px;
     }
-    footer a { color:var(--lime); text-decoration:none; }
-
-    /* ── RESPONSIVE ── */
-    @media (max-width:700px) {
-      .bottom-panel { grid-template-columns:1fr; }
-      .football-pitch { aspect-ratio: 68/95; }
+    :root {
+      --lime: #c8f400;
     }
-
-    /* scrollbar */
-    ::-webkit-scrollbar { width:5px; height:5px; }
-    ::-webkit-scrollbar-track { background:transparent; }
-    ::-webkit-scrollbar-thumb { background:rgba(200,244,0,0.4); border-radius:10px; }
   </style>
 </head>
 <body>
-
-<!-- LOADER -->
-<div id="loader">
-  <div class="loader-ball"></div>
-  <div class="loader-text">THE GAFFER'S PICK</div>
-</div>
-
-<!-- HEADER -->
-<header>
-  <h1><i class="fa-solid fa-shirt"></i> THE GAFFER'S PICK</h1>
-  <p>PREDICT · LOCK · DOMINATE</p>
-</header>
-
-<!-- REFEREE BAR -->
-<div class="referee-bar">
-  <div class="ref-btn" id="gwPrev">
-    <i class="fa-solid fa-whistle"></i>
-    <span class="tooltip">Previous GW</span>
+<div class="stadium" id="stadiumBg">
+  <div class="mode-bar">
+    <div class="mode-btn" data-mode="1v1">⚡ 1v1 Street</div>
+    <div class="mode-btn" data-mode="2v2">🔥 2v2 Street</div>
+    <div class="mode-btn" data-mode="5v5">🏆 5v5</div>
+    <div class="mode-btn active" data-mode="full11">🏟️ Full 11</div>
   </div>
-  <div class="gw-badge" id="gwDisplay"><i class="fa-solid fa-futbol"></i> <span id="gwNum">GW 32</span></div>
-  <div class="ref-btn" id="gwNext">
-    <i class="fa-solid fa-rectangle-xmark"></i>
-    <span class="tooltip">Next GW</span>
+
+  <div class="pitch-container">
+    <div class="pitch" id="pitchField">
+      <div class="grass-pattern"></div>
+      <div class="markings">
+        <svg viewBox="0 0 1200 750" preserveAspectRatio="none">
+          <rect x="40" y="40" width="1120" height="670" rx="10" stroke="white" stroke-width="3" fill="none" opacity="0.5"/>
+          <circle cx="600" cy="375" r="70" stroke="white" stroke-width="2.5" fill="none" opacity="0.5"/>
+          <circle cx="600" cy="375" r="4" fill="white" opacity="0.8"/>
+          <line x1="40" y1="375" x2="1160" y2="375" stroke="white" stroke-width="2.5" opacity="0.5"/>
+          <rect x="200" y="40" width="800" height="120" rx="6" stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+          <rect x="200" y="590" width="800" height="120" rx="6" stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+          <circle cx="600" cy="100" r="5" fill="white" opacity="0.6"/>
+          <circle cx="600" cy="650" r="5" fill="white" opacity="0.6"/>
+          <path d="M 280 160 A 85 85 0 0 1 920 160" stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+          <path d="M 280 590 A 85 85 0 0 0 920 590" stroke="white" stroke-width="2" fill="none" opacity="0.4"/>
+        </svg>
+      </div>
+      <!-- shirt slots will be injected via js for dynamic positioning and modes -->
+      <div id="shirtsContainer"></div>
+    </div>
+
+    <!-- advertisement boards -->
+    <div class="ad-board ad-top"><span><i class="fa-solid fa-video"></i> HEINEKEN ⚽ LIVE MATCH</span><span><i class="fa-brands fa-uefa"></i> CHAMPIONS LEAGUE</span><span><i class="fa-solid fa-futbol"></i> ADIDAS ORIGINALS</span></div>
+    <div class="ad-board ad-bottom"><span><i class="fa-solid fa-chart-line"></i> CRYPTO.COM STADIUM</span><span><i class="fa-solid fa-car"></i> HYUNDAI OFFICIAL</span><span><i class="fa-solid fa-headset"></i> EA SPORTS FC</span></div>
   </div>
-</div>
 
-<!-- PITCH SECTION -->
-<div class="pitch-section">
-  <div class="football-pitch" id="pitch">
-    <!-- Grass -->
-    <div class="pitch-grass"></div>
-
-    <!-- SVG Pitch Markings -->
-    <div class="pitch-markings">
-      <svg viewBox="0 0 680 1050" xmlns="http://www.w3.org/2000/svg" fill="none" stroke="white" stroke-width="2.5" opacity="0.5">
-        <rect x="30" y="30" width="620" height="990" rx="4"/>
-        <line x1="30" y1="525" x2="650" y2="525"/>
-        <circle cx="340" cy="525" r="91"/>
-        <circle cx="340" cy="525" r="5" fill="white"/>
-        <rect x="165" y="30" width="350" height="161"/>
-        <rect x="255" y="30" width="170" height="54"/>
-        <rect x="295" y="10" width="90" height="20" stroke-width="2"/>
-        <circle cx="340" cy="142" r="4" fill="white" stroke="none"/>
-        <path d="M 238 191 A 91 91 0 0 1 442 191"/>
-        <rect x="165" y="859" width="350" height="161"/>
-        <rect x="255" y="966" width="170" height="54"/>
-        <rect x="295" y="1020" width="90" height="20" stroke-width="2"/>
-        <circle cx="340" cy="908" r="4" fill="white" stroke="none"/>
-        <path d="M 238 859 A 91 91 0 0 0 442 859"/>
-        <path d="M 30 50 A 20 20 0 0 1 50 30"/>
-        <path d="M 630 30 A 20 20 0 0 1 650 50"/>
-        <path d="M 650 1000 A 20 20 0 0 1 630 1020"/>
-        <path d="M 50 1020 A 20 20 0 0 1 30 1000"/>
-      </svg>
-    </div>
-
-    <!-- ── PLAYER SLOTS (11 positions) ── -->
-    <div class="player-slot" style="left:50%;top:8.5%" data-id="epl" id="slot-epl">
-      <div class="slot-circle"><img src="https://www.logo.wine/a/logo/Premier_League/Premier_League-Logo.wine.svg" onerror="this.parentNode.classList.add('has-emoji');this.parentNode.innerHTML='🏴󠁧󠁢󠁥󠁮󠁧󠁿';" alt="EPL"/></div>
-      <div class="slot-label">Premier League</div>
-      <div class="slot-sub" id="pct-epl">0%</div>
-    </div>
-    <div class="player-slot" style="left:18%;top:24%" data-id="liga" id="slot-liga">
-      <div class="slot-circle"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/13/LaLiga_logo_2023.svg/800px-LaLiga_logo_2023.svg.png" onerror="this.parentNode.innerHTML='🇪🇸';" alt="La Liga"/></div>
-      <div class="slot-label">La Liga</div>
-      <div class="slot-sub" id="pct-liga">0%</div>
-    </div>
-    <div class="player-slot" style="left:39%;top:24%" data-id="serie" id="slot-serie">
-      <div class="slot-circle"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/f/f4/Serie_A_logo_%282022%29.svg/800px-Serie_A_logo_%282022%29.svg.png" onerror="this.parentNode.innerHTML='🇮🇹';" alt="Serie A"/></div>
-      <div class="slot-label">Serie A</div>
-      <div class="slot-sub" id="pct-serie">0%</div>
-    </div>
-    <div class="player-slot" style="left:61%;top:24%" data-id="bundes" id="slot-bundes">
-      <div class="slot-circle"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/d/df/Bundesliga_logo_%282017%29.svg/800px-Bundesliga_logo_%282017%29.svg.png" onerror="this.parentNode.innerHTML='🇩🇪';" alt="Bundesliga"/></div>
-      <div class="slot-label">Bundesliga</div>
-      <div class="slot-sub" id="pct-bundes">0%</div>
-    </div>
-    <div class="player-slot" style="left:82%;top:24%" data-id="ligue" id="slot-ligue">
-      <div class="slot-circle"><img src="https://upload.wikimedia.org/wikipedia/en/thumb/c/c7/Ligue1_Uber_Eats_logo.svg/800px-Ligue1_Uber_Eats_logo.svg.png" onerror="this.parentNode.innerHTML='🇫🇷';" alt="Ligue 1"/></div>
-      <div class="slot-label">Ligue 1</div>
-      <div class="slot-sub" id="pct-ligue">0%</div>
-    </div>
-    <div class="player-slot" style="left:28%;top:50%" data-id="ucl" id="slot-ucl">
-      <div class="slot-circle has-emoji">🏆</div>
-      <div class="slot-label">UCL Winner</div>
-      <div class="slot-sub" id="pct-ucl">800 pts</div>
-    </div>
-    <div class="player-slot" style="left:50%;top:50%" data-id="worldcup" id="slot-worldcup">
-      <div class="slot-circle has-emoji">🌍</div>
-      <div class="slot-label">World Cup</div>
-      <div class="slot-sub" id="pct-worldcup">Predict</div>
-    </div>
-    <div class="player-slot" style="left:72%;top:50%" data-id="europa" id="slot-europa">
-      <div class="slot-circle has-emoji">🥈</div>
-      <div class="slot-label">Europa League</div>
-      <div class="slot-sub" id="pct-europa">600 pts</div>
-    </div>
-    <div class="player-slot" style="left:25%;top:72%" data-id="homeWing" id="slot-homeWing">
-      <div class="slot-circle has-emoji">🏠</div>
-      <div class="slot-label">Home Teams</div>
-      <div class="slot-sub">Left Wing</div>
-    </div>
-    <div class="player-slot" style="left:75%;top:72%" data-id="awayWing" id="slot-awayWing">
-      <div class="slot-circle has-emoji">✈️</div>
-      <div class="slot-label">Away Teams</div>
-      <div class="slot-sub">Right Wing</div>
-    </div>
-    <div class="player-slot" style="left:50%;top:89%" data-id="ballon" id="slot-ballon">
-      <div class="slot-circle has-emoji">⭐</div>
-      <div class="slot-label">Ballon d'Or</div>
-      <div class="slot-sub" id="pct-ballon">Select</div>
-    </div>
+  <!-- SEAT CONTAINERS (prediction panels) -->
+  <div class="seat-stands seat-left" id="leftSeat">
+    <div class="seat-title"><i class="fa-solid fa-house-chimney"></i> <span id="leftTitle">Home / Info</span></div>
+    <div id="leftPanelContent"></div>
+  </div>
+  <div class="seat-stands seat-right" id="rightSeat">
+    <div class="seat-title"><i class="fa-solid fa-trophy"></i> <span id="rightTitle">Away / Lock</span></div>
+    <div id="rightPanelContent"></div>
   </div>
 </div>
 
-<!-- BOTTOM PANELS (left = home, right = away) -->
-<div class="bottom-panel">
-  <div class="panel-card" id="leftPanel">
-    <div class="panel-title"><i class="fa-solid fa-house"></i> <span id="leftTitle">Home Fixtures</span></div>
-    <div id="leftContent"></div>
-  </div>
-  <div class="panel-card" id="rightPanel">
-    <div class="panel-title"><i class="fa-solid fa-plane"></i> <span id="rightTitle">Away Fixtures</span></div>
-    <div id="rightContent"></div>
-  </div>
-</div>
-
-<footer>Designed by Muhia &nbsp;|&nbsp; <i class="fa-solid fa-phone"></i> 0724726032 &nbsp;|&nbsp; <a href="#">@GaffersPick</a></footer>
-
-<!-- WORLD CUP OVERLAY -->
-<div id="wcOverlay" class="wc-overlay">
-  <div class="wc-header-bar">
-    <h2><i class="fa-solid fa-earth-americas"></i> FIFA World Cup 2026</h2>
-    <button class="wc-close" id="wcClose"><i class="fa-solid fa-arrow-left"></i> Back to Pitch</button>
-  </div>
-  <div class="wc-stage-nav" id="stageNav">
-    <button class="stage-btn active" data-stage="groups">Groups</button>
-    <button class="stage-btn" data-stage="r16">Round of 16</button>
-    <button class="stage-btn" data-stage="qf">Quarter-Finals</button>
-    <button class="stage-btn" data-stage="sf">Semi-Finals</button>
-    <button class="stage-btn" data-stage="final">Final</button>
-  </div>
-  <div class="wc-content" id="wcContent"></div>
-</div>
+<footer><i class="fa-regular fa-copyright"></i> The Gaffer's Pick – predict, lock, dominate</footer>
 
 <script>
-  // -------------------------------------------------------------
-  // DATA
-  // -------------------------------------------------------------
-  const leagues = {
-    epl:    { name:"Premier League", fixtures:[{h:"Chelsea",a:"Arsenal"},{h:"Man City",a:"Liverpool"},{h:"Tottenham",a:"Man Utd"}] },
-    liga:   { name:"La Liga",        fixtures:[{h:"Real Madrid",a:"Barcelona"},{h:"Atletico",a:"Sevilla"},{h:"Villarreal",a:"Real Betis"}] },
-    serie:  { name:"Serie A",        fixtures:[{h:"Inter Milan",a:"Juventus"},{h:"AC Milan",a:"Napoli"},{h:"Roma",a:"Lazio"}] },
-    bundes: { name:"Bundesliga",     fixtures:[{h:"Bayern",a:"Dortmund"},{h:"Leverkusen",a:"RB Leipzig"},{h:"Stuttgart",a:"Frankfurt"}] },
-    ligue:  { name:"Ligue 1",        fixtures:[{h:"PSG",a:"Monaco"},{h:"Marseille",a:"Lyon"},{h:"Rennes",a:"Lille"}] },
-    ucl:    { name:"UCL Winner",     type:"award", options:["Real Madrid","Man City","Bayern","PSG","Arsenal","Inter"], points:800 },
-    europa: { name:"Europa League",  type:"award", options:["Liverpool","Roma","Sevilla","Leverkusen","Atalanta","Ajax"], points:600 },
+  // ----------------------------- DATA MODELS ---------------------------------
+  const leaguesData = {
+    epl: { name:"Premier League", flag:"🏴󠁧󠁢󠁥󠁮󠁧󠁿", code:"eng", fixtures:[{h:"Arsenal",a:"Man City"},{h:"Liverpool",a:"Chelsea"},{h:"Tottenham",a:"Man Utd"},{h:"Newcastle",a:"Aston Villa"}], teams:["Arsenal","Man City","Liverpool","Chelsea","Man Utd"] },
+    laliga: { name:"La Liga", flag:"🇪🇸", code:"esp", fixtures:[{h:"Real Madrid",a:"Barcelona"},{h:"Atletico",a:"Sevilla"},{h:"Villarreal",a:"Real Betis"},{h:"Athletic",a:"Sociedad"}], teams:["Real Madrid","Barcelona","Atletico","Sevilla","Villarreal"] },
+    seriea: { name:"Serie A", flag:"🇮🇹", code:"ita", fixtures:[{h:"Inter",a:"Juventus"},{h:"AC Milan",a:"Napoli"},{h:"Roma",a:"Lazio"},{h:"Atalanta",a:"Fiorentina"}], teams:["Inter","Juventus","AC Milan","Napoli","Roma"] },
+    bundes: { name:"Bundesliga", flag:"🇩🇪", code:"ger", fixtures:[{h:"Bayern",a:"Dortmund"},{h:"Leverkusen",a:"RB Leipzig"},{h:"Stuttgart",a:"Frankfurt"},{h:"Wolfsburg",a:"Gladbach"}], teams:["Bayern","Dortmund","Leverkusen","RB Leipzig","Stuttgart"] },
+    ligue1: { name:"Ligue 1", flag:"🇫🇷", code:"fra", fixtures:[{h:"PSG",a:"Monaco"},{h:"Marseille",a:"Lyon"},{h:"Lille",a:"Rennes"},{h:"Nice",a:"Lens"}], teams:["PSG","Monaco","Marseille","Lyon","Lille"] },
+    ucl: { name:"UCL Winner", type:"award", options:["Real Madrid","Man City","Bayern","PSG","Arsenal"], points:800 },
+    europa: { name:"Europa League", type:"award", options:["Liverpool","Roma","Sevilla","Leverkusen","Atalanta"], points:600 },
+    worldcup: { name:"World Cup 2026", type:"award", options:["Brazil","France","Argentina","England","Spain"], points:1000 },
+    ballon: { name:"Ballon d'Or", type:"player", players:[{name:"Kylian Mbappé",pts:1200},{name:"Erling Haaland",pts:1050},{name:"Vinicius Jr",pts:980},{name:"Rodri",pts:900},{name:"Jude Bellingham",pts:880}] },
+    goldenboy: { name:"Golden Boy/Kopa", type:"player", players:[{name:"Jude Bellingham",pts:700},{name:"Jamal Musiala",pts:680},{name:"Pedri",pts:650},{name:"Gavi",pts:620},{name:"Florian Wirtz",pts:600}] },
+    champBonus: { name:"Champion Bonus", type:"champBonus", points:500 }
   };
 
-  const ballonPlayers = [
-    { name:"Kylian Mbappé", rank:1, prevRank:3, avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/2019-07-17_SEM_7710_%28cropped%29.jpg/440px-2019-07-17_SEM_7710_%28cropped%29.jpg", prevStats:"44 goals · 10 assists · UCL winner", currentStats:{goals:32,assists:8,apps:38,form:["W","W","D","W","L"],rating:9.1,trophy:"La Liga Champion"}, points:1200 },
-    { name:"Erling Haaland", rank:2, prevRank:1, avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/2/2a/Erling_Haaland_2024.jpg/440px-Erling_Haaland_2024.jpg", prevStats:"38 goals · 5 assists · PL Golden Boot", currentStats:{goals:28,assists:7,apps:35,form:["W","W","W","D","W"],rating:8.8,trophy:"FA Cup"}, points:1000 },
-    { name:"Vinicius Jr", rank:3, prevRank:2, avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/0/09/Vinicius_Jr_2023.jpg/440px-Vinicius_Jr_2023.jpg", prevStats:"24 goals · 12 assists · UCL finalist", currentStats:{goals:21,assists:10,apps:40,form:["W","L","W","W","W"],rating:8.6,trophy:"La Liga"}, points:950 },
-    { name:"Pedri", rank:4, prevRank:6, avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/6/61/Pedri_2023.jpg/440px-Pedri_2023.jpg", prevStats:"12 goals · 18 assists · Best Midfielder", currentStats:{goals:14,assists:16,apps:36,form:["D","W","W","W","W"],rating:8.5,trophy:"Copa del Rey"}, points:900 },
-    { name:"Rodri", rank:5, prevRank:4, avatar:"https://upload.wikimedia.org/wikipedia/commons/thumb/7/7f/Rodri_2023.jpg/440px-Rodri_2023.jpg", prevStats:"8 goals · 9 assists · Ballon d'Or 2024", currentStats:{goals:6,assists:11,apps:33,form:["W","W","D","W","W"],rating:8.3,trophy:"Premier League"}, points:880 }
-  ];
-
-  const wcTeams48 = [
-    "USA","Mexico","Canada","Panama","Costa Rica","Honduras","El Salvador","Jamaica",
-    "Brazil","Argentina","Uruguay","Colombia","Ecuador","Paraguay","Bolivia","Venezuela",
-    "England","France","Spain","Germany","Portugal","Netherlands","Belgium","Italy",
-    "Morocco","Senegal","Côte d'Ivoire","Egypt","Algeria","Tunisia","Cameroon","Ghana",
-    "Japan","South Korea","Australia","Saudi Arabia","Iran","Qatar","Uzbekistan","Jordan",
-    "Norway","Poland","Croatia","Serbia","Ukraine","Scotland","Hungary","Austria"
-  ];
-
-  // -------------------------------------------------------------
-  // STATE
-  // -------------------------------------------------------------
+  // state management
+  let currentMode = "full11";
   let currentGW = 32;
-  let activeId = "epl";
-  let ballonPick = null, ballonLocked = false;
-  let awardPicks = {ucl:"",europa:""}, awardLocked = {ucl:false,europa:false};
-  let champPicks = {epl:"",liga:"",serie:"",bundes:"",ligue:""}, champLocked = {epl:false,liga:false,serie:false,bundes:false,ligue:false};
-  let wcStage = "groups";
-  let wcPreds = {};
-  let wcGroupLocked = {};
-  try { wcPreds = JSON.parse(localStorage.getItem("wcp")||"{}"); wcGroupLocked = JSON.parse(localStorage.getItem("wcgl")||"{}"); } catch(e){}
+  let activeLeagueId = "epl";
+  let userPicks = { champion: {}, award: {}, player: {} };
+  let locks = { champion: {}, award: {}, player: {} };
+  let lockGW = {};
+  let predictions = {}; // store score predictions per league per GW
+  let actualResults = {};
 
-  // Random predictions & actuals
-  let userPreds = {}, actualRes = {};
-  for (let id of ["epl","liga","serie","bundes","ligue"]) {
-    userPreds[id] = {}; actualRes[id] = {};
-    for (let gw=1;gw<=38;gw++) {
-      userPreds[id][gw] = leagues[id].fixtures.map(()=>({h:Math.floor(Math.random()*4),a:Math.floor(Math.random()*3)}));
-      actualRes[id][gw]  = leagues[id].fixtures.map(()=>({h:Math.floor(Math.random()*4),a:Math.floor(Math.random()*3)}));
+  // init mock data
+  function initData() {
+    for (let lid of ["epl","laliga","seriea","bundes","ligue1"]) {
+      predictions[lid] = {};
+      actualResults[lid] = {};
+      for (let gw=1; gw<=38; gw++) {
+        predictions[lid][gw] = leaguesData[lid].fixtures.map(()=>({h:Math.floor(Math.random()*4), a:Math.floor(Math.random()*3)}));
+        actualResults[lid][gw] = leaguesData[lid].fixtures.map(()=>({h:Math.floor(Math.random()*4), a:Math.floor(Math.random()*3)}));
+      }
     }
+    // load from storage
+    const saved = localStorage.getItem("gaffer_picks");
+    if(saved) { let s=JSON.parse(saved); userPicks=s.userPicks||{}; locks=s.locks||{}; lockGW=s.lockGW||{}; }
   }
+  initData();
 
-  // -------------------------------------------------------------
-  // HELPERS
-  // -------------------------------------------------------------
-  function toast(msg) {
-    const t=document.createElement("div"); t.className="toast"; t.innerHTML=msg;
-    document.body.appendChild(t); setTimeout(()=>t.remove(),2100);
-  }
+  function saveToStorage() { localStorage.setItem("gaffer_picks", JSON.stringify({userPicks,locks,lockGW})); }
 
-  function accuracy(id,gw) {
-    let total=0,correct=0;
-    for (let g=1;g<gw;g++) {
-      const preds=userPreds[id]?.[g], acts=actualRes[id]?.[g];
-      if (!preds||!acts) continue;
-      preds.forEach((p,i)=>{ total++; if(p.h===acts[i].h&&p.a===acts[i].a) correct++; });
+  function toast(msg) { let t=document.createElement("div"); t.className="toast"; t.innerHTML=msg; document.body.appendChild(t); setTimeout(()=>t.remove(),2000); }
+
+  // accuracy %
+  function getAccuracy(leagueId, gw) {
+    let total=0, corr=0;
+    for(let g=1; g<gw; g++) {
+      let preds = predictions[leagueId]?.[g], acts = actualResults[leagueId]?.[g];
+      if(preds) preds.forEach((p,i)=>{ total++; if(p.h===acts[i].h && p.a===acts[i].a) corr++; });
     }
-    return total===0?0:Math.round((correct/total)*100);
+    return total?Math.round((corr/total)*100):0;
   }
 
-  function highlightSlot(id) {
-    document.querySelectorAll(".player-slot").forEach(s=>s.classList.remove("active"));
-    const el=document.getElementById(`slot-${id}`);
-    if(el) el.classList.add("active");
-  }
+  function getGlowClass(acc) { if(acc>=70) return "gold-glow"; if(acc>=40) return "silver-glow"; return "bronze-glow"; }
 
-  function updatePercents() {
-    for (let id of ["epl","liga","serie","bundes","ligue"]) {
-      const pct = accuracy(id, currentGW);
-      document.getElementById(`pct-${id}`).textContent = pct+"%";
-    }
-    document.getElementById("pct-ucl").textContent = awardLocked.ucl && awardPicks.ucl ? "800 pts ✓" : "800 pts";
-    document.getElementById("pct-europa").textContent = awardLocked.europa && awardPicks.europa ? "600 pts ✓" : "600 pts";
-    document.getElementById("pct-worldcup").textContent = "Predict";
-    document.getElementById("pct-ballon").textContent = ballonLocked ? `${(ballonPlayers.find(p=>p.name===ballonPick)||{}).points||0} pts ✓` : (ballonPick ? "Locked?" : "Select");
-  }
-
-  // -------------------------------------------------------------
-  // RENDER LEAGUE
-  // -------------------------------------------------------------
-  function renderLeague(id) {
-    activeId = id;
-    highlightSlot(id);
-    const data = leagues[id];
-    const isPast = currentGW < 32;
-
-    document.getElementById("leftTitle").textContent  = `🏠 ${data.name} – Home`;
-    document.getElementById("rightTitle").textContent = `✈️ ${data.name} – Away`;
-
-    let leftHTML="", rightHTML="";
-    data.fixtures.forEach((m,idx)=>{
-      const up = userPreds[id][currentGW][idx];
-      const ac = actualRes[id][currentGW][idx];
-      const hVal = isPast ? ac.h : up.h;
-      const aVal = isPast ? ac.a : up.a;
-      const hDisabled = isPast ? "disabled" : "";
-      const aDisabled = isPast ? "disabled" : "";
-
-      leftHTML += `<div class="match-row"><span class="team-name">${m.h}</span><input class="score-in" type="number" min="0" max="9" value="${hVal}" ${hDisabled} onchange="updatePred('${id}',${idx},'h',this.value)"></div>`;
-      rightHTML += `<div class="match-row"><input class="score-in" type="number" min="0" max="9" value="${aVal}" ${aDisabled} onchange="updatePred('${id}',${idx},'a',this.value)"><span class="team-name" style="text-align:right">${m.a}</span>${isPast ? `<span style="font-size:0.65rem;color:#888;margin-left:4px;">(${ac.a})</span>` : ""}</div>`;
-    });
-
-    const teams = {epl:["Chelsea","Arsenal","Man City","Liverpool","Tottenham"],liga:["Real Madrid","Barcelona","Atletico","Sevilla"],serie:["Inter Milan","Juventus","AC Milan","Napoli"],bundes:["Bayern","Dortmund","Leverkusen","RB Leipzig"],ligue:["PSG","Monaco","Marseille","Lyon"]}[id]||[];
-    leftHTML += `<div class="champion-row"><select class="styled-select" ${champLocked[id]?"disabled":""} onchange="champPicks['${id}']=this.value"><option value="">— Pick Champion —</option>${teams.map(t=>`<option ${champPicks[id]===t?"selected":""}>${t}</option>`).join("")}</select><button class="lock-btn ${champLocked[id]?"locked":""}" onclick="toggleChampLock('${id}')"><i class="fa-solid fa-${champLocked[id]?"lock":"lock-open"}"></i> ${champLocked[id]?"Champion Locked":"Lock Champion"}</button></div>`;
-    if (!isPast) leftHTML += `<button class="save-btn" onclick="savePreds('${id}')"><i class="fa-solid fa-floppy-disk"></i> Save Predictions</button>`;
-    if (!isPast) rightHTML += `<button class="save-btn" onclick="savePreds('${id}')"><i class="fa-solid fa-floppy-disk"></i> Save Predictions</button>`;
-
-    document.getElementById("leftContent").innerHTML = leftHTML;
-    document.getElementById("rightContent").innerHTML = rightHTML;
-  }
-
-  window.updatePred = (id,idx,side,val)=>{
-    if(currentGW<32){toast("⚠️ Past GW locked");return;}
-    userPreds[id][currentGW][idx][side] = Math.max(0,Math.min(9,parseInt(val)||0));
-    updatePercents();
-  };
-  window.savePreds=(id)=>{toast(`<i class='fa-solid fa-check'></i> GW${currentGW} predictions saved!`);updatePercents();};
-  window.toggleChampLock=(id)=>{
-    if(!champLocked[id]){if(!champPicks[id]){toast("Pick a champion first!");return;} champLocked[id]=true;toast(`🔒 ${leagues[id].name} champion locked!`);}
-    else{champLocked[id]=false;toast(`🔓 Champion prediction unlocked`);}
-    renderLeague(id);
+  // shirt positions (433)
+  const shirtPositions = {
+    epl: { left:"50%", top:"13%" }, // GK
+    laliga: { left:"20%", top:"28%" }, seriea: { left:"40%", top:"28%" }, bundes: { left:"60%", top:"28%" }, ligue1: { left:"80%", top:"28%" },
+    ucl: { left:"30%", top:"48%" }, europa: { left:"50%", top:"48%" }, worldcup: { left:"70%", top:"48%" },
+    ballon: { left:"25%", top:"70%" }, goldenboy: { left:"75%", top:"70%" }, champBonus: { left:"50%", top:"87%" }
   };
 
-  // -------------------------------------------------------------
-  // AWARDS
-  // -------------------------------------------------------------
-  function renderAward(id) {
-    activeId = id; highlightSlot(id);
-    const data = leagues[id];
-    document.getElementById("leftTitle").textContent = `🏆 ${data.name} – Pick Winner`;
-    document.getElementById("rightTitle").textContent = `🔒 Lock Your Pick`;
-    document.getElementById("leftContent").innerHTML = `<p style="font-size:0.8rem;color:rgba(255,255,255,0.6);margin-bottom:12px;"><i class="fa-solid fa-circle-info"></i> Predict the winner to earn <strong style="color:var(--lime)">${data.points}</strong> bonus points!</p><select class="styled-select" ${awardLocked[id]?"disabled":""} onchange="awardPicks['${id}']=this.value"><option value="">— Select Winner —</option>${data.options.map(o=>`<option ${awardPicks[id]===o?"selected":""}>${o}</option>`).join("")}</select>${awardPicks[id]?`<div style="margin-top:12px;padding:10px;background:rgba(0,0,0,0.3);border-radius:12px;"><i class="fa-solid fa-trophy" style="color:var(--gold)"></i> Your pick: <strong>${awardPicks[id]}</strong></div>`:""}`;
-    document.getElementById("rightContent").innerHTML = `<div style="padding:10px;"><button class="lock-btn ${awardLocked[id]?"locked":""}" onclick="toggleAwardLock('${id}')"><i class="fa-solid fa-${awardLocked[id]?"lock":"lock-open"}"></i> ${awardLocked[id]?"Prediction Locked – "+data.points+" pts":"Lock Prediction"}</button>${awardLocked[id]?`<p style="margin-top:14px;font-size:0.78rem;text-align:center"><i class="fa-solid fa-circle-check" style="color:var(--lime)"></i> Points added when verified</p>`:""}</div>`;
-  }
-  window.toggleAwardLock=(id)=>{
-    if(!awardLocked[id]){if(!awardPicks[id]){toast("Select a winner first!");return;} awardLocked[id]=true;toast(`🔒 ${leagues[id].name} pick locked! +${leagues[id].points} pts`);}
-    else{awardLocked[id]=false;toast(`🔓 Unlocked`);}
-    updatePercents(); renderAward(id);
-  };
+  function renderShirts() {
+    const container = document.getElementById("shirtsContainer");
+    let activeIds = [];
+    if(currentMode==="1v1") activeIds = ["epl","ucl","ballon"]; // 1v1: one league + ucl + ballon
+    else if(currentMode==="2v2") activeIds = ["epl","ucl","ballon","goldenboy"];
+    else if(currentMode==="5v5") activeIds = ["epl","laliga","seriea","bundes","ligue1","ucl","europa","ballon","goldenboy"];
+    else activeIds = Object.keys(shirtPositions); // full 11
 
-  // -------------------------------------------------------------
-  // BALLON D'OR
-  // -------------------------------------------------------------
-  function renderBallon() {
-    activeId = "ballon"; highlightSlot("ballon");
-    document.getElementById("leftTitle").textContent = "⭐ Ballon d'Or – Player Profiles";
-    document.getElementById("rightTitle").textContent = "📊 Current Form & Lock";
-    let leftHTML = `<div class="ballon-grid">`;
-    ballonPlayers.forEach(p=>{
-      const arrow = (p.prevRank - p.rank)>0 ? `<i class='fa-solid fa-arrow-up' style='color:#1db954'></i>` : (p.prevRank - p.rank)<0 ? `<i class='fa-solid fa-arrow-down' style='color:#e03030'></i>` : `<i class='fa-solid fa-minus' style='color:#888'></i>`;
-      leftHTML += `<div class="ballon-card ${ballonPick===p.name?"selected":""}" onclick="selectBallon('${p.name}')"><img class="ballon-avatar" src="${p.avatar}" onerror="this.src='https://via.placeholder.com/52/1a4a22/fff?text=${encodeURIComponent(p.name[0])}'"><div class="ballon-info"><div class="ballon-name">#${p.rank} ${p.name}</div><div class="ballon-rank">${arrow} Prev #${p.prevRank} | <span style="color:var(--lime)">${p.points} pts</span></div><div class="ballon-stats">${p.prevStats}</div></div></div>`;
-    });
-    leftHTML += `</div>`;
-    document.getElementById("leftContent").innerHTML = leftHTML;
-    if(ballonPick){
-      const p = ballonPlayers.find(x=>x.name===ballonPick);
-      const formHTML = p.currentStats.form.map(r=>`<span class="form-badge form-${r}">${r}</span>`).join("");
-      document.getElementById("rightContent").innerHTML = `<div style="display:flex;align-items:center;gap:12px;margin-bottom:14px;"><img src="${p.avatar}" style="width:56px;height:56px;border-radius:50%;border:2px solid var(--lime);object-fit:cover;" onerror="this.src='https://via.placeholder.com/56/1a4a22/fff?text=${encodeURIComponent(p.name[0])}'"><div><div style="font-family:'Oswald';font-size:1rem;font-weight:700">${p.name}</div><div style="font-size:0.72rem;color:rgba(255,255,255,0.5)">${p.currentStats.trophy}</div><div style="margin-top:4px">${formHTML}</div></div></div><div class="stat-grid"><div class="stat-box"><div class="stat-val">${p.currentStats.goals}</div><div class="stat-lbl">Goals</div></div><div class="stat-box"><div class="stat-val">${p.currentStats.assists}</div><div class="stat-lbl">Assists</div></div><div class="stat-box"><div class="stat-val">${p.currentStats.apps}</div><div class="stat-lbl">Apps</div></div><div class="stat-box"><div class="stat-val">${p.currentStats.rating}</div><div class="stat-lbl">Rating</div></div></div><button class="lock-btn ${ballonLocked?"locked":""}" style="margin-top:12px" onclick="toggleBallonLock()"><i class="fa-solid fa-${ballonLocked?"lock":"lock-open"}"></i> ${ballonLocked?`Locked – ${p.points} pts`:"Lock Ballon d'Or Pick"}</button>`;
-    } else {
-      document.getElementById("rightContent").innerHTML = `<div style="text-align:center;padding:40px 20px;color:rgba(255,255,255,0.4)"><i class="fa-solid fa-star" style="font-size:2rem;margin-bottom:10px;display:block"></i><p>Select a player on the left</p></div>`;
+    let html="";
+    for(let id of activeIds) {
+      if(!shirtPositions[id]) continue;
+      const pos = shirtPositions[id];
+      const league = leaguesData[id];
+      let acc = (id.includes("epl")||id.includes("liga")||id.includes("seriea")||id.includes("bundes")||id.includes("ligue1")) ? getAccuracy(id, currentGW) : 0;
+      let subHtml = acc ? `<span class="shirt-sub ${getGlowClass(acc)}">${acc}%</span>` : `<span class="shirt-sub">⚡</span>`;
+      if(id==="ballon") subHtml = `<span class="shirt-sub">${userPicks.player?.ballon?.name || "Pick"}</span>`;
+      if(id==="goldenboy") subHtml = `<span class="shirt-sub">${userPicks.player?.goldenboy?.name || "Pick"}</span>`;
+      if(id==="ucl" && userPicks.award?.ucl) subHtml = `<span class="shirt-sub">🏆 ${userPicks.award.ucl}</span>`;
+      if(id==="worldcup" && userPicks.award?.worldcup) subHtml = `<span class="shirt-sub">🌍 ${userPicks.award.worldcup}</span>`;
+      html += `<div class="shirt-slot" style="left:${pos.left}; top:${pos.top};" data-id="${id}">
+        <div class="jersey-card">
+          <div class="jersey-icon">${league.flag ? league.flag : (id==="ucl"?"🏆":id==="europa"?"🥈":id==="worldcup"?"🌍":id==="ballon"?"⭐":id==="goldenboy"?"🌟":"👕")}</div>
+          <div class="shirt-label">${league.name}</div>
+          ${subHtml}
+        </div>
+      </div>`;
     }
-  }
-  window.selectBallon = (name) => { if(ballonLocked){toast("Unlock first");return;} ballonPick=name; renderBallon(); };
-  window.toggleBallonLock = () => {
-    if(!ballonLocked){ if(!ballonPick){toast("Select a player");return;} ballonLocked=true; toast(`🔒 Ballon d'Or locked – ${ballonPlayers.find(p=>p.name===ballonPick).points} pts`);}
-    else{ ballonLocked=false; toast(`🔓 Unlocked`);}
-    updatePercents(); renderBallon();
-  };
-
-  // -------------------------------------------------------------
-  // WORLD CUP
-  // -------------------------------------------------------------
-  function openWC() { highlightSlot("worldcup"); document.getElementById("wcOverlay").classList.add("open"); renderWcStage(wcStage); }
-  document.getElementById("wcClose").onclick = () => document.getElementById("wcOverlay").classList.remove("open");
-  document.querySelectorAll(".stage-btn").forEach(btn=>{ btn.addEventListener("click",()=>{ document.querySelectorAll(".stage-btn").forEach(b=>b.classList.remove("active")); btn.classList.add("active"); wcStage = btn.dataset.stage; renderWcStage(wcStage); }); });
-  function renderWcStage(stage) { const container = document.getElementById("wcContent"); if (stage === "groups") renderWcGroups(container); else renderWcKO(container, stage); }
-  function renderWcGroups(container) {
-    const groups = []; for (let i=0;i<12;i++) groups.push(wcTeams48.slice(i*4,(i+1)*4));
-    let html = `<div class="groups-grid">`;
-    groups.forEach((grp,gi)=>{
-      const groupLetter = String.fromCharCode(65+gi);
-      const matches = [{h:0,a:1},{h:2,a:3},{h:0,a:2},{h:1,a:3},{h:0,a:3},{h:1,a:2}];
-      let matchRows = "";
-      matches.forEach((m,mi)=>{
-        const key=`G${groupLetter}_${mi}`;
-        const s = wcPreds[key]||{h:"",a:""};
-        matchRows += `<div class="wc-match-row"><span class="wc-flag"></span><span class="wc-team-name">${grp[m.h]}</span><input class="wc-score" type="number" min="0" max="20" value="${s.h}" onchange="saveWcPred('${key}','h',this.value)" ${wcGroupLocked[groupLetter]?"disabled":""}><span class="wc-vs">VS</span><input class="wc-score" type="number" min="0" max="20" value="${s.a}" onchange="saveWcPred('${key}','a',this.value)" ${wcGroupLocked[groupLetter]?"disabled":""}><span class="wc-team-name" style="text-align:right">${grp[m.a]}</span><span class="wc-flag"></span></div>`;
-      });
-      html += `<div class="group-card"><div class="group-title"><i class="fa-solid fa-shield-halved"></i> Group ${groupLetter}</div>${matchRows}<button class="wc-lock-btn ${wcGroupLocked[groupLetter]?"locked":""}" onclick="toggleGroupLock('${groupLetter}')"><i class="fa-solid fa-${wcGroupLocked[groupLetter]?"lock":"lock-open"}"></i> ${wcGroupLocked[groupLetter]?"Group Locked":"Lock Group Predictions"}</button></div>`;
-    });
-    html += `</div>`; container.innerHTML = html;
-  }
-  function renderWcKO(container, stage) {
-    const config = { r16:{ title:"Round of 16", count:8, teams:wcTeams48.slice(0,16) }, qf:{ title:"Quarter-Finals", count:4, teams:wcTeams48.slice(0,8) }, sf:{ title:"Semi-Finals", count:2, teams:wcTeams48.slice(0,4) }, final:{ title:"⚽ FINAL", count:1, teams:wcTeams48.slice(0,2) } };
-    const cfg = config[stage];
-    let html = `<div class="ko-bracket"><div class="ko-round-title"><i class="fa-solid fa-trophy"></i> ${cfg.title}</div><div class="ko-matches">`;
-    for(let i=0;i<cfg.count;i++){
-      const t1=cfg.teams[i*2]||"TBD", t2=cfg.teams[i*2+1]||"TBD";
-      const key=`${stage}_${i}`;
-      const s=wcPreds[key]||{h:"",a:"",pick:""};
-      html+=`<div class="ko-match"><div style="font-family:'Oswald';font-size:0.72rem;color:rgba(255,255,255,0.4);margin-bottom:8px">Match ${i+1}</div><div class="ko-team ${s.pick===t1?"picked":""}" onclick="pickKOWinner('${key}','${t1}')"><span class="wc-flag"></span><span>${t1}</span><input class="ko-score" type="number" min="0" max="20" value="${s.h}" onclick="e=>e.stopPropagation()" onchange="saveWcPred('${key}','h',this.value)"></div><div style="text-align:center;font-family:'Bebas Neue';font-size:0.8rem;color:rgba(255,255,255,0.3);margin:4px 0">VS</div><div class="ko-team ${s.pick===t2?"picked":""}" onclick="pickKOWinner('${key}','${t2}')"><span class="wc-flag"></span><span>${t2}</span><input class="ko-score" type="number" min="0" max="20" value="${s.a}" onclick="e=>e.stopPropagation()" onchange="saveWcPred('${key}','a',this.value)"></div>${s.pick?`<div style="margin-top:8px;font-size:0.72rem;color:var(--lime);"><i class='fa-solid fa-check'></i> Advancing: ${s.pick}</div>`:""}</div>`;
-    }
-    html+=`</div></div>`; if(stage==="final") html+=`<div style="text-align:center;margin-top:30px;padding:20px;background:rgba(200,244,0,0.05);border-radius:20px;"><div style="font-family:'Bebas Neue';font-size:2rem;color:var(--gold)">🏆 WORLD CHAMPION</div></div>`;
     container.innerHTML = html;
+    document.querySelectorAll(".shirt-slot").forEach(el => {
+      el.addEventListener("click", (e) => { e.stopPropagation(); activeLeagueId = el.dataset.id; updateSeatPanels(); highlightActiveShirt(); });
+    });
+    highlightActiveShirt();
   }
-  window.saveWcPred = (key,side,val) => { if(!wcPreds[key]) wcPreds[key]={h:"",a:""}; wcPreds[key][side]=val; localStorage.setItem("wcp",JSON.stringify(wcPreds)); toast(`Saved`); };
-  window.toggleGroupLock = (g) => { wcGroupLocked[g] = !wcGroupLocked[g]; localStorage.setItem("wcgl",JSON.stringify(wcGroupLocked)); toast(wcGroupLocked[g]?`🔒 Group ${g} locked`:`🔓 Group ${g} unlocked`); renderWcStage("groups"); };
-  window.pickKOWinner = (key,team) => { if(!wcPreds[key]) wcPreds[key]={h:"",a:""}; wcPreds[key].pick=team; localStorage.setItem("wcp",JSON.stringify(wcPreds)); toast(`${team} advancing`); renderWcStage(wcStage); };
 
-  // -------------------------------------------------------------
-  // GW CONTROLS & INIT
-  // -------------------------------------------------------------
-  document.getElementById("gwPrev").addEventListener("click", ()=>{ if(currentGW<=1){toast("Already at GW1");return;} currentGW--; document.getElementById("gwNum").textContent = `GW ${currentGW}`; toast(`Back to GW ${currentGW}`); updatePercents(); refreshActivePanel(); });
-  document.getElementById("gwNext").addEventListener("click", ()=>{ if(currentGW>=38){toast("Final GW");return;} currentGW++; document.getElementById("gwNum").textContent = `GW ${currentGW}`; toast(`Advance to GW ${currentGW}`); updatePercents(); refreshActivePanel(); });
-  function refreshActivePanel() { if (["epl","liga","serie","bundes","ligue"].includes(activeId)) renderLeague(activeId); else if (["ucl","europa"].includes(activeId)) renderAward(activeId); else if (activeId==="ballon") renderBallon(); }
-  ["epl","liga","serie","bundes","ligue"].forEach(id=>{ document.getElementById(`slot-${id}`).addEventListener("click",()=>renderLeague(id)); });
-  document.getElementById("slot-ucl").addEventListener("click",()=>renderAward("ucl"));
-  document.getElementById("slot-europa").addEventListener("click",()=>renderAward("europa"));
-  document.getElementById("slot-worldcup").addEventListener("click",openWC);
-  document.getElementById("slot-ballon").addEventListener("click",renderBallon);
-  document.getElementById("slot-homeWing").addEventListener("click",()=>toast("🏠 Left panel shows home fixtures"));
-  document.getElementById("slot-awayWing").addEventListener("click",()=>toast("✈️ Right panel shows away fixtures"));
+  function highlightActiveShirt() {
+    document.querySelectorAll(".shirt-slot").forEach(el=>el.classList.remove("active"));
+    const activeEl = document.querySelector(`.shirt-slot[data-id="${activeLeagueId}"]`);
+    if(activeEl) activeEl.classList.add("active");
+  }
 
-  updatePercents();
-  renderLeague("epl");
-  document.getElementById("slot-epl").classList.add("active");
-  setTimeout(()=>document.getElementById("loader").classList.add("hide"), 900);
+  // seat panels update
+  function updateSeatPanels() {
+    const lid = activeLeagueId;
+    const data = leaguesData[lid];
+    if(!data) return;
+    document.getElementById("leftTitle").innerHTML = `${data.flag || "🏠"} ${data.name} – Home`;
+    document.getElementById("rightTitle").innerHTML = `${data.flag || "🔒"} Away / Lock`;
+
+    if(data.fixtures) { // league
+      const isPast = currentGW < 32;
+      const fixtures = data.fixtures;
+      const preds = predictions[lid][currentGW];
+      const actual = actualResults[lid][currentGW];
+      let leftHtml="", rightHtml="";
+      fixtures.forEach((m,idx)=>{
+        leftHtml += `<div class="match-row"><span style="flex:1">${m.h}</span><input class="score-input" type="number" value="${isPast?actual[idx].h:preds[idx].h}" ${isPast?"disabled":""} onchange="updateScore('${lid}',${idx},'h',this.value)"></div>`;
+        rightHtml += `<div class="match-row"><input class="score-input" type="number" value="${isPast?actual[idx].a:preds[idx].a}" ${isPast?"disabled":""} onchange="updateScore('${lid}',${idx},'a',this.value)"><span style="flex:1;text-align:right">${m.a}</span></div>`;
+      });
+      let champHtml = `<div style="margin-top:12px"><select class="lock-btn-sm" ${locks.champion[lid]?"disabled":""} onchange="userPicks.champion['${lid}']=this.value; saveToStorage()"><option value="">🏆 Pick Champion</option>${data.teams.map(t=>`<option ${userPicks.champion[lid]===t?"selected":""}>${t}</option>`).join("")}</select><button class="lock-btn-sm ${locks.champion[lid]?"lock-active":""}" onclick="toggleLock('champion','${lid}')">🔒 ${locks.champion[lid]?"Locked":"Lock"}</button></div>`;
+      leftHtml += champHtml;
+      if(!isPast) leftHtml += `<button class="lock-btn-sm" onclick="saveGWLeague('${lid}')">💾 Save GW</button>`;
+      document.getElementById("leftPanelContent").innerHTML = leftHtml;
+      document.getElementById("rightPanelContent").innerHTML = rightHtml;
+    } 
+    else if(data.type === "award") {
+      let pick = userPicks.award?.[lid] || "";
+      let locked = locks.award?.[lid];
+      let html = `<select class="lock-btn-sm" style="width:100%;margin-bottom:10px" ${locked?"disabled":""} onchange="userPicks.award['${lid}']=this.value; saveToStorage()"><option value="">Select Winner</option>${data.options.map(o=>`<option ${pick===o?"selected":""}>${o}</option>`).join("")}</select><button class="lock-btn-sm ${locked?"lock-active":""}" onclick="toggleLock('award','${lid}')">🔒 ${locked?"Locked":"Lock Prediction"}</button><div style="margin-top:12px;font-size:0.7rem">🏆 ${data.points} pts if correct</div>`;
+      document.getElementById("leftPanelContent").innerHTML = html;
+      document.getElementById("rightPanelContent").innerHTML = `<div style="text-align:center;padding:20px"><i class="fa-solid fa-trophy" style="font-size:2rem;color:var(--lime)"></i><br>${locked?"Locked +"+data.points:"Unlocked"}</div>`;
+    }
+    else if(data.type === "player") {
+      let playerKey = lid==="ballon"?"ballon":"goldenboy";
+      let currentPick = userPicks.player?.[playerKey]?.name || "";
+      let locked = locks.player?.[playerKey];
+      let optionsHtml = `<select class="lock-btn-sm" style="width:100%" ${locked?"disabled":""} onchange="setPlayerPick('${playerKey}',this.value)"><option value="">— Select Player —</option>${data.players.map(p=>`<option ${currentPick===p.name?"selected":""}>${p.name} (${p.pts} pts)</option>`).join("")}</select>`;
+      let info = `<div style="margin-top:12px;background:rgba(0,0,0,0.4);padding:10px;border-radius:16px"><i class="fa-solid fa-chart-simple"></i> Rank: ${data.players.findIndex(p=>p.name===currentPick)+1 || '-'}<br>Points: ${data.players.find(p=>p.name===currentPick)?.pts||0}</div>`;
+      let lockBtn = `<button class="lock-btn-sm ${locked?"lock-active":""}" onclick="toggleLock('player','${playerKey}')">🔒 ${locked?"Locked":"Lock Player"}</button>`;
+      document.getElementById("leftPanelContent").innerHTML = optionsHtml + info + lockBtn;
+      document.getElementById("rightPanelContent").innerHTML = `<div style="padding:10px;text-align:center"><i class="fa-solid fa-star"></i> Yellow card deduction if unlocked late: -50 per GW</div>`;
+    }
+    else if(lid==="champBonus") {
+      document.getElementById("leftPanelContent").innerHTML = `<div>🏆 Each correct champion gives +500 pts. Lock before GW30 avoids deduction.</div><button class="lock-btn-sm" onclick="toast('Champion bonus automatically applied')">Track</button>`;
+      document.getElementById("rightPanelContent").innerHTML = `<div><i class="fa-solid fa-chart-line"></i> Current total champions locked: ${Object.values(locks.champion).filter(Boolean).length}</div>`;
+    }
+  }
+
+  window.updateScore = (lid, idx, side, val) => { if(currentGW>=32) { predictions[lid][currentGW][idx][side]=Math.min(9,Math.max(0,parseInt(val)||0)); toast("Prediction updated"); updateSeatPanels(); } else toast("Past GW locked"); };
+  window.saveGWLeague = (lid) => { toast(`GW${currentGW} saved for ${leaguesData[lid].name}`); saveToStorage(); };
+  window.toggleLock = (type, id) => {
+    let key = type==="champion"?id : (type==="award"?id : id);
+    if(!locks[type]) locks[type]={};
+    if(!locks[type][key]) { 
+      if((type==="champion" && !userPicks.champion?.[id]) || (type==="award" && !userPicks.award?.[id]) || (type==="player" && !userPicks.player?.[key]?.name)) { toast("Make a selection first"); return; }
+      locks[type][key]=true; lockGW[`${type}_${key}`]=currentGW; toast(`🔒 Locked! +${type==="award"?leaguesData[id]?.points:(type==="player"?leaguesData[id==="ballon"?"ballon":"goldenboy"]?.players.find(p=>p.name===userPicks.player[key]?.name)?.pts:500)} pts`);
+    } else { locks[type][key]=false; toast("🔓 Unlocked – penalty may apply"); }
+    saveToStorage(); updateSeatPanels();
+  };
+  window.setPlayerPick = (key, name) => { if(!userPicks.player) userPicks.player={}; userPicks.player[key] = {name}; saveToStorage(); updateSeatPanels(); };
+
+  function changeMode(mode) {
+    currentMode = mode;
+    const bgDiv = document.getElementById("stadiumBg");
+    if(mode==="1v1" || mode==="2v2") bgDiv.className = "stadium street-bg";
+    else bgDiv.className = "stadium pitch-bg";
+    document.querySelectorAll(".mode-btn").forEach(btn=>btn.classList.remove("active"));
+    document.querySelector(`.mode-btn[data-mode="${mode}"]`).classList.add("active");
+    renderShirts();
+    activeLeagueId = (mode==="1v1"?"epl":mode==="2v2"?"epl":mode==="5v5"?"epl":"epl");
+    updateSeatPanels();
+    highlightActiveShirt();
+  }
+
+  // navigation events
+  document.querySelectorAll(".mode-btn").forEach(btn => btn.addEventListener("click", (e) => changeMode(btn.dataset.mode)));
+  // gw controls (whistle)
+  const gwDisplay = document.createElement("div"); // we add floating whistle
+  const whistleDiv = document.createElement("div");
+  whistleDiv.innerHTML = `<i class="fa-solid fa-whistle" style="position:fixed;bottom:20px;right:20px;background:#111;border:2px solid gold;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;font-size:1.5rem;color:gold;"></i>`;
+  document.body.appendChild(whistleDiv);
+  whistleDiv.onclick = () => {
+    if(currentGW<38) { currentGW++; toast(`Referee whistle: GW ${currentGW}`); renderShirts(); updateSeatPanels(); }
+    else toast("Final GW reached");
+  };
+  // additional prev gw
+  const prevDiv = document.createElement("div");
+  prevDiv.innerHTML = `<i class="fa-solid fa-rectangle-xmark" style="position:fixed;bottom:20px;left:20px;background:#111;border:2px solid gold;border-radius:50%;width:48px;height:48px;display:flex;align-items:center;justify-content:center;cursor:pointer;z-index:1000;font-size:1.5rem;color:gold;"></i>`;
+  document.body.appendChild(prevDiv);
+  prevDiv.onclick = () => { if(currentGW>1) { currentGW--; toast(`Back to GW ${currentGW}`); renderShirts(); updateSeatPanels(); } else toast("GW1"); };
+
+  // init
+  renderShirts();
+  updateSeatPanels();
+  changeMode("full11");
 </script>
 </body>
 </html>
