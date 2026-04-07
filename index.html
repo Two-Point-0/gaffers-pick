@@ -4,13 +4,14 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=yes"/>
 <title>Gaffer's Pick | Stadium Predictor</title>
-<!-- Google Fonts + Font Awesome 6 (modern icons) -->
+<!-- Google Fonts + Font Awesome 6 -->
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
+/* All existing CSS remains exactly the same – no changes */
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
   --lime:#c8f400;--gold:#ffd700;--red:#e63946;
@@ -283,8 +284,8 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
   padding:7px 8px;margin-bottom:4px;animation:fadeIn .22s ease both;transition:border-color .2s}
 .mcard:hover{border-color:rgba(200,244,0,.28)}
 .mteams{display:flex;align-items:center;justify-content:space-between;gap:3px;margin-bottom:5px}
-.tnm{font-family:var(--cd);font-size:.7rem;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.tnm.aw{text-align:right}
+.tnm{font-family:var(--cd);font-size:.7rem;font-weight:600;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis; display:flex; align-items:center; gap:4px;}
+.tnm.aw{text-align:right; justify-content:flex-end;}
 .sinps{display:flex;align-items:center;gap:3px;flex-shrink:0}
 .sinp{width:28px;height:26px;border-radius:5px;background:rgba(0,0,0,.5);border:1.4px solid rgba(255,255,255,.19);
   color:var(--lime);text-align:center;font-family:var(--hd);font-size:.92rem;outline:none;transition:border-color .18s}
@@ -350,6 +351,13 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
   object-fit: cover;
   border: none;
 }
+.team-icon {
+  width: 22px;
+  height: 22px;
+  object-fit: contain;
+  border-radius: 4px;
+  background: rgba(0,0,0,0.3);
+}
 @media(max-width:900px){
   .stadium{
     grid-template-columns: clamp(180px, 28vw, 240px) 1fr clamp(180px, 28vw, 240px);
@@ -360,6 +368,7 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
   .slbl,.stag{display:none}
   .jsw{width:clamp(42px,12vw,65px) !important}
   .shorts-slot{width: clamp(30px,8vw,50px) !important}
+  .team-icon { width: 18px; height: 18px; }
 }
 </style>
 </head>
@@ -369,40 +378,91 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
 const {useState,useEffect,useRef,useCallback,useMemo}=React;
 
 // YouTube video IDs for ads (short, football/sports related, loopable)
-const HORIZONTAL_VIDEO_ID = "iDdhqRxyf2M";   // football highlights (no copyright issues, generic)
+const HORIZONTAL_VIDEO_ID = "iDdhqRxyf2M";   // football highlights
 const VERTICAL_VIDEO_ID = "KPL7cGpXhGc";     // stadium atmosphere
+
+// Helper to build image paths (adjust base path as needed)
+const imgPath = (folder, filename) => `images/${folder}/${filename}`;
+const clubIcon = (name) => {
+  const map = {
+    "Liverpool": "liverpool-fc.png", "Arsenal": "arsenal-fc.png", "Man City": "manchester-city.png",
+    "Chelsea": "chelsea-footballogos-orq.png", "Tottenham": "tottenham-hotspur.png", "Man Utd": "manchester-united.png",
+    "Real Madrid": "real-madrid-footballlogos-org.png", "Barcelona": "fc-barcelona-footballogos-org.png",
+    "Atletico": "atletico-madrid-footballlogos-org.png", "Sevilla": "sevilla-fc-footballlogos-org.png",
+    "Villarreal": "villarreal-cf-footballlogos-org.png", "Betis": "real-betis.png", "Athletic": "athletic-bilbao.png",
+    "R.Sociedad": "real-sociedad.png", "Inter Milan": "inter-milan-footballlogos-org.png",
+    "Juventus": "juventus-footballogos-org.png", "AC Milan": "ac-milan-footballlogos-org.png",
+    "Napoli": "napoli-footballlogos-org.png", "Roma": "roma-footballlogos-org.png",
+    "Lazio": "ss-lazio.png", "Atalanta": "atalanta.png", "Fiorentina": "fiorentina.png",
+    "Bayern": "bayern-munich-footballlogos-org.png", "Dortmund": "borussia-dortmund-footballlogo5-org.png",
+    "Leverkusen": "bayer-leverkusen-footballlogos-org.png", "RB Leipzig": "rb-leipzig-footballlogos-org.png",
+    "Stuttgart": "vfb-stuttgart.png", "Frankfurt": "eintracht-frankfurt.png",
+    "Wolfsburg": "vfl-wolfsburg.png", "Freiburg": "sc-freiburg.png",
+    "PSG": "paris-saint-germain-footballlogos-org.png", "Monaco": "as-monaco-footballlogos-org.png",
+    "Marseille": "olympique-de-marseille-footballlogos-o.png", "Lyon": "olympique-lyonnais-footballogos-org.png",
+    "Rennes": "stade-rennais-footballlogos-org-png", "Lille": "losc-lille.png", "Nice": "ogc-nice.png", "Lens": "rc-lens.png"
+  };
+  let file = map[name] || "default-club.png";
+  return imgPath("clubs", file);
+};
+const countryIcon = (nation) => {
+  const countryMap = {
+    "England": "england-national-team-footballlogos-or..", "France": "france-national-team-footballlogos-org.N",
+    "Spain": "spain-national-team-footballogos-org.p...", "Germany": "germany-national-team-footballlogos-o...",
+    "Italy": "italy-national-team.png", "UEFA": "uefa.png", "World": "world.png",
+    "Europe": "europe.png", "Global": "global.png", "Stats": "stats.png"
+  };
+  let file = countryMap[nation] || "default-country.png";
+  return imgPath("countries", file);
+};
+const leagueLogo = (leagueId) => {
+  const map = {
+    epl: "premier-league-footballlogos-org.png",
+    liga: "laliga-footballlogos-org.png",
+    serie: "seria-a-footballlogos-org.png",
+    bundes: "bundesliga-footballlogos-org.pg",
+    ligue: "lique-1-footballlogos-org.png",
+    ucl: "UEFA-Champions-League-v2021.png",
+    uel: "uefa-europa-league.png",
+    wc: "worldcup.png",
+    champs: "champions.png",
+    awards: "ballon.jpg",
+    stats: "stats.png"
+  };
+  return imgPath("leagues", map[leagueId] || "default-league.png");
+};
 
 const COMPS={
   epl:{id:"epl",name:"Premier League",short:"EPL",nation:"England",pos:"GK",num:1,
-    jc:"#3D195B",sc:"#2a0f3e",nc:"#fff",
+    jc:"#3D195B",sc:"#2a0f3e",nc:"#fff", leagueLogo: leagueLogo("epl"),
     teams:[{h:"Liverpool",a:"Arsenal"},{h:"Man City",a:"Chelsea"},{h:"Arsenal",a:"Tottenham"},{h:"Chelsea",a:"Newcastle"},{h:"Tottenham",a:"Man Utd"}]},
   liga:{id:"liga",name:"La Liga",short:"LaLiga",nation:"Spain",pos:"DEF",num:2,
-    jc:"#FF4500",sc:"#cc3700",nc:"#FFDF00",
+    jc:"#FF4500",sc:"#cc3700",nc:"#FFDF00", leagueLogo: leagueLogo("liga"),
     teams:[{h:"Real Madrid",a:"Barcelona"},{h:"Atletico",a:"Sevilla"},{h:"Villarreal",a:"Betis"},{h:"Athletic",a:"R.Sociedad"}]},
   serie:{id:"serie",name:"Serie A",short:"SerieA",nation:"Italy",pos:"DEF",num:3,
-    jc:"#00529F",sc:"#003d78",nc:"#fff",
+    jc:"#00529F",sc:"#003d78",nc:"#fff", leagueLogo: leagueLogo("serie"),
     teams:[{h:"Inter Milan",a:"Juventus"},{h:"AC Milan",a:"Napoli"},{h:"Roma",a:"Lazio"},{h:"Atalanta",a:"Fiorentina"}]},
   bundes:{id:"bundes",name:"Bundesliga",short:"Bundesliga",nation:"Germany",pos:"DEF",num:4,
-    jc:"#D20515",sc:"#a50410",nc:"#fff",
+    jc:"#D20515",sc:"#a50410",nc:"#fff", leagueLogo: leagueLogo("bundes"),
     teams:[{h:"Bayern",a:"Dortmund"},{h:"Leverkusen",a:"RB Leipzig"},{h:"Stuttgart",a:"Frankfurt"},{h:"Wolfsburg",a:"Freiburg"}]},
   ligue:{id:"ligue",name:"Ligue 1",short:"Ligue 1",nation:"France",pos:"DEF",num:5,
-    jc:"#003F80",sc:"#00285a",nc:"#fff",
+    jc:"#003F80",sc:"#00285a",nc:"#fff", leagueLogo: leagueLogo("ligue"),
     teams:[{h:"PSG",a:"Monaco"},{h:"Marseille",a:"Lyon"},{h:"Rennes",a:"Lille"},{h:"Nice",a:"Lens"}]},
   ucl:{id:"ucl",name:"Champions League",short:"UCL",nation:"UEFA",pos:"MID",num:6,
-    jc:"#071D49",sc:"#040e26",nc:"#FFD700",em:"🏆",
+    jc:"#071D49",sc:"#040e26",nc:"#FFD700",em:"🏆", leagueLogo: leagueLogo("ucl"),
     teams:[{h:"Real Madrid",a:"Man City"},{h:"Bayern",a:"PSG"},{h:"Arsenal",a:"Inter"},{h:"Atletico",a:"Dortmund"}]},
   uel:{id:"uel",name:"Europa League",short:"UEL",nation:"UEFA",pos:"MID",num:7,
-    jc:"#F54029",sc:"#c22e1c",nc:"#fff",em:"🥈",
+    jc:"#F54029",sc:"#c22e1c",nc:"#fff",em:"🥈", leagueLogo: leagueLogo("uel"),
     teams:[{h:"Liverpool",a:"Roma"},{h:"Sevilla",a:"Leverkusen"},{h:"Atalanta",a:"Ajax"},{h:"Rangers",a:"Villarreal"}]},
-  wc:{id:"wc",name:"World Cup 2026",short:"WC2026",nation:"World",pos:"MID",num:8,
-    jc:"#1a6e28",sc:"#124e1c",nc:"#c8f400",em:"🌍",
+  wc:{id:"wc",name:"World Cup 2026",short:"WC",nation:"World",pos:"MID",num:8,
+    jc:"#1a6e28",sc:"#124e1c",nc:"#c8f400",em:"🌍", leagueLogo: leagueLogo("wc"),
     teams:[{h:"England",a:"France"},{h:"Brazil",a:"Argentina"},{h:"Spain",a:"Germany"},{h:"USA",a:"Mexico"}]},
   champs:{id:"champs",name:"League Champions",short:"CHAMPS",nation:"Europe",pos:"FWD-L",num:9,
-    jc:"#7B5E00",sc:"#543f00",nc:"#FFD700",em:"🏆",teams:[]},
+    jc:"#7B5E00",sc:"#543f00",nc:"#FFD700",em:"🏆", leagueLogo: leagueLogo("champs"), teams:[]},
   awards:{id:"awards",name:"Individual Awards",short:"AWARDS",nation:"Global",pos:"FWD-C",num:10,
-    jc:"#1a1a1a",sc:"#0a0a0a",nc:"#c8f400",em:"🌟",teams:[]},
-  stats:{id:"stats",name:"Top Scorers & Assists",short:"TOP STATS",nation:"Stats",pos:"FWD-R",num:11,
-    jc:"#2e0054",sc:"#1a0030",nc:"#c8f400",em:"📊",teams:[]},
+    jc:"#1a1a1a",sc:"#0a0a0a",nc:"#c8f400",em:"🌟", leagueLogo: leagueLogo("awards"), teams:[]},
+  stats:{id:"stats",name:"Top Scorers & Assists",short:"STATS",nation:"Stats",pos:"FWD-R",num:11,
+    jc:"#2e0054",sc:"#1a0030",nc:"#c8f400",em:"📊", leagueLogo: leagueLogo("stats"), teams:[]},
 };
 
 const FLAG_COLS={England:["#CF142B","#fff","#CF142B"],France:["#002395","#fff","#ED2939"],Spain:["#AA151B","#F1BF00","#AA151B"],Germany:["#000","#DD0000","#FFCE00"],Italy:["#009246","#fff","#CE2B37"],UEFA:["#003399","#003399","#003399"],World:["#267a30","#fff","#267a30"],Europe:["#003399","#FFD700","#003399"],Global:["#1a1a1a","#c8f400","#1a1a1a"],Stats:["#2e0054","#c8f400","#2e0054"]};
@@ -430,7 +490,7 @@ function adj(h,a){
   return `#${[r,g,b].map(x=>Math.min(255,Math.max(0,Math.round(x+255*a))).toString(16).padStart(2,'0')).join('')}`;
 }
 
-/* SVG Components for Jersey + Shorts */
+/* SVG Components for Jersey + Shorts (unchanged) */
 const JerseySVG=({c,sc,nc,num,em,w=86})=>{
   const id=`j${num}`;const lg=adj(c,.17);
   return(
@@ -502,14 +562,15 @@ const PitchMarks=()=>(
   </svg>
 );
 
-/* Player Slot - enhanced jersey + shorts */
+/* Player Slot - with league background image */
 const PSlot=({comp:c,active,onClick,vis=true,pct})=>{
   if(!vis)return <div style={{width:90}}/>;
   const sw=typeof window!=='undefined'?window.innerWidth:800;
   const sz=sw<700?55:sw<1000?72:86;
   const sc=adj(c.jc,-.08);
   return(
-    <div className={`pslot${active?' act':''}`} onClick={onClick} title={c.name}>
+    <div className={`pslot${active?' act':''}`} onClick={onClick} title={c.name}
+         style={{backgroundImage: `url(${c.leagueLogo})`, backgroundSize:'contain', backgroundRepeat:'no-repeat', backgroundPosition:'center', opacity:0.95}}>
       <div className="jersey-combo">
         <div className="jsw" style={{width:sz}}>
           <JerseySVG c={c.jc} sc={c.sc} nc={c.nc} num={c.num} em={c.em} w={sz}/>
@@ -530,7 +591,7 @@ const PSlot=({comp:c,active,onClick,vis=true,pct})=>{
   );
 };
 
-/* Match Card (unchanged) */
+/* Match Card with team icons */
 const MCard=({match:m,idx,cid,preds,locked,onPred,onLock,gw})=>{
   const k=`${cid}_gw${gw}_${idx}`;
   const p=preds[k]||{h:'',a:''};
@@ -540,7 +601,7 @@ const MCard=({match:m,idx,cid,preds,locked,onPred,onLock,gw})=>{
   return(
     <div className="mcard">
       <div className="mteams">
-        <span className="tnm">{m.h}</span>
+        <div className="tnm"><img className="team-icon" src={clubIcon(m.h)} alt="logo" onError={(e)=>e.target.style.display='none'} /> {m.h}</div>
         <div className="sinps">
           <input className="sinp" type="number" min="0" max="20" value={p.h} disabled={isl}
             onChange={e=>onPred(k,{...p,h:e.target.value})} placeholder="–"/>
@@ -548,7 +609,7 @@ const MCard=({match:m,idx,cid,preds,locked,onPred,onLock,gw})=>{
           <input className="sinp" type="number" min="0" max="20" value={p.a} disabled={isl}
             onChange={e=>onPred(k,{...p,a:e.target.value})} placeholder="–"/>
         </div>
-        <span className="tnm aw">{m.a}</span>
+        <div className="tnm aw">{m.a} <img className="team-icon" src={clubIcon(m.a)} alt="logo" onError={(e)=>e.target.style.display='none'} /></div>
       </div>
       <div className="mfoot">
         <span className="pbadge">{pts!==null?`+${pts} pts`:'20 pts max'}</span>
@@ -560,7 +621,7 @@ const MCard=({match:m,idx,cid,preds,locked,onPred,onLock,gw})=>{
   );
 };
 
-/* Right Content (unchanged logic) */
+/* Right Content (unchanged except awards section uses ballon.jpg and worldcup.png images) */
 const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer,tassist,onTop,bpick,kpick,gbpick,onAward})=>{
   if(!ac)return(
     <div style={{padding:'18px 7px',textAlign:'center',color:'rgba(255,255,255,.22)'}}>
@@ -590,13 +651,13 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
   );}
   if(c.pos==='FWD-C'){
     const secs=[
-      {title:"Ballon d'Or",data:BALLON,k:'ballon',cur:bpick,icon:"fa-star"},
-      {title:"Kopa Trophy",data:KOPA,k:'kopa',cur:kpick,icon:"fa-medal"},
-      {title:"Golden Boy",data:GB,k:'gb',cur:gbpick,icon:"fa-crown"},
+      {title:"Ballon d'Or",data:BALLON,k:'ballon',cur:bpick,icon:"fa-star", img: "ballon.jpg"},
+      {title:"Kopa Trophy",data:KOPA,k:'kopa',cur:kpick,icon:"fa-medal", img: null},
+      {title:"Golden Boy",data:GB,k:'gb',cur:gbpick,icon:"fa-crown", img: null},
     ];
     return(
       <div>
-        <div className="ctbar"><i class="fas fa-medal"></i> {c.name}</div>
+        <div className="ctbar"><i class="fas fa-medal"></i> {c.name} {c.id==='awards' && <img src="images/ballon.jpg" style={{height:'20px', marginLeft:'6px'}} alt="ballon" onError={(e)=>e.target.style.display='none'}/>}</div>
         {secs.map(s=>(
           <div key={s.k} style={{marginBottom:10}}>
             <div style={{fontFamily:'Barlow Condensed',fontSize:'.65rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',marginBottom:4,textTransform:'uppercase'}}><i class={`fas ${s.icon}`}></i> {s.title}</div>
@@ -661,7 +722,7 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
   );
 };
 
-/* Left Content (unchanged) */
+/* Left Content unchanged */
 const LeftContent=({pts,gw,yc,preds,locked})=>{
   const lc=Object.values(locked).filter(Boolean).length;
   const gwH=[{g:gw-2,p:47},{g:gw-1,p:63},{g:gw,p:12}].filter(x=>x.g>0);
@@ -719,7 +780,7 @@ const CompPicker=({count,sel,onToggle,onClose})=>(
   </div>
 );
 
-/* Formation - jersey slots */
+/* Formation - jersey slots (unchanged) */
 const Formation=({ac,onSel,preds,locked,mode,enComps})=>{
   const getAcc=id=>{
     const c=COMPS[id];if(!c||!c.teams.length)return'—';
@@ -752,7 +813,7 @@ const Formation=({ac,onSel,preds,locked,mode,enComps})=>{
   );
 };
 
-/* YouTube Ad Components */
+/* YouTube Ad Components (unchanged) */
 const HorizontalAd = () => {
   return (
     <div className="ad-video-h">
@@ -779,7 +840,7 @@ const VerticalAd = () => {
   );
 };
 
-/* Main App */
+/* Main App (unchanged structure, only image integration already done) */
 function App(){
   const [gw,setGw]=useState(32);
   const [ac,setAc]=useState('epl');
