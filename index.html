@@ -2,9 +2,11 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<title>Gaffer's Pick</title>
+<meta name="viewport" content="width=device-width,initial-scale=1.0, user-scalable=yes"/>
+<title>Gaffer's Pick | Stadium Predictor</title>
+<!-- Google Fonts + Font Awesome 6 (modern icons) -->
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow+Condensed:wght@400;600;700&family=Barlow:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
@@ -39,12 +41,24 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
 @keyframes fadeOut{to{opacity:0;transform:translate(-50%,10px)}}
 @keyframes seatFlicker{0%,100%{opacity:.7}50%{opacity:.35}}
 
-/* LAYOUT */
+/* MAIN LAYOUT - CENTERED STADIUM WITH REDUCED PITCH SIZE */
+.stadium-wrapper{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 12px;
+}
 .stadium{
+  max-width: 1400px;
+  width: 100%;
   display:grid;
-  grid-template-columns:clamp(88px,11vw,138px) 1fr clamp(88px,11vw,138px);
-  grid-template-rows:auto auto 1fr auto;
-  min-height:100vh;
+  grid-template-columns: clamp(200px, 22vw, 280px) minmax(0, 1fr) clamp(200px, 22vw, 280px);
+  grid-template-rows: auto auto 1fr auto;
+  min-height: 90vh;
+  background: radial-gradient(circle at 20% 30%, #0a2f1f, #051a0e);
+  border-radius: 32px;
+  box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+  overflow: hidden;
 }
 /* TOP BAR */
 .top-bar{
@@ -107,52 +121,147 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
   border:1.2px solid var(--gold);border-radius:3px 3px 7px 7px;
   display:flex;align-items:center;justify-content:center;font-size:.4rem}
 .rf-str{width:1.2px;height:5px;background:rgba(255,215,0,.3)}
-/* SEAT DECO */
-.seat-d{padding:3px 6px;display:flex;flex-direction:column;gap:1.5px;overflow:hidden}
-.seat-r{display:flex;gap:1.2px}
-.seat-u{width:8px;height:6px;border-radius:1.5px 1.5px 0 0;flex-shrink:0}
-/* BILLBOARDS */
-.bb-h{height:23px;overflow:hidden;background:#000;border-top:1px solid rgba(255,255,255,.05);border-bottom:1px solid rgba(255,255,255,.05)}
-.bb-ht{display:inline-flex;white-space:nowrap;animation:bbScroll 22s linear infinite}
-.bb-ht.rev{animation-name:bbScrollR}
-.bb-i{display:inline-flex;align-items:center;height:23px;padding:0 16px;
-  font-family:var(--cd);font-size:.6rem;font-weight:700;letter-spacing:2px;
-  border-right:1px solid rgba(255,255,255,.05)}
-.bb-v{width:21px;overflow:hidden;background:#000;border-right:1px solid rgba(255,255,255,.05);flex-shrink:0}
-.bb-vt{display:flex;flex-direction:column;animation:bbScrollV 17s linear infinite}
-.bb-vi{writing-mode:vertical-rl;height:105px;width:21px;display:flex;align-items:center;justify-content:center;
-  font-family:var(--cd);font-size:.54rem;font-weight:700;letter-spacing:1.5px;border-bottom:1px solid rgba(255,255,255,.05)}
-.bb-v.rr{border-left:1px solid rgba(255,255,255,.05);border-right:none}
-/* SIDE STANDS */
-.ss{display:flex;flex-direction:column;background:linear-gradient(90deg,var(--stand3),var(--stand2));
-  border-right:2px solid rgba(255,255,255,.05);overflow:hidden}
-.ss.rs{background:linear-gradient(270deg,var(--stand3),var(--stand2));border-right:none;border-left:2px solid rgba(255,255,255,.05)}
-.ss-inner{flex:1;display:flex;flex-direction:column;overflow-y:auto;scrollbar-width:thin;padding:7px 5px;gap:5px}
-/* PITCH */
-.pitch{position:relative;overflow:hidden;
-  background:repeating-linear-gradient(180deg,var(--pitch-a) 0,var(--pitch-a) 56px,var(--pitch-b) 56px,var(--pitch-b) 112px)}
-.pitch::after{content:'';position:absolute;inset:0;
+/* SIDE STANDS (now closer to pitch, ad videos inside) */
+.ss{
+  display:flex;
+  flex-direction:column;
+  background:linear-gradient(90deg,var(--stand3),var(--stand2));
+  border-right:2px solid rgba(255,255,255,.05);
+  overflow:hidden;
+}
+.ss.rs{
+  background:linear-gradient(270deg,var(--stand3),var(--stand2));
+  border-right:none;
+  border-left:2px solid rgba(255,255,255,.05);
+}
+.ss-inner{
+  flex:1;
+  display:flex;
+  flex-direction:column;
+  overflow-y:auto;
+  scrollbar-width:thin;
+  padding:7px 5px;
+  gap:5px;
+}
+/* PITCH - REDUCED HEIGHT */
+.pitch{
+  position:relative;
+  overflow:hidden;
+  background:repeating-linear-gradient(180deg,var(--pitch-a) 0,var(--pitch-a) 56px,var(--pitch-b) 56px,var(--pitch-b) 112px);
+  min-height: 460px;
+}
+.pitch::after{
+  content:'';
+  position:absolute;
+  inset:0;
   background:radial-gradient(ellipse at 50% 50%,rgba(255,255,255,.022) 0%,rgba(0,0,0,.28) 100%);
-  pointer-events:none}
-.pitch-svg-el{position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1;opacity:.42}
-.fgrid{position:relative;z-index:10;display:flex;flex-direction:column;align-items:center;
-  padding:clamp(8px,1.8vw,18px) clamp(5px,1.2vw,14px);gap:clamp(7px,1.5vw,16px);min-height:100%}
-.frow{display:flex;justify-content:center;gap:clamp(5px,1.3vw,14px);width:100%}
-/* PLAYER SLOT */
-.pslot{display:flex;flex-direction:column;align-items:center;cursor:pointer;position:relative;
-  transition:transform .2s;user-select:none}
-.pslot:hover{transform:scale(1.07) translateY(-3px)}
-.pslot.act{transform:scale(1.1) translateY(-4px)}
-.pslot.act .jsw{filter:drop-shadow(0 0 14px rgba(200,244,0,.65)) drop-shadow(0 4px 12px rgba(0,0,0,.7))}
-.jsw{filter:drop-shadow(0 4px 12px rgba(0,0,0,.7));transition:filter .2s;width:clamp(50px,7.2vw,84px)}
-.sbar{width:clamp(35px,5.3vw,60px);margin-top:-3px;display:flex;align-items:center;gap:2px}
-.spct{font-family:var(--hd);font-size:clamp(.4rem,.82vw,.6rem);color:var(--lime);text-shadow:0 1px 4px rgba(0,0,0,.9);line-height:1;flex-shrink:0}
-.sflag{width:clamp(11px,1.7vw,17px);height:auto;border-radius:2px;overflow:hidden;flex-shrink:0;box-shadow:0 1px 3px rgba(0,0,0,.55)}
-.slbl{font-family:var(--cd);font-size:clamp(.36rem,.72vw,.56rem);font-weight:600;
-  color:rgba(255,255,255,.82);text-shadow:0 1px 5px rgba(0,0,0,.95);margin-top:1px;text-align:center;white-space:nowrap}
-.stag{font-family:var(--cd);font-size:clamp(.3rem,.58vw,.48rem);
-  background:rgba(0,0,0,.55);border:1px solid rgba(200,244,0,.28);
-  border-radius:9px;padding:1px 5px;color:var(--lime);margin-top:1px}
+  pointer-events:none;
+}
+.pitch-svg-el{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+  pointer-events:none;
+  z-index:1;
+  opacity:.42;
+}
+.fgrid{
+  position:relative;
+  z-index:10;
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  padding:clamp(4px,1.2vw,12px) clamp(5px,1.2vw,14px);
+  gap:clamp(4px,1.2vw,12px);
+  min-height: 100%;
+}
+.frow{
+  display:flex;
+  justify-content:center;
+  gap:clamp(5px,1.3vw,14px);
+  width:100%;
+  flex-wrap: wrap;
+}
+/* JERSEY SLOT - enhanced shirt+shorts look */
+.pslot{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  cursor:pointer;
+  position:relative;
+  transition:transform .2s;
+  user-select:none;
+  background: rgba(0,0,0,0.3);
+  border-radius: 24px;
+  padding: 6px 8px 8px 8px;
+  backdrop-filter: blur(2px);
+}
+.pslot:hover{
+  transform:scale(1.05) translateY(-3px);
+  background: rgba(0,0,0,0.5);
+}
+.pslot.act{
+  transform:scale(1.08) translateY(-4px);
+  background: rgba(200,244,0,0.1);
+  box-shadow: 0 0 12px rgba(200,244,0,0.3);
+}
+.jersey-combo{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.jsw{
+  filter:drop-shadow(0 4px 12px rgba(0,0,0,.7));
+  transition:filter .2s;
+  width:clamp(55px,8vw,90px);
+}
+.shorts-slot{
+  margin-top: -6px;
+  width: clamp(40px,6vw,70px);
+}
+.sbar{
+  width:100%;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  gap:4px;
+  margin-top: 2px;
+}
+.spct{
+  font-family:var(--hd);
+  font-size:clamp(.5rem,.9vw,.7rem);
+  color:var(--lime);
+  text-shadow:0 1px 4px rgba(0,0,0,.9);
+}
+.sflag{
+  width:clamp(14px,2vw,20px);
+  height:auto;
+  border-radius:2px;
+  overflow:hidden;
+  box-shadow:0 1px 3px rgba(0,0,0,.55);
+}
+.slbl{
+  font-family:var(--cd);
+  font-size:clamp(.5rem,.8vw,.65rem);
+  font-weight:700;
+  color:rgba(255,255,255,.9);
+  text-shadow:0 1px 5px rgba(0,0,0,.95);
+  text-align:center;
+  white-space:nowrap;
+  margin-top: 3px;
+}
+.stag{
+  font-family:var(--cd);
+  font-size:clamp(.4rem,.7vw,.55rem);
+  background:rgba(0,0,0,.55);
+  border:1px solid rgba(200,244,0,.28);
+  border-radius:9px;
+  padding:1px 5px;
+  color:var(--lime);
+  margin-top:2px;
+}
 /* LEFT STAND CONTENT */
 .prog-sec{padding:6px 3px}
 .prog-ttl{font-family:var(--cd);font-size:.68rem;font-weight:700;letter-spacing:2px;
@@ -220,14 +329,37 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
 .acard.pk{border-color:var(--lime);background:rgba(200,244,0,.11)}
 .aname{font-family:var(--cd);font-size:.8rem;font-weight:700;margin-bottom:2px}
 .aclub{font-size:.63rem;color:var(--sub)}
-@media(max-width:700px){
-  .ss{display:none}
-  .stadium{grid-template-columns:0 1fr 0}
-  .slbl,.stag{display:none}
-  .jsw{width:clamp(38px,11vw,58px) !important}
+/* AD CONTAINERS - VIDEO ADS NEXT TO PITCH */
+.ad-video-h{
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  position: relative;
 }
-@media(max-width:480px){
-  .gw-disp{padding:4px 14px;font-size:1.15rem}.wbtn{width:34px;height:34px}
+.ad-video-v{
+  width: 100%;
+  height: 100%;
+  background: #000;
+  overflow: hidden;
+  position: relative;
+}
+.ad-video-h iframe, .ad-video-v iframe{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  border: none;
+}
+@media(max-width:900px){
+  .stadium{
+    grid-template-columns: clamp(180px, 28vw, 240px) 1fr clamp(180px, 28vw, 240px);
+  }
+  .slbl, .stag{font-size: 0.5rem;}
+}
+@media(max-width:700px){
+  .slbl,.stag{display:none}
+  .jsw{width:clamp(42px,12vw,65px) !important}
+  .shorts-slot{width: clamp(30px,8vw,50px) !important}
 }
 </style>
 </head>
@@ -236,13 +368,9 @@ html,body,#root{width:100%;min-height:100vh;background:#060c10;color:var(--text)
 <script type="text/babel">
 const {useState,useEffect,useRef,useCallback,useMemo}=React;
 
-const ADS=[
-  {t:"NIKE · JUST DO IT",c:"#FF4500"},{t:"ADIDAS · IMPOSSIBLE IS NOTHING",c:"#1db954"},
-  {t:"EMIRATES · FLY BETTER",c:"#C8102E"},{t:"MASTERCARD · PRICELESS",c:"#FFD700"},
-  {t:"EA SPORTS FC 25",c:"#00aaff"},{t:"GAFFER'S PICK · PREDICT & WIN",c:"#c8f400"},
-  {t:"HUBLOT · BIG BANG",c:"#C9A84C"},{t:"SAMSUNG",c:"#1428A0"},
-  {t:"QATAR AIRWAYS",c:"#5C0632"},{t:"DHL · EXCELLENCE",c:"#FFCC00"},
-];
+// YouTube video IDs for ads (short, football/sports related, loopable)
+const HORIZONTAL_VIDEO_ID = "iDdhqRxyf2M";   // football highlights (no copyright issues, generic)
+const VERTICAL_VIDEO_ID = "KPL7cGpXhGc";     // stadium atmosphere
 
 const COMPS={
   epl:{id:"epl",name:"Premier League",short:"EPL",nation:"England",pos:"GK",num:1,
@@ -302,7 +430,7 @@ function adj(h,a){
   return `#${[r,g,b].map(x=>Math.min(255,Math.max(0,Math.round(x+255*a))).toString(16).padStart(2,'0')).join('')}`;
 }
 
-/* SVGs */
+/* SVG Components for Jersey + Shorts */
 const JerseySVG=({c,sc,nc,num,em,w=86})=>{
   const id=`j${num}`;const lg=adj(c,.17);
   return(
@@ -333,7 +461,7 @@ const JerseySVG=({c,sc,nc,num,em,w=86})=>{
 const ShortsSVG=({c,w=58})=>{
   const lg=adj(c,.17);
   return(
-    <svg viewBox="0 0 90 52" xmlns="http://www.w3.org/2000/svg" style={{width:w,height:'auto',display:'block',flex:1}}>
+    <svg viewBox="0 0 90 52" xmlns="http://www.w3.org/2000/svg" style={{width:w,height:'auto',display:'block'}}>
       <defs>
         <linearGradient id={`sh${c.replace('#','')}`} x1="0%" y1="0%" x2="100%" y2="100%">
           <stop offset="0%" stopColor={lg}/><stop offset="100%" stopColor={c}/>
@@ -359,86 +487,41 @@ const FlagSVG=({nation,w=18,h=13})=>{
 };
 
 const PitchMarks=()=>(
-  <svg className="pitch-svg-el" viewBox="0 0 800 1100" xmlns="http://www.w3.org/2000/svg"
-       fill="none" stroke="white" strokeWidth="2.5" preserveAspectRatio="none">
-    <rect x="30" y="28" width="740" height="1044" rx="4"/>
-    <line x1="30" y1="550" x2="770" y2="550"/>
-    <circle cx="400" cy="550" r="93"/>
-    <circle cx="400" cy="550" r="5" fill="white" stroke="none"/>
-    <rect x="184" y="28" width="432" height="172"/>
-    <rect x="296" y="28" width="208" height="58"/>
+  <svg className="pitch-svg-el" viewBox="0 0 800 800" xmlns="http://www.w3.org/2000/svg"
+       fill="none" stroke="white" strokeWidth="2" preserveAspectRatio="none">
+    <rect x="30" y="28" width="740" height="744" rx="4"/>
+    <line x1="30" y1="400" x2="770" y2="400"/>
+    <circle cx="400" cy="400" r="73"/>
+    <circle cx="400" cy="400" r="5" fill="white" stroke="none"/>
+    <rect x="184" y="28" width="432" height="152"/>
+    <rect x="296" y="28" width="208" height="48"/>
     <rect x="338" y="6" width="124" height="24" strokeWidth="2"/>
-    <circle cx="400" cy="156" r="5" fill="white" stroke="none"/>
-    <path d="M264,200 A94,94,0,0,1,536,200"/>
-    <rect x="184" y="900" width="432" height="172"/>
-    <rect x="296" y="1014" width="208" height="58"/>
-    <rect x="338" y="1070" width="124" height="24" strokeWidth="2"/>
-    <circle cx="400" cy="944" r="5" fill="white" stroke="none"/>
-    <path d="M264,900 A94,94,0,0,0,536,900"/>
-    <path d="M30,50 A22,22,0,0,1,52,28"/><path d="M748,28 A22,22,0,0,1,770,50"/>
-    <path d="M770,1050 A22,22,0,0,1,748,1072"/><path d="M52,1072 A22,22,0,0,1,30,1050"/>
+    <rect x="184" y="620" width="432" height="152"/>
+    <rect x="296" y="724" width="208" height="48"/>
+    <rect x="338" y="770" width="124" height="24" strokeWidth="2"/>
   </svg>
 );
 
-/* Seat Deco */
-const SeatDeco=({rows=3,cols=44})=>{
-  const data=useMemo(()=>{
-    return Array(rows).fill(0).map(()=>Array(cols).fill(0).map(()=>Math.random()));
-  },[rows,cols]);
-  return(
-    <div className="seat-d">
-      {data.map((row,ri)=>(
-        <div key={ri} className="seat-r">
-          {row.map((rnd,ci)=>(
-            <div key={ci} className="seat-u" style={{
-              background:rnd<.03?'#c8f400':rnd<.1?'#c0392b':'#192030',
-              animation:rnd<.1?`seatFlicker ${1.5+rnd*2}s ease ${rnd*2}s infinite`:'none'
-            }}/>
-          ))}
-        </div>
-      ))}
-    </div>
-  );
-};
-
-/* Billboards */
-const BBH=({rev=false})=>{
-  const d=[...ADS,...ADS];
-  return(
-    <div className="bb-h">
-      <div className={`bb-ht${rev?' rev':''}`}>
-        {d.map((m,i)=><div key={i} className="bb-i" style={{color:m.c}}>{m.t}</div>)}
-      </div>
-    </div>
-  );
-};
-const BBV=({rev=false,right=false})=>{
-  const d=[...ADS,...ADS];
-  return(
-    <div className={`bb-v${right?' rr':''}`}>
-      <div className="bb-vt" style={{animationDirection:rev?'reverse':'normal'}}>
-        {d.map((m,i)=><div key={i} className="bb-vi" style={{color:m.c}}>{m.t}</div>)}
-      </div>
-    </div>
-  );
-};
-
-/* Player Slot */
+/* Player Slot - enhanced jersey + shorts */
 const PSlot=({comp:c,active,onClick,vis=true,pct})=>{
-  if(!vis)return <div style={{width:84}}/>;
+  if(!vis)return <div style={{width:90}}/>;
   const sw=typeof window!=='undefined'?window.innerWidth:800;
-  const sz=sw<700?50:sw<1000?66:84;
+  const sz=sw<700?55:sw<1000?72:86;
   const sc=adj(c.jc,-.08);
   return(
     <div className={`pslot${active?' act':''}`} onClick={onClick} title={c.name}>
-      <div className="jsw" style={{width:sz}}>
-        <JerseySVG c={c.jc} sc={c.sc} nc={c.nc} num={c.num} em={c.em} w={sz}/>
+      <div className="jersey-combo">
+        <div className="jsw" style={{width:sz}}>
+          <JerseySVG c={c.jc} sc={c.sc} nc={c.nc} num={c.num} em={c.em} w={sz}/>
+        </div>
+        <div className="shorts-slot" style={{width:Math.round(sz*0.65)}}>
+          <ShortsSVG c={sc} w={Math.round(sz*0.65)}/>
+        </div>
       </div>
-      <div className="sbar" style={{width:Math.round(sz*.72)}}>
+      <div className="sbar">
         <span className="spct">{pct}</span>
-        <ShortsSVG c={sc} w={Math.round(sz*.5)}/>
-        <div className="sflag" style={{width:Math.round(sz*.2)}}>
-          <FlagSVG nation={c.nation} w={Math.round(sz*.2)} h={Math.round(sz*.14)}/>
+        <div className="sflag">
+          <FlagSVG nation={c.nation} w={Math.round(sz*0.22)} h={Math.round(sz*0.15)}/>
         </div>
       </div>
       <div className="slbl">{c.short}</div>
@@ -447,7 +530,7 @@ const PSlot=({comp:c,active,onClick,vis=true,pct})=>{
   );
 };
 
-/* Match Card */
+/* Match Card (unchanged) */
 const MCard=({match:m,idx,cid,preds,locked,onPred,onLock,gw})=>{
   const k=`${cid}_gw${gw}_${idx}`;
   const p=preds[k]||{h:'',a:''};
@@ -477,18 +560,18 @@ const MCard=({match:m,idx,cid,preds,locked,onPred,onLock,gw})=>{
   );
 };
 
-/* Right Stand */
+/* Right Content (unchanged logic) */
 const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer,tassist,onTop,bpick,kpick,gbpick,onAward})=>{
   if(!ac)return(
     <div style={{padding:'18px 7px',textAlign:'center',color:'rgba(255,255,255,.22)'}}>
-      <div style={{fontSize:'1.8rem',marginBottom:6}}>👆</div>
+      <i class="fas fa-futbol" style={{fontSize:'1.8rem',marginBottom:6}}></i>
       <div style={{fontFamily:'Barlow Condensed',fontSize:'.75rem',letterSpacing:.8}}>Click any jersey on the pitch</div>
     </div>
   );
   const c=COMPS[ac];
   if(c.pos==='FWD-L'){return(
     <div>
-      <div className="ctbar">🏆 {c.name}</div>
+      <div className="ctbar"><i class="fas fa-trophy"></i> {c.name}</div>
       {Object.entries(CHAMP_OPTS).map(([lid,teams])=>(
         <div key={lid} style={{marginBottom:9}}>
           <div style={{fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',marginBottom:3,textTransform:'uppercase'}}>{COMPS[lid]?.short} Winner</div>
@@ -507,16 +590,16 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
   );}
   if(c.pos==='FWD-C'){
     const secs=[
-      {title:"🌟 Ballon d'Or",data:BALLON,k:'ballon',cur:bpick},
-      {title:"⭐ Kopa Trophy",data:KOPA,k:'kopa',cur:kpick},
-      {title:"🥇 Golden Boy",data:GB,k:'gb',cur:gbpick},
+      {title:"Ballon d'Or",data:BALLON,k:'ballon',cur:bpick,icon:"fa-star"},
+      {title:"Kopa Trophy",data:KOPA,k:'kopa',cur:kpick,icon:"fa-medal"},
+      {title:"Golden Boy",data:GB,k:'gb',cur:gbpick,icon:"fa-crown"},
     ];
     return(
       <div>
-        <div className="ctbar">🏅 {c.name}</div>
+        <div className="ctbar"><i class="fas fa-medal"></i> {c.name}</div>
         {secs.map(s=>(
           <div key={s.k} style={{marginBottom:10}}>
-            <div style={{fontFamily:'Barlow Condensed',fontSize:'.65rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',marginBottom:4,textTransform:'uppercase'}}>{s.title}</div>
+            <div style={{fontFamily:'Barlow Condensed',fontSize:'.65rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',marginBottom:4,textTransform:'uppercase'}}><i class={`fas ${s.icon}`}></i> {s.title}</div>
             {s.data.map(p=>(
               <div key={p.n} style={{display:'flex',alignItems:'center',justifyContent:'space-between',
                 padding:'4px 7px',borderRadius:7,marginBottom:3,cursor:'pointer',
@@ -537,8 +620,8 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
   }
   if(c.pos==='FWD-R'){return(
     <div>
-      <div className="ctbar">📊 {c.name}</div>
-      <div style={{fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',marginBottom:4,textTransform:'uppercase'}}>🥅 Top Scorer</div>
+      <div className="ctbar"><i class="fas fa-chart-line"></i> {c.name}</div>
+      <div style={{fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',marginBottom:4,textTransform:'uppercase'}}><i class="fas fa-futbol"></i> Top Scorer</div>
       {TSCORERS.map(p=>(
         <div key={p.n} style={{display:'flex',alignItems:'center',justifyContent:'space-between',
           padding:'4px 7px',borderRadius:7,marginBottom:3,cursor:'pointer',
@@ -547,10 +630,10 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
           onClick={()=>onTop('s',p.n)}>
           <div><div style={{fontFamily:'Barlow Condensed',fontSize:'.73rem',fontWeight:700}}>{p.n}</div>
             <div style={{fontSize:'.58rem',color:'rgba(255,255,255,.42)'}}>{p.lg} · {p.g}g</div></div>
-          {tscorer===p.n&&<span style={{color:'#c8f400',fontSize:'.68rem'}}>✓</span>}
+          {tscorer===p.n&&<span style={{color:'#c8f400',fontSize:'.68rem'}}><i class="fas fa-check-circle"></i></span>}
         </div>
       ))}
-      <div style={{fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',margin:'9px 0 4px',textTransform:'uppercase'}}>🎯 Top Assists</div>
+      <div style={{fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:1.5,color:'rgba(200,244,0,.68)',margin:'9px 0 4px',textTransform:'uppercase'}}><i class="fas fa-hands-helping"></i> Top Assists</div>
       {TASSISTS.map(p=>(
         <div key={p.n} style={{display:'flex',alignItems:'center',justifyContent:'space-between',
           padding:'4px 7px',borderRadius:7,marginBottom:3,cursor:'pointer',
@@ -559,14 +642,14 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
           onClick={()=>onTop('a',p.n)}>
           <div><div style={{fontFamily:'Barlow Condensed',fontSize:'.73rem',fontWeight:700}}>{p.n}</div>
             <div style={{fontSize:'.58rem',color:'rgba(255,255,255,.42)'}}>{p.lg} · {p.a}a</div></div>
-          {tassist===p.n&&<span style={{color:'#c8f400',fontSize:'.68rem'}}>✓</span>}
+          {tassist===p.n&&<span style={{color:'#c8f400',fontSize:'.68rem'}}><i class="fas fa-check-circle"></i></span>}
         </div>
       ))}
     </div>
   );}
   return(
     <div>
-      <div className="ctbar"><FlagSVG nation={c.nation} w={15} h={11}/>{c.name} · GW{gw}</div>
+      <div className="ctbar"><FlagSVG nation={c.nation} w={15} h={11}/> {c.name} · GW{gw}</div>
       <div style={{fontSize:'.58rem',color:'rgba(255,255,255,.32)',fontFamily:'Barlow Condensed',letterSpacing:.8,marginBottom:5}}>
         EXACT 20pts · RESULT±1 14pts · RESULT 10pts · CLOSE 5pts
       </div>
@@ -578,25 +661,25 @@ const RightContent=({ac,preds,locked,onPred,onLock,gw,champPicks,onChamp,tscorer
   );
 };
 
-/* Left Stand */
+/* Left Content (unchanged) */
 const LeftContent=({pts,gw,yc,preds,locked})=>{
   const lc=Object.values(locked).filter(Boolean).length;
   const gwH=[{g:gw-2,p:47},{g:gw-1,p:63},{g:gw,p:12}].filter(x=>x.g>0);
   return(
     <div className="prog-sec">
-      <div className="prog-ttl"><span>⚽</span> MY STATS</div>
-      <div className="spill"><span className="sk">TOTAL POINTS</span><span className="sv">{pts}</span></div>
-      <div className="spill"><span className="sk">GAMEWEEK</span><span className="sv gold">{gw}</span></div>
-      <div className="spill"><span className="sk">PREDICTIONS</span><span className="sv">{Object.keys(preds).length}</span></div>
-      <div className="spill"><span className="sk">LOCKED</span><span className="sv">{lc}</span></div>
-      <div style={{marginTop:7,marginBottom:3,fontFamily:'Barlow Condensed',fontSize:'.6rem',letterSpacing:1.5,color:'rgba(255,215,0,.68)',textTransform:'uppercase'}}>Yellow Cards</div>
+      <div className="prog-ttl"><i class="fas fa-chart-simple"></i> MY STATS</div>
+      <div className="spill"><span className="sk"><i class="fas fa-coins"></i> TOTAL POINTS</span><span className="sv">{pts}</span></div>
+      <div className="spill"><span className="sk"><i class="fas fa-calendar-week"></i> GAMEWEEK</span><span className="sv gold">{gw}</span></div>
+      <div className="spill"><span className="sk"><i class="fas fa-chart-line"></i> PREDICTIONS</span><span className="sv">{Object.keys(preds).length}</span></div>
+      <div className="spill"><span className="sk"><i class="fas fa-lock"></i> LOCKED</span><span className="sv">{lc}</span></div>
+      <div style={{marginTop:7,marginBottom:3,fontFamily:'Barlow Condensed',fontSize:'.6rem',letterSpacing:1.5,color:'rgba(255,215,0,.68)',textTransform:'uppercase'}}><i class="fas fa-square"></i> Yellow Cards</div>
       <div className="ycrow">
         {Array(5).fill(0).map((_,i)=><div key={i} className={`yc${i<yc?' on':''}`}/>)}
         <span style={{marginLeft:4,fontFamily:'Bebas Neue',fontSize:'.88rem',color:yc>=5?'var(--red)':'var(--gold)'}}>{yc}/5</span>
       </div>
-      {yc>=5&&<div style={{marginTop:5,padding:'4px 7px',borderRadius:7,background:'rgba(230,57,70,.13)',border:'1px solid rgba(230,57,70,.38)',fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:.8,color:'var(--red)'}}>⛔ SUSPENDED · Miss next GW</div>}
+      {yc>=5&&<div style={{marginTop:5,padding:'4px 7px',borderRadius:7,background:'rgba(230,57,70,.13)',border:'1px solid rgba(230,57,70,.38)',fontFamily:'Barlow Condensed',fontSize:'.62rem',letterSpacing:.8,color:'var(--red)'}}><i class="fas fa-ban"></i> SUSPENDED · Miss next GW</div>}
       <div style={{marginTop:8}}>
-        <div style={{fontFamily:'Barlow Condensed',fontSize:'.6rem',letterSpacing:1.5,color:'rgba(200,244,0,.58)',marginBottom:3,textTransform:'uppercase'}}>GW History</div>
+        <div style={{fontFamily:'Barlow Condensed',fontSize:'.6rem',letterSpacing:1.5,color:'rgba(200,244,0,.58)',marginBottom:3,textTransform:'uppercase'}}><i class="fas fa-history"></i> GW History</div>
         {gwH.map(h=>(
           <div key={h.g} style={{display:'flex',justifyContent:'space-between',padding:'2px 0',borderBottom:'1px solid rgba(255,255,255,.04)',fontSize:'.6rem'}}>
             <span style={{color:'rgba(255,255,255,.42)',fontFamily:'Barlow Condensed',letterSpacing:.8}}>GW{h.g}</span>
@@ -605,7 +688,7 @@ const LeftContent=({pts,gw,yc,preds,locked})=>{
         ))}
       </div>
       <div style={{marginTop:9,padding:'5px 7px',borderRadius:7,background:'rgba(0,0,0,.38)',border:'1px solid rgba(255,255,255,.05)'}}>
-        <div style={{fontFamily:'Barlow Condensed',fontSize:'.58rem',letterSpacing:1.5,color:'rgba(200,244,0,.55)',marginBottom:2,textTransform:'uppercase'}}>Rank</div>
+        <div style={{fontFamily:'Barlow Condensed',fontSize:'.58rem',letterSpacing:1.5,color:'rgba(200,244,0,.55)',marginBottom:2,textTransform:'uppercase'}}><i class="fas fa-ranking-star"></i> Rank</div>
         <div style={{fontFamily:'Bebas Neue',fontSize:'1rem',color:'#ffd700'}}>
           {pts>200?'⭐ Elite Gaffer':pts>100?'🔥 Senior Gaffer':'🌱 Junior Gaffer'}
         </div>
@@ -614,12 +697,12 @@ const LeftContent=({pts,gw,yc,preds,locked})=>{
   );
 };
 
-/* Comp Picker Modal */
+/* Comp Picker Modal (unchanged) */
 const CompPicker=({count,sel,onToggle,onClose})=>(
   <div className="overlay" onClick={onClose}>
     <div className="modal" onClick={e=>e.stopPropagation()}>
       <div className="mhdr">
-        <div className="mttl">PICK {count} COMPETITIONS</div>
+        <div className="mttl"><i class="fas fa-futbol"></i> PICK {count} COMPETITIONS</div>
         <button className="cbtn" onClick={onClose}>✕</button>
       </div>
       <p style={{fontFamily:'Barlow Condensed',fontSize:'.7rem',color:'rgba(255,255,255,.42)',marginBottom:11,letterSpacing:.4}}>Select {count} competitions ({sel.length}/{count})</p>
@@ -631,12 +714,12 @@ const CompPicker=({count,sel,onToggle,onClose})=>(
           </div>
         ))}
       </div>
-      {sel.length===count&&<button className="nbtn nbtn-a" style={{width:'100%',marginTop:12,padding:'9px'}} onClick={onClose}>✓ Confirm</button>}
+      {sel.length===count&&<button className="nbtn nbtn-a" style={{width:'100%',marginTop:12,padding:'9px'}} onClick={onClose}><i class="fas fa-check"></i> Confirm</button>}
     </div>
   </div>
 );
 
-/* Formation */
+/* Formation - jersey slots */
 const Formation=({ac,onSel,preds,locked,mode,enComps})=>{
   const getAcc=id=>{
     const c=COMPS[id];if(!c||!c.teams.length)return'—';
@@ -669,7 +752,34 @@ const Formation=({ac,onSel,preds,locked,mode,enComps})=>{
   );
 };
 
-/* APP */
+/* YouTube Ad Components */
+const HorizontalAd = () => {
+  return (
+    <div className="ad-video-h">
+      <iframe 
+        src={`https://www.youtube.com/embed/${HORIZONTAL_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${HORIZONTAL_VIDEO_ID}&controls=0&modestbranding=1&rel=0`}
+        title="Horizontal Ad"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  );
+};
+
+const VerticalAd = () => {
+  return (
+    <div className="ad-video-v">
+      <iframe 
+        src={`https://www.youtube.com/embed/${VERTICAL_VIDEO_ID}?autoplay=1&mute=1&loop=1&playlist=${VERTICAL_VIDEO_ID}&controls=0&modestbranding=1&rel=0`}
+        title="Vertical Ad"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      ></iframe>
+    </div>
+  );
+};
+
+/* Main App */
 function App(){
   const [gw,setGw]=useState(32);
   const [ac,setAc]=useState('epl');
@@ -760,113 +870,104 @@ function App(){
   };
 
   return(
-    <div className="stadium">
-      {/* TOP BAR */}
-      <div className="top-bar">
-        <div className="top-row">
-          <div className="brand">⚽ Gaffer's Pick</div>
-          <div className="nav-links">
-            {['Pitch','World Cup','Street','Account'].map(l=>(
-              <button key={l} className={`nbtn ${l==='Pitch'?'nbtn-a':'nbtn-d'}`}>
-                {l==='Pitch'?'🏟️ ':l==='World Cup'?'🌍 ':l==='Street'?'🏙️ ':'👤 '}{l}
+    <div className="stadium-wrapper">
+      <div className="stadium">
+        {/* TOP BAR */}
+        <div className="top-bar">
+          <div className="top-row">
+            <div className="brand"><i class="fas fa-futbol"></i> Gaffer's Pick</div>
+            <div className="nav-links">
+              {['Pitch','World Cup','Street','Account'].map(l=>(
+                <button key={l} className={`nbtn ${l==='Pitch'?'nbtn-a':'nbtn-d'}`}>
+                  {l==='Pitch'?<i class="fas fa-chart-line"></i>:l==='World Cup'?<i class="fas fa-globe"></i>:l==='Street'?<i class="fas fa-city"></i>:<i class="fas fa-user"></i>} {l}
+                </button>
+              ))}
+            </div>
+          </div>
+          <div className="mode-bar">
+            <span className="mode-lbl"><i class="fas fa-gamepad"></i> MODE:</span>
+            {MODES.map(m=>(
+              <button key={m} className={`mbtn ${mode===m?'mbtn-on':'mbtn-off'}`} onClick={()=>handleMode(m)}>
+                {m==='1v1'?'1v1':m==='2v2'?'2v2':m==='5-Aside'?'5⃣':m==='7-Aside'?'7⃣':<><i class="fas fa-users"></i> Full 11</>}
               </button>
             ))}
           </div>
         </div>
-        <div className="mode-bar">
-          <span className="mode-lbl">MODE:</span>
-          {MODES.map(m=>(
-            <button key={m} className={`mbtn ${mode===m?'mbtn-on':'mbtn-off'}`} onClick={()=>handleMode(m)}>
-              {m==='1v1'?'1v1':m==='2v2'?'2v2':m==='5-Aside'?'5⃣':m==='7-Aside'?'7⃣':'🏟️ Full 11'}
-            </button>
-          ))}
+
+        {/* GW ROW */}
+        <div className="gw-row">
+          <div className="wbtn" onClick={()=>handleGW(-1)}>
+            <i class="fas fa-arrow-left"></i>
+            <span className="tip">Prev GW</span>
+          </div>
+          <div className="ref-fig"><div className="rf-head">🧑‍⚖️</div><div className="rf-body">🟨</div><div className="rf-str"/></div>
+          <div className="gw-disp">
+            <i class="fas fa-calendar-alt"></i> GW {gw}
+          </div>
+          <div className="ref-fig"><div className="rf-head">🧑‍⚖️</div><div className="rf-body">📋</div><div className="rf-str"/></div>
+          <div className="wbtn" onClick={()=>handleGW(1)}>
+            <i class="fas fa-arrow-right"></i>
+            <span className="tip">Next GW</span>
+          </div>
+          <div className="wbtn" onClick={()=>handleLock(`test_gw${gw}_0`,'epl')}
+            style={{borderColor:'var(--gold)',color:'var(--gold)'}} title="Test Yellow Card">
+            🟨
+            <span className="tip">Test Card</span>
+          </div>
         </div>
+
+        {/* LEFT STAND with Horizontal Video Ad at top and bottom */}
+        <div className="ss">
+          <div style={{height: '100px', overflow: 'hidden'}}>
+            <HorizontalAd />
+          </div>
+          <div className="ss-inner">
+            <LeftContent pts={pts} gw={gw} yc={yc} preds={preds} locked={locked}/>
+          </div>
+          <div style={{height: '80px', overflow: 'hidden'}}>
+            <HorizontalAd />
+          </div>
+        </div>
+
+        {/* PITCH */}
+        <div className="pitch">
+          <Formation ac={ac} onSel={setAc} preds={preds} locked={locked} mode={mode} enComps={enComps}/>
+        </div>
+
+        {/* RIGHT STAND with Vertical Video Ad */}
+        <div className="ss rs">
+          <div style={{height: '100px', overflow: 'hidden'}}>
+            <HorizontalAd />
+          </div>
+          <div className="rsi">
+            <RightContent ac={ac} preds={preds} locked={locked} onPred={handlePred} onLock={handleLock}
+              gw={gw} champPicks={champPicks} onChamp={(l,t)=>{setChampPicks(p=>({...p,[l]:t}));addToast(`${COMPS[l]?.short} champion: ${t}`);}}
+              tscorer={tscorer} tassist={tassist} onTop={handleTop}
+              bpick={bpick} kpick={kpick} gbpick={gbpick} onAward={handleAward}/>
+          </div>
+          <div style={{height: '80px', overflow: 'hidden'}}>
+            <HorizontalAd />
+          </div>
+        </div>
+
+        {/* BOTTOM */}
+        <div className="bot-strip">
+          <span className="ftxt"><i class="far fa-copyright"></i> Gaffer's Pick 2026 · Predict · Lock · Win</span>
+          <span style={{color:'rgba(200,244,0,.35)',fontSize:'.57rem',fontFamily:'Barlow Condensed',letterSpacing:.8}}>⚡ Designed by Muhia · 0724726032</span>
+        </div>
+
+        {/* FLAGS & TOASTS */}
+        {flags.map(f=><div key={f.id} className="yfl">🚩</div>)}
+        {toasts.map(t=>(
+          <div key={t.id} className="toast" style={{borderColor:t.color,color:t.color}}><i class="fas fa-info-circle"></i> {t.msg}</div>
+        ))}
+
+        {/* PICKER */}
+        {showPicker&&mode!=='Full 11'&&(
+          <CompPicker count={MODE_CNT[mode]} sel={enComps}
+            onToggle={handlePickerToggle} onClose={()=>setShowPicker(false)}/>
+        )}
       </div>
-
-      {/* GW ROW */}
-      <div className="gw-row">
-        <div className="wbtn" onClick={()=>handleGW(-1)}>
-          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2" style={{width:16,height:16}}>
-            <path d="M8 17V11M8 11L5 14M8 11L11 14"/><circle cx="8" cy="8" r="3" fill="currentColor" stroke="none" opacity=".38"/>
-            <path d="M11 8h5l2 3-7 1z" fill="currentColor" stroke="none" opacity=".58"/>
-          </svg>
-          <span className="tip">Prev GW</span>
-        </div>
-        <div className="ref-fig"><div className="rf-head">🧑‍⚖️</div><div className="rf-body">🟨</div><div className="rf-str"/></div>
-        <div className="gw-disp">
-          <svg viewBox="0 0 24 24" fill="none" style={{width:17,height:17}}>
-            <circle cx="12" cy="12" r="10" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M12 2C12 2 9 6 9 12C9 18 12 22 12 22" stroke="currentColor" strokeWidth="1.5"/>
-            <path d="M2 12H22" stroke="currentColor" strokeWidth="1.5"/>
-          </svg>
-          GW {gw}
-        </div>
-        <div className="ref-fig"><div className="rf-head">🧑‍⚖️</div><div className="rf-body">📋</div><div className="rf-str"/></div>
-        <div className="wbtn" onClick={()=>handleGW(1)}>
-          <svg viewBox="0 0 22 22" fill="none" stroke="currentColor" strokeWidth="2" style={{width:16,height:16}}>
-            <path d="M14 17V11M14 11L17 14M14 11L11 14"/><circle cx="14" cy="8" r="3" fill="currentColor" stroke="none" opacity=".38"/>
-            <path d="M11 8H6L4 11l7 1z" fill="currentColor" stroke="none" opacity=".58"/>
-          </svg>
-          <span className="tip">Next GW</span>
-        </div>
-        <div className="wbtn" onClick={()=>handleLock(`test_gw${gw}_0`,'epl')}
-          style={{borderColor:'var(--gold)',color:'var(--gold)',fontSize:'1rem'}} title="Test Yellow Card">
-          🟨
-          <span className="tip">Test Card</span>
-        </div>
-      </div>
-
-      {/* LEFT STAND */}
-      <div className="ss">
-        <SeatDeco rows={2} cols={12}/>
-        <BBV/>
-        <div className="ss-inner">
-          <LeftContent pts={pts} gw={gw} yc={yc} preds={preds} locked={locked}/>
-        </div>
-        <BBH/>
-        <SeatDeco rows={2} cols={12}/>
-      </div>
-
-      {/* PITCH */}
-      <div className="pitch">
-        <BBH/>
-        <Formation ac={ac} onSel={setAc} preds={preds} locked={locked} mode={mode} enComps={enComps}/>
-        <BBH rev/>
-      </div>
-
-      {/* RIGHT STAND */}
-      <div className="ss rs">
-        <SeatDeco rows={2} cols={12}/>
-        <BBV rev right/>
-        <div className="rsi">
-          <RightContent ac={ac} preds={preds} locked={locked} onPred={handlePred} onLock={handleLock}
-            gw={gw} champPicks={champPicks} onChamp={(l,t)=>{setChampPicks(p=>({...p,[l]:t}));addToast(`${COMPS[l]?.short} champion: ${t}`);}}
-            tscorer={tscorer} tassist={tassist} onTop={handleTop}
-            bpick={bpick} kpick={kpick} gbpick={gbpick} onAward={handleAward}/>
-        </div>
-        <BBH rev/>
-        <SeatDeco rows={2} cols={12}/>
-      </div>
-
-      {/* BOTTOM */}
-      <div className="bot-strip">
-        <span className="ftxt">Gaffer's Pick © 2026 · Predict · Lock · Win</span>
-        <span style={{color:'rgba(200,244,0,.35)',fontSize:'.57rem',fontFamily:'Barlow Condensed',letterSpacing:.8}}>Designed by Muhia · 0724726032</span>
-      </div>
-
-      {/* FLAGS */}
-      {flags.map(f=><div key={f.id} className="yfl">🚩</div>)}
-
-      {/* TOASTS */}
-      {toasts.map(t=>(
-        <div key={t.id} className="toast" style={{borderColor:t.color,color:t.color}}>{t.msg}</div>
-      ))}
-
-      {/* PICKER */}
-      {showPicker&&mode!=='Full 11'&&(
-        <CompPicker count={MODE_CNT[mode]} sel={enComps}
-          onToggle={handlePickerToggle} onClose={()=>setShowPicker(false)}/>
-      )}
     </div>
   );
 }
