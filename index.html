@@ -9,12 +9,12 @@
 <style>
 *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
 :root{
-  --lime:#c8f400;--gold:#ffd700;--red:#e63946;
+  --lime:#c8f400;--gold:#ffd700;--red:#e63946;--cyan:#00d4ff;--purple:#9b59b6;
   --bg:#060b10;--border:rgba(255,255,255,.07);
   --text:#e8edf2;--sub:rgba(232,237,242,.48);
   --hd:'Bebas Neue',cursive;--cd:'Barlow Condensed',sans-serif;--bd:'Barlow',sans-serif;
   --seat:#0d2a14;--seat-on:#c8f400;
-  --nav-h:68px;--hdr-h:44px;--gw-h:38px;
+  --nav-h:68px;--hdr-h:46px;--gw-h:40px;
 }
 html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(--text);font-family:var(--bd)}
 #root{width:100%;height:100%}
@@ -22,448 +22,509 @@ html,body{width:100%;height:100%;overflow:hidden;background:var(--bg);color:var(
 ::-webkit-scrollbar-track{background:transparent}
 ::-webkit-scrollbar-thumb{background:rgba(200,244,0,.2);border-radius:3px}
 
-@keyframes sLeft{from{transform:translateX(0)}to{transform:translateX(-100%)}}
-@keyframes sRight{from{transform:translateX(0)}to{transform:translateX(100%)}}
-@keyframes cLeft{from{transform:translateX(-100%)}to{transform:translateX(0)}}
-@keyframes cRight{from{transform:translateX(100%)}to{transform:translateX(0)}}
+/* ANIMATIONS */
+@keyframes sL{from{transform:translateX(0)}to{transform:translateX(-100%)}}
+@keyframes sR{from{transform:translateX(0)}to{transform:translateX(100%)}}
+@keyframes cL{from{transform:translateX(-100%)}to{transform:translateX(0)}}
+@keyframes cR{from{transform:translateX(100%)}to{transform:translateX(0)}}
 @keyframes adH{from{transform:translateX(0)}to{transform:translateX(-50%)}}
 @keyframes adHR{from{transform:translateX(-50%)}to{transform:translateX(0)}}
 @keyframes adV{from{transform:translateY(0)}to{transform:translateY(-50%)}}
 @keyframes adVR{from{transform:translateY(-50%)}to{transform:translateY(0)}}
 @keyframes fadeUp{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
-@keyframes pulse{0%,100%{opacity:.55}50%{opacity:1}}
-@keyframes glow{0%,100%{box-shadow:0 0 5px rgba(200,244,0,.15)}50%{box-shadow:0 0 16px rgba(200,244,0,.45)}}
-@keyframes hdrPulse{0%,100%{text-shadow:0 0 20px rgba(200,244,0,.1)}50%{text-shadow:0 0 40px rgba(200,244,0,.4)}}
-@keyframes ptsUp{0%{opacity:1;transform:translateY(0) scale(1)}100%{opacity:0;transform:translateY(-28px) scale(1.3)}}
+@keyframes fadeIn{from{opacity:0}to{opacity:1}}
+@keyframes pulse{0%,100%{opacity:.5}50%{opacity:1}}
+@keyframes glow{0%,100%{box-shadow:0 0 6px rgba(200,244,0,.15)}50%{box-shadow:0 0 18px rgba(200,244,0,.5)}}
+@keyframes hPulse{0%,100%{text-shadow:0 0 18px rgba(200,244,0,.1)}50%{text-shadow:0 0 36px rgba(200,244,0,.4)}}
+@keyframes pUp{0%{opacity:1;transform:translateY(0)scale(1)}100%{opacity:0;transform:translateY(-32px)scale(1.4)}}
 @keyframes toastIn{from{opacity:0;transform:translate(-50%,10px)}to{opacity:1;transform:translate(-50%,0)}}
-@keyframes toastOut{to{opacity:0;transform:translate(-50%,-6px)}}
-@keyframes gwSlide{from{opacity:0;transform:translateX(20px)}to{opacity:1;transform:translateX(0)}}
-@keyframes ballAnim{0%{left:25%;top:50%}12%{left:42%;top:32%}24%{left:58%;top:44%}36%{left:72%;top:28%}48%{left:85%;top:52%}60%{left:70%;top:68%}72%{left:50%;top:58%}84%{left:34%;top:38%}100%{left:25%;top:50%}}
-@keyframes rainbowScore{0%{color:var(--lime)}50%{color:var(--gold)}100%{color:var(--lime)}}
-@keyframes gwBarFill{from{width:0}to{width:var(--fw)}}
+@keyframes toastOut{to{opacity:0;transform:translate(-50%,-8px)}}
+@keyframes chipShine{0%{background-position:200% center}100%{background-position:-200% center}}
+@keyframes chipPop{0%{transform:scale(1)}50%{transform:scale(1.12)}100%{transform:scale(1)}}
+@keyframes starSpin{from{transform:rotate(0)}to{transform:rotate(360deg)}}
+@keyframes seatWave{0%{background:var(--seat)}50%{background:rgba(200,244,0,.5)}100%{background:var(--seat)}}
+@keyframes ballMove{0%{left:50%;top:50%}20%{left:30%;top:35%}40%{left:65%;top:28%}60%{left:72%;top:62%}80%{left:38%;top:68%}100%{left:50%;top:50%}}
 
 /* ══ LAYOUT ══ */
-.app{display:grid;grid-template-rows:var(--hdr-h) var(--gw-h) 1fr var(--nav-h);height:100vh;overflow:hidden}
+.app{display:grid;grid-template-rows:var(--hdr-h) 1fr var(--nav-h);height:100vh;overflow:hidden}
 
 /* ══ HEADER ══ */
 .hdr{
-  background:linear-gradient(180deg,#03060c,#060f1c);
-  border-bottom:1px solid rgba(200,244,0,.1);
-  display:flex;align-items:center;padding:0 12px;gap:8px;
-  position:relative;z-index:300;
+  background:linear-gradient(180deg,#030710,#06101e);
+  border-bottom:1px solid rgba(200,244,0,.12);
+  display:flex;align-items:center;padding:0 12px;gap:8px;position:relative;z-index:300;
 }
-.brand{font-family:var(--hd);font-size:clamp(1.2rem,2.8vw,1.8rem);letter-spacing:5px;
-  background:linear-gradient(90deg,rgba(255,255,255,.65),var(--lime),rgba(255,255,255,.85),var(--lime));
+.brand{font-family:var(--hd);font-size:clamp(1.2rem,2.6vw,1.75rem);letter-spacing:5px;
+  background:linear-gradient(90deg,rgba(255,255,255,.6),var(--lime),rgba(255,255,255,.9),var(--lime));
   background-size:200%;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
-  animation:hdrPulse 3s ease infinite;flex:1;text-align:center}
+  animation:hPulse 3s ease infinite;flex:1;text-align:center}
 .pts-pill{display:flex;align-items:center;gap:4px;padding:3px 10px;border-radius:40px;
-  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.28)}
+  background:rgba(255,215,0,.08);border:1px solid rgba(255,215,0,.3);flex-shrink:0}
 .pts-v{font-family:var(--hd);font-size:.9rem;color:var(--gold)}
-.pts-l{font-family:var(--cd);font-size:.45rem;color:rgba(255,215,0,.5);letter-spacing:1px}
-.s-tag{font-family:var(--cd);font-size:.46rem;letter-spacing:3px;color:rgba(200,244,0,.35);flex-shrink:0}
-.pts-pop{position:absolute;left:58px;top:50%;transform:translateY(-50%);
-  font-family:var(--hd);font-size:1.3rem;color:var(--lime);
-  animation:ptsUp 1.1s ease forwards;pointer-events:none;z-index:9999}
+.pts-l{font-family:var(--cd);font-size:.44rem;color:rgba(255,215,0,.5);letter-spacing:1px}
+.s-tag{font-family:var(--cd);font-size:.45rem;letter-spacing:3px;color:rgba(200,244,0,.32);flex-shrink:0}
+.pts-pop{position:absolute;left:60px;top:50%;transform:translateY(-50%);
+  font-family:var(--hd);font-size:1.4rem;color:var(--lime);pointer-events:none;z-index:9999;
+  animation:pUp 1.1s ease forwards}
 
-/* ══ GW SCROLL BAR ══ */
+/* ══ GW mini-scroll inside account panel ══ */
+.gw-mini{display:flex;gap:3px;overflow-x:auto;padding:3px 0 5px;scrollbar-width:none;margin-bottom:4px}
+.gw-mini::-webkit-scrollbar{display:none}
+.gw-dot{display:flex;flex-direction:column;align-items:center;flex-shrink:0;
+  padding:3px 5px;border-radius:5px;cursor:pointer;
+  border:1px solid rgba(255,255,255,.06);background:rgba(0,0,0,.38);min-width:34px;transition:all .16s}
+.gw-dot:hover{border-color:rgba(200,244,0,.22)}
+.gw-dot.cur{border-color:var(--lime);background:rgba(200,244,0,.08)}
+.gw-dot-n{font-family:var(--hd);font-size:.62rem;color:var(--sub);line-height:1}
+.gw-dot.cur .gw-dot-n{color:var(--lime)}
+.gw-dot-p{font-family:var(--cd);font-size:.38rem;font-weight:700;line-height:1;margin-top:1px}
+.gw-dot-p.hi{color:var(--gold)}.gw-dot-p.md{color:var(--lime)}.gw-dot-p.lo{color:rgba(255,255,255,.26)}
+.gw-dot-bar{width:100%;height:2px;background:rgba(255,255,255,.06);border-radius:2px;overflow:hidden;margin-top:2px}
+.gw-dot-fill{height:100%;background:linear-gradient(90deg,var(--lime),#90ff00);border-radius:2px}
+
+/* ══ CHIPS COLUMN — left side of pitch, visible only when roof open ══ */
+.chips-col{
+  position:absolute;left:0;top:0;bottom:0;z-index:30;
+  width:clamp(44px,7vw,70px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:clamp(3px,.5vw,7px);padding:4px clamp(3px,.5vw,6px);
+  background:linear-gradient(180deg,rgba(3,8,16,.96),rgba(6,14,26,.92));
+  border-right:1px solid rgba(200,244,0,.08);
+  opacity:0;pointer-events:none;transition:opacity .4s;
+}
+.chips-col.show{opacity:1;pointer-events:all}
+.chip-col-btn{
+  display:flex;flex-direction:column;align-items:center;gap:2px;
+  padding:clamp(4px,.6vw,7px) clamp(3px,.5vw,5px);
+  border-radius:8px;cursor:pointer;border:1px solid;
+  transition:all .2s;width:100%;position:relative;
+}
+.chip-col-btn:hover{transform:translateY(-2px);filter:brightness(1.2)}
+.chip-col-btn.used{opacity:.35;cursor:default;filter:grayscale(.7)}
+.chip-col-icon{font-size:clamp(.9rem,1.6vw,1.3rem);line-height:1}
+.chip-col-code{font-family:var(--hd);font-size:clamp(.28rem,.48vw,.42rem);letter-spacing:.5px;text-align:center;line-height:1.1}
+.chip-col-pts{font-family:var(--hd);font-size:clamp(.22rem,.36vw,.34rem);opacity:.65;text-align:center}
+.chip-col-tip{
+  position:fixed;background:rgba(3,8,18,.97);
+  border-radius:9px;padding:9px 13px;min-width:165px;max-width:205px;
+  z-index:3000;animation:fadeUp .14s ease;pointer-events:none;
+}
+.chip-col-tip .ct-title{font-family:var(--hd);font-size:.9rem;letter-spacing:1.5px;margin-bottom:3px}
+.chip-col-tip .ct-effect{font-family:var(--cd);font-size:.56rem;font-weight:700;margin-bottom:2px}
+.chip-col-tip .ct-desc{font-family:var(--cd);font-size:.5rem;color:var(--sub);line-height:1.4}
+.chip-col-tip .ct-award{font-family:var(--cd);font-size:.46rem;color:rgba(255,215,0,.58);margin-top:4px;font-style:italic}
+
+/* court offset when chips visible */
+.court-inner{position:absolute;inset:0;transition:left .4s;right:0}
+.court-inner.chips-on{left:clamp(44px,7vw,70px)}
 .gwbar{
-  background:linear-gradient(90deg,#04080f,#07111e,#04080f);
+  background:linear-gradient(90deg,#030810,#060f1c,#030810);
   border-bottom:1px solid rgba(200,244,0,.08);
-  display:flex;align-items:center;gap:0;
-  overflow-x:auto;overflow-y:hidden;
-  scrollbar-width:none;position:relative;z-index:290;
-  scroll-behavior:smooth;
+  display:flex;align-items:stretch;overflow-x:auto;overflow-y:hidden;
+  scrollbar-width:none;z-index:290;position:relative;
 }
 .gwbar::-webkit-scrollbar{display:none}
 .gw-item{
   display:flex;flex-direction:column;align-items:center;justify-content:center;
-  flex-shrink:0;padding:3px 8px;cursor:pointer;border-bottom:2px solid transparent;
-  transition:all .2s;min-width:clamp(52px,8vw,80px);gap:1px;
+  flex-shrink:0;padding:2px 7px;cursor:pointer;border-bottom:2px solid transparent;
+  transition:all .18s;min-width:clamp(44px,7vw,64px);gap:0;opacity:.38;
 }
-.gw-item.act{border-bottom-color:var(--lime)}
-.gw-item:hover{background:rgba(200,244,0,.04)}
-.gw-num{font-family:var(--hd);font-size:clamp(.7rem,1.3vw,.9rem);
-  color:var(--sub);letter-spacing:1px}
-.gw-item.act .gw-num{color:var(--lime)}
-.gw-pts{font-family:var(--cd);font-size:clamp(.36rem,.62vw,.5rem);font-weight:700;
-  letter-spacing:.8px}
-.gw-pts.hi{color:var(--gold)}.gw-pts.mid{color:var(--lime)}.gw-pts.lo{color:rgba(255,255,255,.3)}
-.gw-bar-wrap{width:100%;height:2px;background:rgba(255,255,255,.05);border-radius:2px;overflow:hidden;margin-top:1px}
-.gw-bar-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--lime),#90ff00);
-  --fw:0%;animation:gwBarFill .6s ease .1s forwards}
-.gw-sep{width:1px;height:18px;background:rgba(255,255,255,.06);flex-shrink:0;align-self:center}
-.live-pill{display:inline-flex;align-items:center;gap:2px;padding:1px 5px;border-radius:8px;
-  background:rgba(230,57,70,.15);border:1px solid rgba(230,57,70,.35);
-  font-family:var(--cd);font-size:.42rem;font-weight:700;color:var(--red);letter-spacing:.8px}
-.live-dot{width:4px;height:4px;border-radius:50%;background:var(--red);animation:pulse 1s infinite}
+.gw-item:hover{opacity:.7;background:rgba(200,244,0,.03)}
+.gw-item.act{border-bottom-color:var(--lime);opacity:1;background:rgba(200,244,0,.05);min-width:clamp(70px,11vw,96px)}
+.gw-item.done{opacity:.55}
+.gw-num{font-family:var(--hd);font-size:clamp(.62rem,1.1vw,.82rem);color:var(--sub);letter-spacing:1px;line-height:1.1}
+.gw-item.act .gw-num{color:var(--lime);font-size:clamp(.8rem,1.5vw,1.05rem)}
+.gw-pts{font-family:var(--cd);font-size:clamp(.3rem,.52vw,.44rem);font-weight:700;letter-spacing:.5px;line-height:1}
+.gw-pts.hi{color:var(--gold)}.gw-pts.md{color:var(--lime)}.gw-pts.lo{color:rgba(255,255,255,.28)}
+.gw-sep{width:1px;height:14px;background:rgba(255,255,255,.06);flex-shrink:0;align-self:center}
+.live-dot{width:5px;height:5px;border-radius:50%;background:var(--red);animation:pulse 1s infinite;display:inline-block;margin-right:2px}
+.live-tag{font-family:var(--cd);font-size:.4rem;color:var(--red);letter-spacing:.8px;font-weight:700}
 
-/* ══ STADIUM GRID ══ */
+/* ══ STADIUM ══ */
 .stadium{
   display:grid;
-  grid-template-columns: clamp(110px,16vw,200px) clamp(18px,3vw,40px) 1fr clamp(18px,3vw,40px) clamp(110px,16vw,200px);
-  overflow:hidden;position:relative;
+  /* side panels take full width edge-to-edge, stands narrow */
+  grid-template-columns: clamp(120px,17vw,210px) clamp(16px,2.5vw,36px) 1fr clamp(16px,2.5vw,36px) clamp(120px,17vw,210px);
+  overflow:hidden;
 }
 
-/* ══ SIDE PANELS ══ */
-.side-panel{
+/* ══ SIDE PANELS (edge to edge of pitch) ══ */
+.sp{
   display:flex;flex-direction:column;overflow:hidden;
-  background:linear-gradient(180deg,#03070f,#060e18);
-  transition:opacity .35s;
+  background:linear-gradient(180deg,#030810,#06101a);
+  transition:all .4s;
 }
-.side-panel.hide{opacity:0;pointer-events:none}
-.side-panel.l{border-right:1px solid rgba(200,244,0,.07)}
-.side-panel.r{border-left:1px solid rgba(200,244,0,.07)}
+.sp.l{border-right:1px solid rgba(200,244,0,.08)}
+.sp.r{border-left:1px solid rgba(200,244,0,.08)}
 
-/* Top strip of side panels (always visible = account / predictions) */
-.sp-top{
-  flex-shrink:0;overflow-y:auto;overflow-x:hidden;
-  padding:6px 8px;
-  border-bottom:1px solid rgba(200,244,0,.08);
-  max-height:42%;
+/* Side panels always visible, content switches based on roof state */
+.sp.roof-closed{opacity:1;pointer-events:all}
+.sp.roof-open{opacity:1;pointer-events:all}
+
+/* The fixed header strip at top of side panel (account / predictions) */
+.sp-fixed{
+  flex:1;overflow:hidden;
+  display:flex;flex-direction:column;
 }
-/* Bottom strip (only visible when roof is open = stats / results) */
-.sp-bot{
-  flex:1;overflow-y:auto;overflow-x:hidden;
-  padding:6px 8px;
-  transition:opacity .4s,transform .4s;
+/* Stats/results panel underneath — only when roof open */
+.sp-stats{
+  flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 8px;
+  opacity:0;pointer-events:none;transform:translateY(6px);
+  transition:opacity .35s,transform .35s;
 }
-.sp-bot.hide-bot{opacity:0;pointer-events:none;transform:translateY(8px)}
+.sp-stats.show{opacity:1;pointer-events:all;transform:translateY(0)}
+
+/* Seat stand strips — fill edge to pitch, only when roof open */
+.seat-stand{
+  display:flex;flex-direction:column;overflow:hidden;
+  background:linear-gradient(180deg,#040912,#07101e);
+  opacity:0;pointer-events:none;transition:opacity .4s;
+  position:absolute;top:0;bottom:0;
+}
+.seat-stand.show{opacity:1}
+.seat-stand.l{left:0;right:auto;border-right:1px solid rgba(200,244,0,.07)}
+.seat-stand.r{right:0;left:auto;border-left:1px solid rgba(200,244,0,.07)}
+.ss-inner{flex:1;display:flex;flex-direction:column;justify-content:center;padding:3px 2px;gap:1px;overflow:hidden}
+.ss-row{display:flex;gap:1px;justify-content:center}
+.sv{width:clamp(3px,.58vw,5.5px);height:clamp(2.5px,.45vw,4.5px);border-radius:1px;
+  background:var(--seat);flex-shrink:0;transition:background .3s}
+.sv.on{background:var(--seat-on)}
 
 /* ══ STAND COLUMNS ══ */
-.stand{display:flex;flex-direction:column;overflow:hidden;
-  background:linear-gradient(90deg,#040911,#070f1c)}
-.stand.r{background:linear-gradient(270deg,#040911,#070f1c)}
-.stand-seats{flex:1;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:1px;overflow:hidden}
-.stand-row{display:flex;gap:1px;justify-content:center}
-.vs{width:clamp(3px,.6vw,5.5px);height:clamp(2.5px,.45vw,4.5px);border-radius:1px;
+.stand-col{display:flex;flex-direction:column;overflow:hidden;background:linear-gradient(90deg,#040911,#071020)}
+.stand-col.r{background:linear-gradient(270deg,#040911,#071020)}
+.sc-seats{flex:1;display:flex;flex-direction:column;justify-content:center;gap:1px;padding:1px;overflow:hidden}
+.sc-row{display:flex;gap:1px;justify-content:center}
+.scv{width:clamp(3px,.56vw,5px);height:clamp(2px,.42vw,4px);border-radius:1px;
   background:var(--seat);flex-shrink:0;transition:background .3s}
-.vs.on{background:var(--seat-on)}
-.adv-wrap{width:clamp(10px,1.6vw,20px);background:#000;overflow:hidden;flex-shrink:0}
-.adv-inner{display:flex;flex-direction:column;height:200%}
-.adv-inner.go{animation:adV 16s linear infinite}
-.adv-inner.rev{animation:adVR 16s linear infinite}
-.adv-blk{display:flex;align-items:center;justify-content:center;flex-shrink:0;
-  min-height:clamp(22px,3.5vw,48px)}
-.adv-txt{font-family:var(--cd);font-size:clamp(.28rem,.44vw,.4rem);font-weight:900;
+.scv.on{background:var(--seat-on)}
+.adv-w{width:clamp(9px,1.5vw,18px);background:#000;overflow:hidden;flex-shrink:0}
+.adv-i{display:flex;flex-direction:column;height:200%}
+.adv-i.go{animation:adV 15s linear infinite}
+.adv-i.rv{animation:adVR 15s linear infinite}
+.adv-b{display:flex;align-items:center;justify-content:center;flex-shrink:0;min-height:clamp(20px,3.2vw,44px)}
+.adv-t{font-family:var(--cd);font-size:clamp(.26rem,.42vw,.38rem);font-weight:900;
   letter-spacing:2px;text-transform:uppercase;writing-mode:vertical-rl;white-space:nowrap}
 
 /* ══ PITCH COLUMN ══ */
 .pitch-col{display:flex;flex-direction:column;position:relative;overflow:hidden}
-.adh-wrap{flex-shrink:0;background:#000;overflow:hidden;height:clamp(15px,1.9vw,24px)}
-.adh-inner{display:flex;height:100%;width:200%}
-.adh-inner.go{animation:adH 17s linear infinite}
-.adh-inner.rev{animation:adHR 19s linear infinite}
-.adh-blk{display:flex;align-items:center;justify-content:center;height:100%;
-  padding:0 clamp(7px,1.3vw,16px);flex-shrink:0}
-.adh-txt{font-family:var(--cd);font-size:clamp(.38rem,.66vw,.54rem);font-weight:900;
+.adh{flex-shrink:0;background:#000;overflow:hidden;height:clamp(14px,1.8vw,22px);
+  opacity:0;transition:opacity .4s;pointer-events:none}
+.adh.show{opacity:1;pointer-events:all}
+.adh-i{display:flex;height:100%;width:200%}
+.adh-i.go{animation:adH 16s linear infinite}
+.adh-i.rv{animation:adHR 18s linear infinite}
+.adh-b{display:flex;align-items:center;justify-content:center;height:100%;
+  padding:0 clamp(6px,1.2vw,14px);flex-shrink:0}
+.adh-t{font-family:var(--cd);font-size:clamp(.36rem,.62vw,.52rem);font-weight:900;
   letter-spacing:2px;text-transform:uppercase;white-space:nowrap}
-.seat-strip{padding:1px 0;flex-shrink:0}
-.srow{display:flex;gap:1px;padding:0 2px}
-.hs{width:clamp(4px,.72vw,7px);height:clamp(3px,.52vw,5px);border-radius:1px 1px 0 0;
-  background:var(--seat);flex-shrink:0;transition:background .35s}
-.hs.on{background:var(--seat-on)}
 
-/* ══ COURT / FIELD ══ */
-.court{flex:1;position:relative;overflow:hidden}
-
-/* Football */
+/* ══ COURT ══ */
+.court{position:absolute;inset:0}
 .court.football{background:repeating-linear-gradient(180deg,#1d7a30 0,#1d7a30 38px,#198228 38px,#198228 76px)}
-/* Basketball */
-.court.basketball{background:linear-gradient(180deg,#c8500a,#a8400a)}
-/* American Football */
-.court.american{background:repeating-linear-gradient(90deg,#2e7d32 0,#2e7d32 58px,#256726 58px,#256726 116px)}
-/* Baseball */
-.court.baseball{background:radial-gradient(ellipse 85% 85% at 50% 100%,#6b8f3c 0%,#4a6b2a 60%,#8b5e3c 60%,#7a4f30 100%)}
-/* Tennis */
+.court.basketball{background:linear-gradient(180deg,#c4500a,#a84009)}
+.court.american{background:repeating-linear-gradient(90deg,#2e7d32 0,#2e7d32 56px,#256726 56px,#256726 112px)}
+.court.baseball{background:radial-gradient(ellipse 85% 85% at 50% 100%,#6b8f3c,#4a6b2a 58%,#8b5e3c 58%,#7a4f30)}
 .court.tennis{background:linear-gradient(180deg,#2e8b57,#236b43)}
-/* Rugby */
 .court.rugby{background:repeating-linear-gradient(180deg,#1d7a30 0,#1d7a30 40px,#198228 40px,#198228 80px)}
-/* Cricket */
-.court.cricket{background:radial-gradient(ellipse 100% 80% at 50% 50%,#4a7c2f 0%,#3a6422 100%)}
-/* Ice Hockey */
-.court.hockey{background:linear-gradient(180deg,#cce8f4,#b8d8e8)}
-/* Golf */
-.court.golf{background:radial-gradient(ellipse 100% 80% at 50% 100%,#2e7d32 0%,#1b5e20 100%)}
-
+.court.cricket{background:radial-gradient(ellipse 100% 80% at 50% 50%,#4a7c2f,#3a6422)}
+.court.hockey{background:linear-gradient(180deg,#cce8f4,#b8d4e8)}
 .court::after{content:'';position:absolute;inset:0;z-index:2;pointer-events:none;
-  background:radial-gradient(ellipse 85% 75% at 50% 50%,transparent 25%,rgba(0,0,0,.48) 100%)}
-
-/* Court SVGs */
+  background:radial-gradient(ellipse 86% 76% at 50% 50%,transparent 22%,rgba(0,0,0,.5) 100%)}
 .court-svg{position:absolute;inset:0;width:100%;height:100%;z-index:3;pointer-events:none}
 
-/* Formation / players */
-.formation{position:absolute;inset:0;z-index:10;display:flex;flex-direction:column;
-  align-items:center;justify-content:space-around;padding:3% 5%}
-.f-row{display:flex;justify-content:center;gap:clamp(5px,1.5vw,20px);width:100%}
-.pdot-wrap{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer}
-.pdot{width:clamp(18px,3.2vw,32px);height:clamp(18px,3.2vw,32px);border-radius:50%;
+/* Player dots */
+.pdot-w{display:flex;flex-direction:column;align-items:center;gap:1px;cursor:pointer;position:relative}
+.pdot{width:clamp(16px,2.8vw,30px);height:clamp(16px,2.8vw,30px);border-radius:50%;
   display:flex;align-items:center;justify-content:center;border:2px solid rgba(255,255,255,.28);
-  font-family:var(--cd);font-size:clamp(.38rem,.7vw,.6rem);font-weight:900;
-  transition:transform .18s;cursor:pointer}
-.pdot:hover{transform:scale(1.18)}
+  font-family:var(--cd);font-size:clamp(.34rem,.62vw,.54rem);font-weight:900;transition:transform .16s;cursor:pointer}
+.pdot:hover{transform:scale(1.2)}
 .pdot.hm{background:linear-gradient(145deg,#3D195B,#2a0f3e);color:#fff}
 .pdot.aw{background:linear-gradient(145deg,#c22e1c,#8a1f12);color:#fff}
-.pdot.nba-hm{background:linear-gradient(145deg,#17408B,#0d2a5c);color:#fff}
-.pdot.nba-aw{background:linear-gradient(145deg,#C9082A,#8a0520);color:#fff}
-.pdot.nfl-hm{background:linear-gradient(145deg,#013369,#011f40);color:#fff}
-.pdot.nfl-aw{background:linear-gradient(145deg,#D50A0A,#8a0507);color:#fff}
-.pdot.yellow{border-color:var(--gold)!important;box-shadow:0 0 8px rgba(255,215,0,.6)}
-.p-nm{font-family:var(--cd);font-size:clamp(.28rem,.5vw,.44rem);font-weight:700;
-  color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.9);background:rgba(0,0,0,.65);
-  padding:1px 3px;border-radius:2px;text-align:center;white-space:nowrap;max-width:42px;overflow:hidden;text-overflow:ellipsis}
-.p-rat{font-family:var(--hd);font-size:clamp(.28rem,.52vw,.44rem);
-  padding:1px 3px;border-radius:2px;margin-top:1px;display:block;text-align:center}
-.r9{background:rgba(200,244,0,.92);color:#000}
-.r8{background:rgba(46,204,113,.88);color:#000}
-.r7{background:rgba(255,215,0,.88);color:#000}
-.r6{background:rgba(255,165,0,.85);color:#000}
-.r5{background:rgba(230,57,70,.85);color:#fff}
+.pdot.nb-h{background:linear-gradient(145deg,#17408B,#0d2a5c);color:#fff}
+.pdot.nb-a{background:linear-gradient(145deg,#C9082A,#8a0520);color:#fff}
+.pdot.nf-h{background:linear-gradient(145deg,#013369,#011f40);color:#fff}
+.pdot.nf-a{background:linear-gradient(145deg,#D50A0A,#8a0507);color:#fff}
+.pdot.y{border-color:var(--gold)!important;box-shadow:0 0 7px rgba(255,215,0,.55)}
+.p-nm{font-family:var(--cd);font-size:clamp(.26rem,.46vw,.4rem);font-weight:700;
+  color:#fff;text-shadow:0 1px 3px rgba(0,0,0,.95);background:rgba(0,0,0,.68);
+  padding:1px 3px;border-radius:2px;text-align:center;white-space:nowrap;max-width:40px;overflow:hidden;text-overflow:ellipsis}
+.p-rt{font-family:var(--hd);font-size:clamp(.26rem,.46vw,.4rem);padding:1px 3px;border-radius:2px;margin-top:1px;text-align:center}
+.rA{background:rgba(200,244,0,.92);color:#000}.rB{background:rgba(46,204,113,.88);color:#000}
+.rC{background:rgba(255,215,0,.88);color:#000}.rD{background:rgba(255,140,0,.85);color:#000}.rF{background:rgba(230,57,70,.85);color:#fff}
 
 /* Ball */
-.sim-ball{position:absolute;width:clamp(9px,1.6vw,16px);height:clamp(9px,1.6vw,16px);
+.sim-ball{position:absolute;width:clamp(8px,1.4vw,15px);height:clamp(8px,1.4vw,15px);
   border-radius:50%;background:radial-gradient(circle at 35% 35%,#fff,#ccc);
-  border:1.5px solid rgba(0,0,0,.4);z-index:20;transition:left 1.4s ease,top 1.4s ease;
-  box-shadow:0 2px 8px rgba(0,0,0,.7);pointer-events:none}
+  border:1.5px solid rgba(0,0,0,.35);z-index:22;transition:left 1.5s ease,top 1.5s ease;
+  box-shadow:0 2px 7px rgba(0,0,0,.7);pointer-events:none}
 
 /* Stats HUD */
-.stats-hud{position:absolute;top:5px;left:50%;transform:translateX(-50%);
-  z-index:25;background:rgba(0,0,0,.85);border:1px solid rgba(200,244,0,.18);
-  border-radius:8px;padding:4px 8px;min-width:clamp(130px,20vw,190px);pointer-events:none}
-.hud-score{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:3px}
-.hud-team{font-family:var(--cd);font-size:clamp(.5rem,.88vw,.7rem);font-weight:700}
-.hud-num{font-family:var(--hd);font-size:clamp(.9rem,1.6vw,1.3rem);
-  color:var(--lime);padding:0 5px}
-.hud-time{font-family:var(--cd);font-size:clamp(.38rem,.6vw,.5rem);text-align:center;
-  letter-spacing:1px;margin-bottom:2px}
-.stat-bar-row{display:flex;align-items:center;gap:3px;margin-bottom:2px}
-.sb-val{font-family:var(--hd);font-size:clamp(.36rem,.6vw,.5rem);min-width:14px}
-.sb-val.h{color:var(--lime);text-align:right}
-.sb-val.a{color:#f54029;text-align:left}
-.sb-lbl{font-family:var(--cd);font-size:clamp(.3rem,.5vw,.42rem);color:var(--sub);
-  min-width:32px;text-align:center}
-.sb-track{flex:1;height:2.5px;background:rgba(255,255,255,.08);border-radius:3px;overflow:hidden}
-.sb-fill{height:100%;border-radius:3px}
-.sb-fill.h{background:var(--lime)}
-.sb-fill.a{background:#f54029;float:right}
+.hud{position:absolute;top:5px;left:50%;transform:translateX(-50%);
+  z-index:25;background:rgba(0,0,0,.88);border:1px solid rgba(200,244,0,.16);
+  border-radius:8px;padding:4px 8px;min-width:clamp(120px,18vw,175px);pointer-events:none}
+.hud-sc{display:flex;align-items:center;justify-content:center;gap:6px;margin-bottom:2px}
+.hud-tn{font-family:var(--cd);font-size:clamp(.46rem,.8vw,.65rem);font-weight:700}
+.hud-num{font-family:var(--hd);font-size:clamp(.85rem,1.5vw,1.2rem);color:var(--lime);padding:0 4px}
+.hud-t{font-family:var(--cd);font-size:clamp(.34rem,.56vw,.48rem);text-align:center;letter-spacing:1px;margin-bottom:2px}
+.sbr{display:flex;align-items:center;gap:2px;margin-bottom:2px}
+.sbv{font-family:var(--hd);font-size:clamp(.32rem,.54vw,.46rem);min-width:13px}
+.sbv.h{color:var(--lime);text-align:right}.sbv.a{color:#f54029}
+.sb-l{font-family:var(--cd);font-size:clamp(.28rem,.46vw,.38rem);color:var(--sub);min-width:28px;text-align:center}
+.sb-tk{flex:1;height:2px;background:rgba(255,255,255,.07);border-radius:3px;overflow:hidden}
+.sb-f{height:100%;border-radius:3px}
+.sb-f.h{background:var(--lime)}.sb-f.a{background:#f54029}
 
 /* Events */
-.ev-feed{position:absolute;bottom:6px;left:50%;transform:translateX(-50%);
-  z-index:25;display:flex;flex-direction:column;gap:2px;align-items:center;
-  pointer-events:none;width:78%}
-.ev-item{font-family:var(--cd);font-size:clamp(.42rem,.7vw,.58rem);font-weight:700;
-  padding:2px 9px;border-radius:18px;background:rgba(0,0,0,.9);
-  border:1px solid rgba(200,244,0,.3);color:var(--lime);
-  animation:fadeUp .25s ease;white-space:nowrap;letter-spacing:.8px}
-.ev-item.goal{border-color:var(--gold);color:var(--gold)}
-.ev-item.card{border-color:var(--red);color:var(--red)}
+.ev-feed{position:absolute;bottom:5px;left:50%;transform:translateX(-50%);
+  z-index:26;display:flex;flex-direction:column;gap:2px;align-items:center;pointer-events:none;width:75%}
+.ev-i{font-family:var(--cd);font-size:clamp(.4rem,.65vw,.54rem);font-weight:700;
+  padding:2px 8px;border-radius:16px;background:rgba(0,0,0,.92);
+  border:1px solid rgba(200,244,0,.28);color:var(--lime);animation:fadeUp .2s ease;
+  white-space:nowrap;letter-spacing:.7px}
+.ev-i.goal{border-color:var(--gold);color:var(--gold)}
+.ev-i.card{border-color:var(--red);color:var(--red)}
 
 /* Player tooltip */
-.p-tip{position:fixed;z-index:9999;background:rgba(0,0,0,.96);
-  border:1px solid rgba(200,244,0,.28);border-radius:7px;padding:7px 11px;
-  min-width:120px;pointer-events:none;animation:fadeUp .12s ease}
-.pt-n{font-family:var(--hd);font-size:.85rem;color:var(--lime)}
-.pt-r{font-family:var(--cd);font-size:.5rem;color:var(--sub);margin-bottom:3px}
-.pt-row{display:flex;justify-content:space-between;font-family:var(--cd);
-  font-size:.54rem;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.05)}
-.pt-row:last-child{border:none}
-.pt-k{color:var(--sub)}.pt-v{color:var(--lime);font-weight:700}
+.ptip{position:fixed;z-index:9999;background:rgba(0,0,0,.97);
+  border:1px solid rgba(200,244,0,.26);border-radius:7px;padding:7px 11px;
+  min-width:115px;pointer-events:none;animation:fadeUp .12s ease}
+.ptip-n{font-family:var(--hd);font-size:.82rem;color:var(--lime)}
+.ptip-r{font-family:var(--cd);font-size:.48rem;color:var(--sub);margin-bottom:3px}
+.ptip-row{display:flex;justify-content:space-between;font-family:var(--cd);
+  font-size:.52rem;padding:2px 0;border-bottom:1px solid rgba(255,255,255,.04)}
+.ptip-row:last-child{border:none}
+.ptip-k{color:var(--sub)}.ptip-v{color:var(--lime);font-weight:700}
 
 /* ══ ROOF ══ */
 .roof{position:absolute;inset:0;z-index:50;display:flex;pointer-events:none}
-.roof-l,.roof-r{
-  width:50%;height:100%;will-change:transform;
-  display:flex;flex-direction:column;overflow:hidden;pointer-events:all}
-.roof-l{background:linear-gradient(135deg,#040b14,#0a1825);
-  border-right:2px solid rgba(200,244,0,.1)}
-.roof-r{background:linear-gradient(225deg,#040b14,#0a1825);
-  border-left:2px solid rgba(200,244,0,.1)}
-.roof.opening .roof-l{animation:sLeft .6s cubic-bezier(.77,0,.18,1) forwards}
-.roof.opening .roof-r{animation:sRight .6s cubic-bezier(.77,0,.18,1) forwards}
-.roof.closing .roof-l{animation:cLeft .5s cubic-bezier(.77,0,.18,1) forwards}
-.roof.closing .roof-r{animation:cRight .5s cubic-bezier(.77,0,.18,1) forwards}
+.roof-l,.roof-r{width:50%;height:100%;will-change:transform;display:flex;flex-direction:column;overflow:hidden;pointer-events:all}
+.roof-l{background:linear-gradient(160deg,#040b14,#091522);border-right:2px solid rgba(200,244,0,.1)}
+.roof-r{background:linear-gradient(200deg,#040b14,#091522);border-left:2px solid rgba(200,244,0,.1)}
+.roof.opening .roof-l{animation:sL .6s cubic-bezier(.77,0,.18,1) forwards}
+.roof.opening .roof-r{animation:sR .6s cubic-bezier(.77,0,.18,1) forwards}
+.roof.closing .roof-l{animation:cL .5s cubic-bezier(.77,0,.18,1) forwards}
+.roof.closing .roof-r{animation:cR .5s cubic-bezier(.77,0,.18,1) forwards}
 .roof.closed .roof-l,.roof.closed .roof-r{transform:translateX(0)}
 .roof.opened .roof-l{transform:translateX(-100%)}
 .roof.opened .roof-r{transform:translateX(100%)}
 
-/* Roof top strip (always visible = account | predictions) */
-.roof-top{flex-shrink:0;overflow-y:auto;overflow-x:hidden;padding:5px 8px;
-  border-bottom:1px solid rgba(200,244,0,.1);max-height:44%}
-/* Roof seat strip */
-.roof-seats{flex-shrink:0;background:#040c16;padding:1px 0;
-  border-bottom:1px solid rgba(200,244,0,.05)}
-.roof-seats.bot{border-bottom:none;border-top:1px solid rgba(200,244,0,.05)}
-/* Roof bottom panel (ads + stats/results — only when open, slides with panel) */
-.roof-bot{flex:1;display:flex;flex-direction:column;overflow:hidden}
-/* Ads INSIDE roof — only visible when roof is open (they slide with it) */
-.roof-ad{height:clamp(14px,1.8vw,22px);background:#000;overflow:hidden;flex-shrink:0}
-.roof-ad .adh-inner{font-size:clamp(.34rem,.56vw,.48rem)}
-.roof-panel{flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 8px;
-  background:linear-gradient(180deg,rgba(5,10,20,.96),rgba(8,16,28,.94))}
+/* Roof panels */
+.roof-pane{flex:1;overflow-y:auto;overflow-x:hidden;padding:6px 8px;
+  background:linear-gradient(180deg,rgba(4,9,18,.97),rgba(7,14,26,.95))}
+/* Ads inside roof — slide with it, visible only when open */
+.roof-adh{flex-shrink:0;background:#000;overflow:hidden;height:clamp(13px,1.7vw,20px)}
+.roof-adh-i{display:flex;height:100%;width:200%}
+.roof-adh-i.go{animation:adH 13s linear infinite}
+.roof-adh-i.rv{animation:adHR 14s linear infinite}
+/* Seat strips inside roof */
+.roof-ss{flex-shrink:0;background:#040c17;padding:1px 0;border-bottom:1px solid rgba(200,244,0,.04)}
+.roof-ss.bt{border-bottom:none;border-top:1px solid rgba(200,244,0,.04)}
+.rhs{display:flex;gap:1px;padding:0 1px}
+.rh{width:clamp(3.5px,.62vw,6px);height:clamp(2.5px,.46vw,4.5px);border-radius:1px 1px 0 0;
+  background:var(--seat);flex-shrink:0;transition:background .32s}
+.rh.on{background:var(--seat-on)}
 
 /* Roof toggle */
 .roof-tog{
-  position:absolute;bottom:7px;left:50%;transform:translateX(-50%);
-  z-index:60;display:flex;align-items:center;gap:5px;
-  padding:4px 13px;border-radius:40px;
-  background:rgba(0,0,0,.82);border:1.5px solid rgba(200,244,0,.38);
-  color:var(--lime);font-family:var(--cd);font-size:.6rem;font-weight:700;
-  letter-spacing:1.5px;cursor:pointer;backdrop-filter:blur(8px);pointer-events:all;
-  transition:all .18s;
+  position:absolute;bottom:6px;left:50%;transform:translateX(-50%);z-index:60;
+  display:flex;align-items:center;gap:4px;padding:4px 12px;border-radius:40px;
+  background:rgba(0,0,0,.85);border:1.5px solid rgba(200,244,0,.38);
+  color:var(--lime);font-family:var(--cd);font-size:.58rem;font-weight:700;letter-spacing:1.4px;
+  cursor:pointer;backdrop-filter:blur(8px);pointer-events:all;transition:all .16s;
 }
-.roof-tog:hover{background:rgba(200,244,0,.12)}
+.roof-tog:hover{background:rgba(200,244,0,.1);border-color:var(--lime)}
 
 /* ══ NAV ══ */
-.nav{background:linear-gradient(0deg,#030810,#07111e);border-top:1px solid rgba(200,244,0,.1);
+.nav{background:linear-gradient(0deg,#030810,#06111e);border-top:1px solid rgba(200,244,0,.1);
   display:grid;grid-template-columns:1fr 1fr 1fr 1fr 1fr;z-index:300}
 .nb{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:1px;cursor:pointer;border:none;background:transparent;
-  border-top:2px solid transparent;padding:3px 4px;color:var(--text);position:relative;overflow:hidden}
+  border-top:2px solid transparent;padding:3px 4px;color:var(--text)}
 .nb.act,.nb:hover{border-top-color:var(--lime)}
-.nb .ni{font-size:clamp(.78rem,1.6vw,1rem);filter:grayscale(1)opacity(.4);transition:filter .18s}
+.nb .ni{font-size:clamp(.74rem,1.5vw,.96rem);filter:grayscale(1)opacity(.38);transition:filter .16s}
 .nb.act .ni,.nb:hover .ni{filter:grayscale(0)opacity(1)}
-.nb .nl{font-family:var(--cd);font-size:clamp(.3rem,.56vw,.46rem);font-weight:700;
-  letter-spacing:.7px;text-transform:uppercase;color:var(--sub);white-space:nowrap;max-width:50px;overflow:hidden;text-overflow:ellipsis}
+.nb .nl{font-family:var(--cd);font-size:clamp(.28rem,.52vw,.44rem);font-weight:700;
+  letter-spacing:.7px;text-transform:uppercase;color:var(--sub);white-space:nowrap;max-width:48px;overflow:hidden;text-overflow:ellipsis}
 .nb.act .nl{color:var(--lime)}
-.nb .ns{font-family:var(--cd);font-size:clamp(.25rem,.44vw,.38rem);color:rgba(200,244,0,.35)}
+.nb .ns{font-family:var(--cd);font-size:clamp(.24rem,.42vw,.36rem);color:rgba(200,244,0,.32)}
 .ctr-nb{display:flex;flex-direction:column;align-items:center;justify-content:center;
   gap:1px;cursor:pointer;border:none;border-top:2px solid var(--lime);
-  background:radial-gradient(circle at 40% 35%,rgba(200,244,0,.18),rgba(0,0,0,.5));
+  background:radial-gradient(circle at 40% 35%,rgba(200,244,0,.2),rgba(0,0,0,.5));
   padding:3px 4px;color:var(--text)}
-.ctr-ball{font-size:clamp(1.1rem,2.1vw,1.45rem);display:block;line-height:1.1}
-.ctr-lbl{font-family:var(--cd);font-size:clamp(.3rem,.56vw,.46rem);font-weight:900;
-  letter-spacing:1.5px;text-transform:uppercase;color:var(--lime)}
+.ctr-b{font-size:clamp(1rem,2vw,1.4rem);display:block;line-height:1.1}
+.ctr-l{font-family:var(--cd);font-size:clamp(.28rem,.52vw,.44rem);font-weight:900;letter-spacing:1.4px;text-transform:uppercase;color:var(--lime)}
 
 /* ══ POPUP ══ */
 .pop-bg{position:fixed;inset:0;z-index:1999}
-.pop{position:fixed;bottom:calc(var(--nav-h) + 3px);
-  background:linear-gradient(145deg,#0c1929,#060f1a);
-  border:1px solid rgba(200,244,0,.22);border-radius:9px;
-  z-index:2000;overflow:hidden;min-width:148px;max-height:250px;overflow-y:auto;
-  animation:fadeUp .14s ease;box-shadow:0 -4px 22px rgba(0,0,0,.75)}
-.pop-item{padding:6px 12px;font-family:var(--cd);font-size:.65rem;font-weight:700;
-  letter-spacing:.7px;cursor:pointer;display:flex;align-items:center;gap:6px;
-  transition:background .13s;border-bottom:1px solid rgba(255,255,255,.04);color:var(--sub)}
-.pop-item:last-child{border:none}
-.pop-item:hover{background:rgba(200,244,0,.07);color:var(--lime)}
-.pop-item.sel{background:rgba(200,244,0,.11);color:var(--lime);border-left:2px solid var(--lime);padding-left:10px}
-.pop-sub{font-family:var(--cd);font-size:.44rem;color:rgba(255,255,255,.28);display:block;margin-top:1px}
+.pop{position:fixed;bottom:calc(var(--nav-h)+2px);
+  background:linear-gradient(145deg,#0b1827,#060e1a);
+  border:1px solid rgba(200,244,0,.2);border-radius:9px;
+  z-index:2000;overflow:hidden;min-width:145px;max-height:245px;overflow-y:auto;
+  animation:fadeUp .13s ease;box-shadow:0 -4px 20px rgba(0,0,0,.78)}
+.pop-i{padding:6px 11px;font-family:var(--cd);font-size:.63rem;font-weight:700;
+  letter-spacing:.6px;cursor:pointer;display:flex;align-items:center;gap:6px;
+  transition:background .12s;border-bottom:1px solid rgba(255,255,255,.04);color:var(--sub)}
+.pop-i:last-child{border:none}
+.pop-i:hover{background:rgba(200,244,0,.07);color:var(--lime)}
+.pop-i.sel{background:rgba(200,244,0,.1);color:var(--lime);border-left:2px solid var(--lime);padding-left:9px}
+.pop-s{font-family:var(--cd);font-size:.42rem;color:rgba(255,255,255,.28);display:block;margin-top:1px}
 
 /* ══ PANEL CONTENT ══ */
-.sec-hd{font-family:var(--cd);font-size:.6rem;font-weight:700;letter-spacing:2px;
+.sec-h{font-family:var(--cd);font-size:.58rem;font-weight:700;letter-spacing:2px;
   text-transform:uppercase;color:var(--lime);display:flex;align-items:center;gap:4px;
-  border-bottom:1px solid rgba(200,244,0,.1);padding-bottom:3px;margin-bottom:4px}
-.divider{height:1px;background:linear-gradient(90deg,transparent,rgba(200,244,0,.1),transparent);margin:4px 0}
+  border-bottom:1px solid rgba(200,244,0,.1);padding-bottom:3px;margin-bottom:4px;flex-shrink:0}
+.div-line{height:1px;background:linear-gradient(90deg,transparent,rgba(200,244,0,.1),transparent);margin:4px 0}
 
-/* Account panel */
-.acc-hdr{background:rgba(0,0,0,.5);border:1px solid rgba(200,244,0,.14);
-  border-radius:7px;padding:6px 7px;margin-bottom:4px;display:flex;align-items:center;gap:7px}
-.acc-ava{width:28px;height:28px;border-radius:50%;background:linear-gradient(135deg,#c8f400,#90ff00);
-  display:flex;align-items:center;justify-content:center;font-size:.9rem;flex-shrink:0}
-.acc-name{font-family:var(--hd);font-size:.85rem;color:var(--lime);letter-spacing:1px}
-.acc-sub{font-family:var(--cd);font-size:.46rem;color:var(--sub)}
-.metric-g{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:4px}
-.metric-c{background:rgba(0,0,0,.45);border:1px solid var(--border);border-radius:6px;padding:4px 3px;text-align:center}
-.mc-v{font-family:var(--hd);font-size:.9rem;color:var(--lime)}
-.mc-l{font-family:var(--cd);font-size:.44rem;color:var(--sub);letter-spacing:.7px}
-.lb-row{display:flex;align-items:center;gap:4px;padding:3px 5px;border-radius:5px;
-  margin-bottom:2px;background:rgba(0,0,0,.3);border:1px solid transparent;cursor:pointer}
-.lb-row.me{border-color:rgba(200,244,0,.32);background:rgba(200,244,0,.06)}
-.lb-pos{font-family:var(--hd);font-size:.8rem;color:var(--sub);min-width:13px}
-.lb-pos.top{color:var(--gold)}
-.lb-nm{font-family:var(--cd);font-size:.64rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.lb-p{font-family:var(--hd);font-size:.8rem;color:var(--lime)}
-.lb-d{font-family:var(--cd);font-size:.46rem;min-width:18px;text-align:right}
+/* Account */
+.acc-card{background:rgba(0,0,0,.5);border:1px solid rgba(200,244,0,.14);border-radius:8px;padding:6px 7px;margin-bottom:4px}
+.acc-row{display:flex;align-items:center;gap:7px;margin-bottom:5px}
+.acc-av{width:26px;height:26px;border-radius:50%;background:linear-gradient(135deg,#c8f400,#7fc000);
+  display:flex;align-items:center;justify-content:center;font-size:.85rem;flex-shrink:0}
+.acc-n{font-family:var(--hd);font-size:.82rem;color:var(--lime);letter-spacing:1px}
+.acc-s{font-family:var(--cd);font-size:.44rem;color:var(--sub)}
+.mg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:2px;margin-bottom:4px}
+.mc{background:rgba(0,0,0,.45);border:1px solid var(--border);border-radius:5px;padding:4px 3px;text-align:center}
+.mc-v{font-family:var(--hd);font-size:.88rem;color:var(--lime)}
+.mc-l{font-family:var(--cd);font-size:.42rem;color:var(--sub);letter-spacing:.6px}
+.lb-r{display:flex;align-items:center;gap:4px;padding:3px 5px;border-radius:5px;
+  margin-bottom:2px;background:rgba(0,0,0,.32);border:1px solid transparent}
+.lb-r.me{border-color:rgba(200,244,0,.3);background:rgba(200,244,0,.05)}
+.lb-p{font-family:var(--hd);font-size:.76rem;color:var(--sub);min-width:12px}
+.lb-p.top{color:var(--gold)}
+.lb-n{font-family:var(--cd);font-size:.6rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.lb-pt{font-family:var(--hd);font-size:.76rem;color:var(--lime)}
+.lb-d{font-family:var(--cd);font-size:.44rem;min-width:16px;text-align:right}
 .lb-d.up{color:#2ecc71}.lb-d.dn{color:var(--red)}
 
-/* Predictions panel (right top) */
-.match-pred{background:rgba(0,0,0,.44);border:1px solid var(--border);border-radius:7px;
-  padding:5px 7px;margin-bottom:3px;cursor:pointer;transition:all .16s;animation:fadeUp .2s ease}
-.match-pred:hover,.match-pred.act{border-color:rgba(200,244,0,.28);background:rgba(200,244,0,.05)}
-.mp-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:4px}
-.mp-time{font-family:var(--hd);font-size:.65rem}
-.mp-time.live{color:var(--red);animation:pulse 1.5s infinite}
-.mp-teams{display:flex;align-items:center;justify-content:space-between;gap:3px;margin-bottom:4px}
-.mp-tnm{font-family:var(--cd);font-size:.62rem;font-weight:700;flex:1;
-  white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.mp-tnm.aw{text-align:right}
-.mp-score{font-family:var(--hd);font-size:1rem;color:var(--lime);
+/* Predictions */
+.mp{background:rgba(0,0,0,.44);border:1px solid var(--border);border-radius:7px;
+  padding:5px 7px;margin-bottom:3px;cursor:pointer;transition:all .16s;animation:fadeUp .18s ease}
+.mp:hover,.mp.act{border-color:rgba(200,244,0,.28);background:rgba(200,244,0,.04)}
+.mp-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
+.mp-t{font-family:var(--hd);font-size:.62rem;color:var(--sub)}
+.mp-t.lv{color:var(--red);animation:pulse 1.5s infinite}
+.mp-tm{display:flex;align-items:center;justify-content:space-between;gap:3px;margin-bottom:4px}
+.mp-tn{font-family:var(--cd);font-size:.6rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.mp-tn.aw{text-align:right}
+.mp-sc{font-family:var(--hd);font-size:.95rem;color:var(--lime);
   padding:2px 5px;background:rgba(0,0,0,.55);border-radius:4px;
-  border:1px solid rgba(200,244,0,.18);flex-shrink:0}
-.mp-score.live{animation:glow 2s infinite}
-.pred-row{display:flex;align-items:center;justify-content:space-between;gap:4px}
-.pred-inps{display:flex;align-items:center;gap:2px}
-.pred-lbl{font-family:var(--cd);font-size:.44rem;color:rgba(200,244,0,.45);letter-spacing:.8px}
-.sinp{width:24px;height:22px;border-radius:4px;background:rgba(0,0,0,.7);
-  border:1.5px solid rgba(255,255,255,.14);color:var(--lime);text-align:center;
-  font-family:var(--hd);font-size:.82rem;outline:none}
+  border:1px solid rgba(200,244,0,.16);flex-shrink:0}
+.mp-sc.lv{animation:glow 2s infinite}
+.pred-row{display:flex;align-items:center;justify-content:space-between;gap:3px}
+.pred-l{font-family:var(--cd);font-size:.42rem;color:rgba(200,244,0,.44);letter-spacing:.6px}
+.pi-wrap{display:flex;align-items:center;gap:2px}
+.sinp{width:22px;height:20px;border-radius:4px;background:rgba(0,0,0,.7);
+  border:1.5px solid rgba(255,255,255,.13);color:var(--lime);text-align:center;
+  font-family:var(--hd);font-size:.78rem;outline:none}
 .sinp:focus{border-color:var(--lime)}
-.sinp:disabled{color:#111;border-color:#0d0d0d}
-.ssep{font-family:var(--hd);font-size:.62rem;color:var(--sub);padding:0 1px}
-.lbtn{padding:2px 7px;border-radius:14px;font-family:var(--cd);font-size:.5rem;
+.sinp:disabled{color:#0f0f0f;border-color:#0d0d0d}
+.ssep{font-family:var(--hd);font-size:.58rem;color:var(--sub);padding:0 1px}
+.lbtn{padding:2px 6px;border-radius:12px;font-family:var(--cd);font-size:.48rem;
   font-weight:700;cursor:pointer;border:1px solid}
 .lbtn.off{background:rgba(0,0,0,.5);border-color:rgba(255,255,255,.12);color:var(--sub)}
 .lbtn.off:hover{border-color:var(--lime);color:var(--lime)}
 .lbtn.on{background:rgba(200,244,0,.1);border-color:var(--lime);color:var(--lime)}
-.pts-badge{font-family:var(--cd);font-size:.48rem;font-weight:700;padding:1px 5px;border-radius:12px}
-.pts-badge.g{background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.22)}
-.pts-badge.l{background:rgba(200,244,0,.08);color:var(--lime);border:1px solid rgba(200,244,0,.18)}
-.pts-badge.r{background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.2)}
+.pts-b{font-family:var(--cd);font-size:.44rem;font-weight:700;padding:1px 5px;border-radius:10px}
+.pts-b.g{background:rgba(255,215,0,.1);color:var(--gold);border:1px solid rgba(255,215,0,.2)}
+.pts-b.l{background:rgba(200,244,0,.08);color:var(--lime);border:1px solid rgba(200,244,0,.18)}
+.pts-b.r{background:rgba(230,57,70,.1);color:var(--red);border:1px solid rgba(230,57,70,.2)}
+.live-pill{display:inline-flex;align-items:center;gap:2px;padding:1px 4px;border-radius:8px;
+  background:rgba(230,57,70,.14);border:1px solid rgba(230,57,70,.32);
+  font-family:var(--cd);font-size:.4rem;font-weight:700;color:var(--red);letter-spacing:.6px}
 
-/* Standings / stats panel */
-.stand-tbl{width:100%;border-collapse:collapse;font-family:var(--cd);font-size:.56rem}
-.stand-tbl th{color:rgba(200,244,0,.4);letter-spacing:.8px;padding:2px 2px;text-align:right;font-weight:700;font-size:.48rem}
-.stand-tbl th:first-child,.stand-tbl td:first-child{text-align:left}
-.stand-tbl td{padding:2px 2px;color:var(--sub);text-align:right;border-bottom:1px solid rgba(255,255,255,.03)}
-.stand-tbl tr.hi td{color:var(--lime)}
-.pos-n{font-family:var(--hd);font-size:.72rem}
-.pos-g{color:var(--gold)}
-.t-nm{max-width:54px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;color:var(--text);font-size:.58rem}
-.pts-c{font-family:var(--hd);font-size:.76rem;color:var(--lime)}
-.stat-r{display:flex;align-items:center;gap:4px;padding:3px 4px;border-radius:5px;
-  margin-bottom:2px;background:rgba(0,0,0,.32);border:1px solid transparent}
-.stat-r:hover{border-color:rgba(200,244,0,.12)}
-.sr-pos{font-family:var(--hd);font-size:.72rem;color:var(--gold);min-width:13px}
-.sr-nm{font-family:var(--cd);font-size:.6rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.sr-cl{font-family:var(--cd);font-size:.44rem;color:var(--sub)}
-.sr-val{font-family:var(--hd);font-size:.78rem;color:var(--lime)}
+/* Stats / standings */
+.stbl{width:100%;border-collapse:collapse;font-family:var(--cd);font-size:.54rem}
+.stbl th{color:rgba(200,244,0,.38);letter-spacing:.6px;padding:2px 2px;text-align:right;font-weight:700;font-size:.46rem}
+.stbl th:first-child,.stbl td:first-child{text-align:left}
+.stbl td{padding:2px 2px;color:var(--sub);text-align:right;border-bottom:1px solid rgba(255,255,255,.03)}
+.stbl tr.hi td{color:var(--lime)}
+.pos-n{font-family:var(--hd);font-size:.7rem}.pos-g{color:var(--gold)}
+.tnm{max-width:52px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;font-weight:700;color:var(--text);font-size:.56rem}
+.pts-c{font-family:var(--hd);font-size:.74rem;color:var(--lime)}
+.sr{display:flex;align-items:center;gap:3px;padding:3px 4px;border-radius:5px;
+  margin-bottom:2px;background:rgba(0,0,0,.3);border:1px solid transparent}
+.sr:hover{border-color:rgba(200,244,0,.1)}
+.sr-p{font-family:var(--hd);font-size:.7rem;color:var(--gold);min-width:12px}
+.sr-n{font-family:var(--cd);font-size:.58rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.sr-cl{font-family:var(--cd);font-size:.42rem;color:var(--sub)}
+.sr-v{font-family:var(--hd);font-size:.74rem;color:var(--lime)}
 
-/* Results panel (right bot) */
-.result-card{background:rgba(0,0,0,.44);border:1px solid rgba(255,255,255,.05);
-  border-radius:7px;padding:5px 7px;margin-bottom:3px;animation:fadeUp .2s ease}
-.rc-head{display:flex;align-items:center;justify-content:space-between;margin-bottom:3px}
-.rc-lg{font-family:var(--cd);font-size:.46rem;color:rgba(200,244,0,.4);letter-spacing:1px}
-.rc-ft{font-family:var(--cd);font-size:.46rem;color:var(--sub)}
-.rc-teams{display:flex;align-items:center;gap:4px;justify-content:space-between}
-.rc-tnm{font-family:var(--cd);font-size:.64rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
-.rc-tnm.aw{text-align:right}
-.rc-score{font-family:var(--hd);font-size:1rem;color:var(--lime);
-  padding:2px 5px;background:rgba(0,0,0,.5);border-radius:4px;
-  border:1px solid rgba(200,244,0,.15);flex-shrink:0}
-.rc-pred{font-family:var(--cd);font-size:.46rem;text-align:center;margin-top:3px}
-.rc-pred.hit{color:var(--lime)}.rc-pred.miss{color:var(--red)}.rc-pred.close{color:var(--gold)}
+/* Results */
+.rc{background:rgba(0,0,0,.44);border:1px solid rgba(255,255,255,.05);border-radius:7px;padding:5px 7px;margin-bottom:3px;animation:fadeUp .18s ease}
+.rc-h{display:flex;align-items:center;justify-content:space-between;margin-bottom:2px}
+.rc-lg{font-family:var(--cd);font-size:.44rem;color:rgba(200,244,0,.38);letter-spacing:.8px}
+.rc-st{font-family:var(--cd);font-size:.44rem;color:var(--sub)}
+.rc-tm{display:flex;align-items:center;gap:3px;justify-content:space-between}
+.rc-tn{font-family:var(--cd);font-size:.6rem;font-weight:700;flex:1;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rc-tn.aw{text-align:right}
+.rc-sc{font-family:var(--hd);font-size:.95rem;color:var(--lime);padding:2px 4px;background:rgba(0,0,0,.5);border-radius:4px;border:1px solid rgba(200,244,0,.14)}
+.rc-pr{font-family:var(--cd);font-size:.44rem;text-align:center;margin-top:3px}
+.rc-pr.hit{color:var(--lime)}.rc-pr.miss{color:var(--red)}.rc-pr.close{color:var(--gold)}
 
 /* toast */
 .toast{position:fixed;bottom:calc(var(--nav-h)+7px);left:50%;transform:translateX(-50%);
-  z-index:8000;padding:5px 15px;border-radius:40px;font-family:var(--cd);font-size:.68rem;
+  z-index:8000;padding:5px 14px;border-radius:40px;font-family:var(--cd);font-size:.66rem;
   letter-spacing:.8px;pointer-events:none;white-space:nowrap;
-  animation:toastIn .22s ease,toastOut .32s ease 2s forwards}
+  animation:toastIn .2s ease,toastOut .3s ease 1.9s forwards}
 
-@media(max-width:600px){.p-nm{display:none}.pdot{width:clamp(14px,2.8vw,22px);height:clamp(14px,2.8vw,22px)}}
-@media(max-width:420px){:root{--nav-h:60px;--hdr-h:40px;--gw-h:34px}}
+@media(max-width:600px){.p-nm{display:none}.pdot{width:clamp(12px,2.5vw,20px);height:clamp(12px,2.5vw,20px)}}
+@media(max-width:400px){:root{--nav-h:60px;--hdr-h:40px;--gw-h:34px}}
 </style>
 </head>
 <body>
-<div id="root">Loading...</div>
+<div id="root">Loading…</div>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <script type="text/babel">
-const { useState, useEffect, useRef, useCallback, useMemo } = React;
+const {useState,useEffect,useRef,useCallback}=React;
 
-// ══════════════════════════════════════════════
-// SPORT DATA
-// ══════════════════════════════════════════════
-const SPORTS = [
+// ════════════════════════════════════════════
+// CHIPS — 5 creative predictor chips
+// ════════════════════════════════════════════
+const CHIPS=[
+  {
+    id:'sniper',icon:'🎯',name:'Sniper',code:'SNP',color:'#ffd700',border:'rgba(255,215,0,.5)',
+    bg:'rgba(255,215,0,.08)',
+    effect:'×2 pts on exact scores',
+    desc:'Doubles your points for any exact-score prediction this gameweek.',
+    award:'Awarded: 3 exact scores in a row',
+  },
+  {
+    id:'timewarp',icon:'⏳',name:'Time Warp',code:'TWP',color:'#00d4ff',border:'rgba(0,212,255,.45)',
+    bg:'rgba(0,212,255,.07)',
+    effect:'Unlock 1 locked prediction',
+    desc:'Unlock one already-locked prediction and change it mid-gameweek.',
+    award:'Awarded: Top 5 mini-league two GWs running',
+  },
+  {
+    id:'ironwall',icon:'🛡️',name:'Iron Wall',code:'IWL',color:'#c8f400',border:'rgba(200,244,0,.45)',
+    bg:'rgba(200,244,0,.07)',
+    effect:'10pts guaranteed per result',
+    desc:'Guarantees 10 base points for every correct result, regardless of score.',
+    award:'Awarded: 5 clean sheet predictions correct in a season',
+  },
+  {
+    id:'oracle',icon:'🔮',name:'Oracle',code:'ORC',color:'#c39bd3',border:'rgba(155,89,182,.5)',
+    bg:'rgba(155,89,182,.08)',
+    effect:'+50pts for first goalscorer',
+    desc:'Predict the first goalscorer in any live match for a 50-point jackpot.',
+    award:'Awarded: Win a gameweek in your mini-league',
+  },
+  {
+    id:'blackout',icon:'🌑',name:'Blackout',code:'BLK',color:'#ff8a92',border:'rgba(230,57,70,.48)',
+    bg:'rgba(230,57,70,.07)',
+    effect:'Erase your worst prediction',
+    desc:'Your single lowest-scoring prediction this GW simply does not count.',
+    award:'Awarded: Achieve a perfect-score gameweek',
+  },
+];
+
+// ════════════════════════════════════════════
+// SPORT / LEAGUE DATA
+// ════════════════════════════════════════════
+const SPORTS=[
   {id:'football',icon:'⚽',lbl:'Football',ball:'⚽',court:'football'},
   {id:'basketball',icon:'🏀',lbl:'Basketball',ball:'🏀',court:'basketball'},
   {id:'american',icon:'🏈',lbl:'Am. Football',ball:'🏈',court:'american'},
@@ -473,955 +534,660 @@ const SPORTS = [
   {id:'cricket',icon:'🏏',lbl:'Cricket',ball:'🏏',court:'cricket'},
   {id:'hockey',icon:'🏒',lbl:'Ice Hockey',ball:'🏒',court:'hockey'},
 ];
-
-const ALL_LEAGUES = {
+const ALL_LEAGUES={
   football:[
-    {id:'epl',icon:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',lbl:'Premier League',sub:'England',
-      teams:['Liverpool','Arsenal','Man City','Chelsea','Tottenham','Newcastle','Man Utd','West Ham','Aston Villa','Brighton'],
-      colorH:'#3D195B',colorA:'#00529F'},
-    {id:'liga',icon:'🇪🇸',lbl:'La Liga',sub:'Spain',
-      teams:['Real Madrid','Barcelona','Atletico','Sevilla','Villarreal','Betis','Valencia','Athletic','R.Sociedad','Getafe'],
-      colorH:'#FF4500',colorA:'#009246'},
-    {id:'serie',icon:'🇮🇹',lbl:'Serie A',sub:'Italy',
-      teams:['Inter Milan','Juventus','AC Milan','Napoli','Roma','Lazio','Atalanta','Fiorentina','Torino','Bologna'],
-      colorH:'#00529F',colorA:'#000'},
-    {id:'bundes',icon:'🇩🇪',lbl:'Bundesliga',sub:'Germany',
-      teams:['Bayern','Dortmund','Leverkusen','RB Leipzig','Stuttgart','Frankfurt','Wolfsburg','Schalke','Bremen','Freiburg'],
-      colorH:'#D20515',colorA:'#000'},
-    {id:'ligue',icon:'🇫🇷',lbl:'Ligue 1',sub:'France',
-      teams:['PSG','Monaco','Marseille','Lyon','Nice','Lens','Lille','Rennes','Nantes','Reims'],
-      colorH:'#003F80',colorA:'#E30613'},
-    {id:'ucl',icon:'🏆',lbl:'Champions League',sub:'UEFA',
-      teams:['Real Madrid','Man City','Bayern','PSG','Arsenal','Inter Milan','Atletico','Dortmund'],
-      colorH:'#071D49',colorA:'#F54029'},
+    {id:'epl',icon:'🏴󠁧󠁢󠁥󠁮󠁧󠁿',lbl:'Premier League',sub:'England',teams:['Liverpool','Arsenal','Man City','Chelsea','Tottenham','Newcastle','Man Utd','Aston Villa'],cH:'#3D195B',cA:'#00529F'},
+    {id:'liga',icon:'🇪🇸',lbl:'La Liga',sub:'Spain',teams:['Real Madrid','Barcelona','Atletico','Sevilla','Villarreal','Betis','Valencia','Athletic'],cH:'#FF4500',cA:'#009246'},
+    {id:'serie',icon:'🇮🇹',lbl:'Serie A',sub:'Italy',teams:['Inter Milan','Juventus','AC Milan','Napoli','Roma','Lazio','Atalanta','Fiorentina'],cH:'#00529F',cA:'#000'},
+    {id:'bundes',icon:'🇩🇪',lbl:'Bundesliga',sub:'Germany',teams:['Bayern','Dortmund','Leverkusen','Leipzig','Stuttgart','Frankfurt','Wolfsburg','Bremen'],cH:'#D20515',cA:'#FDE100'},
+    {id:'ligue',icon:'🇫🇷',lbl:'Ligue 1',sub:'France',teams:['PSG','Monaco','Marseille','Lyon','Nice','Lens','Lille','Rennes'],cH:'#003F80',cA:'#E30613'},
+    {id:'ucl',icon:'🏆',lbl:'Champions League',sub:'UEFA',teams:['Real Madrid','Man City','Bayern','PSG','Arsenal','Inter','Atletico','Dortmund'],cH:'#071D49',cA:'#F54029'},
   ],
   basketball:[
-    {id:'nba_east',icon:'🏀',lbl:'NBA Eastern',sub:'USA East',
-      teams:['Boston Celtics','Milwaukee Bucks','Philadelphia 76ers','New York Knicks','Miami Heat','Cleveland Cavaliers','Atlanta Hawks','Toronto Raptors'],
-      colorH:'#007A33',colorA:'#00471B'},
-    {id:'nba_west',icon:'🏀',lbl:'NBA Western',sub:'USA West',
-      teams:['Denver Nuggets','Phoenix Suns','LA Lakers','Golden State','Memphis Grizzlies','Sacramento Kings','Dallas Mavericks','LA Clippers'],
-      colorH:'#0E2240',colorA:'#FEC524'},
-    {id:'euroleague',icon:'🇪🇺',lbl:'EuroLeague',sub:'Europe',
-      teams:['Real Madrid','Fenerbahçe','CSKA Moscow','Olympiacos','Barcelona','Anadolu Efes','Bayern Munich','Panathinaikos'],
-      colorH:'#17408B',colorA:'#C9082A'},
+    {id:'nba_e',icon:'🏀',lbl:'NBA Eastern',sub:'East Conference',teams:['Boston Celtics','Milwaukee Bucks','Philadelphia 76ers','New York Knicks','Miami Heat','Cleveland Cavaliers','Atlanta Hawks','Toronto Raptors'],cH:'#007A33',cA:'#00471B'},
+    {id:'nba_w',icon:'🏀',lbl:'NBA Western',sub:'West Conference',teams:['Denver Nuggets','Phoenix Suns','LA Lakers','Golden State','Memphis Grizzlies','Dallas Mavericks','LA Clippers','Sacramento Kings'],cH:'#0E2240',cA:'#FEC524'},
+    {id:'euroleague',icon:'🇪🇺',lbl:'EuroLeague',sub:'Europe',teams:['Real Madrid','Fenerbahçe','CSKA','Olympiacos','Barcelona','Efes','Bayern','Panathinaikos'],cH:'#17408B',cA:'#C9082A'},
   ],
   american:[
-    {id:'nfl_afc',icon:'🏈',lbl:'NFL AFC',sub:'American Conf.',
-      teams:['Kansas City Chiefs','Buffalo Bills','Baltimore Ravens','Cincinnati Bengals','Miami Dolphins','Cleveland Browns','Pittsburgh Steelers','Jacksonville Jaguars'],
-      colorH:'#E31837',colorA:'#003087'},
-    {id:'nfl_nfc',icon:'🏈',lbl:'NFL NFC',sub:'National Conf.',
-      teams:['Philadelphia Eagles','San Francisco 49ers','Dallas Cowboys','New York Giants','Green Bay Packers','Minnesota Vikings','Tampa Bay Buccaneers','Seattle Seahawks'],
-      colorH:'#004C54',colorA:'#A5ACAF'},
+    {id:'nfl_afc',icon:'🏈',lbl:'NFL AFC',sub:'American Conf.',teams:['KC Chiefs','Buffalo Bills','Baltimore Ravens','Cincinnati Bengals','Miami Dolphins','Cleveland Browns','Pittsburgh Steelers','Jacksonville'],cH:'#E31837',cA:'#003087'},
+    {id:'nfl_nfc',icon:'🏈',lbl:'NFL NFC',sub:'National Conf.',teams:['Eagles','San Francisco 49ers','Dallas Cowboys','NY Giants','Green Bay Packers','Minnesota Vikings','Tampa Bay Buccaneers','Seattle Seahawks'],cH:'#004C54',cA:'#A5ACAF'},
   ],
   baseball:[
-    {id:'mlb_al',icon:'⚾',lbl:'MLB American',sub:'AL',
-      teams:['Houston Astros','New York Yankees','Toronto Blue Jays','Tampa Bay Rays','Boston Red Sox','Cleveland Guardians','Minnesota Twins','Chicago White Sox'],
-      colorH:'#EB6E1F',colorA:'#003087'},
-    {id:'mlb_nl',icon:'⚾',lbl:'MLB National',sub:'NL',
-      teams:['Atlanta Braves','Los Angeles Dodgers','New York Mets','Philadelphia Phillies','Milwaukee Brewers','San Diego Padres','St. Louis Cardinals','San Francisco Giants'],
-      colorH:'#CE1141',colorA:'#005A9C'},
+    {id:'mlb_al',icon:'⚾',lbl:'MLB American',sub:'AL',teams:['Houston Astros','NY Yankees','Toronto Blue Jays','Tampa Bay Rays','Boston Red Sox','Cleveland Guardians','Minnesota Twins','Chicago White Sox'],cH:'#EB6E1F',cA:'#003087'},
+    {id:'mlb_nl',icon:'⚾',lbl:'MLB National',sub:'NL',teams:['Atlanta Braves','LA Dodgers','NY Mets','Philadelphia Phillies','Milwaukee Brewers','San Diego Padres','St. Louis Cardinals','SF Giants'],cH:'#CE1141',cA:'#005A9C'},
   ],
   tennis:[
-    {id:'atp',icon:'🎾',lbl:'ATP Tour',sub:'Men\'s',
-      teams:['Djokovic','Alcaraz','Medvedev','Zverev','Rublev','Tsitsipas','Rune','Fritz'],
-      colorH:'#1565C0',colorA:'#B71C1C'},
-    {id:'wta',icon:'🎾',lbl:'WTA Tour',sub:'Women\'s',
-      teams:['Swiatek','Sabalenka','Gauff','Rybakina','Kvitova','Pegula','Bencic','Vondrousova'],
-      colorH:'#880E4F',colorA:'#4A148C'},
+    {id:'atp',icon:'🎾',lbl:'ATP Tour',sub:"Men's",teams:['Djokovic','Alcaraz','Medvedev','Zverev','Rublev','Tsitsipas','Rune','Fritz'],cH:'#1565C0',cA:'#B71C1C'},
+    {id:'wta',icon:'🎾',lbl:'WTA Tour',sub:"Women's",teams:['Swiatek','Sabalenka','Gauff','Rybakina','Kvitova','Pegula','Bencic','Vondrousova'],cH:'#880E4F',cA:'#4A148C'},
   ],
   rugby:[
-    {id:'prem',icon:'🏉',lbl:'Premiership',sub:'England',
-      teams:['Saracens','Leicester','Harlequins','Northampton','Bath','Wasps','Bristol','Sale Sharks','Exeter','Gloucester'],
-      colorH:'#000',colorA:'#D4021D'},
-    {id:'top14',icon:'🇫🇷',lbl:'Top 14',sub:'France',
-      teams:['Toulouse','La Rochelle','Clermont','Racing 92','Stade Français','Bordeaux','Montpellier','Lyon'],
-      colorH:'#1E3A8A',colorA:'#8B0000'},
+    {id:'prem',icon:'🏉',lbl:'Premiership',sub:'England',teams:['Saracens','Leicester','Harlequins','Northampton','Bath','Bristol','Sale Sharks','Exeter'],cH:'#000',cA:'#D4021D'},
+    {id:'top14',icon:'🇫🇷',lbl:'Top 14',sub:'France',teams:['Toulouse','La Rochelle','Clermont','Racing 92','Stade Français','Bordeaux','Montpellier','Lyon'],cH:'#1E3A8A',cA:'#8B0000'},
   ],
   cricket:[
-    {id:'ipl',icon:'🏏',lbl:'IPL',sub:'India',
-      teams:['Mumbai Indians','Chennai Super Kings','Royal Challengers','Kolkata Knight Riders','Delhi Capitals','Punjab Kings','Rajasthan Royals','SRH'],
-      colorH:'#004BA0',colorA:'#F7A721'},
-    {id:'ashes',icon:'🇦🇺',lbl:'The Ashes',sub:'England vs Australia',
-      teams:['England','Australia'],
-      colorH:'#CE1124',colorA:'#00843D'},
+    {id:'ipl',icon:'🏏',lbl:'IPL',sub:'India',teams:['Mumbai Indians','Chennai Super Kings','Royal Challengers','Kolkata Knight Riders','Delhi Capitals','Punjab Kings','Rajasthan Royals','SRH'],cH:'#004BA0',cA:'#F7A721'},
+    {id:'ashes',icon:'🇦🇺',lbl:'The Ashes',sub:'England vs Australia',teams:['England','Australia'],cH:'#CE1124',cA:'#00843D'},
   ],
   hockey:[
-    {id:'nhl_east',icon:'🏒',lbl:'NHL Eastern',sub:'E. Conference',
-      teams:['Boston Bruins','Carolina Hurricanes','New Jersey Devils','Toronto Maple Leafs','Tampa Bay Lightning','Florida Panthers','Pittsburgh Penguins','NY Rangers'],
-      colorH:'#FFB81C',colorA:'#CE1126'},
-    {id:'nhl_west',icon:'🏒',lbl:'NHL Western',sub:'W. Conference',
-      teams:['Vegas Golden Knights','Edmonton Oilers','Dallas Stars','Colorado Avalanche','Seattle Kraken','Minnesota Wild','Winnipeg Jets','Calgary Flames'],
-      colorH:'#B4975A',colorA:'#003DA5'},
+    {id:'nhl_e',icon:'🏒',lbl:'NHL Eastern',sub:'East',teams:['Boston Bruins','Carolina Hurricanes','NJ Devils','Toronto Maple Leafs','Tampa Bay Lightning','Florida Panthers','Pittsburgh Penguins','NY Rangers'],cH:'#FFB81C',cA:'#CE1126'},
+    {id:'nhl_w',icon:'🏒',lbl:'NHL Western',sub:'West',teams:['Vegas Golden Knights','Edmonton Oilers','Dallas Stars','Colorado Avalanche','Seattle Kraken','Minnesota Wild','Winnipeg Jets','Calgary Flames'],cH:'#B4975A',cA:'#003DA5'},
   ],
 };
-
-const MODES = [
+const MODES=[
   {id:'1v1',icon:'👤',lbl:'1v1',desc:'Head to Head',pts:{exact:20,close:14,result:10,near:5}},
   {id:'2v2',icon:'👥',lbl:'2v2',desc:'Pairs Mode',pts:{exact:20,close:14,result:10,near:5}},
-  {id:'5aside',icon:'⚽',lbl:'5-Aside',desc:'5 games count',pts:{exact:25,close:18,result:12,near:6}},
+  {id:'5aside',icon:'⚽',lbl:'5-Aside',desc:'5 games best 3',pts:{exact:25,close:18,result:12,near:6}},
   {id:'7aside',icon:'🏟️',lbl:'7-Aside',desc:'7 games ×1.5',pts:{exact:30,close:22,result:15,near:8}},
-  {id:'full11',icon:'🌐',lbl:'Full 11',desc:'Jackpot mode',pts:{exact:40,close:30,result:20,near:10}},
+  {id:'full11',icon:'🌐',lbl:'Full 11',desc:'Jackpot Mode',pts:{exact:40,close:30,result:20,near:10}},
 ];
-const MINI_LEAGUES = [
+const MINI_LEAGUES=[
   {id:'pub',icon:'🍺',lbl:'The Pub League',sub:'12 mgrs'},
   {id:'work',icon:'💼',lbl:'Work Rivals',sub:'8 mgrs'},
   {id:'uni',icon:'🎓',lbl:'Uni Mates',sub:'6 mgrs'},
   {id:'global',icon:'🌍',lbl:'Global Top 100',sub:'Public'},
   {id:'create',icon:'➕',lbl:'Create League',sub:'New'},
 ];
-
-// Generate GW history data
-const GW_DATA = Array.from({length:38},(_,i)=>{
-  const gw=i+1;
-  if(gw>32) return {gw,pts:null,status:'future'};
-  if(gw===32) return {gw,pts:47,status:'live'};
-  const base=[52,38,64,29,71,45,58,33,60,42,55,68,37,49,62,40,57,44,70,36,53,67,41,59,48,65,35,72,50,63,38,47];
-  return {gw,pts:base[i]||40,status:'done'};
-});
-
-const LEADERBOARD = [
-  {n:'GafferKing',pts:312,delta:3},
-  {n:'TacticsTom',pts:287,delta:-2},
-  {n:'PredictorPro',pts:264,delta:1},
-  {n:'▶ You',pts:134,delta:2,me:true},
-  {n:'StatsSam',pts:118,delta:-1},
-  {n:'LuckyLeo',pts:97,delta:0},
+const LEADERBOARD=[
+  {n:'GafferKing',pts:312,delta:3},{n:'TacticsTom',pts:287,delta:-2},
+  {n:'PredictorPro',pts:264,delta:1},{n:'▶ You',pts:134,delta:2,me:true},
+  {n:'StatsSam',pts:118,delta:-1},{n:'LuckyLeo',pts:97,delta:0},
 ];
 
-// League-specific data
-const LEAGUE_STANDINGS = {
-  epl:[
-    {pos:1,team:'Liverpool',p:31,w:21,d:5,l:5,gd:34,pts:68},
-    {pos:2,team:'Arsenal',p:31,w:19,d:6,l:6,gd:26,pts:63},
-    {pos:3,team:'Man City',p:31,w:18,d:7,l:6,gd:29,pts:61},
-    {pos:4,team:'Chelsea',p:31,w:16,d:7,l:8,gd:18,pts:55},
-    {pos:5,team:'Tottenham',p:31,w:15,d:4,l:12,gd:11,pts:49},
-    {pos:6,team:'Newcastle',p:31,w:14,d:6,l:11,gd:15,pts:48},
-    {pos:7,team:'Man Utd',p:31,w:13,d:5,l:13,gd:2,pts:44},
-    {pos:8,team:'Aston Villa',p:31,w:11,d:8,l:12,gd:4,pts:41},
-  ],
-  liga:[
-    {pos:1,team:'Real Madrid',p:31,w:22,d:4,l:5,gd:40,pts:70},
-    {pos:2,team:'Barcelona',p:31,w:20,d:5,l:6,gd:32,pts:65},
-    {pos:3,team:'Atletico',p:31,w:18,d:6,l:7,gd:24,pts:60},
-    {pos:4,team:'Sevilla',p:31,w:14,d:7,l:10,gd:11,pts:49},
-    {pos:5,team:'Villarreal',p:31,w:13,d:6,l:12,gd:6,pts:45},
-  ],
-  nba_east:[
-    {pos:1,team:'Boston Celtics',p:55,w:40,d:0,l:15,gd:8,pts:40},
-    {pos:2,team:'Milwaukee Bucks',p:55,w:37,d:0,l:18,gd:5,pts:37},
-    {pos:3,team:'Philadelphia',p:55,w:35,d:0,l:20,gd:3,pts:35},
-    {pos:4,team:'New York Knicks',p:55,w:33,d:0,l:22,gd:1,pts:33},
-    {pos:5,team:'Miami Heat',p:55,w:31,d:0,l:24,gd:-1,pts:31},
-  ],
-  nba_west:[
-    {pos:1,team:'Denver Nuggets',p:55,w:42,d:0,l:13,gd:10,pts:42},
-    {pos:2,team:'Phoenix Suns',p:55,w:38,d:0,l:17,gd:6,pts:38},
-    {pos:3,team:'LA Lakers',p:55,w:36,d:0,l:19,gd:4,pts:36},
-    {pos:4,team:'Golden State',p:55,w:34,d:0,l:21,gd:2,pts:34},
-  ],
-  nfl_afc:[
-    {pos:1,team:'KC Chiefs',p:17,w:13,d:0,l:4,gd:82,pts:13},
-    {pos:2,team:'Buffalo Bills',p:17,w:11,d:0,l:6,gd:64,pts:11},
-    {pos:3,team:'Baltimore Ravens',p:17,w:10,d:0,l:7,gd:58,pts:10},
-    {pos:4,team:'Cincinnati',p:17,w:9,d:0,l:8,gd:22,pts:9},
-  ],
+// Standings data by league
+const STANDINGS={
+  epl:[{pos:1,team:'Liverpool',p:31,w:21,d:5,l:5,gd:34,pts:68},{pos:2,team:'Arsenal',p:31,w:19,d:6,l:6,gd:26,pts:63},{pos:3,team:'Man City',p:31,w:18,d:7,l:6,gd:29,pts:61},{pos:4,team:'Chelsea',p:31,w:16,d:7,l:8,gd:18,pts:55},{pos:5,team:'Tottenham',p:31,w:15,d:4,l:12,gd:11,pts:49},{pos:6,team:'Newcastle',p:31,w:14,d:6,l:11,gd:15,pts:48}],
+  liga:[{pos:1,team:'Real Madrid',p:31,w:22,d:4,l:5,gd:40,pts:70},{pos:2,team:'Barcelona',p:31,w:20,d:5,l:6,gd:32,pts:65},{pos:3,team:'Atletico',p:31,w:18,d:6,l:7,gd:24,pts:60},{pos:4,team:'Sevilla',p:31,w:14,d:7,l:10,gd:11,pts:49}],
+  nba_e:[{pos:1,team:'Boston Celtics',p:55,w:40,d:0,l:15,gd:8,pts:40},{pos:2,team:'Milwaukee',p:55,w:37,d:0,l:18,gd:5,pts:37},{pos:3,team:'Philadelphia',p:55,w:35,d:0,l:20,gd:3,pts:35},{pos:4,team:'NY Knicks',p:55,w:33,d:0,l:22,gd:1,pts:33}],
+  nfl_afc:[{pos:1,team:'KC Chiefs',p:17,w:13,d:0,l:4,gd:82,pts:13},{pos:2,team:'Buffalo Bills',p:17,w:11,d:0,l:6,gd:64,pts:11},{pos:3,team:'Baltimore Ravens',p:17,w:10,d:0,l:7,gd:58,pts:10}],
 };
-const getStandings = lid => LEAGUE_STANDINGS[lid] || LEAGUE_STANDINGS.epl;
-
-const LEAGUE_SCORERS = {
-  epl:[
-    {pos:1,name:'E. Haaland',team:'Man City',val:28,sub:'goals',assists:6},
-    {pos:2,name:'M. Salah',team:'Liverpool',val:24,sub:'goals',assists:12},
-    {pos:3,name:'A. Isak',team:'Newcastle',val:19,sub:'goals',assists:5},
-    {pos:4,name:'H. Saka',team:'Arsenal',val:15,sub:'goals',assists:11},
-  ],
-  liga:[
-    {pos:1,name:'K. Mbappé',team:'Real Madrid',val:32,sub:'goals',assists:8},
-    {pos:2,name:'Lewandowski',team:'Barcelona',val:24,sub:'goals',assists:7},
-    {pos:3,name:'Griezmann',team:'Atletico',val:18,sub:'goals',assists:9},
-  ],
-  nba_east:[
-    {pos:1,name:'J. Tatum',team:'Boston',val:27.4,sub:'PPG',assists:4.8},
-    {pos:2,name:'G. Antetokounmpo',team:'Milwaukee',val:31.1,sub:'PPG',assists:5.7},
-    {pos:3,name:'J. Embiid',team:'Philadelphia',val:33.1,sub:'PPG',assists:4.2},
-  ],
-  nfl_afc:[
-    {pos:1,name:'P. Mahomes',team:'KC Chiefs',val:4839,sub:'pass yds',assists:38},
-    {pos:2,name:'J. Allen',team:'Buffalo',val:4544,sub:'pass yds',assists:29},
-  ],
+const getSt=lid=>STANDINGS[lid]||STANDINGS.epl;
+const SCORERS={
+  epl:[{pos:1,name:'E. Haaland',team:'Man City',val:28,sub:'goals'},{pos:2,name:'M. Salah',team:'Liverpool',val:24,sub:'goals'},{pos:3,name:'A. Isak',team:'Newcastle',val:19,sub:'goals'},{pos:4,name:'H. Saka',team:'Arsenal',val:15,sub:'goals'}],
+  nba_e:[{pos:1,name:'J. Embiid',team:'Philadelphia',val:33.1,sub:'PPG'},{pos:2,name:'G. Antetokounmpo',team:'Milwaukee',val:31.1,sub:'PPG'},{pos:3,name:'J. Tatum',team:'Boston',val:27.4,sub:'PPG'}],
+  nfl_afc:[{pos:1,name:'P. Mahomes',team:'KC Chiefs',val:4839,sub:'pass yds'},{pos:2,name:'J. Allen',team:'Buffalo',val:4544,sub:'pass yds'}],
 };
-const getScorers = lid => LEAGUE_SCORERS[lid] || LEAGUE_SCORERS.epl;
-
-const LEAGUE_ASSISTS = {
-  epl:[
-    {pos:1,name:'K. De Bruyne',team:'Man City',val:16,sub:'assists',goals:4},
-    {pos:2,name:'M. Salah',team:'Liverpool',val:12,sub:'assists',goals:24},
-    {pos:3,name:'B. Saka',team:'Arsenal',val:11,sub:'assists',goals:15},
-  ],
-  liga:[
-    {pos:1,name:'Pedri',team:'Barcelona',val:16,sub:'assists',goals:8},
-    {pos:2,name:'L. Modric',team:'Real Madrid',val:12,sub:'assists',goals:5},
-  ],
-  nba_east:[
-    {pos:1,name:'J. Haliburton',team:'Indiana',val:12.5,sub:'APG',goals:20},
-    {pos:2,name:'T. Young',team:'Atlanta',val:10.8,sub:'APG',goals:26},
-  ],
-  nfl_afc:[
-    {pos:1,name:'T. Hill',team:'Miami',val:128,sub:'receptions',goals:12},
-    {pos:2,name:'T. Kelce',team:'KC Chiefs',val:110,sub:'receptions',goals:14},
-  ],
+const getSc=lid=>SCORERS[lid]||SCORERS.epl;
+const ASSISTS={
+  epl:[{pos:1,name:'K. De Bruyne',team:'Man City',val:16,sub:'assists'},{pos:2,name:'M. Salah',team:'Liverpool',val:12,sub:'assists'},{pos:3,name:'B. Saka',team:'Arsenal',val:11,sub:'assists'}],
+  nba_e:[{pos:1,name:'J. Haliburton',team:'Indiana',val:12.5,sub:'APG'},{pos:2,name:'T. Young',team:'Atlanta',val:10.8,sub:'APG'}],
+  nfl_afc:[{pos:1,name:'T. Hill',team:'Miami',val:128,sub:'receptions'},{pos:2,name:'T. Kelce',team:'KC Chiefs',val:110,sub:'receptions'}],
 };
-const getAssists = lid => LEAGUE_ASSISTS[lid] || LEAGUE_ASSISTS.epl;
-
-// Generate matches for a league
-function genMatches(leagueId, sport) {
-  const league = Object.values(ALL_LEAGUES).flat().find(l=>l.id===leagueId);
-  if(!league) return [];
-  const teams = league.teams;
-  const pairings = [];
-  for(let i=0;i<Math.min(teams.length,8);i+=2){
-    const h=teams[i],a=teams[i+1]||teams[0];
-    const statuses=['live','live','finished','upcoming'];
-    const st=statuses[Math.floor(i/2)] || 'finished';
-    const sh=st==='upcoming'?0:Math.floor(Math.random()*4);
-    const sa=st==='upcoming'?0:Math.floor(Math.random()*3);
-    const mn=st==='live'?20+Math.floor(Math.random()*60):st==='finished'?90:0;
-    pairings.push({
-      id:`${leagueId}_${i}`,h,a,
-      status:st,min:mn,
-      score:{h:sh,a:sa},
-      stats:{
-        h:{poss:45+Math.round(Math.random()*20),shots:5+Math.floor(Math.random()*12),corners:2+Math.floor(Math.random()*7)},
-        a:{poss:0,shots:3+Math.floor(Math.random()*8),corners:1+Math.floor(Math.random()*5)},
-      },
-      events:st!=='upcoming'?[
-        {min:15+Math.floor(Math.random()*30),type:'goal',team:'h',text:`⚽ GOAL! ${h.split(' ').pop()} 22'`},
-        sh>sa?{min:55+Math.floor(Math.random()*20),type:'goal',team:'h',text:`⚽ GOAL! ${h.split(' ').pop()} 58'`}:
-              {min:45+Math.floor(Math.random()*20),type:'goal',team:'a',text:`⚽ GOAL! ${a.split(' ').pop()} 47'`},
-      ]:[]
-    });
-  }
-  // Fix poss
-  pairings.forEach(m=>{m.stats.a.poss=100-m.stats.h.poss;});
-  return pairings;
-}
-
-// Player lineups for football (used for pitch display)
-const mkPl=(name,pos,rat,g=0,ast=0,card='')=>({name,pos,rat,goals:g,assists:ast,card});
-function getLineups(match) {
-  const hp=match.h.split(' ').pop();
-  const ap=match.a.split(' ').pop();
-  const r=()=>+(5.5+Math.random()*4.5).toFixed(1);
-  return {
-    home:[
-      {row:'gk',players:[mkPl(`${hp} GK`,'GK',r())]},
-      {row:'def',players:[mkPl(`${hp} RB`,'RB',r()),mkPl(`${hp} CB`,'CB',r()),mkPl(`${hp} CB`,'CB',r()),mkPl(`${hp} LB`,'LB',r())]},
-      {row:'mid',players:[mkPl(`${hp} CM`,'CM',r()),mkPl(`${hp} CM`,'CM',r()),mkPl(`${hp} AM`,'AM',r())]},
-      {row:'fwd',players:[mkPl(`${hp} RW`,'RW',r()),mkPl(`${hp} ST`,'ST',r(),match.score.h),mkPl(`${hp} LW`,'LW',r())]},
-    ],
-    away:[
-      {row:'gk',players:[mkPl(`${ap} GK`,'GK',r())]},
-      {row:'def',players:[mkPl(`${ap} RB`,'RB',r()),mkPl(`${ap} CB`,'CB',r()),mkPl(`${ap} CB`,'CB',r()),mkPl(`${ap} LB`,'LB',r())]},
-      {row:'mid',players:[mkPl(`${ap} CM`,'CM',r()),mkPl(`${ap} CM`,'CM',r()),mkPl(`${ap} AM`,'AM',r())]},
-      {row:'fwd',players:[mkPl(`${ap} RW`,'RW',r()),mkPl(`${ap} ST`,'ST',r(),match.score.a),mkPl(`${ap} LW`,'LW',r())]},
-    ],
-  };
-}
+const getAs=lid=>ASSISTS[lid]||ASSISTS.epl;
 
 const ADS_H=[
-  {txt:"NIKE · JUST DO IT",col:"#ff4500",bg:"#1a0000"},
-  {txt:"EA FC 26 · OUT NOW",col:"#00d4ff",bg:"#001020"},
-  {txt:"BETWAY · PLAY SMART",col:"#ffd700",bg:"#080800"},
-  {txt:"ADIDAS · IMPOSSIBLE IS NOTHING",col:"#fff",bg:"#0a0a0a"},
-  {txt:"HEINEKEN 0.0%",col:"#00aa44",bg:"#001208"},
-  {txt:"QATAR AIRWAYS",col:"#9c4d6e",bg:"#12000e"},
-  {txt:"HUBLOT · OFFICIAL TIMEKEEPER",col:"#c8a060",bg:"#080600"},
-  {txt:"MASTERCARD · PRICELESS",col:"#eb5c00",bg:"#100500"},
-  {txt:"SAMSUNG · GALAXY",col:"#1428a0",bg:"#000308"},
-  {txt:"PEPSI · THIRST FOR MORE",col:"#004aad",bg:"#000510"},
+  {txt:"NIKE · JUST DO IT",col:"#ff4500",bg:"#1a0000"},{txt:"EA FC 26 · OUT NOW",col:"#00d4ff",bg:"#001020"},
+  {txt:"BETWAY · PLAY SMART",col:"#ffd700",bg:"#080800"},{txt:"ADIDAS · IMPOSSIBLE",col:"#fff",bg:"#0a0a0a"},
+  {txt:"HEINEKEN 0.0%",col:"#00aa44",bg:"#001208"},{txt:"QATAR AIRWAYS",col:"#c06090",bg:"#12000e"},
+  {txt:"HUBLOT · TIMEKEEPER",col:"#c8a060",bg:"#080600"},{txt:"MASTERCARD PRICELESS",col:"#eb5c00",bg:"#100500"},
+  {txt:"SAMSUNG · GALAXY S25",col:"#1428a0",bg:"#000308"},{txt:"PEPSI · THIRST FOR MORE",col:"#004aad",bg:"#000510"},
 ];
 const ADS_V=[
-  {txt:"NIKE",col:"#ff4500",bg:"#180600"},
-  {txt:"EA FC",col:"#00d4ff",bg:"#001020"},
-  {txt:"BETWAY",col:"#ffd700",bg:"#080800"},
-  {txt:"ADIDAS",col:"#fff",bg:"#0a0a0a"},
-  {txt:"HEINEKEN",col:"#00aa44",bg:"#001208"},
-  {txt:"SAMSUNG",col:"#1428a0",bg:"#000308"},
+  {txt:"NIKE",col:"#ff4500",bg:"#180600"},{txt:"EA FC",col:"#00d4ff",bg:"#001020"},
+  {txt:"BETWAY",col:"#ffd700",bg:"#080800"},{txt:"ADIDAS",col:"#fff",bg:"#0a0a0a"},
+  {txt:"HEINEKEN",col:"#00aa44",bg:"#001208"},{txt:"SAMSUNG",col:"#1428a0",bg:"#000308"},
 ];
 
-// ══════════════════════════════════════════════
-// POINTS CALC
-// ══════════════════════════════════════════════
+// pts calc
 function calcPts(ph,pa,ah,aa,modeId='full11'){
   ph=+ph;pa=+pa;ah=+ah;aa=+aa;
-  if(isNaN(ph)||isNaN(pa)||isNaN(ah)||isNaN(aa))return 0;
+  if([ph,pa,ah,aa].some(isNaN))return 0;
   const m=MODES.find(x=>x.id===modeId)||MODES[4];
   if(ph===ah&&pa===aa)return m.pts.exact;
   const pr=Math.sign(ph-pa),ar=Math.sign(ah-aa);
-  if(pr===ar){
-    if(Math.abs(ph-ah)<=1&&Math.abs(pa-aa)<=1)return m.pts.close;
-    return m.pts.result;
-  }
+  if(pr===ar){if(Math.abs(ph-ah)<=1&&Math.abs(pa-aa)<=1)return m.pts.close;return m.pts.result;}
   if(Math.abs((ph-pa)-(ah-aa))<=1)return m.pts.near;
   return 0;
 }
 function ptsFB(pts,modeId='full11'){
   if(pts===null)return null;
   const m=MODES.find(x=>x.id===modeId)||MODES[4];
-  if(pts===m.pts.exact)return{t:'🎯 EXACT!',cls:'g'};
-  if(pts===m.pts.close)return{t:'✅ Result+Score',cls:'l'};
-  if(pts===m.pts.result)return{t:'🟡 Correct Result',cls:'l'};
-  if(pts===m.pts.near)return{t:'🔶 Near Miss',cls:'l'};
-  return{t:'❌ Miss',cls:'r'};
+  if(pts===m.pts.exact)return{t:'🎯 EXACT!',c:'g'};
+  if(pts===m.pts.close)return{t:'✅ Result+Score',c:'l'};
+  if(pts===m.pts.result)return{t:'🟡 Correct Result',c:'l'};
+  if(pts===m.pts.near)return{t:'🔶 Near Miss',c:'l'};
+  return{t:'❌ Miss',c:'r'};
+}
+
+// generate matches from league
+function genMatches(lid,sport){
+  const all=Object.values(ALL_LEAGUES).flat();
+  const league=all.find(l=>l.id===lid);
+  if(!league)return[];
+  const teams=league.teams;
+  const statuses=['live','live','finished','upcoming'];
+  return Array.from({length:Math.min(teams.length/2,4)},(_,i)=>{
+    const h=teams[i*2],a=teams[i*2+1]||teams[0];
+    const st=statuses[i]||'finished';
+    const sh=st==='upcoming'?0:Math.floor(Math.random()*4);
+    const sa=st==='upcoming'?0:Math.floor(Math.random()*3);
+    const mn=st==='live'?22+Math.floor(Math.random()*55):st==='finished'?90:0;
+    const poss=45+Math.round(Math.random()*18);
+    return{
+      id:`${lid}_${i}`,h,a,status:st,min:mn,
+      score:{h:sh,a:sa},
+      stats:{h:{poss,shots:5+Math.floor(Math.random()*12),corners:2+Math.floor(Math.random()*7)},
+             a:{poss:100-poss,shots:3+Math.floor(Math.random()*8),corners:1+Math.floor(Math.random()*5)}},
+      events:st!=='upcoming'?[
+        {min:15+Math.floor(Math.random()*25),type:'goal',team:'h',text:`⚽ ${h.split(' ').pop()} score!`},
+        Math.random()>.4?{min:45+Math.floor(Math.random()*30),type:'goal',team:'a',text:`⚽ ${a.split(' ').pop()} level it!`}:null,
+      ].filter(Boolean):[],
+    };
+  });
+}
+const mkPl=(nm,pos,rat,g=0,ast=0)=>({name:nm,pos,rat,goals:g,assists:ast});
+function genLineups(match){
+  const hS=match.h.split(' ').pop(),aS=match.a.split(' ').pop();
+  const r=()=>+(5.5+Math.random()*4.5).toFixed(1);
+  return{
+    home:[{row:'gk',players:[mkPl(hS+' GK','GK',r())]},{row:'def',players:[mkPl(hS+' RB','RB',r()),mkPl(hS+' CB','CB',r()),mkPl(hS+' CB','CB',r()),mkPl(hS+' LB','LB',r())]},{row:'mid',players:[mkPl(hS+' CM','CM',r()),mkPl(hS+' CM','CM',r()),mkPl(hS+' AM','AM',r())]},{row:'fwd',players:[mkPl(hS+' RW','RW',r()),mkPl(hS+' ST','ST',r(),match.score.h),mkPl(hS+' LW','LW',r())]}],
+    away:[{row:'gk',players:[mkPl(aS+' GK','GK',r())]},{row:'def',players:[mkPl(aS+' RB','RB',r()),mkPl(aS+' CB','CB',r()),mkPl(aS+' CB','CB',r()),mkPl(aS+' LB','LB',r())]},{row:'mid',players:[mkPl(aS+' CM','CM',r()),mkPl(aS+' CM','CM',r()),mkPl(aS+' AM','AM',r())]},{row:'fwd',players:[mkPl(aS+' RW','RW',r()),mkPl(aS+' ST','ST',r(),match.score.a),mkPl(aS+' LW','LW',r())]}],
+  };
 }
 
 // ══════════════════════════════════════════════
 // COURT SVGs
 // ══════════════════════════════════════════════
 const FootballSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 800 780" fill="none" stroke="white" strokeWidth="2.5" preserveAspectRatio="none" opacity=".32">
-    <rect x="30" y="25" width="740" height="730" rx="4"/>
-    <line x1="30" y1="390" x2="770" y2="390"/>
-    <circle cx="400" cy="390" r="72"/>
-    <circle cx="400" cy="390" r="5" fill="white" stroke="none"/>
-    <rect x="186" y="25" width="428" height="148"/>
-    <rect x="296" y="25" width="208" height="46"/>
-    <rect x="186" y="607" width="428" height="148"/>
-    <rect x="296" y="707" width="208" height="46"/>
-    <circle cx="400" cy="115" r="4" fill="white" stroke="none"/>
-    <circle cx="400" cy="665" r="4" fill="white" stroke="none"/>
-    <path d="M296,173 Q400,220 504,173" strokeDasharray="4 3"/>
-    <path d="M296,607 Q400,560 504,607" strokeDasharray="4 3"/>
+  <svg className="court-svg" viewBox="0 0 800 760" fill="none" stroke="white" strokeWidth="2.5" preserveAspectRatio="none" opacity=".3">
+    <rect x="28" y="24" width="744" height="712" rx="4"/>
+    <line x1="28" y1="380" x2="772" y2="380"/>
+    <circle cx="400" cy="380" r="70"/><circle cx="400" cy="380" r="5" fill="white" stroke="none"/>
+    <rect x="184" y="24" width="432" height="144"/><rect x="296" y="24" width="208" height="44"/>
+    <rect x="184" y="592" width="432" height="144"/><rect x="296" y="692" width="208" height="44"/>
+    <circle cx="400" cy="110" r="4" fill="white" stroke="none"/><circle cx="400" cy="650" r="4" fill="white" stroke="none"/>
+    <path d="M296,168 Q400,215 504,168" strokeDasharray="4 3"/><path d="M296,592 Q400,545 504,592" strokeDasharray="4 3"/>
   </svg>
 );
 const BasketballSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 800 500" fill="none" stroke="white" strokeWidth="3" preserveAspectRatio="none" opacity=".35">
+  <svg className="court-svg" viewBox="0 0 800 500" fill="none" stroke="white" strokeWidth="3" preserveAspectRatio="none" opacity=".3">
     <rect x="20" y="20" width="760" height="460" rx="4"/>
     <line x1="400" y1="20" x2="400" y2="480"/>
-    <circle cx="400" cy="250" r="60"/>
-    <circle cx="400" cy="250" r="6" fill="white" stroke="none"/>
-    {/* Left key */}
-    <rect x="20" y="150" width="200" height="200"/>
-    <circle cx="220" cy="250" r="60" strokeDasharray="8 6"/>
-    <circle cx="70" cy="250" r="8"/>
-    {/* Right key */}
-    <rect x="580" y="150" width="200" height="200"/>
-    <circle cx="580" cy="250" r="60" strokeDasharray="8 6"/>
-    <circle cx="730" cy="250" r="8"/>
-    {/* 3-point arcs */}
-    <path d="M20,80 Q220,250 20,420"/>
-    <path d="M780,80 Q580,250 780,420"/>
-    {/* Free throw circles */}
-    <circle cx="220" cy="250" r="30" strokeDasharray="4 3"/>
-    <circle cx="580" cy="250" r="30" strokeDasharray="4 3"/>
+    <circle cx="400" cy="250" r="58"/><circle cx="400" cy="250" r="6" fill="white" stroke="none"/>
+    <rect x="20" y="148" width="190" height="204"/><circle cx="210" cy="250" r="58" strokeDasharray="8 6"/>
+    <circle cx="70" cy="250" r="8"/><path d="M20,78 Q210,250 20,422"/>
+    <rect x="590" y="148" width="190" height="204"/><circle cx="590" cy="250" r="58" strokeDasharray="8 6"/>
+    <circle cx="730" cy="250" r="8"/><path d="M780,78 Q590,250 780,422"/>
   </svg>
 );
 const AmericanFootballSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 900 500" fill="none" stroke="white" strokeWidth="2" preserveAspectRatio="none" opacity=".35">
-    {/* Field */}
+  <svg className="court-svg" viewBox="0 0 900 500" fill="none" stroke="white" strokeWidth="1.8" preserveAspectRatio="none" opacity=".3">
     <rect x="10" y="10" width="880" height="480" rx="3"/>
-    {/* End zones */}
-    <rect x="10" y="10" width="80" height="480" fill="rgba(255,255,255,.05)"/>
-    <rect x="810" y="10" width="80" height="480" fill="rgba(255,255,255,.05)"/>
-    {/* Yard lines every ~73px */}
-    {[1,2,3,4,5,6,7,8,9,10].map(i=>(
-      <line key={i} x1={90+i*72} y1="10" x2={90+i*72} y2="490"/>
-    ))}
-    {/* Hash marks */}
-    {Array.from({length:50},(_,i)=>(
-      <g key={i}>
-        <line x1={90+i*16} y1="170" x2={90+i*16} y2="185"/>
-        <line x1={90+i*16} y1="315" x2={90+i*16} y2="330"/>
-      </g>
-    ))}
-    {/* 50 yard line */}
-    <line x1="450" y1="10" x2="450" y2="490" strokeWidth="3"/>
-    {/* Goal posts */}
-    <path d="M50,180 L50,320 M30,200 L50,200 L70,200 M30,300 L50,300 L70,300" strokeWidth="3"/>
-    <path d="M850,180 L850,320 M830,200 L850,200 L870,200 M830,300 L850,300 L870,300" strokeWidth="3"/>
+    <rect x="10" y="10" width="78" height="480" fill="rgba(255,255,255,.04)"/>
+    <rect x="812" y="10" width="78" height="480" fill="rgba(255,255,255,.04)"/>
+    {[1,2,3,4,5,6,7,8,9,10].map(i=><line key={i} x1={88+i*73.2} y1="10" x2={88+i*73.2} y2="490"/>)}
+    <line x1="454" y1="10" x2="454" y2="490" strokeWidth="3.5"/>
+    {Array.from({length:30},(_,i)=><g key={i}><line x1={88+i*27} y1="172" x2={88+i*27} y2="184"/><line x1={88+i*27} y1="316" x2={88+i*27} y2="328"/></g>)}
+    <path d="M49,178 L49,322 M30,196 L49,196 L68,196 M30,304 L49,304 L68,304" strokeWidth="3"/>
+    <path d="M851,178 L851,322 M832,196 L851,196 L870,196 M832,304 L851,304 L870,304" strokeWidth="3"/>
   </svg>
 );
 const BaseballSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 700 700" fill="none" stroke="rgba(255,255,255,.6)" strokeWidth="2.5" preserveAspectRatio="xMidYMid meet" opacity=".38">
-    <path d="M350,650 L80,650 L80,250 Q350,50 620,250 L620,650 Z" fill="rgba(255,255,255,.02)"/>
-    <circle cx="350" cy="500" r="8" fill="white" stroke="none"/>
-    <circle cx="200" cy="400" r="8" fill="white" stroke="none"/>
-    <circle cx="350" cy="320" r="8" fill="white" stroke="none"/>
-    <circle cx="500" cy="400" r="8" fill="white" stroke="none"/>
-    <line x1="350" y1="500" x2="200" y2="400"/>
-    <line x1="200" y1="400" x2="350" y2="320"/>
-    <line x1="350" y1="320" x2="500" y2="400"/>
-    <line x1="500" y1="400" x2="350" y2="500"/>
-    <circle cx="350" cy="410" r="60" strokeDasharray="5 4"/>
-    <path d="M350,500 L80,650 M350,500 L620,650"/>
+  <svg className="court-svg" viewBox="0 0 700 700" fill="none" stroke="rgba(255,255,255,.55)" strokeWidth="2.5" preserveAspectRatio="xMidYMid meet" opacity=".32">
+    <path d="M350,640 L75,640 L75,245 Q350,42 625,245 L625,640 Z" fill="rgba(255,255,255,.02)"/>
+    <circle cx="350" cy="490" r="7" fill="white" stroke="none"/><circle cx="200" cy="395" r="7" fill="white" stroke="none"/>
+    <circle cx="350" cy="315" r="7" fill="white" stroke="none"/><circle cx="500" cy="395" r="7" fill="white" stroke="none"/>
+    <line x1="350" y1="490" x2="200" y2="395"/><line x1="200" y1="395" x2="350" y2="315"/>
+    <line x1="350" y1="315" x2="500" y2="395"/><line x1="500" y1="395" x2="350" y2="490"/>
+    <circle cx="350" cy="405" r="58" strokeDasharray="5 4"/>
+    <line x1="350" y1="490" x2="75" y2="640"/><line x1="350" y1="490" x2="625" y2="640"/>
   </svg>
 );
 const TennisSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 600 900" fill="none" stroke="white" strokeWidth="3" preserveAspectRatio="none" opacity=".38">
-    <rect x="30" y="30" width="540" height="840" rx="3"/>
-    <line x1="30" y1="450" x2="570" y2="450"/>
-    {/* Service boxes */}
-    <rect x="30" y="195" width="270" height="255"/>
-    <rect x="300" y="195" width="270" height="255"/>
-    <rect x="30" y="450" width="270" height="255"/>
-    <rect x="300" y="450" width="270" height="255"/>
-    {/* Net */}
-    <line x1="30" y1="450" x2="570" y2="450" strokeWidth="4" stroke="rgba(255,255,255,.8)"/>
-    {/* Center marks */}
-    <line x1="300" y1="30" x2="300" y2="195"/>
-    <line x1="300" y1="705" x2="300" y2="870"/>
-    <line x1="300" y1="195" x2="300" y2="705"/>
-    <circle cx="300" cy="450" r="5" fill="white" stroke="none"/>
+  <svg className="court-svg" viewBox="0 0 600 880" fill="none" stroke="white" strokeWidth="2.8" preserveAspectRatio="none" opacity=".3">
+    <rect x="30" y="28" width="540" height="824" rx="3"/>
+    <line x1="30" y1="440" x2="570" y2="440"/>
+    <rect x="30" y="192" width="270" height="248"/><rect x="300" y="192" width="270" height="248"/>
+    <rect x="30" y="440" width="270" height="248"/><rect x="300" y="440" width="270" height="248"/>
+    <line x1="300" y1="28" x2="300" y2="192"/><line x1="300" y1="688" x2="300" y2="852"/>
+    <line x1="300" y1="192" x2="300" y2="688"/>
+    <circle cx="300" cy="440" r="5" fill="white" stroke="none"/>
+    <line x1="30" y1="440" x2="570" y2="440" strokeWidth="4.5" stroke="rgba(255,255,255,.75)"/>
   </svg>
 );
 const HockeySVG=()=>(
-  <svg className="court-svg" viewBox="0 0 900 500" fill="none" stroke="#1565C0" strokeWidth="3" preserveAspectRatio="none" opacity=".5">
-    <rect x="20" y="20" width="860" height="460" rx="30" stroke="#1565C0"/>
-    <line x1="450" y1="20" x2="450" y2="480"/>
-    <circle cx="450" cy="250" r="12" fill="#1565C0" stroke="none"/>
-    <circle cx="450" cy="250" r="70" strokeDasharray="8 6"/>
-    {/* Face-off circles */}
-    <circle cx="170" cy="150" r="50"/><circle cx="170" cy="350" r="50"/>
-    <circle cx="730" cy="150" r="50"/><circle cx="730" cy="350" r="50"/>
-    {/* Goal creases */}
-    <path d="M20,200 Q80,250 20,300" strokeWidth="3"/>
-    <path d="M880,200 Q820,250 880,300" strokeWidth="3"/>
-    {/* Goals */}
-    <rect x="8" y="215" width="18" height="70" fill="rgba(255,255,255,.15)" stroke="white" strokeWidth="2"/>
-    <rect x="874" y="215" width="18" height="70" fill="rgba(255,255,255,.15)" stroke="white" strokeWidth="2"/>
-    {/* Blue lines */}
-    <line x1="270" y1="20" x2="270" y2="480" stroke="#1565C0" strokeWidth="8" opacity=".4"/>
-    <line x1="630" y1="20" x2="630" y2="480" stroke="#1565C0" strokeWidth="8" opacity=".4"/>
-    {/* Red center line */}
-    <line x1="450" y1="20" x2="450" y2="480" stroke="#C9082A" strokeWidth="5" opacity=".4"/>
+  <svg className="court-svg" viewBox="0 0 900 500" fill="none" stroke="#1565C0" strokeWidth="2.5" preserveAspectRatio="none" opacity=".45">
+    <rect x="18" y="18" width="864" height="464" rx="28" stroke="#1565C0"/>
+    <line x1="270" y1="18" x2="270" y2="482" stroke="#1565C0" strokeWidth="7" opacity=".35"/>
+    <line x1="630" y1="18" x2="630" y2="482" stroke="#1565C0" strokeWidth="7" opacity=".35"/>
+    <line x1="450" y1="18" x2="450" y2="482" stroke="#C9082A" strokeWidth="4.5" opacity=".38"/>
+    <circle cx="450" cy="250" r="10" fill="#C9082A" stroke="none" opacity=".55"/>
+    <circle cx="450" cy="250" r="65" strokeDasharray="8 6"/>
+    <circle cx="168" cy="148" r="48"/><circle cx="168" cy="352" r="48"/>
+    <circle cx="732" cy="148" r="48"/><circle cx="732" cy="352" r="48"/>
+    <path d="M18,196 Q78,250 18,304"/><path d="M882,196 Q822,250 882,304"/>
+    <rect x="6" y="212" width="16" height="76" fill="rgba(255,255,255,.12)" stroke="white" strokeWidth="1.8"/>
+    <rect x="878" y="212" width="16" height="76" fill="rgba(255,255,255,.12)" stroke="white" strokeWidth="1.8"/>
   </svg>
 );
-const RuggySVG=()=><FootballSVG/>;
+const RugbySVG=()=>(
+  <svg className="court-svg" viewBox="0 0 800 760" fill="none" stroke="white" strokeWidth="2" preserveAspectRatio="none" opacity=".28">
+    <rect x="28" y="24" width="744" height="712" rx="3"/>
+    {[1,2,3,4,5,6,7,8,9].map(i=><line key={i} x1="28" y1={24+i*79} x2="772" y2={24+i*79}/>)}
+    <rect x="28" y="24" width="80" height="712" fill="rgba(255,255,255,.04)"/>
+    <rect x="692" y="24" width="80" height="712" fill="rgba(255,255,255,.04)"/>
+    <line x1="400" y1="24" x2="400" y2="736" strokeWidth="3"/>
+    <path d="M368,24 L368,80 M432,24 L432,80 M380,8 L380,24 M420,8 L420,24" strokeWidth="2.5"/>
+    <path d="M368,736 L368,680 M432,736 L432,680 M380,752 L380,736 M420,752 L420,736" strokeWidth="2.5"/>
+  </svg>
+);
 const CricketSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 700 700" fill="none" stroke="rgba(255,255,255,.5)" strokeWidth="2" preserveAspectRatio="xMidYMid meet" opacity=".35">
-    <ellipse cx="350" cy="350" rx="320" ry="300" stroke="rgba(255,255,255,.4)" strokeWidth="3"/>
-    <ellipse cx="350" cy="350" rx="60" ry="140" fill="rgba(180,140,100,.25)" stroke="rgba(200,200,200,.5)" strokeWidth="2"/>
-    <rect x="338" y="220" width="24" height="260" fill="none" stroke="rgba(255,255,255,.7)" strokeWidth="1.5"/>
-    <circle cx="350" cy="350" r="8" fill="rgba(200,50,50,.8)" stroke="none"/>
-  </svg>
-);
-const GolfSVG=()=>(
-  <svg className="court-svg" viewBox="0 0 600 800" fill="none" stroke="rgba(255,255,255,.4)" strokeWidth="2" preserveAspectRatio="xMidYMid meet" opacity=".35">
-    <path d="M100,750 Q200,500 300,300 Q400,100 500,50" strokeWidth="60" stroke="rgba(46,125,50,.6)" strokeLinecap="round"/>
-    <circle cx="500" cy="50" r="20" fill="rgba(255,255,255,.6)" stroke="none"/>
-    <circle cx="100" cy="750" r="12" fill="rgba(255,255,255,.4)" stroke="none"/>
-    <line x1="500" y1="50" x2="500" y2="0" strokeWidth="2"/>
-    <circle cx="500" cy="0" r="4" fill="white" stroke="none"/>
+  <svg className="court-svg" viewBox="0 0 700 700" fill="none" stroke="rgba(255,255,255,.48)" strokeWidth="2" preserveAspectRatio="xMidYMid meet" opacity=".32">
+    <ellipse cx="350" cy="350" rx="318" ry="295" stroke="rgba(255,255,255,.38)" strokeWidth="2.5"/>
+    <ellipse cx="350" cy="350" rx="58" ry="136" fill="rgba(175,135,95,.22)" stroke="rgba(200,200,200,.45)" strokeWidth="2"/>
+    <rect x="338" y="220" width="24" height="260" fill="none" stroke="rgba(255,255,255,.65)" strokeWidth="1.4"/>
+    <circle cx="350" cy="350" r="7" fill="rgba(200,50,50,.78)" stroke="none"/>
+    <line x1="150" y1="550" x2="350" y2="350"/><line x1="550" y1="550" x2="350" y2="350"/>
+    <line x1="150" y1="150" x2="350" y2="350"/><line x1="550" y1="150" x2="350" y2="350"/>
   </svg>
 );
 
-const SPORT_SVG = {
-  football:<FootballSVG/>,
-  basketball:<BasketballSVG/>,
-  american:<AmericanFootballSVG/>,
-  baseball:<BaseballSVG/>,
-  tennis:<TennisSVG/>,
-  rugby:<RuggySVG/>,
-  cricket:<CricketSVG/>,
-  hockey:<HockeySVG/>,
-  golf:<GolfSVG/>,
-};
+const COURT_SVG={football:<FootballSVG/>,basketball:<BasketballSVG/>,american:<AmericanFootballSVG/>,baseball:<BaseballSVG/>,tennis:<TennisSVG/>,rugby:<RugbySVG/>,cricket:<CricketSVG/>,hockey:<HockeySVG/>};
 
 // ══════════════════════════════════════════════
 // SEAT COMPONENTS
 // ══════════════════════════════════════════════
-const SeatRowH = ({cols=42,litRate=.42,wave=false}) => {
-  const [lit,setLit]=useState(()=>Array(cols).fill(0).map(()=>Math.random()<litRate));
-  useEffect(()=>{if(!wave)return;const t=setInterval(()=>{const i=Math.floor(Math.random()*cols);setLit(l=>{const n=[...l];n[i]=!n[i];return n;});},300);return()=>clearInterval(t);},[cols,wave]);
-  return <div className="srow">{lit.map((on,i)=><div key={i} className={`hs${on?' on':''}`}/>)}</div>;
+const SeatRowH=({cols=38,lr=.42,wave=false,cls='rh'})=>{
+  const [lit,setLit]=useState(()=>Array(cols).fill(0).map(()=>Math.random()<lr));
+  useEffect(()=>{if(!wave)return;const t=setInterval(()=>{const i=Math.floor(Math.random()*cols);setLit(l=>{const n=[...l];n[i]=!n[i];return n;});},320);return()=>clearInterval(t);},[cols,wave]);
+  return <div className="rhs">{lit.map((on,i)=><div key={i} className={`${cls}${on?' on':''}`}/>)}</div>;
 };
-const StandSeats=({rows=18,cols=9,litRate=.4})=>{
+const StandSeats=({rows=18,cols=9,lr=.4,cl='scv'})=>{
   const total=rows*cols;
-  const [lit,setLit]=useState(()=>Array(total).fill(0).map(()=>Math.random()<litRate));
-  useEffect(()=>{const t=setInterval(()=>{const i=Math.floor(Math.random()*total);setLit(l=>{const n=[...l];n[i]=!n[i];return n;});},480);return()=>clearInterval(t);},[total]);
-  return <div className="stand-seats">{Array(rows).fill(0).map((_,ri)=><div key={ri} className="stand-row">{Array(cols).fill(0).map((_,ci)=><div key={ci} className={`vs${lit[ri*cols+ci]?' on':''}`}/>)}</div>)}</div>;
+  const [lit,setLit]=useState(()=>Array(total).fill(0).map(()=>Math.random()<lr));
+  useEffect(()=>{const t=setInterval(()=>{const i=Math.floor(Math.random()*total);setLit(l=>{const n=[...l];n[i]=!n[i];return n;});},450);return()=>clearInterval(t);},[total]);
+  return <div className={cl==='sv'?'ss-inner':'sc-seats'}>{Array(rows).fill(0).map((_,ri)=><div key={ri} className={cl==='sv'?'ss-row':'sc-row'}>{Array(cols).fill(0).map((_,ci)=><div key={ci} className={`${cl}${lit[ri*cols+ci]?' on':''}`}/>)}</div>)}</div>;
 };
-const AdBoardH=({ads,reverse=false})=>{
-  const all=[...ads,...ads];
-  return <div className="adh-wrap"><div className={`adh-inner ${reverse?'rev':'go'}`}>{all.map((a,i)=><div key={i} className="adh-blk" style={{background:a.bg,minWidth:'clamp(70px,11vw,155px)'}}><span className="adh-txt" style={{color:a.col}}>{a.txt}</span></div>)}</div></div>;
-};
-const AdBoardV=({ads,reverse=false})=>{
-  const all=[...ads,...ads];
-  return <div className="adv-wrap"><div className={`adv-inner ${reverse?'rev':'go'}`}>{all.map((a,i)=><div key={i} className="adv-blk" style={{background:a.bg}}><span className="adv-txt" style={{color:a.col}}>{a.txt}</span></div>)}</div></div>;
-};
+const AdBoardH=({ads,reverse=false})=>{const all=[...ads,...ads];return<div className="adh-i-wrapper" style={{background:'#000',overflow:'hidden',height:'clamp(14px,1.8vw,22px)',flexShrink:0}}><div className={`adh-i ${reverse?'rv':'go'}`} style={{display:'flex',height:'100%',width:'200%'}}>{all.map((a,i)=><div key={i} className="adh-b" style={{background:a.bg,minWidth:'clamp(68px,10.5vw,148px)'}}><span className="adh-t" style={{color:a.col}}>{a.txt}</span></div>)}</div></div>;};
+const AdBoardV=({ads,reverse=false})=>{const all=[...ads,...ads];return<div className="adv-w"><div className={`adv-i ${reverse?'rv':'go'}`}>{all.map((a,i)=><div key={i} className="adv-b" style={{background:a.bg}}><span className="adv-t" style={{color:a.col}}>{a.txt}</span></div>)}</div></div>;};
 
 // ══════════════════════════════════════════════
-// PITCH / COURT VIEW
+// CHIPS COLUMN — left side of pitch, only when roof open
 // ══════════════════════════════════════════════
-const CourtView=({match,sport,roofOpen})=>{
-  const [ball,setBall]=useState({x:50,y:50});
-  const [evts,setEvts]=useState([]);
-  const [hovered,setHovered]=useState(null);
+const ChipsCol=({usedChips,onUseChip,visible})=>{
+  const [tip,setTip]=useState(null);
   const [tipPos,setTipPos]=useState({x:0,y:0});
-  const tickRef=useRef(null);
-
-  useEffect(()=>{
-    if(!match||match.status!=='live')return;
-    const tick=()=>{
-      setBall({x:18+Math.random()*64,y:12+Math.random()*76});
-      if(Math.random()<.18){
-        const msgs=['Corner!','⚠️ Foul!','Offside!','Shot blocked!','Free kick!','Header!','VAR check...'];
-        const id=Date.now();
-        setEvts(ev=>[{id,text:msgs[Math.floor(Math.random()*msgs.length)],type:'info'},...ev].slice(0,2));
-        setTimeout(()=>setEvts(ev=>ev.filter(e=>e.id!==id)),2800);
-      }
-    };
-    tickRef.current=setInterval(tick,2200);
-    return()=>clearInterval(tickRef.current);
-  },[match?.id,match?.status]);
-
-  if(!match){
-    return <div style={{position:'absolute',inset:0,zIndex:10,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}>
-      {SPORT_SVG[sport]}
-      <div style={{zIndex:10,textAlign:'center',padding:'10px 18px',background:'rgba(0,0,0,.75)',borderRadius:10,border:'1px solid rgba(200,244,0,.15)'}}>
-        <div style={{fontSize:'1.6rem',marginBottom:3}}>{SPORTS.find(s=>s.id===sport)?.ball||'⚽'}</div>
-        <div style={{fontFamily:'Barlow Condensed',fontSize:'.65rem',color:'rgba(200,244,0,.6)',letterSpacing:2}}>SELECT A MATCH</div>
-        <div style={{fontFamily:'Barlow Condensed',fontSize:'.5rem',color:'rgba(255,255,255,.3)',marginTop:1}}>from right panel →</div>
-      </div>
-    </div>;
-  }
-
-  const isLive=match.status==='live';
-  const isDone=match.status==='finished';
-  const lineups=getLineups(match);
-  const ratClass=r=>{const n=parseFloat(r);if(isNaN(n))return'';if(n>=9)return'r9';if(n>=8)return'r8';if(n>=7)return'r7';if(n>=6)return'r6';return'r5';};
-  const dotClass=isHome=>{
-    if(sport==='basketball')return isHome?'nba-hm':'nba-aw';
-    if(sport==='american')return isHome?'nfl-hm':'nfl-aw';
-    return isHome?'hm':'aw';
-  };
-  const hposs=match.stats.h.poss,aposs=100-hposs;
-
-  return (
-    <div style={{position:'absolute',inset:0,zIndex:10}}>
-      {SPORT_SVG[sport]}
-      {/* Stats HUD */}
-      <div className="stats-hud">
-        <div className="hud-score">
-          <span className="hud-team">{match.h.split(' ').pop()}</span>
-          <span className="hud-num">{match.score.h}–{match.score.a}</span>
-          <span className="hud-team">{match.a.split(' ').pop()}</span>
-        </div>
-        <div className="hud-time" style={{color:isLive?'var(--red)':isDone?'rgba(200,244,0,.6)':'rgba(255,255,255,.35)'}}>
-          {isLive?`🔴 ${match.min}'`:isDone?'✅ FULL TIME':'🕐 UPCOMING'}
-        </div>
-        {[
-          {lbl:'Poss',hv:hposs,av:aposs,u:'%'},
-          {lbl:'Shots',hv:match.stats.h.shots,av:match.stats.a.shots,u:''},
-          {lbl:'Corners',hv:match.stats.h.corners,av:match.stats.a.corners,u:''},
-        ].map(s=>(
-          <div key={s.lbl} className="stat-bar-row">
-            <span className="sb-val h">{s.hv}{s.u}</span>
-            <div className="sb-track"><div className="sb-fill h" style={{width:`${s.hv/(s.hv+s.av)*100}%`}}/></div>
-            <span className="sb-lbl">{s.lbl}</span>
-            <div className="sb-track"><div className="sb-fill a" style={{width:`${s.av/(s.hv+s.av)*100}%`}}/></div>
-            <span className="sb-val a">{s.av}{s.u}</span>
+  return(
+    <div className={`chips-col${visible?' show':''}`}>
+      {CHIPS.map(ch=>{
+        const used=usedChips.includes(ch.id);
+        return(
+          <div key={ch.id}
+            className={`chip-col-btn${used?' used':''}`}
+            style={{background:ch.bg,borderColor:ch.border}}
+            onClick={()=>!used&&onUseChip(ch.id)}
+            onMouseEnter={e=>{setTip(ch.id);setTipPos({x:e.clientX,y:e.clientY});}}
+            onMouseLeave={()=>setTip(null)}>
+            <span className="chip-col-icon">{ch.icon}</span>
+            <span className="chip-col-code" style={{color:ch.color}}>{ch.code}</span>
+            <span className="chip-col-pts" style={{color:ch.color}}>{used?'✓':'play'}</span>
           </div>
-        ))}
-      </div>
-      {/* Home (bottom) */}
-      <div style={{position:'absolute',bottom:'2%',left:0,right:0,zIndex:12,display:'flex',flexDirection:'column',gap:'clamp(2px,.6vw,8px)',alignItems:'center',padding:'0 3%'}}>
-        {[...lineups.home].reverse().map((row,ri)=>(
-          <div key={ri} style={{display:'flex',justifyContent:'center',gap:'clamp(4px,1.4vw,18px)',width:'100%'}}>
-            {row.players.map((p,pi)=>(
-              <div key={pi} className="pdot-wrap"
-                onMouseEnter={e=>{setHovered(p);setTipPos({x:e.clientX,y:e.clientY});}}
-                onMouseLeave={()=>setHovered(null)}>
-                <div className={`pdot ${dotClass(true)}${p.card==='yellow'?' yellow':''}`}>
-                  {p.goals>0?'⚽':p.pos.slice(0,2)}
-                </div>
-                <div className="p-nm">{p.name.split(' ').pop()}</div>
-                {(isDone||isLive)&&<span className={`p-rat ${ratClass(p.rat)}`}>{p.rat}</span>}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      {/* Away (top) */}
-      <div style={{position:'absolute',top:'2%',left:0,right:0,zIndex:12,display:'flex',flexDirection:'column',gap:'clamp(2px,.6vw,8px)',alignItems:'center',padding:'0 3%'}}>
-        {lineups.away.map((row,ri)=>(
-          <div key={ri} style={{display:'flex',justifyContent:'center',gap:'clamp(4px,1.4vw,18px)',width:'100%'}}>
-            {row.players.map((p,pi)=>(
-              <div key={pi} className="pdot-wrap"
-                onMouseEnter={e=>{setHovered(p);setTipPos({x:e.clientX,y:e.clientY});}}
-                onMouseLeave={()=>setHovered(null)}>
-                <div className={`pdot ${dotClass(false)}`}>
-                  {p.goals>0?'⚽':p.pos.slice(0,2)}
-                </div>
-                <div className="p-nm">{p.name.split(' ').pop()}</div>
-                {(isDone||isLive)&&<span className={`p-rat ${ratClass(p.rat)}`}>{p.rat}</span>}
-              </div>
-            ))}
-          </div>
-        ))}
-      </div>
-      {/* Ball */}
-      {isLive&&<div className="sim-ball" style={{left:`${ball.x}%`,top:`${ball.y}%`,transform:'translate(-50%,-50%)'}}/>}
-      {/* Events */}
-      <div className="ev-feed">
-        {[...match.events.slice(-2),...evts].slice(0,3).map((ev,i)=>(
-          <div key={ev.id||ev.min||i} className={`ev-item${ev.type==='goal'?' goal':ev.type==='card'?' card':''}`}>
-            {ev.text||ev.txt}
-          </div>
-        ))}
-      </div>
-      {/* Player tooltip */}
-      {hovered&&(
-        <div className="p-tip" style={{left:tipPos.x+10,top:Math.min(tipPos.y-60,window.innerHeight-160)}}>
-          <div className="pt-n">{hovered.name}</div>
-          <div className="pt-r">{hovered.pos}</div>
-          <div className="pt-row"><span className="pt-k">Rating</span><span className="pt-v">{hovered.rat}</span></div>
-          <div className="pt-row"><span className="pt-k">Goals</span><span className="pt-v">{hovered.goals}</span></div>
-          <div className="pt-row"><span className="pt-k">Assists</span><span className="pt-v">{hovered.assists}</span></div>
-        </div>
-      )}
+        );
+      })}
+      {tip&&(()=>{
+        const ch=CHIPS.find(c=>c.id===tip);
+        if(!ch)return null;
+        const px=Math.min(tipPos.x+14,window.innerWidth-215);
+        const py=Math.min(tipPos.y-20,window.innerHeight-200);
+        return <div className="chip-col-tip" style={{left:px,top:py,border:`1px solid ${ch.border}`}}>
+          <div className="ct-title" style={{color:ch.color}}>{ch.icon} {ch.name}</div>
+          <div className="ct-effect" style={{color:ch.color}}>{ch.effect}</div>
+          <div className="ct-desc">{ch.desc}</div>
+          <div className="ct-award">🏅 {ch.award}</div>
+        </div>;
+      })()}
     </div>
   );
+};
+
+
+// ══════════════════════════════════════════════
+// COURT VIEW
+// ══════════════════════════════════════════════
+const CourtView=({match,sport})=>{
+  const [ball,setBall]=useState({x:50,y:50});
+  const [evts,setEvts]=useState([]);
+  const [hov,setHov]=useState(null);
+  const [tip,setTip]=useState({x:0,y:0});
+  useEffect(()=>{
+    if(!match||match.status!=='live')return;
+    const t=setInterval(()=>{
+      setBall({x:16+Math.random()*68,y:10+Math.random()*80});
+      if(Math.random()<.2){
+        const msgs=['Corner!','⚠️ Foul!','Offside!','Shot blocked!','Free kick!','Tackle!'];
+        const id=Date.now();
+        setEvts(ev=>[{id,text:msgs[~~(Math.random()*msgs.length)],type:'info'},...ev].slice(0,2));
+        setTimeout(()=>setEvts(ev=>ev.filter(e=>e.id!==id)),2600);
+      }
+    },2000);
+    return()=>clearInterval(t);
+  },[match?.id,match?.status]);
+
+  if(!match)return(
+    <div style={{position:'absolute',inset:0,zIndex:10,display:'flex',alignItems:'center',justifyContent:'center',pointerEvents:'none'}}>
+      {COURT_SVG[sport]||<FootballSVG/>}
+    </div>
+  );
+  const isLive=match.status==='live',isDone=match.status==='finished';
+  const lu=genLineups(match);
+  const rCl=r=>{const n=parseFloat(r);if(isNaN(n))return'';if(n>=9)return'rA';if(n>=8)return'rB';if(n>=7)return'rC';if(n>=6)return'rD';return'rF';};
+  const dCl=(h)=>{if(sport==='basketball')return h?'nb-h':'nb-a';if(sport==='american')return h?'nf-h':'nf-a';return h?'hm':'aw';};
+  const hp=match.stats.h.poss,ap=100-hp;
+  return(
+    <div style={{position:'absolute',inset:0,zIndex:10}}>
+      {COURT_SVG[sport]||<FootballSVG/>}
+      <div className="hud">
+        <div className="hud-sc"><span className="hud-tn">{match.h.split(' ').pop()}</span><span className="hud-num">{match.score.h}–{match.score.a}</span><span className="hud-tn">{match.a.split(' ').pop()}</span></div>
+        <div className="hud-t" style={{color:isLive?'var(--red)':isDone?'rgba(200,244,0,.55)':'rgba(255,255,255,.32)'}}>{isLive?`🔴 ${match.min}'`:isDone?'✅ FULL TIME':'🕐 UPCOMING'}</div>
+        {[{l:'Poss',h:hp,a:ap,u:'%'},{l:'Shots',h:match.stats.h.shots,a:match.stats.a.shots,u:''},{l:'Corners',h:match.stats.h.corners,a:match.stats.a.corners,u:''}].map(s=>(
+          <div key={s.l} className="sbr">
+            <span className="sbv h">{s.h}{s.u}</span>
+            <div className="sb-tk"><div className="sb-f h" style={{width:`${s.h/(s.h+s.a)*100}%`}}/></div>
+            <span className="sb-l">{s.l}</span>
+            <div className="sb-tk"><div className="sb-f a" style={{width:`${s.a/(s.h+s.a)*100}%`}}/></div>
+            <span className="sbv a">{s.a}{s.u}</span>
+          </div>
+        ))}
+      </div>
+      {/* Home bottom */}
+      <div style={{position:'absolute',bottom:'1%',left:0,right:0,zIndex:12,display:'flex',flexDirection:'column',gap:'clamp(2px,.5vw,7px)',alignItems:'center',padding:'0 2%'}}>
+        {[...lu.home].reverse().map((row,ri)=>(
+          <div key={ri} style={{display:'flex',justifyContent:'center',gap:'clamp(3px,1.2vw,16px)',width:'100%'}}>
+            {row.players.map((p,pi)=>(
+              <div key={pi} className="pdot-w" onMouseEnter={e=>{setHov(p);setTip({x:e.clientX,y:e.clientY});}} onMouseLeave={()=>setHov(null)}>
+                <div className={`pdot ${dCl(true)}${p.goals>0?' y':''}`}>{p.goals>0?'⚽':p.pos.slice(0,2)}</div>
+                <div className="p-nm">{p.name.split(' ').pop()}</div>
+                {(isDone||isLive)&&<span className={`p-rt ${rCl(p.rat)}`}>{p.rat}</span>}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      {/* Away top */}
+      <div style={{position:'absolute',top:'1%',left:0,right:0,zIndex:12,display:'flex',flexDirection:'column',gap:'clamp(2px,.5vw,7px)',alignItems:'center',padding:'0 2%'}}>
+        {lu.away.map((row,ri)=>(
+          <div key={ri} style={{display:'flex',justifyContent:'center',gap:'clamp(3px,1.2vw,16px)',width:'100%'}}>
+            {row.players.map((p,pi)=>(
+              <div key={pi} className="pdot-w" onMouseEnter={e=>{setHov(p);setTip({x:e.clientX,y:e.clientY});}} onMouseLeave={()=>setHov(null)}>
+                <div className={`pdot ${dCl(false)}`}>{p.goals>0?'⚽':p.pos.slice(0,2)}</div>
+                <div className="p-nm">{p.name.split(' ').pop()}</div>
+                {(isDone||isLive)&&<span className={`p-rt ${rCl(p.rat)}`}>{p.rat}</span>}
+              </div>
+            ))}
+          </div>
+        ))}
+      </div>
+      {isLive&&<div className="sim-ball" style={{left:`${ball.x}%`,top:`${ball.y}%`,transform:'translate(-50%,-50%)'}}/>}
+      <div className="ev-feed">
+        {[...match.events.slice(-2),...evts].slice(0,3).map((ev,i)=>(
+          <div key={ev.id||ev.min||i} className={`ev-i${ev.type==='goal'?' goal':ev.type==='card'?' card':''}`}>{ev.text||ev.txt}</div>
+        ))}
+      </div>
+      {hov&&<div className="ptip" style={{left:tip.x+10,top:Math.min(tip.y-55,window.innerHeight-150)}}>
+        <div className="ptip-n">{hov.name}</div><div className="ptip-r">{hov.pos}</div>
+        <div className="ptip-row"><span className="ptip-k">Rating</span><span className="ptip-v">{hov.rat}</span></div>
+        <div className="ptip-row"><span className="ptip-k">Goals</span><span className="ptip-v">{hov.goals}</span></div>
+        <div className="ptip-row"><span className="ptip-k">Assists</span><span className="ptip-v">{hov.assists}</span></div>
+      </div>}
+    </div>
+  );
+};
+
+// ══════════════════════════════════════════════
+// PANEL CONTENT
+// ══════════════════════════════════════════════
+const GW_PTS_DATA=[null,52,38,64,29,71,45,58,33,60,42,55,68,37,49,62,40,57,44,70,36,53,67,41,59,48,65,35,72,50,63,38,47,null,null,null,null,null,null];
+
+const AccountPanel=({pts,gw})=>{
+  const rank=pts>250?'Elite Gaffer':pts>150?'Senior Gaffer':pts>80?'Rising Gaffer':'Junior Gaffer';
+  const gwScrollRef=useRef(null);
+  useEffect(()=>{
+    if(!gwScrollRef.current)return;
+    const cur=gwScrollRef.current.querySelector('.gw-dot.cur');
+    if(cur)setTimeout(()=>cur.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'}),200);
+  },[]);
+  return<div>
+    <div className="acc-card">
+      <div className="acc-row"><div className="acc-av">👤</div><div><div className="acc-n">▶ You</div><div className="acc-s">{rank} · GW{gw}</div></div></div>
+      <div className="mg">
+        <div className="mc"><div className="mc-v">{pts}</div><div className="mc-l">Points</div></div>
+        <div className="mc"><div className="mc-v" style={{color:'var(--gold)'}}>{gw}</div><div className="mc-l">GW</div></div>
+        <div className="mc"><div className="mc-v">{Math.round(pts/Math.max(gw,1))}</div><div className="mc-l">Avg/GW</div></div>
+      </div>
+    </div>
+    <div className="sec-h"><i className="fas fa-chart-bar"/> GW History</div>
+    <div className="gw-mini" ref={gwScrollRef}>
+      {GW_PTS_DATA.map((p,i)=>{
+        const gwn=i+1,isCur=gwn===32,cls=p>=60?'hi':p>=40?'md':'lo';
+        return<div key={gwn} className={`gw-dot${isCur?' cur':''}`}>
+          <div className="gw-dot-n">GW{gwn}</div>
+          {p!==null?<div className={`gw-dot-p ${cls}`}>+{p}</div>:<div className="gw-dot-p lo">{isCur?'▶':'-'}</div>}
+          {p!==null&&<div className="gw-dot-bar"><div className="gw-dot-fill" style={{width:`${(p/72)*100}%`}}/></div>}
+        </div>;
+      })}
+    </div>
+    <div className="div-line"/>
+    <div className="sec-h"><i className="fas fa-trophy"/> Mini-League</div>
+    {LEADERBOARD.map((p,i)=><div key={p.n} className={`lb-r${p.me?' me':''}`}>
+      <span className={`lb-p${i<3?' top':''}`}>{i+1}</span>
+      <span className="lb-n">{p.n}</span>
+      <span className={`lb-d ${p.delta>0?'up':'dn'}`}>{p.delta>0?'▲':'▼'}{Math.abs(p.delta)}</span>
+      <span className="lb-pt">{p.pts}</span>
+    </div>)}
+  </div>;
+};
+
+const StatsPanel=({selLeague,selSport,selMode})=>{
+  const st=getSt(selLeague),sc=getSc(selLeague),as=getAs(selLeague);
+  const lg=Object.values(ALL_LEAGUES).flat().find(l=>l.id===selLeague)||{lbl:'League',icon:'🏆'};
+  const mo=MODES.find(m=>m.id===selMode)||MODES[4];
+  return<div>
+    <div className="sec-h">{lg.icon} Standings</div>
+    <table className="stbl"><thead><tr><th>#</th><th style={{textAlign:'left'}}>Team</th><th>P</th><th>W</th><th>GD</th><th style={{color:'var(--lime)'}}>Pts</th></tr></thead>
+      <tbody>{st.map((r,i)=><tr key={r.pos} className={i===0?'hi':''}><td><span className={`pos-n${i<3?' pos-g':''}`}>{r.pos}</span></td><td><span className="tnm">{r.team}</span></td><td>{r.p}</td><td>{r.w}</td><td>{r.gd>0?'+':''}{r.gd}</td><td><span className="pts-c">{r.pts}</span></td></tr>)}</tbody>
+    </table>
+    <div className="div-line"/>
+    <div className="sec-h"><i className="fas fa-futbol"/> Top {sc[0]?.sub||'Scorers'}</div>
+    {sc.map(s=><div key={s.pos} className="sr"><span className="sr-p">{s.pos}</span><div style={{flex:1}}><div className="sr-n">{s.name}</div><div className="sr-cl">{s.team}</div></div><span className="sr-v">{s.val}</span></div>)}
+    <div className="div-line"/>
+    <div className="sec-h"><i className="fas fa-hands-helping"/> Top {as[0]?.sub||'Assists'}</div>
+    {as.map(s=><div key={s.pos} className="sr"><span className="sr-p">{s.pos}</span><div style={{flex:1}}><div className="sr-n">{s.name}</div><div className="sr-cl">{s.team}</div></div><span className="sr-v">{s.val}</span></div>)}
+    <div className="div-line"/>
+    <div className="sec-h"><i className="fas fa-sliders"/> {mo.lbl} Points</div>
+    <div style={{background:'rgba(0,0,0,.4)',border:'1px solid rgba(200,244,0,.1)',borderRadius:6,padding:'5px 7px'}}>
+      {[['🎯 Exact Score',mo.pts.exact,'var(--gold)'],['✅ Result + Close',mo.pts.close,'var(--lime)'],['🟡 Correct Result',mo.pts.result,'var(--lime)'],['🔶 Near Miss',mo.pts.near,'rgba(200,244,0,.6)'],['❌ Miss','0','var(--red)']].map(([k,v,c])=>(
+        <div key={k} style={{display:'flex',justifyContent:'space-between',fontFamily:'Barlow Condensed',fontSize:'.5rem',padding:'2px 0',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
+          <span style={{color:'var(--sub)'}}>{k}</span><span style={{fontFamily:'Bebas Neue',color:c}}>{v} pts</span>
+        </div>
+      ))}
+    </div>
+  </div>;
+};
+
+const PredPanel=({matches,preds,locked,onPred,onLock,onSel,selMatch,selMode})=>(
+  <div>
+    <div className="sec-h"><i className="fas fa-crosshairs"/> Your Predictions</div>
+    {matches.map(m=>{
+      const k=`m_${m.id}`,p=preds[k]||{h:'',a:''},isl=locked[k],isLv=m.status==='live',isAct=selMatch===m.id;
+      const pts=(m.status==='finished'||isLv)&&p.h!==''&&p.a!==''?calcPts(+p.h,+p.a,m.score.h,m.score.a,selMode):null;
+      const fb=ptsFB(pts,selMode);
+      return<div key={m.id} className={`mp${isAct?' act':''}`} onClick={()=>onSel(m.id)}>
+        <div className="mp-h">
+          <span className={`mp-t${isLv?' lv':''}`}>{isLv?`${m.min}'`:m.status==='finished'?'FT':'vs'}</span>
+          {isLv&&<div className="live-pill"><div className="live-dot"/>LIVE</div>}
+          {m.status==='upcoming'&&<span style={{fontFamily:'Barlow Condensed',fontSize:'.42rem',color:'rgba(255,255,255,.28)'}}>UPCOMING</span>}
+          {m.status==='finished'&&<span style={{fontFamily:'Barlow Condensed',fontSize:'.42rem',color:'rgba(200,244,0,.38)'}}>FT</span>}
+        </div>
+        <div className="mp-tm"><span className="mp-tn">{m.h}</span><span className={`mp-sc${isLv?' lv':''}`}>{m.score.h}–{m.score.a}</span><span className="mp-tn aw">{m.a}</span></div>
+        <div className="pred-row">
+          <div style={{display:'flex',alignItems:'center',gap:3}}>
+            <span className="pred-l">PRED:</span>
+            <div className="pi-wrap">
+              <input className="sinp" type="number" min="0" max="30" value={p.h} disabled={isl} onClick={e=>e.stopPropagation()} onChange={e=>{e.stopPropagation();onPred(k,{...p,h:e.target.value});}} placeholder="–"/>
+              <span className="ssep">:</span>
+              <input className="sinp" type="number" min="0" max="30" value={p.a} disabled={isl} onClick={e=>e.stopPropagation()} onChange={e=>{e.stopPropagation();onPred(k,{...p,a:e.target.value});}} placeholder="–"/>
+            </div>
+          </div>
+          <div style={{display:'flex',alignItems:'center',gap:3}}>
+            {pts!==null&&fb&&<span className={`pts-b ${fb.c}`}>+{pts}pts</span>}
+            <button className={`lbtn ${isl?'on':'off'}`} onClick={e=>{e.stopPropagation();onLock(k,m);}}>{isl?'🔒':'🔓'}</button>
+          </div>
+        </div>
+        {fb&&<div style={{fontFamily:'Barlow Condensed',fontSize:'.42rem',textAlign:'center',marginTop:2,color:'rgba(255,255,255,.35)'}}>{fb.t}</div>}
+        <div style={{fontFamily:'Barlow Condensed',fontSize:'.38rem',color:'rgba(255,255,255,.2)',marginTop:1,textAlign:'right'}}>{isAct?'▼ Viewing on court':'Tap → view court'}</div>
+      </div>;
+    })}
+  </div>
+);
+
+const ResultsPanel=({matches,preds,selMode,leagueId})=>{
+  const lg=Object.values(ALL_LEAGUES).flat().find(l=>l.id===leagueId)||{lbl:'League',icon:'🏆'};
+  const done=matches.filter(m=>m.status!=='upcoming');
+  return<div>
+    <div className="sec-h">{lg.icon} Match Results</div>
+    {done.length===0&&<div style={{fontFamily:'Barlow Condensed',fontSize:'.56rem',color:'rgba(255,255,255,.28)',textAlign:'center',padding:'10px'}}>No results yet</div>}
+    {done.map(m=>{
+      const k=`m_${m.id}`,p=preds[k],pts=p&&p.h!==''&&p.a!==''?calcPts(+p.h,+p.a,m.score.h,m.score.a,selMode):null,fb=ptsFB(pts,selMode);
+      return<div key={m.id} className="rc">
+        <div className="rc-h"><span className="rc-lg">{lg.lbl}</span><span className="rc-st">{m.status==='live'?`🔴 ${m.min}'`:'✅ FT'}</span></div>
+        <div className="rc-tm"><span className="rc-tn">{m.h}</span><span className="rc-sc">{m.score.h}–{m.score.a}</span><span className="rc-tn aw">{m.a}</span></div>
+        {p&&p.h!==''&&<div className={`rc-pr ${pts===0?'miss':pts&&pts>=(MODES.find(mm=>mm.id===selMode)?.pts.close||14)?'hit':'close'}`}>Your pred: {p.h}–{p.a} {fb?`· ${fb.t}`:''} {pts!==null?`(+${pts}pts)`:''}</div>}
+      </div>;
+    })}
+  </div>;
 };
 
 // ══════════════════════════════════════════════
 // POPUP
 // ══════════════════════════════════════════════
-const Popup=({items,selected,onSelect,onClose,anchorRef})=>{
-  const style={};
-  if(anchorRef?.current){const r=anchorRef.current.getBoundingClientRect();style.left=r.left;style.width=Math.max(r.width,155);}
-  return <>
-    <div className="pop-bg" onClick={onClose}/>
-    <div className="pop" style={style}>
-      {items.map(it=>(
-        <div key={it.id} className={`pop-item${selected===it.id?' sel':''}`} onClick={()=>{onSelect(it.id);onClose();}}>
-          <span style={{fontSize:'.85rem',width:18,textAlign:'center',flexShrink:0}}>{it.icon}</span>
-          <div><div>{it.lbl}</div>{it.sub&&<span className="pop-sub">{it.sub}</span>}</div>
-          {selected===it.id&&<span style={{marginLeft:'auto',color:'var(--lime)'}}>✓</span>}
-        </div>
-      ))}
-    </div>
-  </>;
-};
-
-// ══════════════════════════════════════════════
-// LEFT PANEL — TOP: Account / BOT: Stats
-// ══════════════════════════════════════════════
-const LeftPanelTop=({pts,gw})=>{
-  const rank=pts>250?'Elite Gaffer':pts>150?'Senior Gaffer':pts>80?'Rising Gaffer':'Junior Gaffer';
-  return <div>
-    <div className="acc-hdr">
-      <div className="acc-ava">👤</div>
-      <div><div className="acc-name">▶ You</div><div className="acc-sub">{rank} · Season 2025/26</div></div>
-    </div>
-    <div className="metric-g">
-      <div className="metric-c"><div className="mc-v">{pts}</div><div className="mc-l">Points</div></div>
-      <div className="metric-c"><div className="mc-v" style={{color:'var(--gold)'}}>{gw}</div><div className="mc-l">GW</div></div>
-      <div className="metric-c"><div className="mc-v">{Math.round(pts/Math.max(gw,1))}%</div><div className="mc-l">Avg</div></div>
-    </div>
-    <div className="sec-hd"><i className="fas fa-trophy"/> Mini-League</div>
-    {LEADERBOARD.map((p,i)=>(
-      <div key={p.n} className={`lb-row${p.me?' me':''}`}>
-        <span className={`lb-pos${i<3?' top':''}`}>{i+1}</span>
-        <span className="lb-nm">{p.n}</span>
-        <span className={`lb-d ${p.delta>0?'up':'dn'}`}>{p.delta>0?'▲':'▼'}{Math.abs(p.delta)}</span>
-        <span className="lb-p">{p.pts}</span>
-      </div>
-    ))}
-  </div>;
-};
-const LeftPanelBot=({selLeague,selSport,selMode})=>{
-  const standings=getStandings(selLeague);
-  const scorers=getScorers(selLeague);
-  const assists=getAssists(selLeague);
-  const leagueObj=Object.values(ALL_LEAGUES).flat().find(l=>l.id===selLeague)||{lbl:'League',icon:'🏆'};
-  const modeObj=MODES.find(m=>m.id===selMode)||MODES[4];
-  return <div>
-    <div className="sec-hd">{leagueObj.icon} Standings</div>
-    <table className="stand-tbl">
-      <thead><tr><th>#</th><th style={{textAlign:'left'}}>Team</th><th>P</th><th>W</th><th>GD</th><th style={{color:'var(--lime)'}}>Pts</th></tr></thead>
-      <tbody>
-        {standings.map((r,i)=>(
-          <tr key={r.pos} className={i===0?'hi':''}>
-            <td><span className={`pos-n${i<3?' pos-g':''}`}>{r.pos}</span></td>
-            <td><span className="t-nm">{r.team}</span></td>
-            <td>{r.p}</td><td>{r.w}</td>
-            <td>{r.gd>0?'+':''}{r.gd}</td>
-            <td><span className="pts-c">{r.pts}</span></td>
-          </tr>
-        ))}
-      </tbody>
-    </table>
-    <div className="divider"/>
-    <div className="sec-hd"><i className="fas fa-futbol"/> Top {scorers[0]?.sub||'Scorers'}</div>
-    {scorers.map(s=>(
-      <div key={s.pos} className="stat-r">
-        <span className="sr-pos">{s.pos}</span>
-        <div style={{flex:1}}><div className="sr-nm">{s.name}</div><div className="sr-cl">{s.team}</div></div>
-        <span className="sr-val">{s.val}</span>
-      </div>
-    ))}
-    <div className="divider"/>
-    <div className="sec-hd"><i className="fas fa-hands-helping"/> Top {assists[0]?.sub||'Assists'}</div>
-    {assists.map(s=>(
-      <div key={s.pos} className="stat-r">
-        <span className="sr-pos">{s.pos}</span>
-        <div style={{flex:1}}><div className="sr-nm">{s.name}</div><div className="sr-cl">{s.team}</div></div>
-        <span className="sr-val">{s.val}</span>
-      </div>
-    ))}
-    <div className="divider"/>
-    <div className="sec-hd"><i className="fas fa-sliders"/> Mode: {modeObj.lbl}</div>
-    <div style={{background:'rgba(0,0,0,.4)',border:'1px solid rgba(200,244,0,.1)',borderRadius:6,padding:'5px 7px'}}>
-      <div style={{fontFamily:'Bebas Neue',fontSize:'.8rem',color:'var(--lime)',marginBottom:2}}>{modeObj.icon} {modeObj.desc}</div>
-      {Object.entries({['🎯 Exact']:modeObj.pts.exact,['✅ Close']:modeObj.pts.close,['🟡 Result']:modeObj.pts.result,['🔶 Near']:modeObj.pts.near}).map(([k,v])=>(
-        <div key={k} style={{display:'flex',justifyContent:'space-between',fontFamily:'Barlow Condensed',fontSize:'.52rem',padding:'1px 0',borderBottom:'1px solid rgba(255,255,255,.04)'}}>
-          <span style={{color:'var(--sub)'}}>{k}</span>
-          <span style={{fontFamily:'Bebas Neue',color:'var(--lime)'}}>{v} pts</span>
-        </div>
-      ))}
-    </div>
-  </div>;
-};
-
-// ══════════════════════════════════════════════
-// RIGHT PANEL — TOP: Predictions / BOT: Results
-// ══════════════════════════════════════════════
-const RightPanelTop=({matches,preds,locked,onPred,onLock,onSelect,selMatch,selMode})=>(
-  <div>
-    <div className="sec-hd"><i className="fas fa-crosshairs"/> Your Predictions</div>
-    {matches.map(m=>{
-      const k=`match_${m.id}`;
-      const p=preds[k]||{h:'',a:''};
-      const isl=locked[k];
-      const isLive=m.status==='live';
-      const isAct=selMatch===m.id;
-      const pts=(m.status==='finished'||isLive)&&p.h!==''&&p.a!==''?calcPts(+p.h,+p.a,m.score.h,m.score.a,selMode):null;
-      const fb=ptsFB(pts,selMode);
-      return (
-        <div key={m.id} className={`match-pred${isAct?' act':''}`} onClick={()=>onSelect(m.id)}>
-          <div className="mp-header">
-            <span className={`mp-time${isLive?' live':''}`}>
-              {isLive?`${m.min}'`:m.status==='finished'?'FT':'vs'}
-            </span>
-            {isLive&&<div className="live-pill"><div className="live-dot"/>LIVE</div>}
-            {m.status==='upcoming'&&<span style={{fontFamily:'Barlow Condensed',fontSize:'.44rem',color:'rgba(255,255,255,.3)'}}>UPCOMING</span>}
-            {m.status==='finished'&&<span style={{fontFamily:'Barlow Condensed',fontSize:'.44rem',color:'rgba(200,244,0,.4)'}}>FT</span>}
-          </div>
-          <div className="mp-teams">
-            <span className="mp-tnm">{m.h}</span>
-            <span className={`mp-score${isLive?' live':''}`}>{m.score.h}–{m.score.a}</span>
-            <span className="mp-tnm aw">{m.a}</span>
-          </div>
-          <div className="pred-row">
-            <div style={{display:'flex',alignItems:'center',gap:3}}>
-              <span className="pred-lbl">PRED:</span>
-              <div className="pred-inps">
-                <input className="sinp" type="number" min="0" max="30" value={p.h} disabled={isl}
-                  onClick={e=>e.stopPropagation()} onChange={e=>{e.stopPropagation();onPred(k,{...p,h:e.target.value});}} placeholder="–"/>
-                <span className="ssep">:</span>
-                <input className="sinp" type="number" min="0" max="30" value={p.a} disabled={isl}
-                  onClick={e=>e.stopPropagation()} onChange={e=>{e.stopPropagation();onPred(k,{...p,a:e.target.value});}} placeholder="–"/>
-              </div>
-            </div>
-            <div style={{display:'flex',alignItems:'center',gap:4}}>
-              {pts!==null&&fb&&<span className={`pts-badge ${fb.cls}`}>+{pts}pts</span>}
-              <button className={`lbtn ${isl?'on':'off'}`} onClick={e=>{e.stopPropagation();onLock(k,m);}}>{isl?'🔒':'🔓'}</button>
-            </div>
-          </div>
-          {fb&&<div style={{fontFamily:'Barlow Condensed',fontSize:'.44rem',textAlign:'center',marginTop:2,color:'rgba(255,255,255,.4)'}}>{fb.t}</div>}
-        </div>
-      );
-    })}
-  </div>
-);
-const RightPanelBot=({matches,preds,selMode,selLeague})=>{
-  const leagueObj=Object.values(ALL_LEAGUES).flat().find(l=>l.id===selLeague)||{lbl:'League',icon:'🏆'};
-  const done=matches.filter(m=>m.status==='finished'||m.status==='live');
-  return (
-    <div>
-      <div className="sec-hd">{leagueObj.icon} Actual Results</div>
-      {done.length===0&&<div style={{fontFamily:'Barlow Condensed',fontSize:'.58rem',color:'rgba(255,255,255,.3)',textAlign:'center',padding:'10px'}}>No results yet</div>}
-      {done.map(m=>{
-        const k=`match_${m.id}`;
-        const p=preds[k];
-        const pts=p&&p.h!==''&&p.a!==''?calcPts(+p.h,+p.a,m.score.h,m.score.a,selMode):null;
-        const fb=ptsFB(pts,selMode);
-        return (
-          <div key={m.id} className="result-card">
-            <div className="rc-head">
-              <span className="rc-lg">{leagueObj.lbl}</span>
-              <span className="rc-ft">{m.status==='live'?`🔴 ${m.min}'`:'✅ FT'}</span>
-            </div>
-            <div className="rc-teams">
-              <span className="rc-tnm">{m.h}</span>
-              <span className="rc-score">{m.score.h}–{m.score.a}</span>
-              <span className="rc-tnm aw">{m.a}</span>
-            </div>
-            {p&&p.h!==''&&<div className={`rc-pred ${pts===0?'miss':pts&&pts>=(MODES.find(mm=>mm.id===selMode)?.pts.close||14)?'hit':'close'}`}>
-              Your pred: {p.h}–{p.a} {fb?`· ${fb.t}`:''} {pts!==null?`+${pts}pts`:''}
-            </div>}
-          </div>
-        );
-      })}
-    </div>
-  );
+const Popup=({items,sel,onSel,onClose,ref_})=>{
+  const s={};
+  if(ref_?.current){const r=ref_.current.getBoundingClientRect();s.left=r.left;s.width=Math.max(r.width,148);}
+  return<><div className="pop-bg" onClick={onClose}/><div className="pop" style={s}>{items.map(it=><div key={it.id} className={`pop-i${sel===it.id?' sel':''}`} onClick={()=>{onSel(it.id);onClose();}}><span style={{fontSize:'.82rem',width:17,textAlign:'center',flexShrink:0}}>{it.icon}</span><div><div>{it.lbl}</div>{it.sub&&<span className="pop-s">{it.sub}</span>}</div>{sel===it.id&&<span style={{marginLeft:'auto',color:'var(--lime)'}}>✓</span>}</div>)}</div></>;
 };
 
 // ══════════════════════════════════════════════
 // APP
 // ══════════════════════════════════════════════
 function App(){
-  const [roofState,setRoofState]=useState('opened');
-  const [selSport,setSelSport]=useState('football');
-  const [selLeague,setSelLeague]=useState('epl');
-  const [selMode,setSelMode]=useState('full11');
-  const [selMini,setSelMini]=useState('pub');
-  const [openPop,setOpenPop]=useState(null);
+  const [roof,setRoof]=useState('closed');
+  const [selSport,setSport]=useState('football');
+  const [selLeague,setLeague]=useState('epl');
+  const [selMode,setMode]=useState('full11');
+  const [selMini,setMini]=useState('pub');
+  const [pop,setPop]=useState(null);
   const [selMatch,setSelMatch]=useState(null);
   const [preds,setPreds]=useState({});
   const [locked,setLocked]=useState({});
   const [pts,setPts]=useState(134);
-  const [toasts,setToasts]=useState([]);
   const [ptsAnim,setPtsAnim]=useState(null);
+  const [toasts,setToasts]=useState([]);
   const [selGW,setSelGW]=useState(32);
   const [matches,setMatches]=useState(()=>genMatches('epl','football'));
-  const gwRef=useRef(null);
-  const sportRef=useRef(null);
-  const leagueRef=useRef(null);
-  const modeRef=useRef(null);
-  const miniRef=useRef(null);
+  const [usedChips,setUsedChips]=useState([]);
+  const gwRef=useRef(null); // kept for compat
+  const sRef=useRef(null),lRef=useRef(null),mRef=useRef(null),mlRef=useRef(null);
 
-  // Live score ticking
+  // Live ticker
   useEffect(()=>{
     const t=setInterval(()=>{
       setMatches(ms=>ms.map(m=>{
         if(m.status!=='live')return m;
-        const newMin=Math.min(90,m.min+1);
+        const nm=Math.min(90,m.min+1);
         let ns={...m.score};
-        if(Math.random()<.022){ns={...ns,[Math.random()<.55?'h':'a']:ns[Math.random()<.55?'h':'a']+(1)};}
-        return{...m,min:newMin,score:ns,status:newMin>=90?'finished':m.status};
+        if(Math.random()<.02){const sd=Math.random()<.55?'h':'a';ns={...ns,[sd]:ns[sd]+1};}
+        return{...m,min:nm,score:ns,status:nm>=90?'finished':m.status};
       }));
-    },1500);
+    },1400);
     return()=>clearInterval(t);
   },[]);
 
-  // Scroll GW bar to active
-  useEffect(()=>{
-    if(gwRef.current){
-      const el=gwRef.current.querySelector('.gw-item.act');
-      if(el)el.scrollIntoView({behavior:'smooth',inline:'center',block:'nearest'});
-    }
-  },[selGW]);
-
+  const roofOpen=roof==='opened'||roof==='opening';
   const toggleRoof=()=>{
-    if(roofState==='closed'||roofState==='closing'){setRoofState('opening');setTimeout(()=>setRoofState('opened'),620);}
-    else{setRoofState('closing');setTimeout(()=>setRoofState('closed'),520);}
+    if(roof==='closed'||roof==='closing'){setRoof('opening');setTimeout(()=>setRoof('opened'),620);}
+    else{setRoof('closing');setTimeout(()=>setRoof('closed'),520);}
   };
-  const roofOpen=roofState==='opened'||roofState==='opening';
-
-  const addToast=(msg,col='var(--lime)')=>{
+  const toast=(msg,col='var(--lime)')=>{
     const id=Date.now()+Math.random();
     setToasts(t=>[...t,{id,msg,col}]);
-    setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),2500);
+    setTimeout(()=>setToasts(t=>t.filter(x=>x.id!==id)),2400);
   };
-
   const handlePred=(k,v)=>setPreds(p=>({...p,[k]:v}));
   const handleLock=(k,match)=>{
-    if(locked[k]){setLocked(l=>({...l,[k]:false}));addToast('🔓 Unlocked','var(--gold)');return;}
+    if(locked[k]){setLocked(l=>({...l,[k]:false}));toast('🔓 Unlocked','var(--gold)');return;}
     const p2=preds[k];
-    if(!p2||p2.h===''||p2.a===''){addToast('⚠️ Enter a score first!','#ff6b35');return;}
+    if(!p2||p2.h===''||p2.a===''){toast('⚠️ Enter a score first!','#ff6b35');return;}
     setLocked(l=>({...l,[k]:true}));
     if(match.status!=='upcoming'){
       const earned=calcPts(+p2.h,+p2.a,match.score.h,match.score.a,selMode);
-      if(earned>0){setPts(p=>p+earned);setPtsAnim(earned);setTimeout(()=>setPtsAnim(null),1200);addToast(`${ptsFB(earned,selMode)?.t} +${earned} pts`);}
-      else addToast('🔒 Locked – 0 pts','var(--red)');
-    } else addToast('🔒 Prediction locked!');
+      if(earned>0){setPts(p=>p+earned);setPtsAnim(earned);setTimeout(()=>setPtsAnim(null),1100);toast(`${ptsFB(earned,selMode)?.t} +${earned} pts`);}
+      else toast('🔒 Locked — 0 pts','var(--red)');
+    } else toast('🔒 Locked!');
   };
-
-  const handleSelectMatch=(id)=>setSelMatch(p=>p===id?null:id);
-
-  const handleLeagueChange=(id)=>{
-    setSelLeague(id);
-    setMatches(genMatches(id,selSport));
-    setSelMatch(null);
-    setLocked({});setPreds({});
-    addToast(`League: ${Object.values(ALL_LEAGUES).flat().find(l=>l.id===id)?.lbl||id}`);
+  const handleChip=(id)=>{
+    setUsedChips(u=>[...u,id]);
+    const chip=CHIPS.find(c=>c.id===id);
+    toast(`${chip.icon} ${chip.name} — ${chip.effect}`,'var(--cyan)');
+    if(id==='ironwall'){setPts(p=>p+10);setPtsAnim(10);setTimeout(()=>setPtsAnim(null),1100);}
+    if(id==='sniper'){toast('🎯 Sniper active — next exact score doubled!','var(--gold)');}
   };
-  const handleSportChange=(id)=>{
-    setSelSport(id);
+  const handleSport=(id)=>{
+    setSport(id);
     const lgs=ALL_LEAGUES[id]||[];
-    const firstLg=lgs[0]?.id||'epl';
-    setSelLeague(firstLg);
-    setMatches(genMatches(firstLg,id));
-    setSelMatch(null);setLocked({});setPreds({});
-    addToast(`Sport: ${SPORTS.find(s=>s.id===id)?.lbl||id}`);
+    const fl=lgs[0]?.id||'epl';
+    setLeague(fl);setMatches(genMatches(fl,id));setSelMatch(null);setLocked({});setPreds({});
+    toast(SPORTS.find(s=>s.id===id)?.lbl||id);
   };
-
-  const leagues=ALL_LEAGUES[selSport]||[];
+  const handleLeague=(id)=>{
+    setLeague(id);setMatches(genMatches(id,selSport));setSelMatch(null);setLocked({});setPreds({});
+    toast(Object.values(ALL_LEAGUES).flat().find(l=>l.id===id)?.lbl||id);
+  };
   const curSport=SPORTS.find(s=>s.id===selSport)||SPORTS[0];
+  const leagues=ALL_LEAGUES[selSport]||[];
   const curLeague=leagues.find(l=>l.id===selLeague)||leagues[0]||{lbl:'League',icon:'🏆'};
   const curMode=MODES.find(m=>m.id===selMode)||MODES[4];
   const curMini=MINI_LEAGUES.find(m=>m.id===selMini)||MINI_LEAGUES[0];
   const selMatchObj=selMatch?matches.find(m=>m.id===selMatch):null;
-  const seatCols=Math.min(40,Math.floor((window.innerWidth*.44)/9));
-  const courtType=curSport.court||'football';
+  const seatCols=Math.min(38,Math.floor(window.innerWidth*.38/8));
+  const sideW=Math.round(window.innerWidth*(window.innerWidth>900?.17:window.innerWidth>600?.16:.13));
 
-  return (
+  return(
     <div className="app">
       {/* HEADER */}
       <div className="hdr">
-        <div className="pts-pill">
-          <span className="pts-v">{pts}</span>
-          <span className="pts-l">PTS</span>
-        </div>
+        <div className="pts-pill"><span className="pts-v">{pts}</span><span className="pts-l">PTS</span></div>
         {ptsAnim&&<div className="pts-pop">+{ptsAnim}</div>}
         <div className="brand">⚽ Gaffer's Pick</div>
         <div className="s-tag">2025/26</div>
       </div>
 
-      {/* GW SCROLL BAR */}
-      <div className="gwbar" ref={gwRef}>
-        {GW_DATA.map((gw,i)=>{
-          const maxPts=72,pct=gw.pts?Math.round((gw.pts/maxPts)*100):0;
-          const cls=gw.pts>=60?'hi':gw.pts>=40?'mid':'lo';
-          return (
-            <React.Fragment key={gw.gw}>
-              <div className={`gw-item${selGW===gw.gw?' act':''}`} onClick={()=>{setSelGW(gw.gw);if(gw.status!=='future')addToast(`GW${gw.gw}: +${gw.pts||0}pts`);}}>
-                {gw.status==='live'&&<div className="live-pill" style={{marginBottom:1}}><div className="live-dot"/>LIVE</div>}
-                <span className="gw-num">GW{gw.gw}</span>
-                {gw.pts!==null&&<span className={`gw-pts ${cls}`}>+{gw.pts}</span>}
-                {gw.pts===null&&<span className="gw-pts lo">—</span>}
-                {gw.pts!==null&&<div className="gw-bar-wrap"><div className="gw-bar-fill" style={{'--fw':`${pct}%`,width:`${pct}%`}}/></div>}
-              </div>
-              {i<GW_DATA.length-1&&<div className="gw-sep"/>}
-            </React.Fragment>
-          );
-        })}
-      </div>
-
       {/* STADIUM */}
-      <div className="stadium">
+      <div className="stadium" style={{position:'relative'}}>
 
-        {/* LEFT SIDE PANEL */}
-        <div className={`side-panel l${!roofOpen?' hide':''}`}>
-          {/* TOP: Account info (always shown when panel visible) */}
-          <div className="sp-top">
-            <LeftPanelTop pts={pts} gw={selGW}/>
-          </div>
-          {/* BOT: League stats (shown when roof open) */}
-          <div className={`sp-bot${!roofOpen?' hide-bot':''}`}>
-            <LeftPanelBot selLeague={selLeague} selSport={selSport} selMode={selMode}/>
+        {/* LEFT SIDE PANEL — roof closed: account / roof open: seats + league stats */}
+        <div className={`sp l${roofOpen?' roof-open':' roof-closed'}`}>
+          <div className="sp-fixed">
+            {roofOpen ? (
+              <>
+                <div style={{height:'32%',flexShrink:0,overflow:'hidden',background:'linear-gradient(180deg,#040912,#06101e)'}}>
+                  <StandSeats rows={14} cols={Math.max(3,Math.floor(sideW/8))} lr={.42} cl="sv"/>
+                </div>
+                <div style={{flex:1,overflowY:'auto',overflowX:'hidden',padding:'6px 8px'}}>
+                  <StatsPanel selLeague={selLeague} selSport={selSport} selMode={selMode}/>
+                </div>
+              </>
+            ) : (
+              <div style={{flex:1,overflowY:'auto',overflowX:'hidden',padding:'6px 8px'}}>
+                <AccountPanel pts={pts} gw={selGW}/>
+              </div>
+            )}
           </div>
         </div>
 
-        {/* LEFT STAND */}
-        <div className="stand" style={{display:'flex',flexDirection:'row'}}>
+        {/* LEFT STAND COL */}
+        <div className="stand-col" style={{display:'flex',flexDirection:'row'}}>
           <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
             <AdBoardH ads={ADS_H.slice(0,6)}/>
-            <StandSeats rows={18} cols={8} litRate={.4}/>
+            <StandSeats rows={18} cols={8} lr={.4} cl="scv"/>
             <AdBoardH ads={ADS_H.slice(4,10)} reverse={true}/>
           </div>
           <AdBoardV ads={ADS_V}/>
@@ -1429,146 +1195,113 @@ function App(){
 
         {/* PITCH / COURT */}
         <div className="pitch-col">
-          <AdBoardH ads={ADS_H}/>
-          <div className="seat-strip">
-            <SeatRowH cols={seatCols} litRate={.44} wave={true}/>
-            <SeatRowH cols={seatCols} litRate={.38} wave={true}/>
-          </div>
-          <div className={`court ${courtType}`} style={{position:'relative',overflow:'hidden'}}>
-            <CourtView match={selMatchObj} sport={selSport} roofOpen={roofOpen}/>
-
+          {/* Ad ring around pitch — only visible when roof open */}
+          <div className={`adh${roofOpen?' show':''}`}><div className={`adh-i go`}>{[...ADS_H,...ADS_H].map((a,i)=><div key={i} className="adh-b" style={{background:a.bg,minWidth:'clamp(68px,10.5vw,148px)'}}><span className="adh-t" style={{color:a.col}}>{a.txt}</span></div>)}</div></div>
+          {/* Court — chips column sits inside on left */}
+          <div style={{flex:1,position:'relative',overflow:'hidden'}}>
+            {/* Chips column — left side, only when roof open */}
+            <ChipsCol usedChips={usedChips} onUseChip={handleChip} visible={roofOpen}/>
+            {/* Court surface */}
+            <div className={`court ${curSport.court}`}>
+            {/* Court inner content — offset when chips visible */}
+            <div className={`court-inner${roofOpen?' chips-on':''}`}>
+              <CourtView match={selMatchObj} sport={selSport}/>
+            </div>
             {/* ROOF */}
-            <div className={`roof ${roofState}`}>
-              {/* LEFT ROOF PANEL */}
+            <div className={`roof ${roof}`}>
+              {/* LEFT ROOF — account panel fills full half */}
               <div className="roof-l">
-                {/* TOP: Account (visible when closed) */}
-                <div className="roof-top">
-                  <LeftPanelTop pts={pts} gw={selGW}/>
+                <div className="roof-ss"><SeatRowH cols={Math.floor(seatCols/2)} lr={.42}/></div>
+                <div className="roof-pane">
+                  <AccountPanel pts={pts} gw={selGW}/>
                 </div>
-                <div className="roof-seats">
-                  <SeatRowH cols={Math.floor(seatCols/2)} litRate={.42}/>
-                </div>
-                {/* BOT: Stats (ads + content, visible when open/slides with panel) */}
-                <div className="roof-bot">
-                  <AdBoardH ads={ADS_H} reverse={false}/>
-                  <div className="roof-panel">
-                    <LeftPanelBot selLeague={selLeague} selSport={selSport} selMode={selMode}/>
-                  </div>
-                  <AdBoardH ads={ADS_H.slice(5)} reverse={true}/>
-                </div>
-                <div className="roof-seats bot">
-                  <SeatRowH cols={Math.floor(seatCols/2)} litRate={.36}/>
-                </div>
+                <div className="roof-ss bt"><SeatRowH cols={Math.floor(seatCols/2)} lr={.36}/></div>
               </div>
-
-              {/* RIGHT ROOF PANEL */}
+              {/* RIGHT ROOF — predictions panel fills full half */}
               <div className="roof-r">
-                {/* TOP: Predictions (visible when closed) */}
-                <div className="roof-top">
-                  <RightPanelTop matches={matches} preds={preds} locked={locked}
-                    onPred={handlePred} onLock={handleLock}
-                    onSelect={handleSelectMatch} selMatch={selMatch} selMode={selMode}/>
+                <div className="roof-ss"><SeatRowH cols={Math.floor(seatCols/2)} lr={.42}/></div>
+                <div className="roof-pane">
+                  <PredPanel matches={matches} preds={preds} locked={locked} onPred={handlePred} onLock={handleLock} onSel={id=>setSelMatch(p=>p===id?null:id)} selMatch={selMatch} selMode={selMode}/>
                 </div>
-                <div className="roof-seats">
-                  <SeatRowH cols={Math.floor(seatCols/2)} litRate={.42}/>
-                </div>
-                {/* BOT: Results (ads + content, visible when open) */}
-                <div className="roof-bot">
-                  <AdBoardH ads={[...ADS_H].reverse()} reverse={true}/>
-                  <div className="roof-panel">
-                    <RightPanelBot matches={matches} preds={preds} selMode={selMode} selLeague={selLeague}/>
-                  </div>
-                  <AdBoardH ads={ADS_H.slice(3)} reverse={false}/>
-                </div>
-                <div className="roof-seats bot">
-                  <SeatRowH cols={Math.floor(seatCols/2)} litRate={.36}/>
-                </div>
+                <div className="roof-ss bt"><SeatRowH cols={Math.floor(seatCols/2)} lr={.36}/></div>
               </div>
-
               <button className="roof-tog" onClick={toggleRoof}>
                 <i className={`fas fa-${roofOpen?'chevron-down':'chevron-up'}`}/>
-                {roofOpen?'Close · View Court':'Open · Stats & Picks'}
+                {roofOpen?'Close Roof':'Open Roof'}
               </button>
-            </div>
-          </div>
-          <div className="seat-strip">
-            <SeatRowH cols={seatCols} litRate={.4}/>
-            <SeatRowH cols={seatCols} litRate={.36}/>
-          </div>
-          <AdBoardH ads={[...ADS_H].reverse()} reverse={true}/>
-        </div>
+            </div>{/* end roof */}
+            </div>{/* end court surface */}
+          </div>{/* end outer court wrapper */}
+          {/* Ad ring bottom — only visible when roof open */}
+          <div className={`adh${roofOpen?' show':''}`}><div className={`adh-i rv`}>{[...ADS_H,...ADS_H].reverse().map((a,i)=><div key={i} className="adh-b" style={{background:a.bg,minWidth:'clamp(68px,10.5vw,148px)'}}><span className="adh-t" style={{color:a.col}}>{a.txt}</span></div>)}</div></div>
+        </div>{/* end pitch-col */}
 
-        {/* RIGHT STAND */}
-        <div className="stand r" style={{display:'flex',flexDirection:'row'}}>
+        {/* RIGHT STAND COL */}
+        <div className="stand-col r" style={{display:'flex',flexDirection:'row'}}>
           <AdBoardV ads={ADS_V} reverse={true}/>
           <div style={{flex:1,display:'flex',flexDirection:'column',overflow:'hidden'}}>
             <AdBoardH ads={ADS_H.slice(3,9)} reverse={true}/>
-            <StandSeats rows={18} cols={8} litRate={.4}/>
+            <StandSeats rows={18} cols={8} lr={.4} cl="scv"/>
             <AdBoardH ads={ADS_H.slice(0,6)}/>
           </div>
         </div>
 
-        {/* RIGHT SIDE PANEL */}
-        <div className={`side-panel r${!roofOpen?' hide':''}`}>
-          <div className="sp-top">
-            <RightPanelTop matches={matches} preds={preds} locked={locked}
-              onPred={handlePred} onLock={handleLock}
-              onSelect={handleSelectMatch} selMatch={selMatch} selMode={selMode}/>
-          </div>
-          <div className={`sp-bot${!roofOpen?' hide-bot':''}`}>
-            <RightPanelBot matches={matches} preds={preds} selMode={selMode} selLeague={selLeague}/>
+        {/* RIGHT SIDE PANEL — roof closed: predictions / roof open: seats + results */}
+        <div className={`sp r${roofOpen?' roof-open':' roof-closed'}`}>
+          <div className="sp-fixed">
+            {roofOpen ? (
+              <>
+                <div style={{height:'32%',flexShrink:0,overflow:'hidden',background:'linear-gradient(180deg,#040912,#06101e)'}}>
+                  <StandSeats rows={14} cols={Math.max(3,Math.floor(sideW/8))} lr={.42} cl="sv"/>
+                </div>
+                <div style={{flex:1,overflowY:'auto',overflowX:'hidden',padding:'6px 8px'}}>
+                  <ResultsPanel matches={matches} preds={preds} selMode={selMode} leagueId={selLeague}/>
+                </div>
+              </>
+            ) : (
+              <div style={{flex:1,overflowY:'auto',overflowX:'hidden',padding:'6px 8px'}}>
+                <PredPanel matches={matches} preds={preds} locked={locked} onPred={handlePred} onLock={handleLock} onSel={id=>setSelMatch(p=>p===id?null:id)} selMatch={selMatch} selMode={selMode}/>
+              </div>
+            )}
           </div>
         </div>
+
       </div>
 
       {/* NAV */}
       <div className="nav">
-        <button ref={sportRef} className={`nb${openPop==='sport'?' act':''}`}
-          onClick={()=>setOpenPop(o=>o==='sport'?null:'sport')}>
-          <span className="ni">{curSport.ball}</span>
-          <span className="nl">{curSport.lbl}</span>
-          <span className="ns">Sport ▲</span>
+        <button ref={sRef} className={`nb${pop==='sport'?' act':''}`} onClick={()=>setPop(o=>o==='sport'?null:'sport')}>
+          <span className="ni">{curSport.ball}</span><span className="nl">{curSport.lbl}</span><span className="ns">Sport ▲</span>
         </button>
-        <button ref={leagueRef} className={`nb${openPop==='league'?' act':''}`}
-          onClick={()=>setOpenPop(o=>o==='league'?null:'league')}>
-          <span className="ni">{curLeague.icon}</span>
-          <span className="nl">{curLeague.lbl}</span>
-          <span className="ns">League ▲</span>
+        <button ref={lRef} className={`nb${pop==='league'?' act':''}`} onClick={()=>setPop(o=>o==='league'?null:'league')}>
+          <span className="ni">{curLeague.icon}</span><span className="nl">{curLeague.lbl}</span><span className="ns">League ▲</span>
         </button>
         <button className="ctr-nb" onClick={toggleRoof}>
-          <span className="ctr-ball">{curSport.ball}</span>
-          <span className="ctr-lbl">{roofOpen?'▼ Court':'▲ Stats'}</span>
+          <span className="ctr-b">{curSport.ball}</span>
+          <span className="ctr-l">{roofOpen?'Close Roof':'Open Roof'}</span>
         </button>
-        <button ref={modeRef} className={`nb${openPop==='mode'?' act':''}`}
-          onClick={()=>setOpenPop(o=>o==='mode'?null:'mode')}>
-          <span className="ni">{curMode.icon}</span>
-          <span className="nl">{curMode.lbl}</span>
-          <span className="ns">Mode ▲</span>
+        <button ref={mRef} className={`nb${pop==='mode'?' act':''}`} onClick={()=>setPop(o=>o==='mode'?null:'mode')}>
+          <span className="ni">{curMode.icon}</span><span className="nl">{curMode.lbl}</span><span className="ns">Mode ▲</span>
         </button>
-        <button ref={miniRef} className={`nb${openPop==='mini'?' act':''}`}
-          onClick={()=>setOpenPop(o=>o==='mini'?null:'mini')}>
-          <span className="ni">{curMini.icon}</span>
-          <span className="nl">{curMini.lbl}</span>
-          <span className="ns">Mini-L ▲</span>
+        <button ref={mlRef} className={`nb${pop==='mini'?' act':''}`} onClick={()=>setPop(o=>o==='mini'?null:'mini')}>
+          <span className="ni">{curMini.icon}</span><span className="nl">{curMini.lbl}</span><span className="ns">Mini-L ▲</span>
         </button>
       </div>
 
       {/* POPUPS */}
-      {openPop==='sport'&&<Popup items={SPORTS} selected={selSport} onSelect={handleSportChange} onClose={()=>setOpenPop(null)} anchorRef={sportRef}/>}
-      {openPop==='league'&&<Popup items={leagues} selected={selLeague} onSelect={handleLeagueChange} onClose={()=>setOpenPop(null)} anchorRef={leagueRef}/>}
-      {openPop==='mode'&&<Popup items={MODES.map(m=>({id:m.id,icon:m.icon,lbl:m.lbl,sub:m.desc}))} selected={selMode} onSelect={id=>{setSelMode(id);addToast(`Mode: ${MODES.find(m=>m.id===id)?.lbl}`);}} onClose={()=>setOpenPop(null)} anchorRef={modeRef}/>}
-      {openPop==='mini'&&<Popup items={MINI_LEAGUES.map(m=>({id:m.id,icon:m.icon,lbl:m.lbl,sub:m.sub}))} selected={selMini} onSelect={id=>{setSelMini(id);addToast(MINI_LEAGUES.find(m=>m.id===id)?.lbl||id);}} onClose={()=>setOpenPop(null)} anchorRef={miniRef}/>}
+      {pop==='sport'&&<Popup items={SPORTS} sel={selSport} onSel={handleSport} onClose={()=>setPop(null)} ref_={sRef}/>}
+      {pop==='league'&&<Popup items={leagues} sel={selLeague} onSel={handleLeague} onClose={()=>setPop(null)} ref_={lRef}/>}
+      {pop==='mode'&&<Popup items={MODES.map(m=>({id:m.id,icon:m.icon,lbl:m.lbl,sub:m.desc}))} sel={selMode} onSel={id=>{setMode(id);toast(MODES.find(m=>m.id===id)?.lbl||id);}} onClose={()=>setPop(null)} ref_={mRef}/>}
+      {pop==='mini'&&<Popup items={MINI_LEAGUES.map(m=>({id:m.id,icon:m.icon,lbl:m.lbl,sub:m.sub}))} sel={selMini} onSel={id=>{setMini(id);toast(MINI_LEAGUES.find(m=>m.id===id)?.lbl||id);}} onClose={()=>setPop(null)} ref_={mlRef}/>}
 
       {/* TOASTS */}
-      {toasts.map(t=>(
-        <div key={t.id} className="toast" style={{background:'linear-gradient(90deg,#050d14,#0a1c0e)',border:`1.5px solid ${t.col}`,color:t.col}}>{t.msg}</div>
-      ))}
+      {toasts.map(t=><div key={t.id} className="toast" style={{background:'linear-gradient(90deg,#040d14,#08180e)',border:`1.5px solid ${t.col}`,color:t.col}}>{t.msg}</div>)}
     </div>
   );
 }
 
-const rootEl=document.getElementById('root');
-if(rootEl){try{ReactDOM.createRoot(rootEl).render(<App/>);}catch(e){console.error(e);rootEl.innerHTML='<div style="color:#c8f400;padding:2rem;text-align:center">Error. See console.</div>';}}
+const el=document.getElementById('root');
+if(el){try{ReactDOM.createRoot(el).render(<App/>);}catch(e){console.error(e);el.innerHTML='<div style="color:#c8f400;padding:2rem;text-align:center">Error. See console.</div>';}}
 </script>
 </body>
 </html>
